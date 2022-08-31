@@ -1,4 +1,5 @@
 set number
+set guicursor=
 set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
@@ -12,7 +13,11 @@ set signcolumn
 set colorcolumn=100
 set cmdheight=2
 set termguicolors
-
+" stop being lazy
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 call plug#begin('~/.local/share/nvim/plugged')
 
 " color theme
@@ -37,12 +42,16 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'numToStr/Comment.nvim'
 " tmux navigator
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'airblade/vim-gitgutter'
 
 " indentation
 Plug 'lukas-reineke/indent-blankline.nvim'
 " file system
 Plug 'preservim/nerdtree'
+" markdown preview
+Plug 'ellisonleao/glow.nvim'
+
+" git
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 " set theme
@@ -60,7 +69,8 @@ augroup FormatWhiteSpace
     autocmd!
     autocmd BufWritePre * : call TrimWhiteSpace()
 augroup END
-
+" reload files nerdtree
+autocmd BufEnter NERD_tree_* | execute 'normal R'
 " move lines up or down
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -88,10 +98,9 @@ let g:coc_global_extensions = [
   \ 'coc-json',
   \ ]
 " autocomplete coc
-inoremap <expr> <Tab> pumvisible() ? "\<C-n><Space>" : "<Tab>"
-
+inoremap <silent><expr> <Tab> coc#pum#visible() ? coc#pum#confirm() : "<Tab>"
 " Use K to show documentation in preview window
-noremap <silent> K :call <SID>show_documentation()<CR>
+" noremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -104,7 +113,7 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 " Remap for rename current word
-nmap <C-r> <Plug>(coc-rename)
+nmap <C-e> <Plug>(coc-rename)
 
 " relative / non-relative numbers
 augroup numbertoggle
@@ -118,8 +127,29 @@ lua require('Comment').setup()
 
 " file explorer
 nmap <C-n> :NERDTreeToggle<CR>
-
 " git gutter
-" nmap <leader> k <Plug>(GitGutterPrevHunk)
-" nmap <leader> j <Plug>(GitGutterNextHunk)
+let g:gitgutter_enabled = 1
+let g:gitgutter_map_keys = 0
 
+highlight GitGutterChange guifg=#bbbb00 ctermfg=Yellow
+highlight GitGutterDelete guifg=#ff2222 ctermfg=Red
+nmap ) <Plug>(GitGutterNextHunk)
+nmap ( <Plug>(GitGutterPrevHunk)
+nmap <C-g> :GitGutterDiffOrig<CR>
+lua << EOF
+require('telescope').setup{
+    pickers = {
+        find_files = {
+            previewer = false
+        },
+        live_grep = {
+            previewer = false
+        },
+        buffers = {
+            previewer = false
+        }
+    }
+}
+EOF
+" markdown read
+map <leader>g :Glow<CR>
