@@ -15,10 +15,11 @@ vim.g.coc_global_extensions = {
     'coc-ltex',
     'coc-sql',
     'coc-yaml',
-    'coc-rls',
+    'coc-rust-analyzer',
     'coc-sh',
     'coc-highlight',
     'coc-html',
+    'coc-tabnine',
 }
 
 -- Use <leader>k to show documentation in preview window.
