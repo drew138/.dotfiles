@@ -10,6 +10,7 @@ vim.g.coc_global_extensions = {
     'coc-pyright',
     'coc-clangd',
     'coc-solidity',
+    'coc-sumneko-lua',
     'coc-docker',
     'coc-go',
     'coc-ltex',
