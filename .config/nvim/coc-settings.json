@@ -1,0 +1,12 @@
+{
+  "diagnostic.checkCurrentLine": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "python", 
+    "cpp", 
+    "go", 
+    "c", 
+    "rust", 
+    "bash"
+  ],
+  "python.pythonPath": "/home/drew/.dotfiles/env/bin/python"
+}
