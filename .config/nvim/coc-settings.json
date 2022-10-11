@@ -12,8 +12,10 @@
     "json",
     "typescriptreact",
     "javascriptreact",
-    "javascript"
+    "javascript",
+    "typescript"
   ],
   "python.pythonPath": "/home/drew/.dotfiles/env/bin/python",
-  "Lua.telemetry.enable": true
+  "Lua.telemetry.enable": true,
+  "prettier.tabWidth": 2
 }
