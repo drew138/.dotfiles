@@ -20,7 +20,6 @@ vim.g.coc_global_extensions = {
     'coc-sh',
     'coc-highlight',
     'coc-html',
-    'coc-tabnine',
 }
 
 -- Use <leader>k to show documentation in preview window.

@@ -13,7 +13,8 @@
     "typescriptreact",
     "javascriptreact",
     "javascript",
-    "typescript"
+    "typescript",
+    "lua"
   ],
   "python.pythonPath": "/home/drew/.dotfiles/env/bin/python",
   "Lua.telemetry.enable": true,

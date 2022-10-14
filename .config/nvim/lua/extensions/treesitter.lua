@@ -1,30 +1,30 @@
 -- treesitter
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
     -- A list of parser names, or 'all'
-    ensure_installed = { 
+    ensure_installed = {
         'bash',
-        'c', 
-        'lua', 
+        'c',
+        'lua',
         'css',
         'dockerfile',
         'gitignore',
         'go',
-        'gomod', 
-        'javascript', 
-        'json', 
-        'latex', 
+        'gomod',
+        'javascript',
+        'json',
+        'latex',
         'proto',
-        'python', 
-        'rust', 
-        'scss', 
-        'solidity', 
-        'tsx', 
-        'typescript', 
+        'python',
+        'rust',
+        'scss',
+        'solidity',
+        'tsx',
+        'typescript',
         'vim',
-        'yaml', 
+        'yaml',
         'html',
     },
     sync_install = false,
     auto_install = true,
-    highlight={ enable = true }
+    highlight = { enable = true }
 }
