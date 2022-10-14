@@ -9,6 +9,7 @@ fi
 cd "$HOME"
 git clone git@github.com:Drew138/algorithms.git
 git clone git@github.com:Drew138/competitive-programming.git
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm/
 
 fonts_dir="$HOME/.local/share/fonts/"
 nvim_dir="$HOME/.config"
