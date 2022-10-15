@@ -1,14 +1,17 @@
 -- telescope
-require('telescope').setup{
+require('telescope').setup {
     pickers = {
         find_files = {
-            previewer = false
+            previewer = false,
+            -- hidden = true
         },
         live_grep = {
-            previewer = false
+            previewer = false,
+            -- hidden = true
         },
         buffers = {
-            previewer = false
+            previewer = false,
+            -- hidden = true
         }
     }
 }
