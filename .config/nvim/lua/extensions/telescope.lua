@@ -3,15 +3,15 @@ require('telescope').setup {
     pickers = {
         find_files = {
             previewer = false,
-            -- hidden = true
+            hidden = true
         },
         live_grep = {
             previewer = false,
-            -- hidden = true
+            hidden = true
         },
         buffers = {
             previewer = false,
-            -- hidden = true
+            hidden = true
         }
     }
 }

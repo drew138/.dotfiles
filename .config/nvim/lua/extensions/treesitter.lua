@@ -23,6 +23,7 @@ require 'nvim-treesitter.configs'.setup {
         'vim',
         'yaml',
         'html',
+        'sql',
     },
     sync_install = false,
     auto_install = true,

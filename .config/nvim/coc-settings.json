@@ -1,5 +1,6 @@
 {
-  "diagnostic.checkCurrentLine": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "python",
     "cpp",
@@ -13,7 +14,7 @@
     "typescriptreact",
     "javascriptreact",
     "javascript",
-    "typescript",
+    //    "typescript",
     "lua"
   ],
   "python.pythonPath": "/home/drew/.dotfiles/env/bin/python",
