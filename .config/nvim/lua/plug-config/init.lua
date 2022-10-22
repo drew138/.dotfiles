@@ -1,7 +1,9 @@
 local Plug = vim.fn['plug#']
 
 vim.call('plug#begin', '~/.local/share/nvim/plugged')
--- color theme
+-- lualine
+Plug 'nvim-lualine/lualine.nvim'
+-- color themes
 Plug 'EdenEast/nightfox.nvim'
 -- dev icons
 Plug 'kyazdani42/nvim-web-devicons'
@@ -24,8 +26,10 @@ Plug 'christoomey/vim-tmux-navigator'
 -- indentation
 Plug 'lukas-reineke/indent-blankline.nvim'
 -- file system
-Plug 'preservim/nerdtree'
+Plug 'nvim-tree/nvim-tree.lua'
 -- git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+-- git worktrees
+Plug 'ThePrimeagen/git-worktree.nvim'
 vim.call('plug#end')

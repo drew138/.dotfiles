@@ -25,7 +25,7 @@ vim.g.coc_global_extensions = {
 -- Use <leader>k to show documentation in preview window.
 function _G.show_docs()
     local cw = vim.fn.expand('<cword>')
-    if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
+    if vim.fn.index({ 'vim', 'help' }, vim.bo.filetype) >= 0 then
         vim.api.nvim_command('h ' .. cw)
     elseif vim.api.nvim_eval('coc#rpc#ready()') then
         vim.fn.CocActionAsync('doHover')
@@ -34,10 +34,19 @@ function _G.show_docs()
     end
 end
 
-vim.keymap.set("n", '<leader>k', '<CMD>lua _G.show_docs()<CR>', {silent = true})
-vim.keymap.set('n', 'gd', '<Plug>(coc-definition)', { remap = true, silent = true })
-vim.keymap.set('n', 'gy', '<Plug>(coc-type-definition)', { remap = true, silent = true })
-vim.keymap.set('n', 'gi', '<Plug>(coc-implementation)', { remap = true, silent = true })
-vim.keymap.set('n', 'gr', '<Plug>(coc-references)', { remap = true, silent = true })
-vim.keymap.set('n', '<C-e>', '<Plug>(coc-rename)', { remap = true })
-vim.keymap.set('i', '<Tab>', 'coc#pum#visible() ? coc#pum#confirm() : "<Tab>"', { silent = true, expr= true })
+-- organize go imports
+local organize_go_imports = ':silent call CocAction("runCommand", "editor.action.organizeImport")'
+local go_imports_group = vim.api.nvim_create_augroup('go_imports_group', { clear = true })
+local go_imports_options = { pattern = '*.go', command = organize_go_imports, group = go_imports_group }
+vim.api.nvim_create_autocmd('BufWritePre', go_imports_options)
+
+-- keymaps
+local keyset = vim.keymap.set
+local opts = { silent = true, expr = true, replace_keycodes = false }
+keyset("n", '<leader>k', '<CMD>lua _G.show_docs()<CR>', { silent = true })
+keyset('n', 'gd', '<Plug>(coc-definition)', { remap = true, silent = true })
+keyset('n', 'gy', '<Plug>(coc-type-definition)', { remap = true, silent = true })
+keyset('n', 'gi', '<Plug>(coc-implementation)', { remap = true, silent = true })
+keyset('n', 'gr', '<Plug>(coc-references)', { remap = true, silent = true })
+keyset('n', '<C-e>', '<Plug>(coc-rename)', { remap = true })
+keyset('i', '<Tab>', 'coc#pum#visible() ? coc#pum#confirm() : "<Tab>"', opts)

@@ -5,4 +5,5 @@ require('extensions.gitgutter')
 require('extensions.nightfox')
 require('extensions.telescope')
 require('extensions.treesitter')
-require('extensions.nerdtree')
+require('extensions.nvim-tree')
+

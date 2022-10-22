@@ -17,7 +17,8 @@ vim.wo.signcolumn = 'yes'
 vim.opt.colorcolumn = '100'
 vim.g.mapleader = ' '
 
-vim.keymap.set('n', '<Up>', '<NOP>')
-vim.keymap.set('n', '<Down>', '<NOP>')
-vim.keymap.set('n', '<Left>', '<NOP>')
-vim.keymap.set('n', '<Right>', '<NOP>')
+local keyset = vim.keymap.set
+keyset('n', '<Up>', '<NOP>')
+keyset('n', '<Down>', '<NOP>')
+keyset('n', '<Left>', '<NOP>')
+keyset('n', '<Right>', '<NOP>')
