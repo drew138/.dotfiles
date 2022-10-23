@@ -33,13 +33,6 @@ return require('packer').startup(function(use)
     -- show current code context
     use 'neovim/nvim-lspconfig'
     use 'SmiteshP/nvim-navic'
-    -- spell checker
-    use {
-        'lewis6991/spellsitter.nvim',
-        config = function()
-            require('spellsitter').setup()
-        end
-    }
     -- coc - autocomplete
     use { 'neoclide/coc.nvim', branch = 'release' }
     -- comments
@@ -47,7 +40,7 @@ return require('packer').startup(function(use)
     -- tmux navigator
     use 'christoomey/vim-tmux-navigator'
     -- indentation
-    -- use 'lukas-reineke/indent-blankline.nvim'
+    use 'lukas-reineke/indent-blankline.nvim'
     -- file system
     use 'nvim-tree/nvim-tree.lua'
     -- git

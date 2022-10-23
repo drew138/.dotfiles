@@ -11,7 +11,6 @@ git clone git@github.com:Drew138/algorithms.git
 git clone git@github.com:Drew138/competitive-programming.git
 git clone git@github.com:Drew138/Drew138.git
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm/
-# git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 FONTS_DIR="$HOME/.local/share/fonts/"
 CONFIG_DIR="$HOME/.config"
