@@ -40,13 +40,13 @@ local go_imports_group = vim.api.nvim_create_augroup('go_imports_group', { clear
 local go_imports_options = { pattern = '*.go', command = organize_go_imports, group = go_imports_group }
 vim.api.nvim_create_autocmd('BufWritePre', go_imports_options)
 
--- keymaps
-local keyset = vim.keymap.set
+-- keymap
+local keymap = vim.keymap.set
 local opts = { silent = true, expr = true, replace_keycodes = false }
-keyset("n", '<leader>k', '<CMD>lua _G.show_docs()<CR>', { silent = true })
-keyset('n', 'gd', '<Plug>(coc-definition)', { remap = true, silent = true })
-keyset('n', 'gy', '<Plug>(coc-type-definition)', { remap = true, silent = true })
-keyset('n', 'gi', '<Plug>(coc-implementation)', { remap = true, silent = true })
-keyset('n', 'gr', '<Plug>(coc-references)', { remap = true, silent = true })
-keyset('n', '<C-e>', '<Plug>(coc-rename)', { remap = true })
-keyset('i', '<Tab>', 'coc#pum#visible() ? coc#pum#confirm() : "<Tab>"', opts)
+keymap("n", '<leader>k', '<CMD>lua _G.show_docs()<CR>', { silent = true })
+keymap('n', 'gd', '<Plug>(coc-definition)', { remap = true, silent = true })
+keymap('n', 'gy', '<Plug>(coc-type-definition)', { remap = true, silent = true })
+keymap('n', 'gi', '<Plug>(coc-implementation)', { remap = true, silent = true })
+keymap('n', 'gr', '<Plug>(coc-references)', { remap = true, silent = true })
+keymap('n', '<C-e>', '<Plug>(coc-rename)', { remap = true })
+keymap('i', '<Tab>', 'coc#pum#visible() ? coc#pum#confirm() : "<Tab>"', opts)
