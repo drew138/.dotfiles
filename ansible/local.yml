@@ -1,0 +1,10 @@
+- hosts: localhost
+  connection: local
+  become: true
+   
+  tasks:
+    - include: utils/utils.yml
+    - include: programming_languages/programming_languages.yml
+    - include: software/software.yml
+    - include: cron/cron.yml
+    - include: desktop/desktop.yml

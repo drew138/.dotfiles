@@ -21,7 +21,7 @@ ZSH_THEME="robbyrussell"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
@@ -109,8 +109,9 @@ source ~/.nvm/nvm.sh
 
 PATH="$PATH:/home/drew/.local/bin"
 PATH="$PATH:/home/drew/flutter/bin"
-PATH="$PATH:/home/drew/.dotfiles/scripts"
+PATH="$PATH:/home/drew/.dotfiles/scripts/global"
 
+export EDITOR='nvim'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
