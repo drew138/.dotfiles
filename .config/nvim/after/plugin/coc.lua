@@ -1,5 +1,6 @@
--- coc
+-- set colorscheme for coc
 vim.cmd("colorscheme nightfox")
+-- coc
 vim.g.coc_global_extensions = {
     'coc-snippets',
     'coc-pairs',

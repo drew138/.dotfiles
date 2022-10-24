@@ -1,0 +1,72 @@
+- hosts: localhost
+  connection: local
+  become: true
+    
+  tasks:
+  - name: install utils
+    package: 
+      name: 
+        - htop
+        - tmux
+        - ripgrep
+        - fd-find
+        - python3-psutil
+        - python-virtualenv
+      
+  - name: install programming languages
+    package: 
+      name: 
+        - tmux
+        - rg
+
+  # - name: copy wallpaper file
+  #   copy:
+  #     src: /path/to/wallpaper
+  #     dest: /usr/share/backgrounds/filename.png
+  #     owner: root
+  #     group: root
+  #
+  # - name: set wallpaper
+  #   become_user: drew
+  #   dconf:
+  #     key: "path/to/wallpaper/"
+  #     value: "'file:///path/to'"
+  #
+  # - name: set wallpaper position
+  #   become_user: drew
+  #   dconf:
+  #     key: "/org/gnome/desktop/background/pickture-options"
+  #     value: "'zoom'"
+
+  - name: add ansible user
+    user:
+      name: ansible-manager
+      system: yes
+
+  - name: set up sudo for ansible user
+    copy:
+      src: ansible/su_ansible-manager
+      dest: /etc/sudoers.d/ansible-manager
+      owner: root
+      group: root
+      mode: 0440
+
+  - name: add ansible-pull cron job
+    cron:
+      name: ansible auto-provision
+      user: ansible-manager
+      minute: "*/10"
+      # run tasks on repo change
+      job: ansible-pull -o -U https://github.com/Drew138/.dotfiles.git ansible/ansible.yml
+
+  
+
+  # spotify  - needs revision
+  - name: Add Apt Keys
+    apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 state=present
+
+  - name: Add repository
+    apt_repository: repo='deb http://repository.spotify.com stable non-free'
+
+  - name: Install spotify
+    apt: name=spotify-client update_cache=yes state=latest
