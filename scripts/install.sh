@@ -1,7 +1,12 @@
 #!/bin/sh
 
-# TODO ansible
-SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+DIR="$HOME/.dotfiles"
+if [ ! -d "$DIR" ];
+then 
+    git clone "git@github.com:Drew138/.dotfiles.git" "$DIR"
+fi
+
+SCRIPT_DIR="$DIR/scripts"
 source "$SCRIPT_DIR/ansible.sh"
 source "$SCRIPT_DIR/clone_repositories.sh"
 source "$SCRIPT_DIR/simbolic_links.sh"
