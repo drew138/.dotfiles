@@ -1,0 +1,20 @@
+- name: Download Algorithms Repository
+  git:
+    repo: 'git@github.com:Drew138/algorithms.git'
+    dest: "/drew/home/algorithms"
+    clone: yes
+    update: yes
+
+- name: Download Competitive Programming Repository
+  git:
+    repo: 'git@github.com:Drew138/competitive-programming.git'
+    dest:  "/drew/home/competitive-programming"
+    clone: yes
+    update: yes
+
+- name: Download Graphics-App Repository
+  git:
+    repo: 'git@github.com:Drew138/graphics-app.git'
+    dest: "/drew/home/graphics-app"
+    clone: yes
+    update: yes

@@ -8,3 +8,4 @@
     - include: software/software.yml
     - include: cron/cron.yml
     - include: desktop/desktop.yml
+    - include: repositories/repositories.yml

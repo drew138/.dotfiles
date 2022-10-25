@@ -1,9 +1,17 @@
 #!/bin/sh
 
+
+# TODO use ansible for this
+# - name: Download the NodeJS code from the GitRepo
+         # become: yes
+         # git:
+         #    repo: 'https://{{gituser}}:{{gitpass}}@github.com/AKSarav/SampleNodeApp.git'
+         #    dest: "{{ destdir }}"
 # clone repositories
-REPOSITORY_NAMES="algorithms competitive-programming Drew138 graphics-app .dotfiles"
+REPOSITORY_NAMES="algorithms competitive-programming Drew138 graphics-app"
 
 DEV="$HOME/dev"
+mkdir -p "$DEV"
 for REPOSITORY in $REPOSITORY_NAMES; do 
     if [ ! -d "$DEV/$REPOSITORY" ];
     then 

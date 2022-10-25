@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# TODO check ssh connection is workign
 DIR="$HOME/.dotfiles"
 if [ ! -d "$DIR" ];
 then 
@@ -11,3 +12,4 @@ source "$SCRIPT_DIR/ansible.sh"
 source "$SCRIPT_DIR/clone_repositories.sh"
 source "$SCRIPT_DIR/simbolic_links.sh"
 source "$SCRIPT_DIR/python_venv.sh"
+source "$SCRIPT_DIR/nvim.sh"
