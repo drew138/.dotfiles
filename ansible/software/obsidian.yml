@@ -1,0 +1,6 @@
+- name: Install Obsidian
+  become_user: drew
+  flatpak:
+    name: md.obsidian.Obsidian
+    method: user
+    state: present

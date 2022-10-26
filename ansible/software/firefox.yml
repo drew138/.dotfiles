@@ -1,0 +1,6 @@
+- name: Install Firefox
+  become_user: drew
+  flatpak:
+    name: org.mozilla.firefox
+    method: user
+    state: present

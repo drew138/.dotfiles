@@ -1,0 +1,6 @@
+- name: Tmux Package Manager
+  git:
+    repo: 'git clone https://github.com/tmux-plugins/tpm'
+    dest:  "~/.tmux/plugins/tpm/"
+    clone: yes
+    update: yes

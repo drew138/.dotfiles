@@ -1,5 +1,0 @@
-- name: install programming languages
-  package: 
-    name: 
-      - tmux
-      - rg

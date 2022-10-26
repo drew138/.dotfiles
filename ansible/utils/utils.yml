@@ -1,9 +1,13 @@
 - name: Install Utils
-  apt: name={{item}}
-  with_items:
-    - htop
-    - tmux
-    - ripgrep
-    - fd-find
-    - python3-psutil
-    - python-virtualenv
+  package:
+    name: 
+      - htop
+      - tmux
+      - ripgrep
+      - fd-find
+      - python3-psutil
+      - python-virtualenv
+# sudo apt-get -y install docker-compose
+        # command to install latest neovim
+        # wget https://github.com/neovim/neovim/releases/download/v0.8.0/nvim-linux64.deb -P /tmp
+        # sudo apt install /tmp/nvim-linux64.deb

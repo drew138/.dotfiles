@@ -1,0 +1,6 @@
+- name: Install Slack
+  become_user: drew
+  flatpak:
+    name: com.slack.Slack
+    method: user
+    state: present

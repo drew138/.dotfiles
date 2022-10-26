@@ -3,9 +3,20 @@
   become: true
    
   tasks:
+    # utils
     - include: utils/utils.yml
+    # programming languages
     - include: programming_languages/programming_languages.yml
-    - include: software/software.yml
-    - include: cron/cron.yml
+    # software
+    - include: software/discord.yml
+    - include: software/firefox.yml
+    - include: software/obsidian.yml
+    - include: software/slack.yml
+    - include: software/spotify.yml
+    # desktop
     - include: desktop/desktop.yml
-    - include: repositories/repositories.yml
+    # repositories
+    - include: repositories/owned.yml
+    - include: repositories/other/tmp.yml
+    # cron
+    - include: cron/cron.yml
