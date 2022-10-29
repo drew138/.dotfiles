@@ -5,8 +5,8 @@
       - tmux
       - ripgrep
       - fd-find
-      - python3-psutil
       - python-virtualenv
+      - flatpak
 # sudo apt-get -y install docker-compose
         # command to install latest neovim
         # wget https://github.com/neovim/neovim/releases/download/v0.8.0/nvim-linux64.deb -P /tmp
@@ -14,3 +14,8 @@
         #
         #
         # curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin ## install kitty
+        #
+        #
+
+
+

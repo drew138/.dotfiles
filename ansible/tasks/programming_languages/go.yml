@@ -1,0 +1,48 @@
+# credit: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
+vars:
+  version : "latest"
+  arch: arm64
+  os: linux
+
+  latest_version_url: https://golang.org/VERSION?m=text
+  archive_name: "{{ filename_prefix }}.{{ os }}-{{ arch }}.tar.gz"
+  download_url: https://dl.google.com/go/{{ archive_name }}
+  bin_path: /usr/local/go/bin
+
+tasks:
+  - name: Get filename prefix with latest version
+    set_fact:
+      filename_prefix: "{{ lookup('url', latest_version_url, split_lines=False) }}"
+    when: version == "latest"
+  
+  - name: Get filename prefix with fixed version
+    set_fact:
+      filename_prefix: go{{ version }}
+    when: version != "latest"
+  
+  - name: Try to get current go version installed
+    command: go version
+    register: result
+    changed_when: false
+
+  - name: Set current_version var to the current
+    set_fact:
+      current_version: "{{ result.stdout.split(' ')[2] }}"
+    when: result.failed == false
+
+  - name: Set current_version var to none
+    set_fact:
+      current_version: "none"
+    when: result.failed == true
+
+  - debug:
+      var: current_version
+
+  - name: Download and extract the archive {{ archive_name }}
+    become: true
+    unarchive:
+        src: "{{ download_url }}"
+        dest: /usr/local
+        remote_src: yes
+    when: current_version != filename_prefix
+

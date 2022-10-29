@@ -1,0 +1,6 @@
+- name: Install Firefox
+  become_user: drew
+  flatpak:
+    name: com.getpostman.Postman
+    method: user
+    state: present

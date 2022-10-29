@@ -109,9 +109,14 @@ source ~/.nvm/nvm.sh
 
 PATH="$PATH:/home/drew/.local/bin"
 PATH="$PATH:/home/drew/flutter/bin"
-PATH="$PATH:/home/drew/.dotfiles/scripts/global"
+
+alias nd='~/.dotfiles/scripts/nvim_dir.sh'
+alias nf='~/.dotfiles/scripts/nvim_file.sh'
 
 export EDITOR='nvim'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[ -f ~/.cargo/env ] && source $HOME/.cargo/env

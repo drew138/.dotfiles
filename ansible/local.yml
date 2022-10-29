@@ -4,19 +4,29 @@
    
   tasks:
     # utils
-    - include: utils/utils.yml
+    - include: tasks/utils/common.yml
+    - include: tasks/utils/docker.yml
+    - include: tasks/utils/kitty.yml
+    - include: tasks/utils/nvim.yml
+    - include: tasks/utils/ohmyzsh.yml
     # programming languages
-    - include: programming_languages/programming_languages.yml
+    - include: tasks/programming_languages/go.yml
+    - include: tasks/programming_languages/node.yml
+    - include: tasks/programming_languages/rust.yml
     # software
-    - include: software/discord.yml
-    - include: software/firefox.yml
-    - include: software/obsidian.yml
-    - include: software/slack.yml
-    - include: software/spotify.yml
+    - include: tasks/software/discord.yml
+    - include: tasks/software/firefox.yml
+    - include: tasks/software/obsidian.yml
+    - include: tasks/software/postman.yml
+    - include: tasks/software/slack.yml
+    - include: tasks/software/spotify.yml
     # desktop
-    - include: desktop/desktop.yml
+    - include: tasks/desktop/desktop.yml
     # repositories
-    - include: repositories/owned.yml
-    - include: repositories/other/tmp.yml
+    - include: tasks/repositories/self.yml
+    - include: tasks/repositories/tpm.yml
     # cron
-    - include: cron/cron.yml
+    - include: tasks/cron/cron.yml
+
+  handlers:
+    - include: handlers/docker.yml

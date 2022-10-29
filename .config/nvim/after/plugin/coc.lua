@@ -22,7 +22,10 @@ vim.g.coc_global_extensions = {
     'coc-sh',
     'coc-highlight',
     'coc-html',
+    'coc-spell-checker',
 }
+
+vim.g.coc_filetype_map = { tex = 'latex' }
 
 -- Use <leader>k to show documentation in preview window.
 function _G.show_docs()
