@@ -108,6 +108,7 @@ source ~/.nvm/nvm.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 PATH="$PATH:/home/drew/.local/bin"
+PATH="$PATH:/usr/local/go/bin"
 PATH="$PATH:/home/drew/flutter/bin"
 
 alias nd='~/.dotfiles/scripts/nvim_dir.sh'
