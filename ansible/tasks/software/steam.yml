@@ -1,0 +1,6 @@
+- name: Install Slack
+  become_user: drew
+  flatpak:
+    name: com.valvesoftware.Steam
+    method: user
+    state: present
