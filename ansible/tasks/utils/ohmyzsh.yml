@@ -6,6 +6,8 @@
     force: 'yes'
   tags:
     - ohmyzsh
+  register: ohmyzshl_install
 
 - name: Install OhMyZsh
   command: bash '[ "$ZSH" == "\n" ] && /tmp/ohmyzsh_install.sh'
+  when: ohmyzsh_install|success
