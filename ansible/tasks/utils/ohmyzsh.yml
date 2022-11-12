@@ -13,4 +13,4 @@
 #       commands_to_run: '[[ "$ZSH" == "\n" ]] && /tmp/ohmyzsh_install.sh'
 
 - name: Install OhMyZsh
-  shell: "[[ '$ZSH' == '\n' ]] && /tmp/ohmyzsh_install.sh"
+  command: "[[ '$ZSH' == '\n' ]] && /tmp/ohmyzsh_install.sh"
