@@ -5,10 +5,12 @@
       - tmux
       - ripgrep
       - fd-find
+
       - python3-virtualenv
       - flatpak
       - zsh
 
+# TODO install fzf
 
 - name: Add flathub repo
   flatpak_remote:
