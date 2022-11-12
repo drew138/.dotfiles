@@ -1,9 +1,0 @@
-
-# download kvantum 
-# curl -OL https://github.com/tsujan/Kvantum/releases/latest/Kvantum-1.0.6.tar.xz --output-dir /tmp
-
-# kde-plasma-desktop
-#
-# sudo add-apt-repository ppa:papirus/papirus
-# sudo apt update
-# sudo apt install qt5-style-kvantum qt5-style-kvantum-themes

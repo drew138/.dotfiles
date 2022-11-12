@@ -4,10 +4,9 @@
     - name: update repositories
       apt: update_cache=yes
       become_user: root
-      changed_when: False   
+      changed_when: False
 
   tasks:
-
     # utils
     - include: tasks/utils/common.yml
     - include: tasks/utils/docker.yml
@@ -25,13 +24,10 @@
     - include: tasks/software/postman.yml
     - include: tasks/software/slack.yml
     - include: tasks/software/spotify.yml
-    # desktop
-    # - include: tasks/desktop/desktop.yml
     # repositories
     # - include: tasks/repositories/self.yml
     - include: tasks/repositories/tpm.yml
     # cron
     # - include: tasks/cron/cron.yml
-
   # handlers:
     - include: handlers/docker.yml
