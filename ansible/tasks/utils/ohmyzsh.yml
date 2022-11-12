@@ -1,0 +1,11 @@
+- name: Download OhMyZsh Installer
+  get_url:
+    url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/ohmyzsh_install.sh
+    mode: '0755'
+    force: 'yes'
+  tags:
+    - ohmyzsh
+
+- name: Install OhMyZsh
+  command: /tmp/ohmyzsh_install.sh
