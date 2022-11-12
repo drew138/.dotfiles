@@ -7,7 +7,7 @@
 
 
 - name: get kernel version
-  command: 'uname -a'
+  command: 'uname'
   register: uname_result
 
 - name: Download Installer
