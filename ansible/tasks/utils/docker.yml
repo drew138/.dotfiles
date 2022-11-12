@@ -1,6 +1,6 @@
 - name: install dependencies
   apt:
-    name: "{{item}}"
+    name: "{{ item }}"
     state: present
     update_cache: yes
     loop:
@@ -19,7 +19,7 @@
     state: present
 - name: install docker
   apt:
-    name: "{{item}}"
+    name: "{{ item }}"
     state: latest
     update_cache: yes
     loop:
