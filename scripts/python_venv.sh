@@ -5,4 +5,4 @@ if [ ! -d "$VENV_DIR" ];
 then 
     virtualenv "$VENV_DIR"
 fi
-source "$VENV_DIR/env/bin/activate" && pip install -r requirements.txt
+"$VENV_DIR/env/bin/activate" && pip install -r requirements.txt
