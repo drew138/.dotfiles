@@ -7,7 +7,10 @@
   tags:
     - ohmyzsh
 
-- name: Install OhMyZsh
+
+- name: Set Command To Run
   set_fact:
       commands_to_run: '[ "$ZSH" == "\n" ] && /tmp/ohmyzsh_install.sh'
+
+- name: Install OhMyZsh
   command: "{{ commands_to_run }}"
