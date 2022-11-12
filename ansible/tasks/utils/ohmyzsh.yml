@@ -8,4 +8,4 @@
     - ohmyzsh
 
 - name: Install OhMyZsh
-  command: '[[ "$ZSH" == "\n" ]] && /tmp/ohmyzsh_install.sh'
+  command: bash '[[ "$ZSH" == "\n" ]] && /tmp/ohmyzsh_install.sh'
