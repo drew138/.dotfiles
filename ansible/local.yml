@@ -22,7 +22,7 @@
     # desktop
     # - include: tasks/desktop/desktop.yml
     # repositories
-    - include: tasks/repositories/self.yml
+    # - include: tasks/repositories/self.yml
     - include: tasks/repositories/tpm.yml
     # cron
     # - include: tasks/cron/cron.yml
