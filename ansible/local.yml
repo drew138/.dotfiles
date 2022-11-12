@@ -14,7 +14,7 @@
     # - include: tasks/utils/nvim.yml
     # - include: tasks/utils/ohmyzsh.yml
     # programming languages
-    # - include: tasks/programming_languages/go.yml
+    - include: tasks/programming_languages/go.yml
     - include: tasks/programming_languages/node.yml
     - include: tasks/programming_languages/rust.yml
     # software
