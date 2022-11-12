@@ -30,11 +30,11 @@ return require('packer').startup(function(use)
     --  treesitter
     use {
         'nvim-treesitter/nvim-treesitter',
-        run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+        run = function()
+            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+            ts_update()
+        end,
     }
-    -- show current code context
-    use 'neovim/nvim-lspconfig'
-    use 'SmiteshP/nvim-navic'
     -- coc - autocomplete
     use { 'neoclide/coc.nvim', branch = 'release' }
     -- comments
@@ -47,10 +47,6 @@ return require('packer').startup(function(use)
     use 'nvim-tree/nvim-tree.lua'
     -- git
     use 'airblade/vim-gitgutter'
-    use 'tpope/vim-fugitive'
-    -- git worktrees
-    use 'ThePrimeagen/git-worktree.nvim'
-
 
     if packer_bootstrap then
         require('packer').sync()

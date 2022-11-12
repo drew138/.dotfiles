@@ -84,11 +84,6 @@ _G.packer_plugins = {
     path = "/home/drew/.local/share/nvim/site/pack/packer/start/coc.nvim",
     url = "https://github.com/neoclide/coc.nvim"
   },
-  ["git-worktree.nvim"] = {
-    loaded = true,
-    path = "/home/drew/.local/share/nvim/site/pack/packer/start/git-worktree.nvim",
-    url = "https://github.com/ThePrimeagen/git-worktree.nvim"
-  },
   ["indent-blankline.nvim"] = {
     loaded = true,
     path = "/home/drew/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
@@ -103,16 +98,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/drew/.local/share/nvim/site/pack/packer/start/nightfox.nvim",
     url = "https://github.com/EdenEast/nightfox.nvim"
-  },
-  ["nvim-lspconfig"] = {
-    loaded = true,
-    path = "/home/drew/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
-    url = "https://github.com/neovim/nvim-lspconfig"
-  },
-  ["nvim-navic"] = {
-    loaded = true,
-    path = "/home/drew/.local/share/nvim/site/pack/packer/start/nvim-navic",
-    url = "https://github.com/SmiteshP/nvim-navic"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
@@ -148,11 +133,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/drew/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
-  },
-  ["vim-fugitive"] = {
-    loaded = true,
-    path = "/home/drew/.local/share/nvim/site/pack/packer/start/vim-fugitive",
-    url = "https://github.com/tpope/vim-fugitive"
   },
   ["vim-gitgutter"] = {
     loaded = true,
