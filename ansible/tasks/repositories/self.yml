@@ -18,3 +18,10 @@
     dest: "~/graphics-app"
     clone: yes
     update: yes
+
+- name: Download Dotfiles Repository
+  git:
+    repo: git@github.com:Drew138/.dotfiles.git
+    dest: "~/.dotfiles"
+    clone: yes
+    update: yes
