@@ -6,8 +6,8 @@
     force: 'yes'
   tags:
     - ohmyzsh
-  when: lookup('env', "ZSH") | length == 0
+  when: lookup('env', "ZSH") == ''
 
 - name: Install OhMyZsh
   command: /tmp/ohmyzsh_install.sh
-  when: lookup('env', "ZSH") | length == 0
+  when: lookup('env', "ZSH") == ''
