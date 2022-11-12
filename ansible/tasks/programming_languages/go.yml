@@ -5,10 +5,15 @@
   register: go_exists
   ignore_errors: yes
 
+
+- name: get kernel version
+  command: 'uname -a'
+  register: uname_result
+
 - name: Download Installer
   when: go_exists is failed
   get_url:
-    url: https://get.golang.org/$(uname)/go_installer
+    url: https://get.golang.org/{{ uname_result.stdout }}/go_installer
     dest: /tmp/go_installer
     mode: '0755'
     force: 'yes'
