@@ -1,5 +1,4 @@
 - name: Install Spotify
-  become_user: drew
   flatpak:
     name: com.spotify.Client
     method: user
