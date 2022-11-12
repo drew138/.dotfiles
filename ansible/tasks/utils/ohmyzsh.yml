@@ -6,11 +6,8 @@
     force: 'yes'
   tags:
     - ohmyzsh
-
-
-# - name: Set Command To Run
-#   set_fact:
-#       commands_to_run: '[[ "$ZSH" == "\n" ]] && /tmp/ohmyzsh_install.sh'
+  when: lookup('env', "ZSH") | length == 0
 
 - name: Install OhMyZsh
-  command: "[[ '$ZSH' == '\n' ]] && /tmp/ohmyzsh_install.sh"
+  command: /tmp/ohmyzsh_install.sh
+  when: lookup('env', "ZSH") | length == 0
