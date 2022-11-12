@@ -1,9 +1,6 @@
 - name: install dependencies
-  apt:
-    name: "{{ item }}"
-    state: present
-    update_cache: yes
-    loop:
+  package:
+    name:
       - apt-transport-https
       - ca-certificates
       - curl
@@ -18,11 +15,8 @@
     repo: deb https://download.docker.com/linux/debian bullseye stable
     state: present
 - name: install docker
-  apt:
-    name: "{{ item }}"
-    state: latest
-    update_cache: yes
-    loop:
+  package:
+    name:
       - docker-ce
       - docker-ce-cli
       - containerd.io
