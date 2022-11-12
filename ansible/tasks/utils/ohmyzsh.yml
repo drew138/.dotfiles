@@ -1,3 +1,8 @@
+- name: Check Installation
+  stat:
+    path: ~/.oh-my-zsh
+  register: ohmyzsh_file
+
 - name: Download OhMyZsh Installer
   get_url:
     url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
@@ -6,8 +11,8 @@
     force: 'yes'
   tags:
     - ohmyzsh
-  when: lookup('env', "ZSH") == ''
+  when: not ohmyzsh_file.stat.exists
 
 - name: Install OhMyZsh
   command: /tmp/ohmyzsh_install.sh
-  when: lookup('env', "ZSH") == ''
+  when: not ohmyzsh_file.stat.exists
