@@ -4,13 +4,13 @@
    
   tasks:
     # utils
-    # - include: tasks/utils/common.yml
+    - include: tasks/utils/common.yml
     # - include: tasks/utils/docker.yml
     # - include: tasks/utils/kitty.yml
     # - include: tasks/utils/nvim.yml
     # - include: tasks/utils/ohmyzsh.yml
     # programming languages
-    - include: tasks/programming_languages/go.yml
+    # - include: tasks/programming_languages/go.yml
     - include: tasks/programming_languages/node.yml
     - include: tasks/programming_languages/rust.yml
     # software
@@ -21,12 +21,12 @@
     - include: tasks/software/slack.yml
     - include: tasks/software/spotify.yml
     # desktop
-    - include: tasks/desktop/desktop.yml
+    # - include: tasks/desktop/desktop.yml
     # repositories
     - include: tasks/repositories/self.yml
     - include: tasks/repositories/tpm.yml
     # cron
     - include: tasks/cron/cron.yml
 
-  handlers:
-    - include: handlers/docker.yml
+  # handlers:
+  #   - include: handlers/docker.yml
