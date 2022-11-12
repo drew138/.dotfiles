@@ -8,5 +8,7 @@
   tags:
     - Noevim
 
-- name: Fetch Noevim Installer
+- name: Install Neovim
   command: apt-get install /tmp/nvim-linux64.deb
+  tags:
+    - Noevim
