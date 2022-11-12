@@ -1,5 +1,4 @@
 - name: Fetch Noevim Installer
-  warn: false
   get_url:
     url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb
     dest: /tmp/nvim-linux64.deb
@@ -9,6 +8,7 @@
     - Noevim
 
 - name: Install Neovim
+  warn: false
   command: apt-get install /tmp/nvim-linux64.deb
   tags:
     - Noevim
