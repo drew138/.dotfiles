@@ -1,8 +1,9 @@
-- name: Install Kitty
-  become: true
+- name: Fetch Kitty Installer
   get_url:
     url: https://sw.kovidgoyal.net/kitty/installer.sh
     dest: /tmp/kitty_installer.sh
     mode: '0755'
     force: 'yes'
+
+- name: Install Kitty
   command: /tmp/kitty_installer.sh
