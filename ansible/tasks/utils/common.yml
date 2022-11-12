@@ -7,6 +7,7 @@
       - fd-find
       - python3-virtualenv
       - flatpak
+      - zsh
 
 
 - name: Add flathub repo
