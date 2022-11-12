@@ -13,4 +13,4 @@
       commands_to_run: '[[ "$ZSH" == "\n" ]] && /tmp/ohmyzsh_install.sh'
 
 - name: Install OhMyZsh
-  command: "{{ commands_to_run }}"
+  shell: "{{ commands_to_run }}"
