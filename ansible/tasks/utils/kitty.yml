@@ -1,8 +1,8 @@
 - name: Install Kitty
   become: true
-  command: curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin 
-  # get_url:
-  #   url: https://sh.rustup.rs
-  #   dest: /tmp/sh.rustup.rs
-  #   mode: '0755'
-  #   force: 'yes'
+  get_url:
+    url: https://sw.kovidgoyal.net/kitty/installer.sh
+    dest: /tmp/kitty_installer.sh
+    mode: '0755'
+    force: 'yes'
+  command: /tmp/kitty_installer.sh
