@@ -8,4 +8,6 @@
     - ohmyzsh
 
 - name: Install OhMyZsh
-  command: [ "$ZSH" == "\n" ] && /tmp/ohmyzsh_install.sh
+  set_fact:
+      commands_to_run: '[ "$ZSH" == "\n" ] && /tmp/ohmyzsh_install.sh'
+  command: "{{ commands_to_run }}"
