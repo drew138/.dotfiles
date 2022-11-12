@@ -7,6 +7,15 @@
       - fd-find
       - python3-virtualenv
       - flatpak
+
+
+- name: Add flathub repo
+  flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
+
 # sudo apt-get -y install docker-compose
         # command to install latest neovim
         # wget https://github.com/neovim/neovim/releases/download/v0.8.0/nvim-linux64.deb -P /tmp
