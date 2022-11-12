@@ -1,13 +1,4 @@
 # credit: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
-vars:
-  version : "latest"
-  arch: arm64
-  os: linux
-
-  latest_version_url: https://golang.org/VERSION?m=text
-  archive_name: "{{ filename_prefix }}.{{ os }}-{{ arch }}.tar.gz"
-  download_url: https://dl.google.com/go/{{ archive_name }}
-  bin_path: /usr/local/go/bin
 
 tasks:
   - name: Get filename prefix with latest version
