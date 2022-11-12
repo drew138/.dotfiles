@@ -9,5 +9,7 @@
 
 - name: Install Neovim
   command: apt-get install /tmp/nvim-linux64.deb
+  args:
+    warn: false
   tags:
     - Noevim
