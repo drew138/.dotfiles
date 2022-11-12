@@ -1,3 +1,11 @@
-- name: Install Noevim
-  become: true
-  shell: ~/.dotfiles/scripts/install_nvim.sh
+- name: Fetch Noevim Installer
+  get_url:
+    url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb
+    dest: /tmp/nvim-linux64.deb
+    mode: '0755'
+    force: 'yes'
+  tags:
+    - Noevim
+
+- name: Fetch Noevim Installer
+  command: apt-get install /tmp/nvim-linux64.deb

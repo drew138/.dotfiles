@@ -8,14 +8,11 @@
 
   tasks:
 
-
-
-
     # utils
     - include: tasks/utils/common.yml
     - include: tasks/utils/docker.yml
     - include: tasks/utils/kitty.yml
-    # - include: tasks/utils/nvim.yml
+    - include: tasks/utils/nvim.yml
     # - include: tasks/utils/ohmyzsh.yml
     # programming languages
     - include: tasks/programming_languages/go.yml
@@ -37,4 +34,4 @@
     # - include: tasks/cron/cron.yml
 
   # handlers:
-  #   - include: handlers/docker.yml
+    - include: handlers/docker.yml

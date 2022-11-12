@@ -25,11 +25,12 @@
     name: docker
     state: started
     enabled: yes
-- name: Add remote user to "docker" group
-  user:
-    name: drew
-    groups: "docker"
-    append: yes    
+
+# - name: Add remote user to "docker" group
+#   user:
+#     name: drew
+#     groups: "docker"
+#     append: yes    
 
 - name: Install docker-compose
   get_url:
