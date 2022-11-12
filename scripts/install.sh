@@ -11,4 +11,4 @@ sudo ansible-pull -U https://github.com/Drew138/.dotfiles.git ansible/local.yml
 
 "$SCRIPT_DIR/simbolic_links.sh"
 "$SCRIPT_DIR/python_venv.sh"
-source "$SCRIPT_DIR/nvim.sh"
+"$SCRIPT_DIR/nvim.sh"
