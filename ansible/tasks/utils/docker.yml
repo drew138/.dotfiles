@@ -27,7 +27,7 @@
     enabled: yes
 - name: Add remote user to "docker" group
   user:
-    name: ubuntu
+    name: drew
     groups: "docker"
     append: yes    
 
