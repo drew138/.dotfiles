@@ -27,7 +27,7 @@
     enabled: yes
 - name: Add remote user to "docker" group
   user:
-    name: your server login user
+    name: ubuntu
     groups: "docker"
     append: yes    
 
