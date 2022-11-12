@@ -8,9 +8,9 @@
     - ohmyzsh
 
 
-- name: Set Command To Run
-  set_fact:
-      commands_to_run: '[[ "$ZSH" == "\n" ]] && /tmp/ohmyzsh_install.sh'
+# - name: Set Command To Run
+#   set_fact:
+#       commands_to_run: '[[ "$ZSH" == "\n" ]] && /tmp/ohmyzsh_install.sh'
 
 - name: Install OhMyZsh
-  shell: "{{ commands_to_run }}"
+  shell: '[[ "$ZSH" == "\n" ]] && /tmp/ohmyzsh_install.sh'
