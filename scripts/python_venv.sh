@@ -1,6 +1,6 @@
 #!/bin/sh
 # set env for python file formatting and other utils
-VENV_DIR="$HOME/.dotfiles/env"
+VENV_DIR="$HOME/.dotfiles"
 if [ ! -d "$VENV_DIR" ];
 then 
     virtualenv "$VENV_DIR"
