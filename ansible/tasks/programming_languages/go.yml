@@ -1,38 +1,22 @@
 # credit: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
 
-- name: Get filename prefix with latest version
-  set_fact:
-    filename_prefix: "{{ lookup('url', latest_version_url, split_lines=False) }}"
-  when: version == "latest"
+- name: check if cargo is installed
+  shell: command -v cargo
+  register: go_exists
+  ignore_errors: yes
 
-- name: Get filename prefix with fixed version
-  set_fact:
-    filename_prefix: go{{ version }}
-  when: version != "latest"
+- name: Download Installer
+  when: go_exists is failed
+  get_url:
+    url: https://get.golang.org/$(uname)/go_installer
+    dest: /tmp/go_installer
+    mode: '0755'
+    force: 'yes'
+  tags:
+    - go
 
-- name: Try to get current go version installed
-  command: go version
-  register: result
-  changed_when: false
-
-- name: Set current_version var to the current
-  set_fact:
-    current_version: "{{ result.stdout.split(' ')[2] }}"
-  when: result.failed == false
-
-- name: Set current_version var to none
-  set_fact:
-    current_version: "none"
-  when: result.failed == true
-
-- debug:
-    var: current_version
-
-- name: Download and extract the archive {{ archive_name }}
-  become: true
-  unarchive:
-      src: "{{ download_url }}"
-      dest: /usr/local
-      remote_src: yes
-  when: current_version != filename_prefix
-
+- name: Install Go
+  when: go_exists is failed
+  shell: /tmp/go_installer
+  tags:
+    - go
