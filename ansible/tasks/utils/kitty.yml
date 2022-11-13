@@ -9,4 +9,5 @@
   command: /tmp/kitty_installer.sh
 
 - name: Post Install Setup
+  become: false
   command: ~/.dotfiles/scripts/kitty_post_install.sh
