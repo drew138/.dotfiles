@@ -3,7 +3,6 @@
   pre_tasks:
     - name: update repositories
       apt: update_cache=yes
-      become_user: root
       changed_when: False
 
   tasks:
@@ -29,5 +28,5 @@
     - include: tasks/repositories/tpm.yml
     # cron
     # - include: tasks/cron/cron.yml
-  # handlers:
+    # handlers:
     - include: handlers/docker.yml
