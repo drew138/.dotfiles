@@ -3,6 +3,7 @@
 # your system-wide PATH)
 ln -sfv "$HOME/.local/kitty.app/bin/kitty" "$HOME/.local/bin/"
 # Place the kitty.desktop file somewhere it can be found by the OS
+mkdir -p "$HOME/.local/share/applications/"
 cp "$HOME/.local/kitty.app/share/applications/kitty.desktop" "$HOME/.local/share/applications/"
 # If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
 cp "$HOME/.local/kitty.app/share/applications/kitty-open.desktop" "$HOME/.local/share/applications/"
