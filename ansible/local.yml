@@ -9,6 +9,9 @@
 
 
   tasks:
+    # repositories
+    - include: tasks/repositories/self.yml
+    - include: tasks/repositories/tpm.yml
     # utils
     - include: tasks/utils/common.yml
     - include: tasks/utils/docker.yml
@@ -26,9 +29,6 @@
     - include: tasks/software/postman.yml
     - include: tasks/software/slack.yml
     - include: tasks/software/spotify.yml
-    # repositories
-    - include: tasks/repositories/self.yml
-    - include: tasks/repositories/tpm.yml
     # cron
     # - include: tasks/cron/cron.yml
     # handlers:
