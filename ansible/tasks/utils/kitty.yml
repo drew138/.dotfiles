@@ -6,6 +6,7 @@
     force: 'yes'
 
 - name: Install Kitty
+  become_user: "{{ ansible_env.SUDO_USER }}"
   command: /tmp/kitty_installer.sh
 
 - name: Post Install Setup
