@@ -23,7 +23,7 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    dest: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
     clone: yes
     update: yes
 
@@ -31,7 +31,7 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions.git
-    dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    dest: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
     clone: yes
     update: yes
 
