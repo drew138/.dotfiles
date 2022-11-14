@@ -1,13 +1,5 @@
-
-- name: Run whoami without become.
-  command: whoami
-  changed_when: false
-  become: false
-  register: whoami
-
-
 - name: Download Algorithms Repository
-  become_user: "{{ whoami.stdout }}"
+  become_user: "{{ tower_user_name }}"
   git:
     repo: 'git@github.com:Drew138/algorithms.git'
     dest: "~/dev/algorithms"
@@ -15,7 +7,7 @@
     update: yes
 
 - name: Download Competitive Programming Repository
-  become_user: "{{ whoami.stdout }}"
+  become_user: "{{ tower_user_name }}"
   git:
     repo: 'git@github.com:Drew138/competitive-programming.git'
     dest:  "~/dev/competitive-programming"
@@ -23,7 +15,7 @@
     update: yes
 
 - name: Download Graphics-App Repository
-  become_user: "{{ whoami.stdout }}"
+  become_user: "{{ tower_user_name }}"
   git:
     repo: 'git@github.com:Drew138/graphics-app.git'
     dest: "~/dev/graphics-app"
@@ -31,7 +23,7 @@
     update: yes
 
 - name: Download Dotfiles Repository
-  become_user: "{{ whoami.stdout }}"
+  become_user: "{{ tower_user_name }}"
   git:
     repo: git@github.com:Drew138/.dotfiles.git
     dest: "~/.dotfiles"
