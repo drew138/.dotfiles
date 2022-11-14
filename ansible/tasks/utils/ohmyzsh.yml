@@ -23,5 +23,5 @@
   command: zsh
 
 - name: Change Default Shell
-  become_user: root
-  command: "chsh $USER -s $(which zsh)"
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  command: "sudo chsh $USER -s $(which zsh)"
