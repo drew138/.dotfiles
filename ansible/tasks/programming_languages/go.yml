@@ -22,6 +22,6 @@
 
 - name: Install Go
   when: go_exists is failed
-  shell: /tmp/go_installer
+  command: /tmp/go_installer
   tags:
     - go
