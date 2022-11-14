@@ -3,9 +3,10 @@
   pre_tasks:
     - name: update repositories
       apt: update_cache=yes
+      become_user: root
       changed_when: False
 
-# https://medium.com/espinola-designs/manage-your-dotfiles-with-ansible-6dbedd5532bb
+#ehttps://medium.com/espinola-designs/manage-your-dotfiles-with-ansible-6dbedd5532bb
 
 
   tasks:

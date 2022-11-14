@@ -1,25 +1,29 @@
 - name: Download Algorithms Repository
+  become: false
   git:
     repo: 'git@github.com:Drew138/algorithms.git'
-    dest: "~/algorithms"
+    dest: "~/dev/algorithms"
     clone: yes
     update: yes
 
 - name: Download Competitive Programming Repository
+  become: false
   git:
     repo: 'git@github.com:Drew138/competitive-programming.git'
-    dest:  "~/competitive-programming"
+    dest:  "~/dev/competitive-programming"
     clone: yes
     update: yes
 
 - name: Download Graphics-App Repository
+  become: false
   git:
     repo: 'git@github.com:Drew138/graphics-app.git'
-    dest: "~/graphics-app"
+    dest: "~/dev/graphics-app"
     clone: yes
     update: yes
 
 - name: Download Dotfiles Repository
+  become: false
   git:
     repo: git@github.com:Drew138/.dotfiles.git
     dest: "~/.dotfiles"

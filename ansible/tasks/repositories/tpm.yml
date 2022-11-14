@@ -1,4 +1,5 @@
 - name: Tmux Package Manager
+  become: false
   git:
     repo: 'https://github.com/tmux-plugins/tpm'
     dest:  "~/.tmux/plugins/tpm/"
