@@ -1,5 +1,4 @@
 - name: Tmux Package Manager
-  become_user: "{{ whoami.stdout }}"
   git:
     repo: 'https://github.com/tmux-plugins/tpm'
     dest:  "~/.tmux/plugins/tpm/"

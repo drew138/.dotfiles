@@ -8,6 +8,12 @@ Ssh authentication is required to fetch some repositories during the installatio
 cd ~/.ssh && ssh-keygen -t ed25519 -C "58788781+drew138@users.noreply.github.com"
 ```
 
+Then add github to known hosts.
+
+```bash
+ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+```
+
 ## Installation
 
 Update packages
