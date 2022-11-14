@@ -1,5 +1,5 @@
 - name: Download Algorithms Repository
-  become_user: "{{ tower_user_name }}"
+  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: 'git@github.com:Drew138/algorithms.git'
     dest: "~/dev/algorithms"
@@ -7,7 +7,7 @@
     update: yes
 
 - name: Download Competitive Programming Repository
-  become_user: "{{ tower_user_name }}"
+  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: 'git@github.com:Drew138/competitive-programming.git'
     dest:  "~/dev/competitive-programming"
@@ -15,7 +15,7 @@
     update: yes
 
 - name: Download Graphics-App Repository
-  become_user: "{{ tower_user_name }}"
+  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: 'git@github.com:Drew138/graphics-app.git'
     dest: "~/dev/graphics-app"
@@ -23,7 +23,7 @@
     update: yes
 
 - name: Download Dotfiles Repository
-  become_user: "{{ tower_user_name }}"
+  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: git@github.com:Drew138/.dotfiles.git
     dest: "~/.dotfiles"
