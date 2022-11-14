@@ -19,6 +19,6 @@
   command: /tmp/ohmyzsh_install.sh
   when: not ohmyzsh_file.stat.exists
 
-# - name: Change Default Shell
-#   command: "chsh -s $(which zsh)"
-#   when: not ohmyzsh_file.stat.exists
+- name: Change Default Shell
+  become_user: root
+  command: "zsh && chsh $USER -s $(which zsh)"
