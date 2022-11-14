@@ -19,9 +19,29 @@
   command: /tmp/ohmyzsh_install.sh
   when: not ohmyzsh_file.stat.exists
 
-- name: Change Shell
-  command: zsh
+
+- name: Get OhMyZsh Custom Install Directory
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: 'echo $ZSH_CUSTOM'
+  register: zsh_custom_plugin_directory
+
+- name: Download Syntax Highlighting Plugin
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: "{{ zsh_custom_plugin_directory }}/plugin/zsh-syntax-highlighting"
+    clone: yes
+    update: yes
+
+- name: Download Auto Suggestions Plugin
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "{{ zsh_custom_plugin_directory }}/plugin/zsh-autosuggestions"
+    clone: yes
+    update: yes
 
 - name: Change Default Shell
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: 'sudo chsh $USER -s $(which zsh)'
+
