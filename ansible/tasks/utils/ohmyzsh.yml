@@ -1,4 +1,5 @@
 - name: Check Installation
+  become_user: "{{ ansible_env.SUDO_USER }}"
   stat:
     path: ~/.oh-my-zsh
   register: ohmyzsh_file
