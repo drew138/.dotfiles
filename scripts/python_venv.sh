@@ -1,9 +1,10 @@
 #!/bin/sh
 # set env for python file formatting and other utils
-VENV_DIR="$HOME/.dotfiles"
+DOTFILES_DIR="$HOME/.dotfiles/"
+VENV_DIR="$DOTFILES_DIR/env/"
 if [ ! -d "$VENV_DIR" ];
 then 
     virtualenv "$VENV_DIR"
 fi
-. "$VENV_DIR/env/bin/activate" 
-pip install -r "$VENV_DIR/requirements.txt"
+. "$VENV_DIR/bin/activate" 
+pip install -r "$DOTFILES_DIR/requirements.txt"
