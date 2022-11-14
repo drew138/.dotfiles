@@ -1,4 +1,5 @@
 - hosts: localhost
+  become: true
   pre_tasks:
     - name: update repositories
       apt: update_cache=yes
