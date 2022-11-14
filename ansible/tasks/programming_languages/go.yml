@@ -1,7 +1,7 @@
 # credit: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
 
-- name: check if cargo is installed
-  shell: command -v cargo
+- name: check if go is installed
+  shell: go --version
   register: go_exists
   ignore_errors: yes
 
