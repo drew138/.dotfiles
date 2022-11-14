@@ -21,7 +21,7 @@
 
 
 - name: Get OhMyZsh Custom Install Directory
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become: false
   shell: 'echo $ZSH_CUSTOM'
   register: zsh_custom_plugin_directory
 
