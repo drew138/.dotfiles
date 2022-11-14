@@ -15,6 +15,7 @@
   when: not ohmyzsh_file.stat.exists
 
 - name: Install OhMyZsh
+  become_user: "{{ ansible_env.SUDO_USER }}"
   command: /tmp/ohmyzsh_install.sh
   when: not ohmyzsh_file.stat.exists
 
