@@ -1,12 +1,12 @@
 # credit: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
 
-- name: check if go is installed
+- name: Check if go is installed
   shell: go --version
   register: go_exists
   ignore_errors: yes
 
 
-- name: get kernel version
+- name: Get kernel version
   command: 'uname'
   register: uname_result
 

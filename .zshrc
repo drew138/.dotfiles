@@ -117,6 +117,7 @@ alias nf='~/.dotfiles/scripts/nvim_file.sh'
 export EDITOR='nvim'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export VIRTUAL_ENV='~/.dotfiles/env/bin/activate'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

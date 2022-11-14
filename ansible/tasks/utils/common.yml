@@ -9,6 +9,7 @@
       - python3-virtualenv
       - flatpak
       - zsh
+      - xclip
 
 - name: Add flathub repo
   flatpak_remote:
