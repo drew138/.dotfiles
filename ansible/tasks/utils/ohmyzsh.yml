@@ -38,4 +38,6 @@
 - name: Change Default Shell
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: 'sudo chsh $USER -s $(which zsh)'
+  args:
+    warn: false
 

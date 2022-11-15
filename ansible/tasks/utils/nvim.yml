@@ -13,3 +13,8 @@
     warn: false
   tags:
     - Noevim
+
+- name: Install pynvim
+  command: pip install pynvim
+  tags:
+    - Noevim
