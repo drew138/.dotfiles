@@ -17,7 +17,7 @@
     //    "typescript",
     "lua"
   ],
-  "python.pythonPath": "/home/drew/.dotfiles/env/bin/python",
+  "python.pythonPath": "/home/drew/.dotfiles/env/bin/activate",
   "Lua.telemetry.enable": true,
   "prettier.tabWidth": 2
 }
