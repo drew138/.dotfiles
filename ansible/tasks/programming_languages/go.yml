@@ -4,13 +4,17 @@
   shell: go --version
   register: go_exists
   ignore_errors: yes
+  tags:
+    - go
 
 
 - name: Get kernel version
   command: 'uname'
   register: uname_result
+  tags:
+    - go
 
-- name: Download Installer
+- name: Download Go Installer
   when: go_exists is failed
   get_url:
     url: https://get.golang.org/{{ uname_result.stdout }}/go_installer

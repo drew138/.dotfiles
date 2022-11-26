@@ -28,12 +28,12 @@
     - include: tasks/programming_languages/node.yml
     - include: tasks/programming_languages/rust.yml
     # software
-    - include: tasks/software/discord.yml
-    - include: tasks/software/firefox.yml
-    - include: tasks/software/obsidian.yml
-    - include: tasks/software/postman.yml
-    - include: tasks/software/slack.yml
-    - include: tasks/software/spotify.yml
+    # - include: tasks/software/discord.yml
+    # - include: tasks/software/firefox.yml
+    # - include: tasks/software/obsidian.yml
+    # - include: tasks/software/postman.yml
+    # - include: tasks/software/slack.yml
+    # - include: tasks/software/spotify.yml
     # cron
     # - include: tasks/cron/cron.yml
     # handlers:
