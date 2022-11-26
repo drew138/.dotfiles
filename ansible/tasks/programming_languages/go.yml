@@ -1,12 +1,10 @@
 # credit: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
-
 - name: Check if go is installed
   shell: go --version
   register: go_exists
   ignore_errors: yes
   tags:
     - go
-
 
 - name: Get kernel version
   command: 'uname'
@@ -27,5 +25,10 @@
 - name: Install Go
   when: go_exists is failed
   script: '/tmp/go_installer'
+  register: console
   tags:
     - go
+
+- debug: msg="{{ console.stdout }}"
+
+- debug: msg="{{ console.stderr }}" 
