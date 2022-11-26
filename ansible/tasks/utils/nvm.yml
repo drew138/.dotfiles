@@ -1,0 +1,13 @@
+- name: Download Installer
+  get_url:
+    url: https://raw.githubusercontent.com/creationix/nvm/master/install.sh
+    dest: /tmp/nvm_installer.sh
+    mode: '0755'
+    force: 'yes'
+  tags:
+    - nvm
+
+- name: Install Nvm
+  command: /tmp/nvm_installer.sh
+  tags:
+    - nvm
