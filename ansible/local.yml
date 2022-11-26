@@ -11,22 +11,22 @@
 
   tasks:
     # repositories
-    - include: tasks/repositories/self.yml
-    - include: tasks/repositories/tpm.yml
-    - include: tasks/repositories/fzf.yml
+    # - include: tasks/repositories/self.yml
+    # - include: tasks/repositories/tpm.yml
+    # - include: tasks/repositories/fzf.yml
     # utils
-    - include: tasks/utils/common.yml
-    - include: tasks/utils/docker.yml
-    - include: tasks/utils/kitty.yml
-    - include: tasks/utils/nvim.yml
-    - include: tasks/utils/ohmyzsh.yml
-    - include: tasks/utils/nvm.yml
-    - include: tasks/utils/fzf.yml
+    # - include: tasks/utils/common.yml
+    # - include: tasks/utils/docker.yml
+    # - include: tasks/utils/kitty.yml
+    # - include: tasks/utils/nvim.yml
+    # - include: tasks/utils/ohmyzsh.yml
+    # - include: tasks/utils/nvm.yml
+    # - include: tasks/utils/fzf.yml
 
     # programming languages
     - include: tasks/programming_languages/go.yml
     # - include: tasks/programming_languages/node.yml
-    - include: tasks/programming_languages/rust.yml
+    # - include: tasks/programming_languages/rust.yml
     # software
     # - include: tasks/software/discord.yml
     # - include: tasks/software/firefox.yml
@@ -37,4 +37,4 @@
     # cron
     # - include: tasks/cron/cron.yml
     # handlers:
-    - include: handlers/docker.yml
+    # - include: handlers/docker.yml
