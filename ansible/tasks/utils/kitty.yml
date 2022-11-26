@@ -7,8 +7,8 @@
 
 - name: Install Kitty
   become_user: "{{ ansible_env.SUDO_USER }}"
-  command: /tmp/kitty_installer.sh
+  script: '/tmp/kitty_installer.sh'
 
 - name: Post Install Setup
   become_user: "{{ ansible_env.SUDO_USER }}"
-  command: ~/.dotfiles/scripts/kitty_post_install.sh
+  script: '~/.dotfiles/scripts/kitty_post_install.sh'

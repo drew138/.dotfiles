@@ -8,6 +8,6 @@
     - nvm
 
 - name: Install Nvm
-  shell: /tmp/nvm_installer.sh
+  script: /tmp/nvm_installer.sh
   tags:
     - nvm
