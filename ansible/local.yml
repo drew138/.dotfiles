@@ -24,7 +24,7 @@
     # - include: tasks/utils/fzf.yml
 
     # programming languages
-    - include: tasks/programming_languages/go.yml
+    # - include: tasks/programming_languages/go.yml
     # - include: tasks/programming_languages/node.yml
     # - include: tasks/programming_languages/rust.yml
     # software

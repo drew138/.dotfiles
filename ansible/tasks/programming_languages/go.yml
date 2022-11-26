@@ -26,10 +26,5 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   when: go_exists is failed
   script: '/tmp/go_installer'
-  register: console
   tags:
     - go
-
-- debug: msg="{{ console.stdout }}"
-
-- debug: msg="{{ console.stderr }}" 
