@@ -7,7 +7,12 @@
 
 - name: Install Kitty
   become_user: "{{ ansible_env.SUDO_USER }}"
+  register: console
   script: '/tmp/kitty_installer.sh'
+
+- debug: msg="{{ console.stdout }}"
+
+- debug: msg="{{ console.stderr }}"
 
 - name: Post Install Setup
   become_user: "{{ ansible_env.SUDO_USER }}"
