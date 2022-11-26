@@ -23,6 +23,7 @@
     - go
 
 - name: Install Go
+  become_user: "{{ ansible_env.SUDO_USER }}"
   when: go_exists is failed
   script: '/tmp/go_installer'
   register: console
