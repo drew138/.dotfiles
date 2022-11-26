@@ -25,7 +25,7 @@
 
     # programming languages
     - include: tasks/programming_languages/go.yml
-    - include: tasks/programming_languages/node.yml
+    # - include: tasks/programming_languages/node.yml
     - include: tasks/programming_languages/rust.yml
     # software
     # - include: tasks/software/discord.yml
