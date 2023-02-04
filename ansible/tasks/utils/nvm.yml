@@ -6,11 +6,11 @@
     force: 'yes'
   tags:
     - nvm
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"
 
 - name: Install Nvm
   become_user: "{{ ansible_env.SUDO_USER }}"
   script: '/tmp/nvm_installer.sh'
   tags:
     - nvm
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"

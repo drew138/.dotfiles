@@ -7,6 +7,7 @@
       changed_when: False
   vars:
     user_repositories: "{{ lookup('env', 'USER_REPOSITORIES') }}"
+    os_name: "{{ ansible_facts['distribution'] }}"
 
 #ehttps://medium.com/espinola-designs/manage-your-dotfiles-with-ansible-6dbedd5532bb
 

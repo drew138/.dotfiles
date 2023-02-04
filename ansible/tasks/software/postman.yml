@@ -3,4 +3,4 @@
     name: com.getpostman.Postman
     method: user
     state: present
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: _name == "ubuntu"

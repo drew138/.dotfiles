@@ -6,7 +6,7 @@
     force: 'yes'
   tags:
     - nvim
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"
 
 - name: Install Neovim
   command: apt-get install /tmp/nvim-linux64.deb
@@ -14,10 +14,10 @@
     warn: false
   tags:
     - nvim
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"
 
 - name: Install pynvim
   command: pip install pynvim
   tags:
     - nvim
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"

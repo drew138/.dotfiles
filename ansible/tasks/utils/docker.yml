@@ -6,18 +6,19 @@
       - curl
       - gnupg-agent
       - software-properties-common
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"
 
 - name: add GPG key
   apt_key:
     url: https://download.docker.com/linux/debian/gpg
     state: present
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"
 
 - name: add docker repository
   apt_repository:
     repo: deb https://download.docker.com/linux/debian bullseye stable
     state: present
+  when: os_name == "ubuntu"
 
 - name: install docker
   package:
@@ -25,25 +26,25 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"
 
 - name: make sure docker is active
   service:
     name: docker
     state: started
     enabled: yes
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"
 
 - name: Add remote user to "docker" group
   user:
     name: drew
     groups: "docker"
     append: yes    
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"
 
 - name: Install docker-compose
   get_url:
     url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
     dest: /usr/local/bin/docker-compose
     mode: '+x'
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"

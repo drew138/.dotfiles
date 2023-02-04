@@ -4,4 +4,4 @@
     name: com.valvesoftware.Steam
     method: user
     state: present
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"

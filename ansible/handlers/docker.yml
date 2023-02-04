@@ -2,4 +2,4 @@
   service: 
     name: docker 
     state: restarted
-  when: ansible_facts["os_name"] == "Ubuntu"
+  when: os_name == "ubuntu"
