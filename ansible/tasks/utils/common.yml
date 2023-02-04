@@ -1,4 +1,4 @@
-- name: Install Utils
+- name: Install Common Utils
   package:
     name: 
       - htop
