@@ -1,4 +1,4 @@
-# credit: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
+# src: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
 - name: Check if go is installed
   shell: go --version
   register: go_exists

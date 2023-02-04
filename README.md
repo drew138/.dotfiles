@@ -24,9 +24,14 @@ cat id_ed25519.pub
 
 ## Installation
 
-Update system packages.
+Update system packages if on Ubuntu.
 ```bash
 sudo apt-get update && apt-get upgrade -y
+```
+
+Alternatively, install Homebrew if on MacOs.
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 Run installation command.

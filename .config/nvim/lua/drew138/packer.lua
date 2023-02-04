@@ -35,6 +35,8 @@ return require('packer').startup(function(use)
             ts_update()
         end,
     }
+    -- treesite playground
+    use 'nvim-treesitter/playground'
     -- coc - autocomplete
     use { 'neoclide/coc.nvim', branch = 'release' }
     -- comments
@@ -46,7 +48,21 @@ return require('packer').startup(function(use)
     -- file system
     use 'nvim-tree/nvim-tree.lua'
     -- git
-    use 'airblade/vim-gitgutter'
+    -- use 'airblade/vim-gitgutter'
+    -- use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+    use {
+        'lewis6991/gitsigns.nvim',
+        tag = 'release'
+    }
+
+
+    -- debugging
+    use 'mfussenegger/nvim-dap'
+    use 'leoluz/nvim-dap-go'
+    use 'rcarriga/nvim-dap-ui'
+    use 'theHamsta/nvim-dap-virtual-text'
+    use 'nvim-telescope/telescope-dap.nvim'
+
 
     if packer_bootstrap then
         require('packer').sync()

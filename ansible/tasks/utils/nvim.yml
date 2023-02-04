@@ -5,16 +5,19 @@
     mode: '0755'
     force: 'yes'
   tags:
-    - Noevim
+    - nvim
+  when: ansible_facts["os_name"] == "Ubuntu"
 
 - name: Install Neovim
   command: apt-get install /tmp/nvim-linux64.deb
   args:
     warn: false
   tags:
-    - Noevim
+    - nvim
+  when: ansible_facts["os_name"] == "Ubuntu"
 
 - name: Install pynvim
   command: pip install pynvim
   tags:
-    - Noevim
+    - nvim
+  when: ansible_facts["os_name"] == "Ubuntu"

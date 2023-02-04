@@ -5,6 +5,7 @@
     dest: "~/dev/algorithms"
     clone: yes
     update: yes
+  when: user_repositories == "true"
 
 - name: Download Competitive Programming Repository
   become_user: "{{ ansible_env.SUDO_USER }}"
@@ -13,6 +14,7 @@
     dest:  "~/dev/competitive-programming"
     clone: yes
     update: yes
+  when: user_repositories == "true"
 
 - name: Download Graphics-App Repository
   become_user: "{{ ansible_env.SUDO_USER }}"
@@ -21,11 +23,22 @@
     dest: "~/dev/graphics-app"
     clone: yes
     update: yes
+  when: user_repositories == "true"
 
-- name: Download Dotfiles Repository
+- name: Download Dotfiles Repository SSH
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: git@github.com:Drew138/.dotfiles.git
     dest: "~/.dotfiles"
     clone: yes
     update: yes
+  when: user_repositories == "true"
+
+- name: Download Dotfiles Repository HTTP
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  git:
+    repo: https://github.com/Drew138/.dotfiles.git
+    dest: "~/.dotfiles"
+    clone: yes
+    update: yes
+  when: user_repositories != "true"

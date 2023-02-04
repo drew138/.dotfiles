@@ -3,3 +3,4 @@
     name: md.obsidian.Obsidian
     method: user
     state: present
+  when: ansible_facts["os_name"] == "Ubuntu"

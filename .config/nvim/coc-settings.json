@@ -1,6 +1,11 @@
 {
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
+  "coc.preferences.formatOnSave": true,
+  "python.formatting.provider": "autopep8",
+  "python.formatting.autopep8Path": "/home/drew/.dotfiles/env/bin/autopep8",
+  "Lua.telemetry.enable": true,
+  "prettier.tabWidth": 2,
   "coc.preferences.formatOnSaveFiletypes": [
     "python",
     "cpp",
@@ -14,10 +19,7 @@
     "typescriptreact",
     "javascriptreact",
     "javascript",
-    //    "typescript",
+    "typescript",
     "lua"
-  ],
-  "python.pythonPath": "/home/drew/.dotfiles/env/bin/activate",
-  "Lua.telemetry.enable": true,
-  "prettier.tabWidth": 2
+  ]
 }

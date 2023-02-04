@@ -1,22 +1,34 @@
 #!/bin/sh
 
-FONTS_DIR="$HOME/.local/share/fonts"
 CONFIG_DIR="$HOME/.config"
 # create symbolic links
 # sfv (symbolic force verbose) for idempotency
-# files
-ln -sfv "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"  
-ln -sfv "$HOME/.dotfiles/.zshrc" "$HOME/.zshrc"
-ln -sfv "$HOME/.dotfiles/.tmux.conf" "$HOME/.tmux.conf"
 # dirs
-mkdir -p "$FONTS_DIR"
-ln -sfv "$HOME/.dotfiles/desktop/fonts/NerdFonts" $FONTS_DIR
+if [ "$(uname)" == "Darwin" ]; then
+    FONTS_DIR="$HOME/Library/Fonts"
+
+    SEARCH_DIR="$HOME/.dotfiles/desktop/fonts/NerdFonts" 
+    for entry in "$SEARCH_DIR"/*
+    do
+        ln -sfv "$FONTS_DIR/$entry" "$SEARCH_DIR/$entry"
+    done
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    FONTS_DIR="$HOME/.local/share/fonts"
+    mkdir -p "$FONTS_DIR"
+    ln -sfv "$HOME/.dotfiles/desktop/fonts/NerdFonts" $FONTS_DIR
+fi
+
 ln -sfv "$HOME/.dotfiles/.config/nvim" $CONFIG_DIR
 mkdir -p "$HOME/.config/kitty"
 ln -sfv "$HOME/.dotfiles/.config/kitty/kitty.conf" "$CONFIG_DIR/kitty/"
 ln -sfv "$HOME/.dotfiles/.config/kitty/nightfox_kitty.conf" "$CONFIG_DIR/kitty/"
 mkdir -p "$CONFIG_DIR/coc/"
 ln -sfv "$HOME/.dotfiles/.config/coc/ultisnips" "$CONFIG_DIR/coc/"
+
 # programs
 mkdir -p "$HOME/.local/bin/"
 ln -sfv $(which fdfind) "$HOME/.local/bin/fd"
+# files
+ln -sfv "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"  
+ln -sfv "$HOME/.dotfiles/.zshrc" "$HOME/.zshrc"
+ln -sfv "$HOME/.dotfiles/.tmux.conf" "$HOME/.tmux.conf"

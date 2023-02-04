@@ -5,6 +5,8 @@
       apt: update_cache=yes
       become_user: root
       changed_when: False
+  vars:
+    user_repositories: "{{ lookup('env', 'USER_REPOSITORIES') }}"
 
 #ehttps://medium.com/espinola-designs/manage-your-dotfiles-with-ansible-6dbedd5532bb
 
@@ -34,7 +36,5 @@
     # - include: tasks/software/postman.yml
     # - include: tasks/software/slack.yml
     # - include: tasks/software/spotify.yml
-    # cron
-    # - include: tasks/cron/cron.yml
     # handlers:
     # - include: handlers/docker.yml

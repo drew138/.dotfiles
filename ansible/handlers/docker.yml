@@ -1,4 +1,5 @@
-- name: restart docker
+- name: Restart Docker
   service: 
     name: docker 
     state: restarted
+  when: ansible_facts["os_name"] == "Ubuntu"
