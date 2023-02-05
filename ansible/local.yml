@@ -22,14 +22,14 @@
       when: ansible_distribution == "MacOSX"
 
   tasks:
+    # macos
+    - include: tasks/macos/install.yml
+
     # ubuntu
     - include: tasks/ubuntu/utils.yml
     - include: tasks/ubuntu/nvim.yml
     - include: tasks/ubuntu/docker.yml
     - include: tasks/ubuntu/software.yml
-
-    # macos
-    - include: tasks/macos/install.yml
 
     # common
     # repositories

@@ -18,7 +18,7 @@ Alternatively, install Homebrew if on MacOs.
 #### Ubuntu
 
 ```bash
-sudo apt-get install ansible
+sudo apt-get install ansible -y
 ```
 
 #### MacOS
