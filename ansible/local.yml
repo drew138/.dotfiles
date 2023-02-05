@@ -22,6 +22,15 @@
       when: ansible_distribution == "MacOSX"
 
   tasks:
+    # ubuntu
+    - include: tasks/ubuntu/utils.yml
+    - include: tasks/ubuntu/nvim.yml
+    - include: tasks/ubuntu/docker.yml
+    - include: tasks/ubuntu/software.yml
+
+    # macos
+    - include: tasks/macos/install.yml
+
     # common
     # repositories
     - include: tasks/common/repositories/self.yml
@@ -36,14 +45,6 @@
     - include: tasks/common/software/nvm.yml
     - include: tasks/common/software/ohmyzsh.yml # become
 
-    # ubuntu
-    - include: tasks/ubuntu/utils.yml
-    - include: tasks/ubuntu/nvim.yml
-    - include: tasks/ubuntu/docker.yml
-    - include: tasks/ubuntu/software.yml
-
-    # macos
-    - include: tasks/macos/install.yml
 
   handlers:
     - include: handlers/docker.yml
