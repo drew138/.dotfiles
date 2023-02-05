@@ -1,5 +1,5 @@
 - debug:
-    msg: "{{user_repositories}} checking here"
+    msg:  "{{user_repositories}} checking here"
 
 
 - name: download algorithms repository
@@ -9,7 +9,7 @@
     dest: "~/dev/algorithms"
     clone: yes
     update: yes
-  when: user_repositories is defined and user_repositories != ""
+  when: user_repositories == "true"
 
 - name: download competitive programming repository
   become_user: local_user
@@ -18,7 +18,7 @@
     dest:  "~/dev/competitive-programming"
     clone: yes
     update: yes
-  when: user_repositories is defined and user_repositories != ""
+  when: user_repositories == "true"
 
 - name: download graphics-app repository
   become_user: local_user
@@ -27,7 +27,7 @@
     dest: "~/dev/graphics-app"
     clone: yes
     update: yes
-  when: user_repositories is defined and user_repositories != ""
+  when: user_repositories == "true"
 
 - name: download dotfiles repository ssh
   become_user: local_user
@@ -36,7 +36,7 @@
     dest: "~/.dotfiles"
     clone: yes
     update: yes
-  when: user_repositories is defined and user_repositories != ""
+  when: user_repositories == "true"
 
 - name: download dotfiles repository http
   become_user: local_user
@@ -45,4 +45,4 @@
     dest: "~/.dotfiles"
     clone: yes
     update: yes
-  when: user_repositories is not defined or user_repositories != "true"
+  when: user_repositories != "true"
