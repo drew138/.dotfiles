@@ -3,7 +3,7 @@
 
 
 - name: download algorithms repository
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become_user: local_user
   git:
     repo: 'git@github.com:Drew138/algorithms.git'
     dest: "~/dev/algorithms"

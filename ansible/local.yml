@@ -6,6 +6,7 @@
     - local_user: "{{ ansible_env.SUDO_USER }}"
     - include: tasks/macos/brew_packages.yml
     - include: tasks/macos/cask_packages.yml
+    - allow_world_readable_tmpfiles: true
 
   pre_tasks:
     - name: update repositories
