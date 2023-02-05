@@ -1,7 +1,3 @@
-- debug:
-    msg:  "{{user_repositories}} checking here"
-
-
 - name: download algorithms repository
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
