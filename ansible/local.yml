@@ -45,7 +45,7 @@
     - include: tasks/common/programming_languages/node.yml
     - include: tasks/common/programming_languages/rust.yml # become
     # software
-    # - include: tasks/common/software/kitty.yml # become
+    - include: tasks/common/software/kitty.yml # become
     - include: tasks/common/software/nvm.yml
     - include: tasks/common/software/ohmyzsh.yml
 
