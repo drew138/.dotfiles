@@ -107,7 +107,7 @@ source ~/.nvm/nvm.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-PATH="$PATH:/home/drew/.local/bin"
+PATH="$PATH:/home/$USER/.local/bin"
 PATH="$PATH:/usr/local/go/bin"
 PATH="$PATH:/home/drew/flutter/bin"
 PATH="$PATH:/usr/local/go/bin"

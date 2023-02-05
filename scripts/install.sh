@@ -10,7 +10,6 @@ install(){
   sudo ansible-pull -U https://github.com/Drew138/.dotfiles.git ansible/local.yml
   "$SCRIPT_DIR/simbolic_links.sh"
   "$SCRIPT_DIR/python_venv.sh"
-  "$SCRIPT_DIR/kitty_post_install.sh"
 }
 package="install.sh"
 
