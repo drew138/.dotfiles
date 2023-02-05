@@ -20,8 +20,3 @@
   command: pip install pynvim
   tags:
     - nvim
-
-- name: install neovim plugins
-  command: nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-  tags:
-    - nvim
