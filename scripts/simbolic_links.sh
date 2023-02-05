@@ -29,9 +29,6 @@ ln -sfv "$HOME/.dotfiles/.config/kitty/nightfox_kitty.conf" "$CONFIG_DIR/kitty/"
 mkdir -p "$CONFIG_DIR/coc/"
 ln -sfv "$HOME/.dotfiles/.config/coc/ultisnips" "$CONFIG_DIR/coc/"
 
-# programs
-mkdir -p "$HOME/.local/bin/"
-ln -sfv $(which fdfind) "$HOME/.local/bin/fd"
 # files
 ln -sfv "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"  
 ln -sfv "$HOME/.dotfiles/.zshrc" "$HOME/.zshrc"

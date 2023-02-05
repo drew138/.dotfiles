@@ -4,8 +4,6 @@ DIR="$HOME/.dotfiles"
 
 SCRIPT_DIR="$DIR/scripts"
 
-# sudo apt-get install ansible -y
-
 install(){
   sudo ansible-pull -U https://github.com/Drew138/.dotfiles.git ansible/local.yml
   "$SCRIPT_DIR/simbolic_links.sh"
@@ -22,14 +20,17 @@ while test $# -gt 0; do
       echo " "
       echo "options:"
       echo "-h, --help                show brief help"
-      echo "-r, --repos               install repositories"
+      echo "-r, --repos               install user repositories"
+      echo "-k, --kitty               install kitty terminal"
       exit 0
       ;;
     -r|--repos)
       shift
       export USER_REPOSITORIES=true
       ;;
-    *)
+    -k|--kitty)
+      shift
+      export KITTY_TERMINAL=true
       break
       ;;
   esac

@@ -2,6 +2,8 @@
   become: true
   vars:
     - user_repositories: "{{ lookup('env', 'USER_REPOSITORIES') }}"
+    - kitty_terminal: "{{ lookup('env', 'KITTY_TERMINAL') }}"
+    - local_user: "{{ ansible_env.SUDO_USER }}"
     - include: tasks/macos/brew_packages.yml
     - include: tasks/macos/cask_packages.yml
 
@@ -12,27 +14,11 @@
       changed_when: False
       when: ansible_distribution == "Ubuntu"
 
-    - name: Ensuring Homebrew Is Installed
+    - name: ensuring homebrew is installed
       stat:
         path: /usr/local/bin/brew
       register: homebrew_check
       when: ansible_distribution == "MacOSX"
-
-    # - name: Fail If Homebrew Is Not Installed and install_homebrew_if_missing Is False
-    #   fail:
-    #     msg: Homebrew is missing...Install from http://brew.sh/
-    #   when:
-    #     - not homebrew_check.stat.exists and ansible_distribution == "MacOSX"
-    #     - not install_homebrew_if_missing and ansible_distribution == "MacOSX"
-    #
-    # - name: Installing Homebrew
-    #   shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    #   when:
-    #     - not homebrew_check.stat.exists and ansible_distribution == "MacOSX"
-    #     - install_homebrew_if_missing and ansible_distribution == "MacOSX"
-
-#https://medium.com/espinola-designs/manage-your-dotfiles-with-ansible-6dbedd5532bb
-
 
   tasks:
     # common
@@ -56,6 +42,7 @@
     - include: tasks/ubuntu/software.yml
 
     # macos
+    - include: tasks/macos/install.yml
 
   handlers:
     - include: handlers/docker.yml

@@ -45,6 +45,19 @@ sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/insta
 ```bash
 sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -- -r
 ```
+
+### Install with kitty terminal
+
+```bash
+sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -- -k
+```
+
+### Install all
+
+```bash
+sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -- -k -r
+```
+
 ## Tmux plugins
 
 Start a tmux session and install plugins by pressing the following keys

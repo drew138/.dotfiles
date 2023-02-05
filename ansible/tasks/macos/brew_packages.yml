@@ -11,3 +11,4 @@ brew_packages:
   - nvim
   - tree-sitter
   - node
+  - git

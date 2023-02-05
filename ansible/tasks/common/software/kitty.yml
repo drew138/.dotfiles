@@ -4,17 +4,14 @@
     dest: /tmp/kitty_installer.sh
     mode: '0755'
     force: 'yes'
+  when: kitty_terminal == "true"
 
 - name: install kitty
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  register: console
+  become_user: local_user
   script: '/tmp/kitty_installer.sh'
-
-- debug: msg="{{ console.stdout }}"
-
-- debug: msg="{{ console.stderr }}"
+  when: kitty_terminal == "true"
 
 - name: post install setup
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become_user: local_user
   command: '~/.dotfiles/scripts/kitty_post_install.sh'
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" and kitty_terminal == "true"
