@@ -1,5 +1,0 @@
-- name: Install Firefox
-  flatpak:
-    name: org.mozilla.firefox
-    method: user
-    state: present

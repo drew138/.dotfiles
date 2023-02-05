@@ -110,6 +110,7 @@ source ~/.nvm/nvm.sh
 PATH="$PATH:/home/drew/.local/bin"
 PATH="$PATH:/usr/local/go/bin"
 PATH="$PATH:/home/drew/flutter/bin"
+PATH="$PATH:/usr/local/go/bin"
 
 alias nd='~/.dotfiles/scripts/nvim_dir.sh'
 alias nf='~/.dotfiles/scripts/nvim_file.sh'

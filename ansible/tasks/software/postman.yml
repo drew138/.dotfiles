@@ -1,6 +1,0 @@
-- name: Install Firefox
-  flatpak:
-    name: com.getpostman.Postman
-    method: user
-    state: present
-  when: _name == "ubuntu"

@@ -1,0 +1,13 @@
+brew_packages:
+  - htop
+  - tmux
+  - ripgrep
+  - fd
+  - virtualenv
+  - zsh
+  - xclip
+  - docker
+  - docker-compose
+  - nvim
+  - tree-sitter
+  - node

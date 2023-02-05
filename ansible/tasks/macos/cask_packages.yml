@@ -1,0 +1,8 @@
+brew_cask_packages:
+  - firefox
+  - slack
+  - spotify
+  - discord
+  - obsidian
+  - postman
+  - steam

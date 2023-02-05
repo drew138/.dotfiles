@@ -1,0 +1,49 @@
+- name: Install Discord
+  flatpak:
+    name: com.discordapp.Discord
+    method: user
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Firefox
+  flatpak:
+    name: org.mozilla.firefox
+    method: user
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Obsidian
+  flatpak:
+    name: md.obsidian.Obsidian
+    method: user
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Firefox
+  flatpak:
+    name: com.getpostman.Postman
+    method: user
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Slack
+  flatpak:
+    name: com.slack.Slack
+    method: user
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Spotify
+  flatpak:
+    name: com.spotify.Client
+    method: user
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Steam
+  become_user: drew
+  flatpak:
+    name: com.valvesoftware.Steam
+    method: user
+    state: present
+  when: ansible_distribution == "Ubuntu"

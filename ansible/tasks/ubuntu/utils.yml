@@ -5,11 +5,11 @@
       - tmux
       - ripgrep
       - fd-find
-      # - fzf pending
       - python3-virtualenv
       - flatpak
       - zsh
       - xclip
+  when: ansible_distribution == "Ubuntu"
 
 - name: Add flathub repo
   flatpak_remote:
@@ -17,4 +17,4 @@
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     method: user
-
+  when: ansible_distribution == "Ubuntu"

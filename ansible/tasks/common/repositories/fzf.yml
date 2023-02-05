@@ -5,4 +5,10 @@
     depth: 1
     clone: yes
     update: yes
+  tags:
+    - Fzf
 
+- name: Install Fzf
+  command: ~/.fzf/install
+  tags:
+    - Fzf

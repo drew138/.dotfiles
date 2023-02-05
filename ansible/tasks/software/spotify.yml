@@ -1,6 +1,0 @@
-- name: Install Spotify
-  flatpak:
-    name: com.spotify.Client
-    method: user
-    state: present
-  when: os_name == "ubuntu"

@@ -1,41 +1,63 @@
 - hosts: localhost
   become: true
+  vars:
+    - user_repositories: "{{ lookup('env', 'USER_REPOSITORIES') }}"
+    - include: tasks/macos/brew_packages.yml
+    - include: tasks/macos/cask_packages.yml
+
   pre_tasks:
     - name: update repositories
       apt: update_cache=yes
       become_user: root
       changed_when: False
-  vars:
-    user_repositories: "{{ lookup('env', 'USER_REPOSITORIES') }}"
-    os_name: "{{ ansible_facts['distribution'] }}"
+      when: ansible_distribution == "Ubuntu"
 
-#ehttps://medium.com/espinola-designs/manage-your-dotfiles-with-ansible-6dbedd5532bb
+    - name: Ensuring Homebrew Is Installed
+      stat:
+        path: /usr/local/bin/brew
+      register: homebrew_check
+      when: ansible_distribution == "MacOSX"
+
+    - name: Fail If Homebrew Is Not Installed and install_homebrew_if_missing Is False
+      fail:
+        msg: Homebrew is missing...Install from http://brew.sh/
+      when:
+        - not homebrew_check.stat.exists
+        - not install_homebrew_if_missing
+        - ansible_distribution == "MacOSX"
+
+    - name: Installing Homebrew
+      shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      when:
+        - not homebrew_check.stat.exists
+        - install_homebrew_if_missing
+        - ansible_distribution == "MacOSX"
+
+#https://medium.com/espinola-designs/manage-your-dotfiles-with-ansible-6dbedd5532bb
 
 
   tasks:
-    # repositories
-    # - include: tasks/repositories/self.yml
-    - include: tasks/repositories/tpm.yml
-    - include: tasks/repositories/fzf.yml
-    # utils
-    - include: tasks/utils/common.yml
-    - include: tasks/utils/docker.yml
-    # - include: tasks/utils/kitty.yml
-    # - include: tasks/utils/nvim.yml
-    # - include: tasks/utils/ohmyzsh.yml
-    # - include: tasks/utils/nvm.yml
-    # - include: tasks/utils/fzf.yml
-
+    # common
     # programming languages
-    # - include: tasks/programming_languages/go.yml
-    # - include: tasks/programming_languages/node.yml
-    # - include: tasks/programming_languages/rust.yml
+    - include: tasks/common/programming_languages/go.yml
+    - include: tasks/common/programming_languages/node.yml
+    - include: tasks/common/programming_languages/rust.yml
+    # repositories
+    # - include: tasks/common/repositories/self.yml
+    # - include: tasks/common/repositories/tpm.yml
+    # - include: tasks/common/repositories/fzf.yml
     # software
-    # - include: tasks/software/discord.yml
-    # - include: tasks/software/firefox.yml
-    # - include: tasks/software/obsidian.yml
-    # - include: tasks/software/postman.yml
-    # - include: tasks/software/slack.yml
-    # - include: tasks/software/spotify.yml
-    # handlers:
-    # - include: handlers/docker.yml
+    # - include: tasks/common/software/kitty.yml
+    # - include: tasks/common/software/nvm.yml
+    # - include: tasks/common/software/ohmyzsh.yml
+
+    # ubuntu
+    # - include: tasks/ubuntu/utils.yml
+    # - include: tasks/ubuntu/nvim.yml
+    # - include: tasks/ubuntu/docker.yml
+    # - include: tasks/ubuntu/software.yml
+
+    # macos
+
+  handlers:
+    - include: handlers/docker.yml

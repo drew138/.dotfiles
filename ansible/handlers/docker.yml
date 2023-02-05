@@ -2,4 +2,4 @@
   service: 
     name: docker 
     state: restarted
-  when: os_name == "ubuntu"
+  when: ansible_distribution == "Ubuntu"

@@ -1,4 +1,0 @@
-- name: Install Fzf
-  command: ~/.fzf/install
-  tags:
-    - Fzf
