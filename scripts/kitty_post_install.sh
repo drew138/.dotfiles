@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Create a symbolic link to add kitty to PATH (assuming ~/.local/bin is in
 # your system-wide PATH)
 ln -sfv "$HOME/.local/kitty.app/bin/kitty" "$HOME/.local/bin/"

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # set env for python file formatting and other utils
 DOTFILES_DIR="$HOME/.dotfiles/"
 VENV_DIR="$DOTFILES_DIR/env/"

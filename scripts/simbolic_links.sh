@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 CONFIG_DIR="$HOME/.config"
 # create symbolic links
 # sfv (symbolic force verbose) for idempotency
 # dirs
-if [ "$(uname)" == "Darwin" ]; then
+PLATFORM=$(uname)
+if [ "$PLATFORM" == "Darwin" ]; then
     FONTS_DIR="$HOME/Library/Fonts"
 
     SEARCH_DIR="$HOME/.dotfiles/desktop/fonts/NerdFonts" 
@@ -12,7 +13,7 @@ if [ "$(uname)" == "Darwin" ]; then
     do
         ln -sfv "$FONTS_DIR/$entry" "$SEARCH_DIR/$entry"
     done
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+elif [ "$PLATFORM" == "Linux" ]; then
     FONTS_DIR="$HOME/.local/share/fonts"
     mkdir -p "$FONTS_DIR"
     ln -sfv "$HOME/.dotfiles/desktop/fonts/NerdFonts" $FONTS_DIR
