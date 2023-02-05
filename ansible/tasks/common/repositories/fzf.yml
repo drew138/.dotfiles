@@ -9,6 +9,7 @@
     - Fzf
 
 - name: Install Fzf
+  become_user: "{{ ansible_env.SUDO_USER }}"
   command: ~/.fzf/install
   tags:
     - Fzf
