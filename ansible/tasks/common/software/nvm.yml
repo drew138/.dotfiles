@@ -1,4 +1,5 @@
 - name: Install nvm
+  become_user: "{{ ansible_env.SUDO_USER }}"
   ansible.builtin.shell: >
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
   args:

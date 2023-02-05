@@ -47,7 +47,7 @@
     # software
     - include: tasks/common/software/kitty.yml # become
     - include: tasks/common/software/nvm.yml
-    - include: tasks/common/software/ohmyzsh.yml
+    - include: tasks/common/software/ohmyzsh.yml # become
 
     # ubuntu
     - include: tasks/ubuntu/utils.yml
