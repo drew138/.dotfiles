@@ -17,6 +17,9 @@ elif [ "$PLATFORM" == "Linux" ]; then
     FONTS_DIR="$HOME/.local/share/fonts"
     mkdir -p "$FONTS_DIR"
     ln -sfv "$HOME/.dotfiles/desktop/fonts/NerdFonts" $FONTS_DIR
+    # programs
+    mkdir -p "$HOME/.local/bin/"
+    ln -sfv $(which fdfind) "$HOME/.local/bin/fd"
 fi
 
 ln -sfv "$HOME/.dotfiles/.config/nvim" $CONFIG_DIR
