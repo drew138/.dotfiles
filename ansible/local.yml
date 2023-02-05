@@ -11,7 +11,7 @@
     - name: update repositories
       apt: update_cache=yes
       become_user: root
-      changed_when: False
+      changed_when: false
       when: ansible_distribution == "Ubuntu"
 
     - name: ensuring homebrew is installed
