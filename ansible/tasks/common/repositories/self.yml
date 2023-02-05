@@ -3,6 +3,7 @@
 
 
 - name: download algorithms repository
+  become: true
   become_user: local_user
   git:
     repo: 'git@github.com:Drew138/algorithms.git'
