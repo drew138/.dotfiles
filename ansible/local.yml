@@ -52,10 +52,10 @@
     - include: tasks/common/software/ohmyzsh.yml
 
     # ubuntu
-    # - include: tasks/ubuntu/utils.yml
-    # - include: tasks/ubuntu/nvim.yml
-    # - include: tasks/ubuntu/docker.yml
-    # - include: tasks/ubuntu/software.yml
+    - include: tasks/ubuntu/utils.yml
+    - include: tasks/ubuntu/nvim.yml
+    - include: tasks/ubuntu/docker.yml
+    - include: tasks/ubuntu/software.yml
 
     # macos
 
