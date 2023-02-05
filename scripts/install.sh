@@ -5,7 +5,7 @@ DIR="$HOME/.dotfiles"
 SCRIPT_DIR="$DIR/scripts"
 
 install(){
-  sudo ansible-pull -U https://github.com/Drew138/.dotfiles.git ansible/local.yml
+  sudo ansible-pull -U https://github.com/Drew138/.dotfiles.git ansible/local.yml --extra-vars "USER_REPOSITORIES=$USER_REPOSITORIES KITTY_TERMINAL=$KITTY_TERMINAL"
   "$SCRIPT_DIR/simbolic_links.sh"
   "$SCRIPT_DIR/python_venv.sh"
 }
@@ -26,11 +26,11 @@ while test $# -gt 0; do
       ;;
     -r|--repos)
       shift
-      export USER_REPOSITORIES=true
+      USER_REPOSITORIES=true
       ;;
     -k|--kitty)
       shift
-      export KITTY_TERMINAL=true
+      KITTY_TERMINAL=true
       break
       ;;
   esac
