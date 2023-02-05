@@ -1,18 +1,18 @@
 # src: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
-- name: Check if go is installed
+- name: check if go is installed
   shell: go --version
   register: go_exists
   ignore_errors: yes
   tags:
     - go
 
-- name: Get kernel version
+- name: get kernel version
   command: 'uname'
   register: uname_result
   tags:
     - go
 
-- name: Download Go Installer
+- name: download go installer
   when: go_exists is failed
   get_url:
     url: https://get.golang.org/{{ uname_result.stdout }}/go_installer
@@ -22,7 +22,7 @@
   tags:
     - go
 
-- name: Install Go
+- name: install go
   become_user: "{{ ansible_env.SUDO_USER }}"
   when: go_exists is failed
   script: '/tmp/go_installer'

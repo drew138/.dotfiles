@@ -34,14 +34,20 @@ Alternatively, install Homebrew if on MacOs.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Run installation command.
+### Vanilla installation
+
 ```bash
 sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash
 ```
 
-Install tmux plugins
+### Install with user repositories
 
-Install plugins by pressing the following command
+```bash
+sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -- -r
+```
+## Tmux plugins
+
+Start a tmux session and install plugins by pressing the following keys
 ```
 <C-a> I
 ```

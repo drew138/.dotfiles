@@ -1,4 +1,4 @@
-- name: Download Algorithms Repository
+- name: download algorithms repository
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: 'git@github.com:Drew138/algorithms.git'
@@ -7,7 +7,7 @@
     update: yes
   when: user_repositories == "true"
 
-- name: Download Competitive Programming Repository
+- name: download competitive programming repository
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: 'git@github.com:Drew138/competitive-programming.git'
@@ -16,7 +16,7 @@
     update: yes
   when: user_repositories == "true"
 
-- name: Download Graphics-App Repository
+- name: download graphics-app repository
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: 'git@github.com:Drew138/graphics-app.git'
@@ -25,7 +25,7 @@
     update: yes
   when: user_repositories == "true"
 
-- name: Download Dotfiles Repository SSH
+- name: download dotfiles repository ssh
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: git@github.com:Drew138/.dotfiles.git
@@ -34,7 +34,7 @@
     update: yes
   when: user_repositories == "true"
 
-- name: Download Dotfiles Repository HTTP
+- name: download dotfiles repository http
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: https://github.com/Drew138/.dotfiles.git

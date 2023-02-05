@@ -1,4 +1,4 @@
-- name: Install Common Utils
+- name: install common utils
   package:
     name: 
       - htop
@@ -11,7 +11,7 @@
       - xclip
   when: ansible_distribution == "Ubuntu"
 
-- name: Add flathub repo
+- name: add flathub repo
   flatpak_remote:
     name: flathub
     state: present

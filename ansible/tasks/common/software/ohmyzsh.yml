@@ -1,10 +1,10 @@
-- name: Check Installation
+- name: check installation
   become_user: "{{ ansible_env.SUDO_USER }}"
   stat:
     path: ~/.oh-my-zsh
   register: ohmyzsh_file
 
-- name: Download OhMyZsh Installer
+- name: download ohmyzsh installer
   get_url:
     url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
     dest: /tmp/ohmyzsh_install.sh
@@ -14,12 +14,12 @@
     - ohmyzsh
   when: not ohmyzsh_file.stat.exists
 
-- name: Install OhMyZsh
+- name: install ohmyzsh
   become_user: "{{ ansible_env.SUDO_USER }}"
   command: /tmp/ohmyzsh_install.sh
   when: not ohmyzsh_file.stat.exists
 
-- name: Download Syntax Highlighting Plugin
+- name: download syntax highlighting plugin
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -27,7 +27,7 @@
     clone: yes
     update: yes
 
-- name: Download Auto Suggestions Plugin
+- name: download auto suggestions plugin
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions.git
@@ -35,9 +35,8 @@
     clone: yes
     update: yes
 
-- name: Change Default Shell
+- name: change default shell
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: 'sudo chsh $USER -s $(which zsh)'
   args:
     warn: false
-

@@ -8,7 +8,7 @@
       - software-properties-common
   when: ansible_distribution == "Ubuntu"
 
-- name: add GPG key
+- name: add gpg key
   apt_key:
     url: https://download.docker.com/linux/debian/gpg
     state: present
@@ -42,7 +42,7 @@
     append: yes    
   when: ansible_distribution == "Ubuntu"
 
-- name: Install docker-compose
+- name: install docker-compose
   get_url:
     url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
     dest: /usr/local/bin/docker-compose

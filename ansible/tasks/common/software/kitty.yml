@@ -1,11 +1,11 @@
-- name: Fetch Kitty Installer
+- name: fetch kitty installer
   get_url:
     url: https://sw.kovidgoyal.net/kitty/installer.sh
     dest: /tmp/kitty_installer.sh
     mode: '0755'
     force: 'yes'
 
-- name: Install Kitty
+- name: install kitty
   become_user: "{{ ansible_env.SUDO_USER }}"
   register: console
   script: '/tmp/kitty_installer.sh'
@@ -14,7 +14,7 @@
 
 - debug: msg="{{ console.stderr }}"
 
-- name: Post Install Setup
+- name: post install setup
   become_user: "{{ ansible_env.SUDO_USER }}"
   command: '~/.dotfiles/scripts/kitty_post_install.sh'
   when: ansible_distribution == "Ubuntu"

@@ -1,4 +1,4 @@
-- name: Fetch Neovim Installer
+- name: fetch neovim installer
   get_url:
     url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb
     dest: /tmp/nvim-linux64.deb
@@ -8,7 +8,7 @@
     - nvim
   when: ansible_distribution == "Ubuntu"
 
-- name: Install Neovim
+- name: install neovim
   command: apt-get install /tmp/nvim-linux64.deb
   args:
     warn: false
@@ -16,8 +16,7 @@
     - nvim
   when: ansible_distribution == "Ubuntu"
 
-- name: Install pynvim
+- name: install pynvim
   command: pip install pynvim
   tags:
     - nvim
-  when: ansible_distribution == "Ubuntu"
