@@ -39,11 +39,3 @@
     method: user
     state: present
   when: ansible_distribution == "Ubuntu"
-
-- name: Install Steam
-  become_user: drew
-  flatpak:
-    name: com.valvesoftware.Steam
-    method: user
-    state: present
-  when: ansible_distribution == "Ubuntu"

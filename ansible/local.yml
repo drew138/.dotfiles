@@ -22,16 +22,14 @@
     #   fail:
     #     msg: Homebrew is missing...Install from http://brew.sh/
     #   when:
-    #     - not homebrew_check.stat.exists
-    #     - not install_homebrew_if_missing
-    #     - ansible_distribution == "MacOSX"
+    #     - not homebrew_check.stat.exists and ansible_distribution == "MacOSX"
+    #     - not install_homebrew_if_missing and ansible_distribution == "MacOSX"
     #
     # - name: Installing Homebrew
     #   shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     #   when:
-    #     - not homebrew_check.stat.exists
-    #     - install_homebrew_if_missing
-    #     - ansible_distribution == "MacOSX"
+    #     - not homebrew_check.stat.exists and ansible_distribution == "MacOSX"
+    #     - install_homebrew_if_missing and ansible_distribution == "MacOSX"
 
 #https://medium.com/espinola-designs/manage-your-dotfiles-with-ansible-6dbedd5532bb
 
