@@ -39,17 +39,17 @@
   tasks:
     # common
     # programming languages
-    - include: tasks/common/programming_languages/go.yml
+    - include: tasks/common/programming_languages/go.yml # become
     - include: tasks/common/programming_languages/node.yml
-    - include: tasks/common/programming_languages/rust.yml
+    - include: tasks/common/programming_languages/rust.yml # become
     # repositories
     - include: tasks/common/repositories/self.yml
     - include: tasks/common/repositories/tpm.yml
-    - include: tasks/common/repositories/fzf.yml
+    - include: tasks/common/repositories/fzf.yml # become
     # software
     # - include: tasks/common/software/kitty.yml
-    # - include: tasks/common/software/nvm.yml
-    # - include: tasks/common/software/ohmyzsh.yml
+    - include: tasks/common/software/nvm.yml
+    - include: tasks/common/software/ohmyzsh.yml
 
     # ubuntu
     # - include: tasks/ubuntu/utils.yml
