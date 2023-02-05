@@ -1,8 +1,8 @@
 - hosts: localhost
   become: true
   vars:
-    - user_repositories: "{{ lookup('env', 'USER_REPOSITORIES') }}"
-    - kitty_terminal: "{{ lookup('env', 'KITTY_TERMINAL') }}"
+    - user_repositories: "{{ USER_REPOSITORIES }}"
+    - kitty_terminal: "{{ KITTY_TERMINAL }}"
     - local_user: "{{ ansible_env.SUDO_USER }}"
     - include: tasks/macos/brew_packages.yml
     - include: tasks/macos/cask_packages.yml
