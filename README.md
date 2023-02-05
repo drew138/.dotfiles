@@ -38,3 +38,10 @@ Run installation command.
 ```bash
 sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash
 ```
+
+Install tmux plugins
+
+Install plugins by pressing the following command
+```
+<C-a> I
+```
