@@ -13,6 +13,20 @@ Alternatively, install Homebrew if on MacOs.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
+### Ansible installation
+
+#### Ubuntu
+
+```bash
+sudo apt-get install ansible
+```
+
+#### MacOS
+
+```bash
+brew install ansible
+```
+
 ### Vanilla installation
 
 ```bash
