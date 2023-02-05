@@ -14,7 +14,7 @@
     - rust
 
 - name: install rust/cargo
-  become_user: local_user
+  become_user: "{{ ansible_env.SUDO_USER }}"
   when: cargo_exists is failed
   shell: /tmp/sh.rustup.rs -y
   tags:
