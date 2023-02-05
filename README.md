@@ -8,7 +8,7 @@ Update system packages if on Ubuntu.
 sudo apt-get update && apt-get upgrade -y
 ```
 
-Alternatively, install Homebrew if on MacOs.
+Alternatively, install Homebrew if on macOS.
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
