@@ -12,7 +12,7 @@
   when: user_repositories == "true"
 
 - name: download competitive programming repository
-  become_user: local_user
+  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: 'git@github.com:Drew138/competitive-programming.git'
     dest:  "~/dev/competitive-programming"
@@ -21,7 +21,7 @@
   when: user_repositories == "true"
 
 - name: download graphics-app repository
-  become_user: local_user
+  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: 'git@github.com:Drew138/graphics-app.git'
     dest: "~/dev/graphics-app"
@@ -30,7 +30,7 @@
   when: user_repositories == "true"
 
 - name: download dotfiles repository ssh
-  become_user: local_user
+  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: git@github.com:Drew138/.dotfiles.git
     dest: "~/.dotfiles"
@@ -39,7 +39,7 @@
   when: user_repositories == "true"
 
 - name: download dotfiles repository http
-  become_user: local_user
+  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: https://github.com/Drew138/.dotfiles.git
     dest: "~/.dotfiles"
