@@ -1,3 +1,7 @@
+- debug:
+    msg: "{{user_repositories}} checking here"
+
+
 - name: download algorithms repository
   become_user: local_user
   git:
