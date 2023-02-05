@@ -27,10 +27,12 @@ while test $# -gt 0; do
     -r|--repos)
       shift
       USER_REPOSITORIES=true
+      continue
       ;;
     -k|--kitty)
       shift
       KITTY_TERMINAL=true
+      continue
       ;;
     *)
       shift
