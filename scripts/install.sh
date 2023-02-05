@@ -31,6 +31,9 @@ while test $# -gt 0; do
     -k|--kitty)
       shift
       KITTY_TERMINAL=true
+      ;;
+    *)
+      shift
       break
       ;;
   esac
