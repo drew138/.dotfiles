@@ -1,14 +1,14 @@
 - name: updating homebrew
   homebrew:
     update_homebrew: true
-  when: homebrew_check.stat.exists and ansible_distribution == "MacOSX"
+  when: ansible_distribution == "MacOSX" and homebrew_check.stat.exists
 
 - name: upgrading homebrew packages
   homebrew:
     upgrade_all: true
   register: result
   until: result is successful
-  when: homebrew_check.stat.exists and ansible_distribution == "MacOSX"
+  when: ansible_distribution == "MacOSX" and homebrew_check.stat.exists
 
 - name: installing homebrew cask packages
   homebrew_cask:
@@ -16,7 +16,7 @@
     state: present
   register: result
   until: result is successful
-  when: homebrew_check.stat.exists and ansible_distribution == "MacOSX"
+  when: ansible_distribution == "MacOSX" and homebrew_check.stat.exists
 
 - name: installing homebrew packages
   homebrew:
@@ -24,4 +24,4 @@
     state: present
   register: result
   until: result is successful
-  when: homebrew_check.stat.exists and ansible_distribution == "MacOSX"
+  when: ansible_distribution == "MacOSX" and homebrew_check.stat.exists
