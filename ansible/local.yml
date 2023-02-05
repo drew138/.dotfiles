@@ -47,7 +47,7 @@
     - include: tasks/common/repositories/tpm.yml
     - include: tasks/common/repositories/fzf.yml # become
     # software
-    # - include: tasks/common/software/kitty.yml
+    # - include: tasks/common/software/kitty.yml # become
     - include: tasks/common/software/nvm.yml
     - include: tasks/common/software/ohmyzsh.yml
 
