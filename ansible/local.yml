@@ -43,7 +43,7 @@
     - include: tasks/common/programming_languages/node.yml
     - include: tasks/common/programming_languages/rust.yml
     # repositories
-    # - include: tasks/common/repositories/self.yml
+    - include: tasks/common/repositories/self.yml
     # - include: tasks/common/repositories/tpm.yml
     # - include: tasks/common/repositories/fzf.yml
     # software
