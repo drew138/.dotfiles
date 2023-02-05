@@ -1,26 +1,5 @@
 # Dotfiles
 
-## Generate new ssh key
-
-Ssh authentication is required to fetch some repositories during the installation. 
-
-To generate a new ssh key run the following command.
-
-```bash
-cd ~/.ssh && ssh-keygen -t ed25519 -C "58788781+drew138@users.noreply.github.com"
-```
-
-Then add github to known hosts.
-
-```bash
-ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-```
-
-Copy contents of your public key file and add them to your github keys.
-
-```
-cat id_ed25519.pub
-```
 
 ## Installation
 
@@ -42,6 +21,7 @@ sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/insta
 
 ### Install with user repositories
 
+SSH config required (see below).
 ```bash
 sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -- -r
 ```
@@ -60,7 +40,28 @@ sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/insta
 
 ## Tmux plugins
 
-Start a tmux session and install plugins by pressing the following keys
+Start a tmux session and install plugins by pressing `<C-a> I`.
+
+
+## SSH config
+### Generate new ssh key
+
+Ssh authentication is required to fetch some repositories during the installation. 
+
+To generate a new ssh key run the following command.
+
+```bash
+cd ~/.ssh && ssh-keygen -t ed25519 -C "58788781+drew138@users.noreply.github.com"
 ```
-<C-a> I
+
+Then add github to known hosts.
+
+```bash
+ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+```
+
+Copy contents of your public key file and add them to your github keys.
+
+```
+cat id_ed25519.pub
 ```
