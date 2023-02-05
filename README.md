@@ -52,10 +52,7 @@ sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/insta
 sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -- -k -r
 ```
 
-## Tmux plugins
-
-Start a tmux session and install plugins by pressing `<C-a> I`.
-
+reminder: system reboot might be required for some software to work as expected.
 
 ## SSH config
 ### Generate new ssh key
@@ -79,3 +76,7 @@ Copy contents of your public key file and add them to your github keys.
 ```
 cat id_ed25519.pub
 ```
+
+## Tmux plugins
+
+Tmux plugins are not installed automatically through ansible. Install them by pressing `<C-a> I` in an active session.
