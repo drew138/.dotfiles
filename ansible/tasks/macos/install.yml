@@ -16,7 +16,7 @@
     state: present
   register: result
   until: result is successful
-  when: ansible_distribution == "MacOSX" and homebrew_check.stat.exists
+  when: ansible_distribution == "MacOSX" and homebrew_check.stat.exists and and extra_software == "true"
 
 - name: installing homebrew packages
   homebrew:

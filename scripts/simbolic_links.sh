@@ -27,7 +27,8 @@ mkdir -p "$HOME/.config/kitty"
 ln -sfv "$HOME/.dotfiles/.config/kitty/kitty.conf" "$CONFIG_DIR/kitty/"
 ln -sfv "$HOME/.dotfiles/.config/kitty/nightfox_kitty.conf" "$CONFIG_DIR/kitty/"
 mkdir -p "$CONFIG_DIR/coc/"
-ln -sfv "$HOME/.dotfiles/.config/coc/ultisnips" "$CONFIG_DIR/coc/"
+mkdir -p "$CONFIG_DIR/coc/ultisnips"
+ln -sfv "$HOME/.dotfiles/.config/coc/ultisnips" "$CONFIG_DIR/coc"
 
 # files
 ln -sfv "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"  

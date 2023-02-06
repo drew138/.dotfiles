@@ -1,6 +1,5 @@
 # Dotfiles
 
-
 ## Installation
 
 Update system packages if on Ubuntu.

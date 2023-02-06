@@ -3,7 +3,7 @@
   vars:
     - user_repositories: "{{ USER_REPOSITORIES }}"
     - kitty_terminal: "{{ KITTY_TERMINAL }}"
-    - local_user: "{{ ansible_env.SUDO_USER }}"
+    - extra_software: "{{ EXTRA_SOFTWARE }}"
     - include: tasks/macos/brew_packages.yml
     - include: tasks/macos/cask_packages.yml
     - allow_world_readable_tmpfiles: true

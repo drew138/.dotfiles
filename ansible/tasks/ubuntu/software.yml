@@ -3,39 +3,39 @@
     name: com.discordapp.Discord
     method: user
     state: present
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" and extra_software == "true"
 
 - name: install firefox
   flatpak:
     name: org.mozilla.firefox
     method: user
     state: present
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" and extra_software == "true"
 
 - name: install obsidian
   flatpak:
     name: md.obsidian.Obsidian
     method: user
     state: present
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" and extra_software == "true"
 
 - name: install firefox
   flatpak:
     name: com.getpostman.Postman
     method: user
     state: present
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" and extra_software == "true"
 
 - name: install slack
   flatpak:
     name: com.slack.Slack
     method: user
     state: present
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" and extra_software == "true"
 
 - name: install spotify
   flatpak:
     name: com.spotify.Client
     method: user
     state: present
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" and extra_software == "true"
