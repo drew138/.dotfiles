@@ -54,9 +54,10 @@ return require('packer').startup(function(use)
         'lewis6991/gitsigns.nvim',
         tag = 'release'
     }
-
-
-    -- debugging
+    use 'tpope/vim-fugitive'
+    -- copilot
+    use 'github/copilot.vim'
+    -- -- debugging
     use 'mfussenegger/nvim-dap'
     use 'leoluz/nvim-dap-go'
     use 'rcarriga/nvim-dap-ui'
