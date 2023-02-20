@@ -28,3 +28,9 @@
   script: '/tmp/go_installer'
   tags:
     - go
+
+- name: install go debugger adaptor protocol
+  command: go install github.com/go-delve/delve/cmd/dlv@latest
+  tags:
+    - go
+

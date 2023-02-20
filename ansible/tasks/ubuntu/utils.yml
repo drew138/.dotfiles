@@ -9,6 +9,7 @@
       - flatpak
       - zsh
       - xclip
+      - protobuf-compiler
   when: ansible_distribution == "Ubuntu"
 
 - name: add flathub repo

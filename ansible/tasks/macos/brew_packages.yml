@@ -12,3 +12,4 @@ brew_packages:
   - tree-sitter
   - node
   - git
+  - protobuf

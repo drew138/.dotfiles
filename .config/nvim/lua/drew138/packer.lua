@@ -48,8 +48,6 @@ return require('packer').startup(function(use)
     -- file system
     use 'nvim-tree/nvim-tree.lua'
     -- git
-    -- use 'airblade/vim-gitgutter'
-    -- use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
     use {
         'lewis6991/gitsigns.nvim',
         tag = 'release'
@@ -63,7 +61,6 @@ return require('packer').startup(function(use)
     use 'rcarriga/nvim-dap-ui'
     use 'theHamsta/nvim-dap-virtual-text'
     use 'nvim-telescope/telescope-dap.nvim'
-
 
     if packer_bootstrap then
         require('packer').sync()
