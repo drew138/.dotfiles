@@ -1,26 +1,33 @@
-local ok, dap = pcall(require, "dap")
+local ok, _ = pcall(require, "dap")
 if not ok then return end
 
-vim.keymap.set("n", "<leader>5", ":lua require'dap'.continue()<CR>")
-vim.keymap.set("n", "<leader>6", ":lua require'dap'.step_over()<CR>")
-vim.keymap.set("n", "<leader>7", ":lua require'dap'.step_into()<CR>")
-vim.keymap.set("n", "<leader>8", ":lua require'dap'.step_out()<CR>")
-vim.keymap.set("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
-vim.keymap.set("n", "<leader>lp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
-vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
-vim.keymap.set("n", "<leader>dt", ":lua require'dap-go'.debug_test()<CR>")
+local keyset = vim.keymap.set
+local sign_define = vim.fn.sign_define
 
 require('dap-go').setup()
 require("dapui").setup()
 require("nvim-dap-virtual-text").setup()
 
--- local dap, dapui = require("dap"), require("dapui")
--- dap.listeners.after.event_initialized["dapui_config"] = function()
---     dapui.open()
--- end
--- dap.listeners.before.event_terminated["dapui_config"] = function()
---     dapui.close()
--- end
--- dap.listeners.before.event_exited["dapui_config"] = function()
---     dapui.close()
--- end
+keyset("n", "<leader>5", ":lua require'dap'.step_over()<CR>")
+keyset("n", "<leader>6", ":lua require'dap'.continue()<CR>")
+keyset("n", "<leader>7", ":lua require'dap'.step_into()<CR>")
+keyset("n", "<leader>8", ":lua require'dap'.step_out()<CR>")
+keyset("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
+keyset("n", "<leader>lp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
+keyset("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
+keyset("n", "<leader>dt", ":lua require'dap-go'.debug_test()<CR>")
+keyset('n', '<leader>di', function() require "dap.ui.widgets".hover() end)
+
+sign_define('DapBreakpoint', {
+    text = '',
+    texthl = 'DapUIStop',
+    linehl = 'DapUIStop',
+    numhl = 'DapUIStop'
+})
+
+sign_define('DapStopped', {
+    text = '',
+    texthl = 'DapUIPlayPause',
+    linehl = 'DapUIPlayPause',
+    numhl = 'DapUIPlayPause'
+})

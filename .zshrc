@@ -111,6 +111,8 @@ PATH="$PATH:/home/$USER/.local/bin"
 PATH="$PATH:/home/drew/flutter/bin"
 PATH="$PATH:/home/drew/go/bin"
 PATH="$PATH:/usr/local/go/bin"
+export GOPATH=$HOME/go
+export PATH=$PATH:/$GOPATH/bin
 
 alias nd='~/.dotfiles/scripts/nvim_dir.sh'
 alias nf='~/.dotfiles/scripts/nvim_file.sh'

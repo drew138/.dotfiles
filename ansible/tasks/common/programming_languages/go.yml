@@ -7,7 +7,7 @@
     - go
 
 - name: get kernel version
-  command: 'uname'
+  command: "uname"
   register: uname_result
   tags:
     - go
@@ -17,20 +17,19 @@
   get_url:
     url: https://get.golang.org/{{ uname_result.stdout }}/go_installer
     dest: /tmp/go_installer
-    mode: '0755'
-    force: 'yes'
+    mode: "0755"
+    force: "yes"
   tags:
     - go
 
 - name: install go
   become_user: "{{ ansible_env.SUDO_USER }}"
   when: go_exists is failed
-  script: '/tmp/go_installer'
+  script: "/tmp/go_installer"
   tags:
     - go
 
-- name: install go debugger adaptor protocol
+- name: install go debugger
   command: go install github.com/go-delve/delve/cmd/dlv@latest
   tags:
     - go
-

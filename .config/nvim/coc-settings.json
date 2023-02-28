@@ -4,8 +4,9 @@
   "coc.preferences.formatOnSave": true,
   "python.formatting.provider": "autopep8",
   "python.formatting.autopep8Path": "/home/drew/.dotfiles/env/bin/autopep8",
-  "Lua.telemetry.enable": true,
   "prettier.tabWidth": 2,
+  "sumneko-lua.enableNvimLuaDev": true
+  /*
   "coc.preferences.formatOnSaveFiletypes": [
     "python",
     "cpp",
@@ -22,5 +23,5 @@
     "typescript",
     "lua",
     "php"
-  ]
+  ] */
 }
