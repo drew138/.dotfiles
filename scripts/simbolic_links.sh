@@ -22,7 +22,7 @@ elif [ "$PLATFORM" == "Linux" ]; then
     ln -sfv $(which fdfind) "$HOME/.local/bin/fd"
 fi
 
-ln -sfv "$HOME/.dotfiles/.config/nvim" $CONFIG_DIR
+ln -sfv "$HOME/.dotfiles/.config/nvim" $CONFIG_DIR/nvim
 mkdir -p "$HOME/.config/kitty"
 ln -sfv "$HOME/.dotfiles/.config/kitty/kitty.conf" "$CONFIG_DIR/kitty/"
 ln -sfv "$HOME/.dotfiles/.config/kitty/nightfox_kitty.conf" "$CONFIG_DIR/kitty/"
