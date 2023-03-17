@@ -5,3 +5,5 @@ brew_cask_packages:
   - discord
   - obsidian
   - postman
+  - obs
+  - bitwarden
