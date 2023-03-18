@@ -28,8 +28,7 @@
   script: "/tmp/go_installer"
   tags:
     - go
-
-- name: install go debugger
-  command: go install github.com/go-delve/delve/cmd/dlv@latest
-  tags:
-    - go
+# - name: install go debugger
+#   command: go install github.com/go-delve/delve/cmd/dlv@latest
+#   tags:
+#     - go
