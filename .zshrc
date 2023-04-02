@@ -108,14 +108,15 @@ source ~/.nvm/nvm.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 PATH="$PATH:/home/$USER/.local/bin"
-PATH="$PATH:/home/drew/flutter/bin"
-PATH="$PATH:/home/drew/go/bin"
+PATH="$PATH:/home/$USER/flutter/bin"
+PATH="$PATH:/home/$USER/go/bin"
 PATH="$PATH:/usr/local/go/bin"
 export GOPATH=$HOME/go
 export PATH=$PATH:/$GOPATH/bin
 
 alias nd='~/.dotfiles/scripts/nvim_dir.sh'
 alias nf='~/.dotfiles/scripts/nvim_file.sh'
+alias vim='nvim'
 
 export EDITOR='nvim'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
@@ -123,4 +124,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-[ -f ~/.cargo/env ] && source $HOME/.cargo/env
+[ -f ~/.cargo/env ] && source ~/.cargo/env
+
+[ -f ~/.workrc ] && source ~/.workrc 
