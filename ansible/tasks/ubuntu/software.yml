@@ -19,12 +19,17 @@
     state: present
   when: ansible_distribution == "Ubuntu" and extra_software == "true"
 
-- name: install firefox
+- name: install postman
   flatpak:
     name: com.getpostman.Postman
     method: user
     state: present
   when: ansible_distribution == "Ubuntu" and extra_software == "true"
+
+- name: copy xdg-open overwrite
+  copy:
+    src: ~/.dotfiles/scripts/xdg-open
+    dest: /usr/local/bin
 
 - name: install slack
   flatpak:
@@ -36,6 +41,20 @@
 - name: install spotify
   flatpak:
     name: com.spotify.Client
+    method: user
+    state: present
+  when: ansible_distribution == "Ubuntu" and extra_software == "true"
+
+- name: install obs
+  flatpak:
+    name: com.obsproject.Studio
+    method: user
+    state: present
+  when: ansible_distribution == "Ubuntu" and extra_software == "true"
+
+- name: install bitwarden
+  flatpak:
+    name: com.bitwarden.desktop
     method: user
     state: present
   when: ansible_distribution == "Ubuntu" and extra_software == "true"
