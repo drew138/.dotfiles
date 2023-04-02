@@ -28,7 +28,9 @@
   script: "/tmp/go_installer"
   tags:
     - go
-# - name: install go debugger
-#   command: go install github.com/go-delve/delve/cmd/dlv@latest
-#   tags:
-#     - go
+
+- name: install go debugger
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  command: go install github.com/go-delve/delve/cmd/dlv@latest
+  tags:
+    - go
