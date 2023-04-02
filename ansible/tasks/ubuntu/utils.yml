@@ -1,6 +1,6 @@
 - name: install common utils
   package:
-    name: 
+    name:
       - htop
       - tmux
       - ripgrep
