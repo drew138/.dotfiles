@@ -6,4 +6,4 @@
 [push]
 	default = current
 [pull]
-	rebase = true
+	rebase = false
