@@ -1,4 +1,5 @@
 - name: fetch kitty installer
+  become_user: "{{ ansible_env.SUDO_USER }}"
   get_url:
     url: https://sw.kovidgoyal.net/kitty/installer.sh
     dest: /tmp/kitty_installer.sh
