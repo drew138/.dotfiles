@@ -1,4 +1,4 @@
-- name: distro
+- name: "distribution"
   debug:
   msg: "System {{ ansible_distribution }}"
 
