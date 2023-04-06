@@ -39,19 +39,19 @@ sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/insta
 SSH config required (see below).
 
 ```bash
-sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -r
+sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -- -r
 ```
 
 ### Install with kitty terminal
 
 ```bash
-sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -k
+sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -- -k
 ```
 
 ### Install all
 
 ```bash
-sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -k -r
+sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash -s -- -k -r -s
 ```
 
 reminder: system reboot might be required for some software to work as expected.
