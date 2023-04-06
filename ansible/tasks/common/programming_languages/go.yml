@@ -8,8 +8,8 @@
     - go
 
 - debug:
-    var: "{{ go_exists }}"
-    verbosity: 4
+    var: go_exists
+    verbosity: 2
 
 - name: get kernel version
   command: "uname"
