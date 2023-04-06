@@ -1,8 +1,9 @@
 # src: https://stackoverflow.com/questions/51933636/url-for-latest-stable-go-release
 - name: check if go is installed
-  shell: go --version
+  shell: go version
   register: go_exists
   ignore_errors: yes
+  failed_when: "'go version' in go_exists"
   tags:
     - go
 
