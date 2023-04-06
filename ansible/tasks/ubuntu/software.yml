@@ -26,11 +26,11 @@
     state: present
   when: ansible_distribution in ["Ubuntu", "Pop!_OS"] and extra_software == "true"
 
-- name: copy xdg-open overwrite
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  copy:
-    src: ~/.dotfiles/scripts/xdg-open
-    dest: /usr/local/bin
+# - name: copy xdg-open overwrite
+#   become_user: "{{ ansible_env.SUDO_USER }}"
+#   copy:
+#     src: ~/.dotfiles/scripts/xdg-open
+#     dest: /usr/local/bin
 
 - name: install slack
   flatpak:
