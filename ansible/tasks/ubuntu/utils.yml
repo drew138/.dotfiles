@@ -10,6 +10,9 @@
       - zsh
       - xclip
       - protobuf-compiler
+      - kde-full
+      # - kde-spectacle
+      # find ~ -type f -mmin -1 # find recently changed files
   when: ansible_distribution == "Ubuntu"
 
 - name: add flathub repo

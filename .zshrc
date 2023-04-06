@@ -41,7 +41,7 @@ HYPHEN_INSENSITIVE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -127,3 +127,9 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
 [ -f ~/.workrc ] && source ~/.workrc 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/drew/google-cloud-sdk/path.zsh.inc' ]; then . '/home/drew/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/drew/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/drew/google-cloud-sdk/completion.zsh.inc'; fi
