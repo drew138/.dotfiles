@@ -3,13 +3,9 @@
   shell: go version
   register: go_exists
   ignore_errors: yes
-  failed_when: "'go version' in go_exists.stderr"
+  failed_when: "'go version' in go_exists.stdout"
   tags:
     - go
-
-- debug:
-    var: go_exists
-    verbosity: 2
 
 - name: get kernel version
   command: "uname"
