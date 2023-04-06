@@ -5,6 +5,7 @@
       - tmux
       - ripgrep
       - fd-find
+      - python3-pip
       - python3-virtualenv
       - flatpak
       - zsh

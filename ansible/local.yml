@@ -13,7 +13,7 @@
       apt: update_cache=yes
       become_user: root
       changed_when: false
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_distribution in ["Ubuntu", "PopOs"]
 
     - name: ensuring homebrew is installed
       stat:
@@ -44,7 +44,6 @@
     - include: tasks/common/software/kitty.yml # become
     - include: tasks/common/software/nvm.yml
     - include: tasks/common/software/ohmyzsh.yml # become
-
 
   handlers:
     - include: handlers/docker.yml
