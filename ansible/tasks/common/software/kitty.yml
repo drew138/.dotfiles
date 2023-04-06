@@ -2,16 +2,16 @@
   get_url:
     url: https://sw.kovidgoyal.net/kitty/installer.sh
     dest: /tmp/kitty_installer.sh
-    mode: '0755'
-    force: 'yes'
+    mode: "0755"
+    force: "yes"
   when: kitty_terminal == "true"
 
 - name: install kitty
   become_user: "{{ ansible_env.SUDO_USER }}"
-  script: '/tmp/kitty_installer.sh'
+  script: "/tmp/kitty_installer.sh"
   when: kitty_terminal == "true"
 
 - name: post install setup
   become_user: "{{ ansible_env.SUDO_USER }}"
-  command: '~/.dotfiles/scripts/kitty_post_install.sh'
-  when: ansible_distribution == "Ubuntu" and kitty_terminal == "true"
+  command: "~/.dotfiles/scripts/kitty_post_install.sh"
+  when: ansible_distribution == ["Ubuntu", "Pop!_OS" ] and kitty_terminal == "true"

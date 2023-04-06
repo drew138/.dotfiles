@@ -6,23 +6,23 @@
       - g++
       - make
     state: present
-  when: ansible_distribution ==["Ubuntu", "PopOs"]
+  when: ansible_distribution == ["Ubuntu", "Pop!_OS"]
 
 - name: add nodejs apt key
   apt_key:
     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
     state: present
-  when: ansible_distribution ==["Ubuntu", "PopOs"]
+  when: ansible_distribution == ["Ubuntu", "Pop!_OS"]
 
 - name: add nodejs repository
   apt_repository:
     repo: deb https://deb.nodesource.com/node_19.x {{ ansible_lsb.codename }} main
     state: present
     update_cache: yes
-  when: ansible_distribution ==["Ubuntu", "PopOs"]
+  when: ansible_distribution == ["Ubuntu", "Pop!_OS"]
 
 - name: install nodejs
   apt:
     name: nodejs
     state: present
-  when: ansible_distribution ==["Ubuntu", "PopOs"]
+  when: ansible_distribution == ["Ubuntu", "Pop!_OS"]

@@ -1,6 +1,3 @@
-- debug:
-    msg: "System {{ ansible_distribution }} has uuid {{ ansible_product_uuid }}"
-
 - name: install common utils
   package:
     name:
@@ -17,7 +14,7 @@
       - kde-full
       # - kde-spectacle
       # find ~ -type f -mmin -1 # find recently changed files
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
 
 - name: add flathub repo
   flatpak_remote:
@@ -25,4 +22,4 @@
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     method: user
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"]

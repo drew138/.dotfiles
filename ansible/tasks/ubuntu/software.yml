@@ -3,28 +3,28 @@
     name: com.discordapp.Discord
     method: user
     state: present
-  when: ansible_distribution in ["Ubuntu", "PopOs"] and extra_software == "true"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"] and extra_software == "true"
 
 - name: install firefox
   flatpak:
     name: org.mozilla.firefox
     method: user
     state: present
-  when: ansible_distribution in ["Ubuntu", "PopOs"] and extra_software == "true"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"] and extra_software == "true"
 
 - name: install obsidian
   flatpak:
     name: md.obsidian.Obsidian
     method: user
     state: present
-  when: ansible_distribution in ["Ubuntu", "PopOs"] and extra_software == "true"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"] and extra_software == "true"
 
 - name: install postman
   flatpak:
     name: com.getpostman.Postman
     method: user
     state: present
-  when: ansible_distribution in ["Ubuntu", "PopOs"] and extra_software == "true"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"] and extra_software == "true"
 
 - name: copy xdg-open overwrite
   copy:
@@ -36,25 +36,25 @@
     name: com.slack.Slack
     method: user
     state: present
-  when: ansible_distribution in ["Ubuntu", "PopOs"] and extra_software == "true"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"] and extra_software == "true"
 
 - name: install spotify
   flatpak:
     name: com.spotify.Client
     method: user
     state: present
-  when: ansible_distribution in ["Ubuntu", "PopOs"] and extra_software == "true"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"] and extra_software == "true"
 
 - name: install obs
   flatpak:
     name: com.obsproject.Studio
     method: user
     state: present
-  when: ansible_distribution in ["Ubuntu", "PopOs"] and extra_software == "true"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"] and extra_software == "true"
 
 - name: install bitwarden
   flatpak:
     name: com.bitwarden.desktop
     method: user
     state: present
-  when: ansible_distribution in ["Ubuntu", "PopOs"] and extra_software == "true"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"] and extra_software == "true"

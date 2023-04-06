@@ -1,5 +1,5 @@
 - name: restart docker
-  service: 
-    name: docker 
+  service:
+    name: docker
     state: restarted
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
