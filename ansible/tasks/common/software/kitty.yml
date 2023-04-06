@@ -11,6 +11,8 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   ansible.builtin.shell: >
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+  args:
+    warn: false
   when: kitty_terminal == "true"
 
 - name: post install setup
