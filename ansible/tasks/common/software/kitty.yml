@@ -1,15 +1,16 @@
-- name: fetch kitty installer
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  get_url:
-    url: https://sw.kovidgoyal.net/kitty/installer.sh
-    dest: /tmp/kitty_installer.sh
-    mode: "0755"
-    force: "yes"
-  when: kitty_terminal == "true"
+# - name: fetch kitty installer
+#   become_user: "{{ ansible_env.SUDO_USER }}"
+#   get_url:
+#     url: https://sw.kovidgoyal.net/kitty/installer.sh
+#     dest: /tmp/kitty_installer.sh
+#     mode: "0755"
+#     force: "yes"
+#   when: kitty_terminal == "true"
 
 - name: install kitty
   become_user: "{{ ansible_env.SUDO_USER }}"
-  script: "/tmp/kitty_installer.sh"
+  ansible.builtin.shell: >
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
   when: kitty_terminal == "true"
 
 - name: post install setup
