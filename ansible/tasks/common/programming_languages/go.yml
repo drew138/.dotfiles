@@ -3,7 +3,7 @@
   shell: go version
   register: go_exists
   ignore_errors: yes
-  failed_when: "'go version' in go_exists.sdout"
+  failed_when: "'go version' in go_exists.stderr"
   tags:
     - go
 
