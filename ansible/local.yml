@@ -12,7 +12,6 @@
     - name: update repositories
       apt: update_cache=yes
       become_user: root
-      changed_when: false
       when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
 
     - name: ensuring homebrew is installed
@@ -22,6 +21,11 @@
       when: ansible_distribution == "MacOSX"
 
   tasks:
+    # repositories
+    - include: tasks/common/repositories/self.yml
+    - include: tasks/common/repositories/tpm.yml
+    - include: tasks/common/repositories/fzf.yml # become
+
     # macos
     - include: tasks/macos/install.yml
 
@@ -31,11 +35,6 @@
     - include: tasks/ubuntu/docker.yml
     - include: tasks/ubuntu/software.yml
 
-    # common
-    # repositories
-    - include: tasks/common/repositories/self.yml
-    - include: tasks/common/repositories/tpm.yml
-    - include: tasks/common/repositories/fzf.yml # become
     # programming languages
     - include: tasks/common/programming_languages/go.yml # become
     - include: tasks/common/programming_languages/node.yml
