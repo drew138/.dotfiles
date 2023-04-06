@@ -1,3 +1,7 @@
+- name: distro
+  debug:
+  msg: "System {{ ansible_distribution }}"
+
 - name: install common utils
   package:
     name:

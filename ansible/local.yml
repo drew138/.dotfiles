@@ -26,8 +26,6 @@
     - include: tasks/macos/install.yml
 
     # ubuntu
-    - debug:
-      msg: "System {{ ansible_distribution }}"
     - include: tasks/ubuntu/utils.yml
     - include: tasks/ubuntu/nvim.yml
     - include: tasks/ubuntu/docker.yml
