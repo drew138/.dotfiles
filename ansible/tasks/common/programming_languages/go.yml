@@ -7,6 +7,9 @@
   tags:
     - go
 
+- debug:
+  msg: "{{ go_exists }}"
+
 - name: get kernel version
   command: "uname"
   register: uname_result
