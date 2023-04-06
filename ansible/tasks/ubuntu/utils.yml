@@ -1,6 +1,7 @@
 - name: "distribution"
   debug:
-  msg: "System {{ ansible_distribution }}"
+    var: ansible_distribution
+    verbosity: 4
 
 - name: install common utils
   package:
