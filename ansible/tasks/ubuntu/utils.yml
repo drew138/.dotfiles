@@ -1,7 +1,5 @@
-- name: "distribution"
-  debug:
-    var: ansible_distribution
-    verbosity: 4
+- debug:
+    msg: "System {{ ansible_distribution }} has uuid {{ ansible_product_uuid }}"
 
 - name: install common utils
   package:
