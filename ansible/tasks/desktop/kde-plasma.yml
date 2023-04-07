@@ -33,19 +33,7 @@
   shell: >
     plasma-apply-wallpaperimage /home/drew/.dotfiles/desktop/images/wallpaper.jpg
 
-# - name: Change wallpaper
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   shell: >
-#     kwriteconfig5 --file plasma-org.kde.plasma.desktop-appletsrc \
-#     --group Containments \
-#     --group 1 \
-#     --group Wallpaper \
-#     --group Wallpaper \
-#     --group "ord.kde.image" \
-#     --group General \
-#     --key Image "file:///home/drew/.dotfiles/desktop/images/wallpaper.jpg"
-
-- name: istall kvantum dependencies
+- name: install kvantum dependencies
   apt:
     name:
       - g++
@@ -57,11 +45,11 @@
       - qttools5-dev-tools
     state: present
 
-- name: kvantum repository
+- name: get kvantum repository
   become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: "https://github.com/tsujan/Kvantum.git"
-    dest: "~/.tmux/plugins/tpm/"
+    dest: "/tmp/Kvantum"
     clone: yes
     update: yes
 
