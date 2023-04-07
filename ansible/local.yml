@@ -21,28 +21,29 @@
       when: ansible_distribution == "MacOSX"
 
   tasks:
+    - include: tasks/desktop/kde-plasma.yml
     # repositories
-    - include: tasks/common/repositories/self.yml
-    - include: tasks/common/repositories/tpm.yml
-    - include: tasks/common/repositories/fzf.yml # become
+    # - include: tasks/common/repositories/self.yml
+    # - include: tasks/common/repositories/tpm.yml
+    # - include: tasks/common/repositories/fzf.yml # become
 
     # macos
-    - include: tasks/macos/install.yml
+    # - include: tasks/macos/install.yml
 
     # ubuntu
-    - include: tasks/ubuntu/utils.yml
-    - include: tasks/ubuntu/nvim.yml
-    - include: tasks/ubuntu/docker.yml
-    - include: tasks/ubuntu/software.yml
+    # - include: tasks/ubuntu/utils.yml
+    # - include: tasks/ubuntu/nvim.yml
+    # - include: tasks/ubuntu/docker.yml
+    # - include: tasks/ubuntu/software.yml
 
     # programming languages
-    - include: tasks/common/programming_languages/go.yml # become
-    - include: tasks/common/programming_languages/node.yml
-    - include: tasks/common/programming_languages/rust.yml # become
+    # - include: tasks/common/programming_languages/go.yml # become
+    # - include: tasks/common/programming_languages/node.yml
+    # - include: tasks/common/programming_languages/rust.yml # become
     # software
-    - include: tasks/common/software/kitty.yml # become
-    - include: tasks/common/software/nvm.yml
-    - include: tasks/common/software/ohmyzsh.yml # become
+    # - include: tasks/common/software/kitty.yml # become
+    # - include: tasks/common/software/nvm.yml
+    # - include: tasks/common/software/ohmyzsh.yml # become
 
   handlers:
     - include: handlers/docker.yml
