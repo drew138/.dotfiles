@@ -7,4 +7,4 @@ tasks:
     args:
       executable: /bin/bash
     vars:
-      path_to_image_file: ./profile.png
+      path_to_image_file: ~/.dotfiles/desktop/profile.png
