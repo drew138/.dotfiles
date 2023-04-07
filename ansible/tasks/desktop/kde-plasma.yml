@@ -5,23 +5,31 @@
 #     kwriteconfig5 --file kdeglobals --group User --key Picture ~/.dotfiles/desktop/profile.png
 
 - name: Set keybind using kwriteconfig5
-  # become: yes
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
     kwriteconfig5 --file kglobalshortcutsrc --group "org.kde.spectacle.desktop" \
     --key RectangularRegionScreenShot "Meta+Shift+s,Meta+Shift+Print,Capture Rectangular Region"
-  # args:
-  #   executable: /bin/bash
-  # vars:
-  #   username: <username>
 
-# - name: Set keybind using kwriteconfig5
-#   become: yes
-#   become_user: <username>
-#   shell: >
-#     kwriteconfig5 --file kglobalshortcutsrc --group Spectacle \
-#     --key GlobalShortcut "<Print>"
-#   args:
-#     executable: /bin/bash
-#   vars:
-#     username: <username>
+- name: remove keybind to open spectacle app
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+    kwriteconfig5 --file kglobalshortcutsrc --group "org.kde.spectacle.desktop" \
+    --key _launch ",Print,Launch Spectacle"
+
+- name: set keybind to capture entire screen
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+    kwriteconfig5 --file kglobalshortcutsrc --group "org.kde.spectacle.desktop" \
+    --key FullScreenScreenshot "Print,Shift+Print,Capture Entire Desktop"
+
+- name: Change wallpaper
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+    kwriteconfig5 --file plasma-org.kde.plasma.desktop-appletsrc \
+    --group Containments \
+    --group 1 \
+    --group Wallpaper \
+    --group Wallpaper \
+    --group "ord.kde.image" \
+    --group General \
+    --key Image "file:///home/drew/.dotfiles/desktop/images/wallpaper.jpg"
