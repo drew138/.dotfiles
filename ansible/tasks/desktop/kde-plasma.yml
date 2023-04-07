@@ -8,8 +8,8 @@
   # become: yes
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-    kwriteconfig5 --file kglobalshortcutsrc --group Spectacle \
-    --key RectangularRegion "<Ctrl+Meta+S>"
+    kwriteconfig5 --file kglobalshortcutsrc --group "org.kde.spectacle.desktop" \
+    --key RectangularRegionScreenShot "Meta+Shift+s,Meta+Shift+Print,Capture Rectangular Region"
   # args:
   #   executable: /bin/bash
   # vars:
