@@ -12,7 +12,6 @@
       - xclip
       - protobuf-compiler
       - kde-full
-      # - kde-spectacle
       # find ~ -type f -mmin -1 # find recently changed files
   when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
 
