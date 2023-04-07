@@ -14,13 +14,13 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
     kwriteconfig5 --file kglobalshortcutsrc --group "org.kde.spectacle.desktop" \
-    --key _launch ",Print,Launch Spectacle"
+    --key _launch "none,Print,Launch Spectacle"
 
 - name: set keybind to capture entire screen
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
     kwriteconfig5 --file kglobalshortcutsrc --group "org.kde.spectacle.desktop" \
-    --key FullScreenScreenshot "Print,Shift+Print,Capture Entire Desktop"
+    --key FullScreenScreenShot "Print,Shift+Print,Capture Entire Desktop"
 
 - name: set config to send image to clipboard after taking screenshot
   become_user: "{{ ansible_env.SUDO_USER }}"
