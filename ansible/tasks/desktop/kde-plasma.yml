@@ -22,14 +22,25 @@
     kwriteconfig5 --file kglobalshortcutsrc --group "org.kde.spectacle.desktop" \
     --key FullScreenScreenshot "Print,Shift+Print,Capture Entire Desktop"
 
-- name: Change wallpaper
+- name: set config to send image to clipboard after taking screenshot
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-    kwriteconfig5 --file plasma-org.kde.plasma.desktop-appletsrc \
-    --group Containments \
-    --group 1 \
-    --group Wallpaper \
-    --group Wallpaper \
-    --group "ord.kde.image" \
-    --group General \
-    --key Image "file:///home/drew/.dotfiles/desktop/images/wallpaper.jpg"
+    kwriteconfig5 --file spectaclerc --group General \
+    --key clipboardGroup PostScreenshotCopyImage
+
+- name: change wallpapaer
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+    plasma-apply-wallpaperimage ~/.dotfiles/desktop/images/wallpaper.jpg
+
+# - name: Change wallpaper
+#   become_user: "{{ ansible_env.SUDO_USER }}"
+#   shell: >
+#     kwriteconfig5 --file plasma-org.kde.plasma.desktop-appletsrc \
+#     --group Containments \
+#     --group 1 \
+#     --group Wallpaper \
+#     --group Wallpaper \
+#     --group "ord.kde.image" \
+#     --group General \
+#     --key Image "file:///home/drew/.dotfiles/desktop/images/wallpaper.jpg"
