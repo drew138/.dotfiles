@@ -44,3 +44,35 @@
 #     --group "ord.kde.image" \
 #     --group General \
 #     --key Image "file:///home/drew/.dotfiles/desktop/images/wallpaper.jpg"
+
+- name: istall kvantum dependencies
+  apt:
+    name:
+      - g++
+      - libx11-dev
+      - libxext-dev
+      - qtbase5-dev
+      - libqt5svg5-dev
+      - libqt5x11extras5-dev
+      - qttools5-dev-tools
+    state: present
+
+- name: kvantum repository
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  git:
+    repo: "https://github.com/tsujan/Kvantum.git"
+    dest: "~/.tmux/plugins/tpm/"
+    clone: yes
+    update: yes
+
+- name: compile kvantum
+  apt:
+    name:
+      - g++
+      - libx11-dev
+      - libxext-dev
+      - qtbase5-dev
+      - libqt5svg5-dev
+      - libqt5x11extras5-dev
+      - qttools5-dev-tools
+    state: present
