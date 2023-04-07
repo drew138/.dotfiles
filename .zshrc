@@ -110,6 +110,7 @@ source ~/.nvm/nvm.sh
 PATH="$PATH:/home/$USER/.local/bin"
 PATH="$PATH:/home/$USER/flutter/bin"
 PATH="$PATH:/home/$USER/go/bin"
+PATH="$PATH:/home/$USER/.go/bin"
 PATH="$PATH:/usr/local/go/bin"
 export GOPATH=$HOME/go
 export PATH=$PATH:/$GOPATH/bin
