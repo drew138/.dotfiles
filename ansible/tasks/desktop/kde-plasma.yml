@@ -1,0 +1,10 @@
+tasks:
+  - name: Set profile picture using kwriteconfig5
+    become: yes
+    become_user: <username>
+    shell: >
+      kwriteconfig5 --file kdeglobals --group User --key Picture <path_to_image_file>
+    args:
+      executable: /bin/bash
+    vars:
+      path_to_image_file: ./profile.png
