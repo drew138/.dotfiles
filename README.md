@@ -65,7 +65,7 @@ Ssh authentication is required to fetch some repositories during the installatio
 To generate a new ssh key run the following command.
 
 ```bash
-cd mkdir -p ~/.ssh && ~/.ssh && ssh-keygen -t ed25519 -C "58788781+drew138@users.noreply.github.com"
+mkdir -p ~/.ssh && cd  ~/.ssh && ssh-keygen -t ed25519 -C "58788781+drew138@users.noreply.github.com"
 ```
 
 Then add github to known hosts.
