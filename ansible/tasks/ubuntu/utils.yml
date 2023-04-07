@@ -23,6 +23,3 @@
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     method: user
   when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
-
-- name: check kwriteconfig5
-  command: kwriteconfig5 --help
