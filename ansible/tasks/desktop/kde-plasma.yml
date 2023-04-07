@@ -1,32 +1,30 @@
-tasks:
-  - name: Set profile picture using kwriteconfig5
-    become: yes
-    become_user: <username>
-    shell: >
-      kwriteconfig5 --file kdeglobals --group User --key Picture <path_to_image_file>
-    args:
-      executable: /bin/bash
-    vars:
-      path_to_image_file: ~/.dotfiles/desktop/profile.png
+- name: Set profile picture using kwriteconfig5
+  become: yes
+  become_user: <username>
+  shell: >
+    kwriteconfig5 --file kdeglobals --group User --key Picture <path_to_image_file>
+  args:
+    executable: /bin/bash
+  vars:
+    path_to_image_file: ~/.dotfiles/desktop/profile.png
+# - name: Set keybind using kwriteconfig5
+#   become: yes
+#   become_user: <username>
+#   shell: >
+#     kwriteconfig5 --file kglobalshortcutsrc --group Spectacle \
+#     --key RectangularRegion "<Ctrl+Meta+S>"
+#   args:
+#     executable: /bin/bash
+#   vars:
+#     username: <username>
 
-  - name: Set keybind using kwriteconfig5
-    become: yes
-    become_user: <username>
-    shell: >
-      kwriteconfig5 --file kglobalshortcutsrc --group Spectacle \
-      --key RectangularRegion "<Ctrl+Meta+S>"
-    args:
-      executable: /bin/bash
-    vars:
-      username: <username>
-
-  - name: Set keybind using kwriteconfig5
-    become: yes
-    become_user: <username>
-    shell: >
-      kwriteconfig5 --file kglobalshortcutsrc --group Spectacle \
-      --key GlobalShortcut "<Print>"
-    args:
-      executable: /bin/bash
-    vars:
-      username: <username>
+# - name: Set keybind using kwriteconfig5
+#   become: yes
+#   become_user: <username>
+#   shell: >
+#     kwriteconfig5 --file kglobalshortcutsrc --group Spectacle \
+#     --key GlobalShortcut "<Print>"
+#   args:
+#     executable: /bin/bash
+#   vars:
+#     username: <username>
