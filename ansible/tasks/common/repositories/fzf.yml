@@ -1,16 +1,10 @@
 - name: clone fzf repo
-  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
-    repo: 'https://github.com/junegunn/fzf.git'
-    dest:  '~/.fzf'
+    repo: "https://github.com/junegunn/fzf.git"
+    dest: "{{ user_home }}/.fzf"
     depth: 1
     clone: yes
     update: yes
-  tags:
-    - Fzf
 
 - name: install fzf
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  command: ~/.fzf/install
-  tags:
-    - Fzf
+  command: "{{ user_home }}/.fzf/install"

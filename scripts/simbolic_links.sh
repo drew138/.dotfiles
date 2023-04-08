@@ -8,7 +8,7 @@ PLATFORM=$(uname)
 if [ "$PLATFORM" == "Darwin" ]; then
     FONTS_DIR="$HOME/Library/Fonts"
 
-    SEARCH_DIR="$HOME/.dotfiles/desktop/fonts/NerdFonts" 
+    SEARCH_DIR="$HOME/.dotfiles/assets/fonts/NerdFonts" 
     for entry in "$SEARCH_DIR"/*
     do
         ln -sfv "$FONTS_DIR/$entry" "$SEARCH_DIR/$entry"
@@ -16,7 +16,7 @@ if [ "$PLATFORM" == "Darwin" ]; then
 elif [ "$PLATFORM" == "Linux" ]; then
     FONTS_DIR="$HOME/.local/share/fonts"
     mkdir -p "$FONTS_DIR"
-    ln -sfv "$HOME/.dotfiles/desktop/fonts/NerdFonts" $FONTS_DIR
+    ln -sfv "$HOME/.dotfiles/assets/fonts/NerdFonts" $FONTS_DIR
     # programs
     mkdir -p "$HOME/.local/bin/"
     ln -sfv $(which fdfind) "$HOME/.local/bin/fd"

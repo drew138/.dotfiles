@@ -1,56 +1,90 @@
 - hosts: localhost
-  become: true
   vars:
-    - user_repositories: "{{ USER_REPOSITORIES }}"
-    - kitty_terminal: "{{ KITTY_TERMINAL }}"
-    - extra_software: "{{ EXTRA_SOFTWARE }}"
+    - has_user_repositories: "{{ USER_REPOSITORIES == 'true' }}"
+    - has_kitty_terminal: "{{ KITTY_TERMINAL == 'true' }}"
+    - has_extra_software: "{{ EXTRA_SOFTWARE == 'true' }}"
+    - is_debian_based_distribution: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
+    - is_macos: "{{ ansible_distribution == 'MacOSX' }}"
+    - user_home: "{{ ansible_env.HOME }}"
     - include: tasks/macos/brew_packages.yml
     - include: tasks/macos/cask_packages.yml
     - allow_world_readable_tmpfiles: true
 
   pre_tasks:
-    # - name: add ppa repository needed to install kvantum
-    #   become: yes
-    #   apt_repository:
-    #     validate_certs: no
-    #     repo: "ppa:papirus/papirus"
-    #     state: present
-
     - name: update repositories
       apt: update_cache=yes
-      become_user: root
-      when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
+      become: true
+      when: is_debian_based_distribution
 
     - name: ensuring homebrew is installed
       stat:
         path: /usr/local/bin/brew
       register: homebrew_check
-      when: ansible_distribution == "MacOSX"
+      when: is_macos
 
   tasks:
     # - include: tasks/desktop/kde-plasma.yml
     # repositories
-    - include: tasks/common/repositories/self.yml
-    - include: tasks/common/repositories/tpm.yml
-    - include: tasks/common/repositories/fzf.yml # become
+    - include_tasks: tasks/common/repositories/self.yml
+    - include_tasks: tasks/common/repositories/tpm.yml
+    - include_tasks: tasks/common/repositories/fzf.yml # become
 
     # macos
-    # - include: tasks/macos/install.yml
+    - include_tasks: tasks/macos/install.yml
 
     # ubuntu
-    - include: tasks/ubuntu/utils.yml
-    - include: tasks/ubuntu/nvim.yml
-    - include: tasks/ubuntu/docker.yml
-    - include: tasks/ubuntu/software.yml
+    - include_tasks: tasks/ubuntu/utils.yml
+    - include_tasks: tasks/ubuntu/nvim.yml
+    - include_tasks: tasks/ubuntu/docker.yml
+    - include_tasks: tasks/ubuntu/software.yml
 
     # programming languages
-    - include: tasks/common/programming_languages/go.yml # become
-    - include: tasks/common/programming_languages/node.yml
-    - include: tasks/common/programming_languages/rust.yml # become
+    - include_tasks: tasks/common/programming_languages/go.yml # become
+    - include_tasks: tasks/common/programming_languages/node.yml
+    - include_tasks: tasks/common/programming_languages/rust.yml # become
     # software
-    - include: tasks/common/software/kitty.yml # become
-    - include: tasks/common/software/nvm.yml
-    - include: tasks/common/software/ohmyzsh.yml # become
+    - include_tasks: tasks/common/software/kitty.yml # become
+    - include_tasks: tasks/common/software/nvm.yml
+    - include_tasks: tasks/common/software/ohmyzsh.yml # become
+
+    # - include_tasks: tasks_to_include.yml
+    #   include_tasks:
+    #   when: "'some_value' in my_var"
+
+    # - name: Configure SDDM as the default display manager
+    #     lineinfile:
+    #       path: /etc/X11/default-display-manager
+    #       line: /usr/bin/sddm
+    #       state: present
+    #     tags:
+    #       - configure
+    #
+    #   - name: Set KDE Plasma as the default desktop environment
+    #     lineinfile:
+    #       path: /etc/alternatives/x-session-manager
+    #       line: /usr/bin/startkde
+    #       state: present
+    #     tags:
+    #       - configure
+    #
+    #   - name: Restart system
+    #     reboot:
+    #     tags:
+    #       - reboot
+    #
+    #       - name: Create virtualenv
+    #   ansible.builtin.virtualenv:
+    #     dest: /home/drew/.dotfiles/env
+    #     python_interpreter: python3
+    #     system_site_packages: no
+    #   become: yes
+    #
+    # - name: Install pip packages
+    #   pip:
+    #     requirements: /home/drew/.dotfiles/requirements.txt
+    #     virtualenv: /home/drew/.dotfiles/env
+    #     state: present
+    #   become: yes
 
   handlers:
-    - include: handlers/docker.yml
+    - include_tasks: handlers/docker.yml

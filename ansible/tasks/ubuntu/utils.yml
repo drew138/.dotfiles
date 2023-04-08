@@ -13,7 +13,7 @@
       - protobuf-compiler
       - kde-full
       # find ~ -type f -mmin -1 # find recently changed files
-  when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
+  when: is_debian_based_distribution
 
 - name: add flathub repo
   flatpak_remote:
@@ -21,4 +21,4 @@
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     method: user
-  when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
+  when: is_debian_based_distribution

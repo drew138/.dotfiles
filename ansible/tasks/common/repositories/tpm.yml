@@ -1,7 +1,6 @@
 - name: tmux package manager
-  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: "https://github.com/tmux-plugins/tpm.git"
-    dest: "~/.tmux/plugins/tpm/"
+    dest: "{{ user_home }}/.tmux/plugins/tpm/"
     clone: yes
     update: yes

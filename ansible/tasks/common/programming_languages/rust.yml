@@ -11,12 +11,8 @@
     dest: /tmp/sh.rustup.rs
     mode: "0755"
     force: "yes"
-  tags:
-    - rust
 
 - name: install rust/cargo
   become_user: "{{ ansible_env.SUDO_USER }}"
   when: cargo_exists is failed
   shell: /tmp/sh.rustup.rs -y
-  tags:
-    - rust

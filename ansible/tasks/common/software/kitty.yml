@@ -1,21 +1,12 @@
-# - name: fetch kitty installer
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   get_url:
-#     url: https://sw.kovidgoyal.net/kitty/installer.sh
-#     dest: /tmp/kitty_installer.sh
-#     mode: "0755"
-#     force: "yes"
-#   when: kitty_terminal == "true"
-
 - name: install kitty
   become_user: "{{ ansible_env.SUDO_USER }}"
   ansible.builtin.shell: >
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
   args:
     warn: false
-  when: kitty_terminal == "true"
+  when: has_kitty_terminal
 
 - name: post install setup
   become_user: "{{ ansible_env.SUDO_USER }}"
   command: "~/.dotfiles/scripts/kitty_post_install.sh"
-  when: ansible_distribution == ["Ubuntu", "Pop!_OS" ] and kitty_terminal == "true"
+  when: is_debian_based_distribution and kitty_terminal == "true"

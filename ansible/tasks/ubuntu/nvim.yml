@@ -2,21 +2,15 @@
   get_url:
     url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb
     dest: /tmp/nvim-linux64.deb
-    mode: '0755'
-    force: 'yes'
-  tags:
-    - nvim
+    mode: "0755"
+    force: "yes"
   when: ansible_distribution == "Ubuntu"
 
 - name: install neovim
   command: apt-get install /tmp/nvim-linux64.deb
   args:
     warn: false
-  tags:
-    - nvim
   when: ansible_distribution == "Ubuntu"
 
 - name: install pynvim
   command: pip install pynvim
-  tags:
-    - nvim

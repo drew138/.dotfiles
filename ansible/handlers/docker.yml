@@ -2,4 +2,4 @@
   service:
     name: docker
     state: restarted
-  when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
+  when: is_debian_based_distribution
