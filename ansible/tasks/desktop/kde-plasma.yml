@@ -6,7 +6,7 @@
 
 - name: change wallpaper
   become_user: "{{ ansible_env.SUDO_USER }}"
-  command: plasma-apply-wallpaperimage {{ user_home }}/.dotfiles/assets/images/wallpaper.jpg
+  command: plasma-apply-wallpaperimage "{{ user_home }}/.dotfiles/assets/images/wallpaper.jpg"
 # - name: install kvantum dependencies
 #   apt:
 #     name:
