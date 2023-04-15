@@ -28,7 +28,7 @@
     clone: yes
     update: yes
 
-- name: get kvantum repository
+- name: get betterinlineclock repository
   git:
     repo: "https://github.com/MarianArlt/kde-plasmoid-betterinlineclock.git"
     dest: "{{ user_home }}/.local/share/plasma/plasmoids/kde-plasmoid-betterinlineclock"
