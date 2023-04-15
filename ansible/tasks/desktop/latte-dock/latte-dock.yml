@@ -3,3 +3,13 @@
     name:
       - latte-dock
     state: present
+
+- name: run latte dock
+  shell: |
+    latte-dock
+
+- name: run latte dock
+  environment:
+    DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
+  shell: >
+    dbus-send --session --type=method_call --dest=org.kde.LatteDock /LatteDock org.kde.LatteDock.reloadConfig string:"/home/drew/.dotfiles/assets/latte/layout.layout.latte"
