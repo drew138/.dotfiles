@@ -48,10 +48,14 @@
 #     plasmapkg2 -i /tmp/applet-latte-spacer
 
 - name: add ownership of widgets directory
-  file:
-    path: "{{ host_user }}/.local/share/plasma/plasmoids/"
-    owner: drew
-    recurse: yes
+  args:
+    warn: false
+  shell: |
+    chown "{{host_user}}:users" "{{ user_home }}/.local/share/plasma/plasmoids/"
+  # file:
+  #   path: "{{ host_user }}/.local/share/plasma/plasmoids/"
+  #   owner: drew
+  #   recurse: yes
 
 - name: install latte separator
   become: true
