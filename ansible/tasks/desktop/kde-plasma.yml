@@ -8,7 +8,7 @@
     msg: "{{ user_home }}/.config/kglobalshortcutsrc"
 
 - debug:
-    msg: "{{ansible.SUDO_USE}}"
+    msg: "{{ansible_env.SUDO_USE}}"
 
 - name: Set keybind using kwriteconfig5
   shell: >
