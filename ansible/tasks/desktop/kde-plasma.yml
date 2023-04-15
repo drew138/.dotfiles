@@ -26,9 +26,9 @@
 
 - name: build and install kvantum theme
   shell:
-    cmd:
-      - qmake && make
-      - make install
+    cmd: |
+      qmake && make
+      make install
     chdir: /tmp/Kvantum/Kvantum
 # - name: get layan repository
 #   become_user: "{{ ansible_env.SUDO_USER }}"
