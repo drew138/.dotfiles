@@ -1,6 +1,6 @@
-- include_tasks: tasks/desktop/appearance/kvantum/kvantum.yml
-- include_tasks: tasks/desktop/appearance/layan/layan.yml
-- include_tasks: tasks/desktop/appearance/global-theme/global-theme.yml
-- include_tasks: tasks/desktop/appearance/application-style/application-style.yml
-- include_tasks: tasks/desktop/appearance/launch-feedback/launch-feedback.yml
-- include_tasks: tasks/desktop/appearance/splashscreen/splashscreen.yml
+- include: tasks/desktop/appearance/kvantum/kvantum.yml
+- include: tasks/desktop/appearance/layan/layan.yml
+- include: tasks/desktop/appearance/global-theme/global-theme.yml
+- include: tasks/desktop/appearance/application-style/application-style.yml
+- include: tasks/desktop/appearance/launch-feedback/launch-feedback.yml
+- include: tasks/desktop/appearance/splashscreen/splashscreen.yml
