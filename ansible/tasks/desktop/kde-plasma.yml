@@ -16,6 +16,10 @@
         dbus-run-session --autolaunch=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $(id -u {{ansible_env.SUDO_USER}}))/environ | cut -d= -f2-)
         plasma-apply-wallpaperimage {{ user_home }}/.dotfiles/assets/images/wallpaper.jpg
 
+  # environment:
+  #   DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/1000/bus"
+  # shell: >
+  #   plasma-apply-wallpaperimage "{{ user_home }}/.dotfiles/assets/images/wallpaper.jpg"
 # - name: install kvantum dependencies
 #   apt:
 #     name:
