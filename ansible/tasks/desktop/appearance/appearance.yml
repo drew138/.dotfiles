@@ -36,6 +36,7 @@
     update: yes
 
 - name: install widgets
+  become: true
   become_user: "{{ host_user }}"
   shell: |
     plasmapkg2 -i /tmp/applet-latte-separator
