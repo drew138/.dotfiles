@@ -4,9 +4,9 @@
       - latte-dock
     state: present
 
-- name: run latte dock
-  shell: |
-    latte-dock
+# - name: run latte dock
+#   shell: |
+#     latte-dock
 
 - name: run latte dock
   become_user: "{{ host_user }}"
