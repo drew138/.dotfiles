@@ -73,4 +73,5 @@
       --key theme LayanSolidDark
 
 - name: change global theme
+  become_user: "{{ ansible_env.SUDO_USER }}"
   shell: lookandfeeltool -a com.github.vinceliuice.Layan
