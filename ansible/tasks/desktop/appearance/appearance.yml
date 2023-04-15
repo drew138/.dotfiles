@@ -39,6 +39,7 @@
   become: true
   become_user: "{{ host_user }}"
   shell: |
+    chown "{{host_user}}:users" "{{ user_home }}/.local/share/plasma/plasmoids/"
     plasmapkg2 -i /tmp/applet-latte-separator
     plasmapkg2 -i /tmp/applet-window-title
     plasmapkg2 -i /tmp/applet-latte-spacer
