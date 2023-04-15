@@ -9,6 +9,7 @@
     latte-dock
 
 - name: run latte dock
+  become_user: "{{ host_user }}"
   environment:
     DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
   shell: >
