@@ -25,12 +25,11 @@
     update: yes
 
 - name: build and install kvantum theme
-  ansible.builtin.command:
+  shell:
     cmd:
       - qmake && make
       - make install
-    args:
-      chdir: /tmp/Kvantum/Kvantum
+    chdir: /usr/lib/foobar
 # - name: get layan repository
 #   become_user: "{{ ansible_env.SUDO_USER }}"
 #   git:
