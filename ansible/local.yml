@@ -1,4 +1,5 @@
 - hosts: localhost
+  become: true
   vars:
     - has_user_repositories: "{{ USER_REPOSITORIES == 'true' }}"
     - has_kitty_terminal: "{{ KITTY_TERMINAL == 'true' }}"

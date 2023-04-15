@@ -7,6 +7,9 @@
 - debug:
     msg: "{{ user_home }}/.config/kglobalshortcutsrc"
 
+- debug:
+    msg: lookup('env', 'HOME')
+
 - name: Set keybind using kwriteconfig5
   shell: >
     kwriteconfig5 --file "{{ user_home }}/.config/kglobalshortcutsrc" --group "org.kde.spectacle.desktop" --key RectangularRegionScreenShot "Meta+Shift+s,Meta+Shift+Print,Capture Rectangular Region"
