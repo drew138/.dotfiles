@@ -74,3 +74,10 @@
   shell: >
     kwriteconfig5 --file "{{ user_home }}/.config/kdeglobals" --group KDE \
     --key widgetStyle kvantum-dark
+
+# # TODO revisar si este si aplica
+# - name: change kvantum theme to layan
+#   become_user: "{{ ansible_env.SUDO_USER }}"
+#   shell: >
+#     kwriteconfig5 --file "{{ user_home }}/.config/plasmarc" --group Theme \
+#     --key name Layan
