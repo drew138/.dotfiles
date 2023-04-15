@@ -6,7 +6,7 @@
     - has_extra_software: "{{ EXTRA_SOFTWARE == 'true' }}"
     - is_debian_based_distribution: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
     - is_macos: "{{ ansible_distribution == 'MacOSX' }}"
-    - user_home: "{{ ansible_env.HOME }}"
+    - user_home: "/home/{{ ansible_env.SUDO_USER }}"
     - include: tasks/macos/brew_packages.yml
     - include: tasks/macos/cask_packages.yml
     # - allow_world_readable_tmpfiles: true
