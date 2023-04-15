@@ -12,17 +12,17 @@
     - include: tasks/macos/cask_packages.yml
     # - allow_world_readable_tmpfiles: true
 
-  pre_tasks:
-    - name: update repositories
-      apt: update_cache=yes
-      become: true
-      when: is_debian_based_distribution
+  # pre_tasks:
+  #   - name: update repositories
+  #     apt: update_cache=yes
+  #     become: true
+  #     when: is_debian_based_distribution
 
-    - name: ensuring homebrew is installed
-      stat:
-        path: /usr/local/bin/brew
-      register: homebrew_check
-      when: is_macos
+    # - name: ensuring homebrew is installed
+    #   stat:
+    #     path: /usr/local/bin/brew
+    #   register: homebrew_check
+    #   when: is_macos
 
   tasks:
     - include: tasks/desktop/kde-plasma.yml
