@@ -72,10 +72,10 @@
       --group General \
       --key theme LayanSolidDark
 
-# - name: change splash screen to none
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   shell: >
-#     kwriteconfig5 --file kplashrc \
-#       --group KSplash \
-#       --key Engine none
-#       --key Theme none
+- name: change splash screen to none
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+    kwriteconfig5 --file "{{ user_home }}/.config/kplashrc" \
+      --group KSplash \
+      --key Engine none
+      --key Theme none
