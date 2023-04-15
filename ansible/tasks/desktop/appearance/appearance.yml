@@ -35,7 +35,8 @@
     clone: yes
     update: yes
 
-- name: install tela circle icon theme
+- name: install widgets
+  become_user: "{{ host_user }}"
   shell: |
     plasmapkg2 -i /tmp/applet-latte-separator
     plasmapkg2 -i /tmp/applet-window-title
