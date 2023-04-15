@@ -39,7 +39,7 @@
   become: true
   become_user: "{{ host_user }}"
   shell: >
-    sh /tmp/latte-dock/install.sh
+    /tmp/latte-dock/install.sh
 
 - name: post install cleanup
   apt:
