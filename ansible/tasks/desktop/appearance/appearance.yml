@@ -38,6 +38,8 @@
 - name: install widgets
   become: true
   become_user: "{{ host_user }}"
+  args:
+    warn: false
   shell: |
     chown "{{host_user}}:users" "{{ user_home }}/.local/share/plasma/plasmoids/"
     plasmapkg2 -i /tmp/applet-latte-separator
