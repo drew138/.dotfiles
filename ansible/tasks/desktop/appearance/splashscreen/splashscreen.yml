@@ -1,12 +1,12 @@
 - name: change splash screen engine to none
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become_user: "{{ host_user }}"
   shell: >
     kwriteconfig5 --file "{{ user_home }}/.config/kplashrc" \
       --group KSplash \
       --key Engine none
 
 - name: change splash screen to theme to none
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become_user: "{{ host_user }}"
   shell: >
     kwriteconfig5 --file "{{ user_home }}/.config/kplashrc" \
       --group KSplash \
