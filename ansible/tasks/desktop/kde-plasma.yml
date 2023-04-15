@@ -17,7 +17,6 @@
     state: present
 
 - name: get kvantum repository
-  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: "https://github.com/tsujan/Kvantum.git"
     dest: "/tmp/Kvantum"
@@ -32,7 +31,6 @@
     chdir: /tmp/Kvantum/Kvantum
 
 - name: get layan repository
-  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: "https://github.com/vinceliuice/Layan-kde.git"
     dest: "/tmp/Layan-kde"
@@ -40,7 +38,6 @@
     update: yes
 
 - name: get layan gtk theme repository
-  become_user: "{{ ansible_env.SUDO_USER }}"
   git:
     repo: "https://github.com/vinceliuice/Layan-gtk-theme.git"
     dest: "/tmp/Layan-gtk-theme"
@@ -76,6 +73,8 @@
 # disable launch feedback
 - name: configure application launch feedback
   become_user: "{{ user_home }}"
+  environment:
+    DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
   shell: |
     kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group BusyCursorSettings --key bouncing false
     kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group FeedbackStyle --key BusyCursor false
