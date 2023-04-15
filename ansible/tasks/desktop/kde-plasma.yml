@@ -5,7 +5,7 @@
 #     kwriteconfig5 --file kdeglobals --group User --key Picture ~/.dotfiles/desktop/profile.png
 
 - debug:
-    msg: "{{ user_home }}/.dotfiles/assets/images/wallpaper.jpg"
+    msg: "{{ansible_user_uid}}"
 
 - name: change wallpaper
   become_user: "{{ ansible_env.SUDO_USER }}"
