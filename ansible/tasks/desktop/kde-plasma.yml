@@ -10,11 +10,9 @@
 - name: change wallpaper
   become_user: "{{ ansible_env.SUDO_USER }}"
   environment:
-    DBUS_SESSION_BUS_ADDRESS: "{{ lookup('env', 'DBUS_SESSION_BUS_ADDRESS') }}"
-  command:
-    cmd:
-      dbus-run-session --autolaunch=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $(id -u {{ansible_env.SUDO_USER}}))/environ | cut -d= -f2-)
-      plasma-apply-wallpaperimage {{ user_home }}/.dotfiles/assets/images/wallpaper.jpg
+    DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/1000/bus"
+  shell: >
+    plasma-apply-wallpaperimage "{{ user_home }}/.dotfiles/assets/images/wallpaper.jpg"
 
   # environment:
   #   DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/1000/bus"
