@@ -9,9 +9,9 @@
 
 - name: change wallpaper
   become_user: "{{ ansible_env.SUDO_USER }}"
-  environment:
-    XDG_RUNTIME_DIR: "/run/user/{{ uid }}"
-    DBUS_SESSION_BUS_ADDRESS: "unix:path=${XDG_RUNTIME_DIR}/bus"
+  # environment:
+  #   XDG_RUNTIME_DIR: "/run/user/{{ uid }}"
+  #   DBUS_SESSION_BUS_ADDRESS: "unix:path=${XDG_RUNTIME_DIR}/bus"
   shell: >
     plasma-apply-wallpaperimage "{{ user_home }}/.dotfiles/assets/images/wallpaper.jpg"
 
