@@ -1,5 +1,4 @@
 - name: disable launch feedback
-  become: true
   shell: |
     kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group BusyCursorSettings --key Bouncing false
     kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group FeedbackStyle --key BusyCursor false
