@@ -30,27 +30,28 @@
       qmake && make
       make install
     chdir: /tmp/Kvantum/Kvantum
-# - name: get layan repository
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   git:
-#     repo: "https://github.com/vinceliuice/Layan-kde.git"
-#     dest: "/tmp/Layan-kde"
-#     clone: yes
-#     update: yes
-#
-# - name: get layan gtk theme repository
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   git:
-#     repo: "https://github.com/vinceliuice/Layan-gtk-theme.git"
-#     dest: "/tmp/Layan-gtk-theme"
-#     clone: yes
-#     update: yes
-#
-# - name: install layan kvantum theme and layan kde theme
-#   ansible.builtin.command:
-#     cmd:
-#       - /tmp/Layan-kde/install.sh
-#       - /tmp/Layan-gtk-theme/install.sh
+
+- name: get layan repository
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  git:
+    repo: "https://github.com/vinceliuice/Layan-kde.git"
+    dest: "/tmp/Layan-kde"
+    clone: yes
+    update: yes
+
+- name: get layan gtk theme repository
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  git:
+    repo: "https://github.com/vinceliuice/Layan-gtk-theme.git"
+    dest: "/tmp/Layan-gtk-theme"
+    clone: yes
+    update: yes
+
+- name: install layan kvantum theme and layan kde theme
+  shell: |
+    /tmp/Layan-kde/install.sh
+    /tmp/Layan-gtk-theme/install.sh
+
 #
 # - name: change widget style to kvantum dark
 #   become_user: "{{ ansible_env.SUDO_USER }}"
