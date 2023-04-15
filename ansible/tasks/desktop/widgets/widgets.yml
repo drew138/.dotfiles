@@ -1,5 +1,7 @@
 - name: add ownership of widgets directory
-  shell: chown "{{ host_user }}:users" "{{ user_home }}/.local/share/plasma/plasmoids/"
+  shell: |
+    mkdir -p "{{ user_home }}/.local/share/plasma/plasmoids/"
+    chown "{{ host_user }}:users" "{{ user_home }}/.local/share/plasma/plasmoids/"
   args:
     warn: false
 
