@@ -4,36 +4,33 @@
 #   shell: >
 #     kwriteconfig5 --file kdeglobals --group User --key Picture ~/.dotfiles/desktop/profile.png
 
-- debug:
-    msg: "{{ansible_user_uid}}"
+- name: install kvantum dependencies
+  apt:
+    name:
+      - g++
+      - libx11-dev
+      - libxext-dev
+      - qtbase5-dev
+      - libqt5svg5-dev
+      - libqt5x11extras5-dev
+      - qttools5-dev-tools
+    state: present
 
-- name: change wallpaper
+- name: get kvantum repository
   become_user: "{{ ansible_env.SUDO_USER }}"
-  environment:
-    DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/1000/bus"
-  shell: >
-    plasma-apply-wallpaperimage "{{ user_home }}/.dotfiles/assets/images/wallpaper.jpg"
+  git:
+    repo: "https://github.com/tsujan/Kvantum.git"
+    dest: "/tmp/Kvantum"
+    clone: yes
+    update: yes
 
-# - name: install kvantum dependencies
-#   apt:
-#     name:
-#       - g++
-#       - libx11-dev
-#       - libxext-dev
-#       - qtbase5-dev
-#       - libqt5svg5-dev
-#       - libqt5x11extras5-dev
-#       - qttools5-dev-tools
-#     state: present
-#
-# - name: get kvantum repository
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   git:
-#     repo: "https://github.com/tsujan/Kvantum.git"
-#     dest: "/tmp/Kvantum"
-#     clone: yes
-#     update: yes
-#
+- name: build and install kvantum theme
+  ansible.builtin.command:
+    cmd:
+      - qmake && make
+      - make install
+    args:
+      chdir: /tmp/Kvantum/Kvantum
 # - name: get layan repository
 #   become_user: "{{ ansible_env.SUDO_USER }}"
 #   git:
@@ -49,14 +46,6 @@
 #     dest: "/tmp/Layan-gtk-theme"
 #     clone: yes
 #     update: yes
-#
-# - name: build and install kvantum theme
-#   ansible.builtin.command:
-#     cmd:
-#       - qmake && make
-#       - make install
-#     args:
-#       chdir: /tmp/Kvantum/Kvantum
 #
 # - name: install layan kvantum theme and layan kde theme
 #   ansible.builtin.command:

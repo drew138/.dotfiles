@@ -1,0 +1,6 @@
+- name: change wallpaper
+  become_user: "{{ host_user }}"
+  environment:
+    DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/1000/bus"
+  shell: >
+    plasma-apply-wallpaperimage "{{ user_home }}/.dotfiles/assets/images/wallpaper.jpg"

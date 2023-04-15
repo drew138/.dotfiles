@@ -1,0 +1,23 @@
+- name: set shortcut to capture region
+  shell: >
+    kwriteconfig5 --file {{ user_home }}/.config/kglobalshortcutsrc \ 
+    --group "org.kde.spectacle.desktop" \ 
+    --key RectangularRegionScreenShot "Meta+Shift+s,Meta+Shift+Print,Capture Rectangular Region"
+
+- name: remove shortcut to open spectacle app
+  shell: >
+    kwriteconfig5 --file {{ user_home }}/.config/kglobalshortcutsrc \
+    --group "org.kde.spectacle.desktop" \
+    --key _launch "none,Print,Launch Spectacle"
+
+- name: set shortcut to capture entire screen
+  shell: >
+    kwriteconfig5 --file {{ user_home }}/.config/kglobalshortcutsrc \
+    --group "org.kde.spectacle.desktop" \
+    --key FullScreenScreenShot "Print,Shift+Print,Capture Entire Desktop"
+
+- name: set config to send image to clipboard after taking screenshot
+  shell: >
+    kwriteconfig5 --file {{ user_home }}/.config/spectaclerc \
+    --group General \
+    --key clipboardGroup PostScreenshotCopyImage
