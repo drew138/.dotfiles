@@ -1,0 +1,10 @@
+- name: add ownership of widgets directory
+  shell: chown "{{ host_user }}:users" "{{ user_home }}/.local/share/plasma/plasmoids/"
+  args:
+    warn: false
+
+- include: tasks/desktop/widgets/better-inline-clock/better-inline-clock.yml
+- include: tasks/desktop/widgets/inline-battery/inline-battery.yml
+- include: tasks/desktop/widgets/latte-separator/latte-separator.yml
+- include: tasks/desktop/widgets/latte-spacer/latte-spacer.yml
+- include: tasks/desktop/widgets/window-title/window-title.yml

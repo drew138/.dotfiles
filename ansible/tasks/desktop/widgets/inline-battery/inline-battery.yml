@@ -1,0 +1,14 @@
+- name: get big sur inline battery repository
+  git:
+    repo: "https://github.com/Fausto-Korpsvart/mcOS-BS-Inline-Battery.git"
+    dest: "/tmp/mcOS-BS-Inline-Battery"
+    clone: yes
+    update: yes
+
+- name: install big sur inline battery
+  become: true
+  become_user: "{{ host_user }}"
+  command: kpackagetool5 -t Plasma/Applet --install org.kde.plasma.bigSur-inlineBattery
+  args:
+    chdir: "/tmp/mcOS-BS-Inline-Battery"
+    creates: "{{ user_home }}/.local/share/plasma/plasmoids/org.kde.plasma.bigSur-inlineBattery"

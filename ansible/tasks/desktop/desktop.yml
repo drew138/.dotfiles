@@ -1,0 +1,5 @@
+# - include: tasks/desktop/appearance/appearance.yml
+# - include: tasks/desktop/applications/applications.yml
+# - include: tasks/desktop/shortcuts/shortcuts.yml
+# - include: tasks/desktop/wallpaper/wallpaper.yml
+- include: tasks/desktop/widgets/widgets.yml

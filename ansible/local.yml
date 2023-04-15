@@ -26,7 +26,7 @@
   #   when: is_macos
 
   tasks:
-    - include: tasks/desktop/appearance/appearance.yml
+    - include: tasks/desktop/desktop.yml
     # repositories
     # - include_tasks: tasks/common/repositories/self.yml
     # - include_tasks: tasks/common/repositories/tpm.yml

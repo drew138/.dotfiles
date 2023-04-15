@@ -1,72 +1,8 @@
-# - include: tasks/desktop/appearance/kvantum/kvantum.yml
-# - include: tasks/desktop/appearance/layan/layan.yml
-# - include: tasks/desktop/appearance/tela-circle/tela-circle.yml
-# - include: tasks/desktop/appearance/global-theme/global-theme.yml
-# - include: tasks/desktop/appearance/application-style/application-style.yml
-# - include: tasks/desktop/appearance/icons/icons.yml
-# - include: tasks/desktop/appearance/launch-feedback/launch-feedback.yml
-# - include: tasks/desktop/appearance/splashscreen/splashscreen.yml
-
-- name: get applet latte separator repository
-  git:
-    repo: "https://github.com/psifidotos/applet-latte-separator.git"
-    dest: "/tmp/applet-latte-separator"
-    clone: yes
-    update: yes
-
-- name: get applet window title repository
-  git:
-    repo: "https://github.com/psifidotos/applet-window-title.git"
-    dest: "/tmp/applet-window-title"
-    clone: yes
-    update: yes
-
-- name: get applet latte spacer repository
-  git:
-    repo: "https://github.com/psifidotos/applet-latte-spacer.git"
-    dest: "/tmp/applet-latte-spacer"
-    clone: yes
-    update: yes
-
-- name: get betterinlineclock repository
-  git:
-    repo: "https://github.com/MarianArlt/kde-plasmoid-betterinlineclock.git"
-    dest: "{{ user_home }}/.local/share/plasma/plasmoids/kde-plasmoid-betterinlineclock"
-    clone: yes
-    update: yes
-
-- name: get big sur inilinebattery repository
-  git:
-    repo: "https://github.com/Fausto-Korpsvart/mcOS-BS-Inline-Battery.git"
-    dest: "/tmp/mcOS-BS-Inline-Battery"
-    clone: yes
-    update: yes
-
-- name: install latte separator
-  become: true
-  become_user: "{{ host_user }}"
-  command: plasmapkg2 -i /tmp/applet-latte-separator
-  args:
-    creates: "{{ user_home }}/.local/share/plasma/plasmoids/org.kde.latte.separator"
-
-- name: install window title
-  become: true
-  become_user: "{{ host_user }}"
-  command: plasmapkg2 -i /tmp/applet-window-title
-  args:
-    creates: "{{ user_home }}/.local/share/plasma/plasmoids/org.kde.windowtitle"
-
-- name: install latte spacer
-  become: true
-  become_user: "{{ host_user }}"
-  command: plasmapkg2 -i /tmp/applet-latte-spacer
-  args:
-    creates: "{{ user_home }}/.local/share/plasma/plasmoids/org.kde.latte.spacer"
-
-- name: install big sur inline battery
-  become: true
-  become_user: "{{ host_user }}"
-  command: kpackagetool5 -t Plasma/Applet --install org.kde.plasma.bigSur-inlineBattery
-  args:
-    chdir: "/tmp/mcOS-BS-Inline-Battery"
-    creates: "{{ user_home }}/.local/share/plasma/plasmoids/org.kde.plasma.bigSur-inlineBattery"
+- include: tasks/desktop/appearance/kvantum/kvantum.yml
+- include: tasks/desktop/appearance/layan/layan.yml
+- include: tasks/desktop/appearance/tela-circle/tela-circle.yml
+- include: tasks/desktop/appearance/global-theme/global-theme.yml
+- include: tasks/desktop/appearance/application-style/application-style.yml
+- include: tasks/desktop/appearance/icons/icons.yml
+- include: tasks/desktop/appearance/launch-feedback/launch-feedback.yml
+- include: tasks/desktop/appearance/splashscreen/splashscreen.yml
