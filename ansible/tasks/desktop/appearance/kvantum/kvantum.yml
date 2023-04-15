@@ -1,0 +1,25 @@
+- name: install kvantum dependencies
+  apt:
+    name:
+      - g++
+      - libx11-dev
+      - libxext-dev
+      - qtbase5-dev
+      - libqt5svg5-dev
+      - libqt5x11extras5-dev
+      - qttools5-dev-tools
+    state: present
+
+- name: get kvantum repository
+  git:
+    repo: "https://github.com/tsujan/Kvantum.git"
+    dest: "/tmp/Kvantum"
+    clone: yes
+    update: yes
+
+- name: build and install kvantum theme
+  shell:
+    cmd: |
+      qmake && make
+      make install
+    chdir: /tmp/Kvantum/Kvantum

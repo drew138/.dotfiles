@@ -26,7 +26,7 @@
   #   when: is_macos
 
   tasks:
-    - include: tasks/desktop/kde-plasma.yml
+    - include: tasks/desktop/appearance/appearance.yml
     # repositories
     # - include_tasks: tasks/common/repositories/self.yml
     # - include_tasks: tasks/common/repositories/tpm.yml
