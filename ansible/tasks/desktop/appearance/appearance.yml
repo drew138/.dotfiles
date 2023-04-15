@@ -59,20 +59,20 @@
 - name: install latte separator
   become: true
   become_user: "{{ host_user }}"
-  command:
-    cmd: plasmapkg2 -i /tmp/applet-latte-separator
+  command: plasmapkg2 -i /tmp/applet-latte-separator
+  args:
     creates: "{{ host_user }}/.local/share/plasma/plasmoids/org.kde.latte.separator"
 
 - name: install window title
   become: true
   become_user: "{{ host_user }}"
-  command:
-    cmd: plasmapkg2 -i /tmp/applet-window-title
+  command: plasmapkg2 -i /tmp/applet-window-title
+  args:
     creates: "{{ host_user }}/.local/share/plasma/plasmoids/org.kde.windowtitle"
 
 - name: install latte spacer
   become: true
   become_user: "{{ host_user }}"
-  command:
-    cmd: plasmapkg2 -i /tmp/applet-latte-spacer
+  command: plasmapkg2 -i /tmp/applet-latte-spacer
+  args:
     creates: "{{ host_user }}/.local/share/plasma/plasmoids/org.kde.latte.spacer"
