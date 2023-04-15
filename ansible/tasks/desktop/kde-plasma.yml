@@ -8,7 +8,7 @@
     msg: "{{ user_home }}/.config/kglobalshortcutsrc"
 
 - debug:
-    msg: lookup('env', 'HOME')
+    msg: "{{lookup('env', 'HOME')}}"
 
 - name: Set keybind using kwriteconfig5
   shell: >
