@@ -10,5 +10,4 @@
   become_user: "{{ host_user }}"
   command: plasmapkg2 -i /tmp/mcOS-BS-Inline-Battery
   args:
-    chdir: "/tmp/mcOS-BS-Inline-Battery"
-    creates: "{{ user_home }}.local/share/plasma/plasmoids/org.kde.plasma.bigSur-inlineBattery"
+    creates: "{{ user_home }}/.local/share/plasma/plasmoids/org.kde.plasma.bigSur-inlineBattery"
