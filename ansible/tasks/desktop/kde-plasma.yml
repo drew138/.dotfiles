@@ -55,12 +55,10 @@
 - name: change global theme
   become_user: "{{ host_user }}"
   shell: lookandfeeltool -a com.github.vinceliuice.Layan
-# # TODO revisar si este si aplica
-# - name: change kvantum theme to layan
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   shell: >
-#     kwriteconfig5 --file "{{ user_home }}/.config/plasmarc" --group Theme \
-#     --key name Layan
+
+- name: change gnome/gtk application style
+  become_user: "{{ host_user }}"
+  shell: dbus-send --session --dest=org.kde.GtkConfig --type=method_call /GtkConfig org.kde.GtkConfig.setGtkTheme 'string:Layan-Dark-Solid'
 
 - name: change kvantum theme to layan
   become_user: "{{ host_user }}"
@@ -75,9 +73,9 @@
     kwriteconfig5 --file "{{ user_home }}/.config/kdeglobals" --group KDE \
     --key widgetStyle kvantum-dark
 
-# # TODO revisar si este si aplica
-- name: change kvantum theme to layan
+# disable launch feedback
+- name: configure application launch feedback
   become_user: "{{ user_home }}"
-  shell: >
-    kwriteconfig5 --file "{{ user_home }}/.config/plasmarc" --group Theme \
-    --key name Layan
+  shell: |
+    kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group BusyCursorSettings --key bouncing false
+    kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group FeedbackStyle --key BusyCursor false
