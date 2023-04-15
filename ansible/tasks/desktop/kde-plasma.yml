@@ -52,31 +52,30 @@
     /tmp/Layan-kde/install.sh
     /tmp/Layan-gtk-theme/install.sh
 
-#
-# - name: change widget style to kvantum dark
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   shell: >
-#     kwriteconfig5 --file kdeglobals --group KDE \
-#     --key widgetStyle kvantum-dark
-#
-# # TODO revisar si este si aplica
-# # - name: change kvantum theme to layan
-# #   become_user: "{{ ansible_env.SUDO_USER }}"
-# #   shell: >
-# #     kwriteconfig5 --file plasmarc --group Theme \
-# #     --key name Layan
-#
-# - name: change kvantum theme to layan
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   shell: >
-#     kwriteconfig5 --file ~/.config/Kvantum/kvantum.kvconfig \
-#       --group General \
-#       --key theme LayanSolidDark
-#
-# - name: change splash screen to none
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   shell: >
-#     kwriteconfig5 --file kplashrc \
-#       --group KSplash \
-#       --key Engine none
-#       --key Theme none
+- name: change widget style to kvantum dark
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+    kwriteconfig5 --file kdeglobals --group KDE \
+    --key widgetStyle kvantum-dark
+
+# TODO revisar si este si aplica
+- name: change kvantum theme to layan
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+    kwriteconfig5 --file plasmarc --group Theme \
+    --key name Layan
+
+- name: change kvantum theme to layan
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+    kwriteconfig5 --file ~/.config/Kvantum/kvantum.kvconfig \
+      --group General \
+      --key theme LayanSolidDark
+
+- name: change splash screen to none
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+    kwriteconfig5 --file kplashrc \
+      --group KSplash \
+      --key Engine none
+      --key Theme none
