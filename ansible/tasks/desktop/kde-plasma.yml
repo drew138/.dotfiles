@@ -7,8 +7,8 @@
 - name: change wallpaper
   become: true
   shell: |
-    export DBUS_SESSION_BUS_ADDRESS={{ lookup('env', 'DBUS_SESSION_BUS_ADDRESS') }}
-    export XDG_RUNTIME_DIR={{ lookup('env', 'XDG_RUNTIME_DIR') }}
+    eval "$(dbus-launch --sh-syntax)"
+    export DISPLAY={{ ansible_env.DISPLAY }}
     plasma-apply-wallpaperimage {{ user_home }}/.dotfiles/assets/images/wallpaper.jpg
 
 # - name: install kvantum dependencies
