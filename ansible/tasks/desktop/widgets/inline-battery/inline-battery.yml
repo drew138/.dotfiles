@@ -8,7 +8,7 @@
 - name: install big sur inline battery
   become: true
   become_user: "{{ host_user }}"
-  command: kpackagetool5 -t Plasma/Applet --install org.kde.plasma.bigSur-inlineBattery
+  command: plasmapkg2 -i /tmp/mcOS-BS-Inline-Battery
   args:
     chdir: "/tmp/mcOS-BS-Inline-Battery"
     creates: "{{ user_home }}.local/share/plasma/plasmoids/org.kde.plasma.bigSur-inlineBattery"
