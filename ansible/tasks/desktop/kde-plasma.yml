@@ -5,29 +5,24 @@
 #     kwriteconfig5 --file kdeglobals --group User --key Picture ~/.dotfiles/desktop/profile.png
 
 - name: Set keybind using kwriteconfig5
-  become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-    kwriteconfig5 --file /home/drew/.config/kglobalshortcutsrc --group "org.kde.spectacle.desktop" --key RectangularRegionScreenShot "Meta+Shift+s,Meta+Shift+Print,Capture Rectangular Region"
+    kwriteconfig5 --file {{ user_home }}/.config/kglobalshortcutsrc --group "org.kde.spectacle.desktop" --key RectangularRegionScreenShot "Meta+Shift+s,Meta+Shift+Print,Capture Rectangular Region"
 
 - name: remove keybind to open spectacle app
-  become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-    kwriteconfig5 --file kglobalshortcutsrc --group "org.kde.spectacle.desktop" --key _launch "none,Print,Launch Spectacle"
+    kwriteconfig5 --file {{ user_home }}/.config/kglobalshortcutsrc --group "org.kde.spectacle.desktop" --key _launch "none,Print,Launch Spectacle"
 
 - name: set keybind to capture entire screen
-  become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-    kwriteconfig5 --file kglobalshortcutsrc --group "org.kde.spectacle.desktop" --key FullScreenScreenShot "Print,Shift+Print,Capture Entire Desktop"
+    kwriteconfig5 --file {{ user_home }}/.config/kglobalshortcutsrc --group "org.kde.spectacle.desktop" --key FullScreenScreenShot "Print,Shift+Print,Capture Entire Desktop"
 
 - name: set config to send image to clipboard after taking screenshot
-  become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-    kwriteconfig5 --file spectaclerc --group General --key clipboardGroup PostScreenshotCopyImage
+    kwriteconfig5 --file {{ user_home }}/.config/spectaclerc --group General --key clipboardGroup PostScreenshotCopyImage
 
 - name: change wallpaper
-  become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-    plasma-apply-wallpaperimage /home/drew/.dotfiles/assets/images/wallpaper.jpg
+    plasma-apply-wallpaperimage {{ user_home }}/.dotfiles/assets/images/wallpaper.jpg
 
 # - name: install kvantum dependencies
 #   apt:
