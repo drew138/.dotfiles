@@ -35,21 +35,12 @@
     clone: yes
     update: yes
 
-# - name: install widgets
-#   become: true
-#   become_user: "{{ host_user }}"
-#   args:
-#     warn: false
-#   failed_when: false
-#   shell: |
-#     chown "{{host_user}}:users" "{{ user_home }}/.local/share/plasma/plasmoids/"
-#     plasmapkg2 -i /tmp/applet-latte-separator
-#     plasmapkg2 -i /tmp/applet-window-title
-#     plasmapkg2 -i /tmp/applet-latte-spacer
-- name: add ownership of widgets directory
-  shell: chown "{{ host_user }}:users" "{{ user_home }}/.local/share/plasma/plasmoids/"
-  args:
-    warn: false
+- name: get big sur inilinebattery repository
+  git:
+    repo: "https://github.com/Fausto-Korpsvart/mcOS-BS-Inline-Battery.git"
+    dest: "/tmp/mcOS-BS-Inline-Battery"
+    clone: yes
+    update: yes
 
 - name: install latte separator
   become: true
@@ -71,3 +62,11 @@
   command: plasmapkg2 -i /tmp/applet-latte-spacer
   args:
     creates: "{{ user_home }}/.local/share/plasma/plasmoids/org.kde.latte.spacer"
+
+- name: install big sur inline battery
+  become: true
+  become_user: "{{ host_user }}"
+  command: kpackagetool5 -t Plasma/Applet --install org.kde.plasma.bigSur-inlineBattery
+  args:
+    chdir: "/tmp/mcOS-BS-Inline-Battery"
+    creates: "{{ user_home }}/.local/share/plasma/plasmoids/org.kde.plasma.bigSur-inlineBattery"
