@@ -46,7 +46,6 @@
 #     plasmapkg2 -i /tmp/applet-latte-separator
 #     plasmapkg2 -i /tmp/applet-window-title
 #     plasmapkg2 -i /tmp/applet-latte-spacer
-
 - name: add ownership of widgets directory
   args:
     warn: false
@@ -60,23 +59,20 @@
 - name: install latte separator
   become: true
   become_user: "{{ host_user }}"
-  args:
-    creates: "{{ host_user }}/.local/share/plasma/plasmoids/org.kde.latte.separator"
   shell: >
     plasmapkg2 -i /tmp/applet-latte-separator
+    creates="{{ host_user }}/.local/share/plasma/plasmoids/org.kde.latte.separator"
 
 - name: install window title
   become: true
   become_user: "{{ host_user }}"
-  args:
-    creates: "{{ host_user }}/.local/share/plasma/plasmoids/org.kde.windowtitle"
   shell: >
     plasmapkg2 -i /tmp/applet-window-title
+    creates="{{ host_user }}/.local/share/plasma/plasmoids/org.kde.windowtitle"
 
 - name: install latte spacer
   become: true
   become_user: "{{ host_user }}"
-  args:
-    creates: "{{ host_user }}/.local/share/plasma/plasmoids/org.kde.latte.spacer"
   shell: >
     plasmapkg2 -i /tmp/applet-latte-spacer
+    creates="{{ host_user }}/.local/share/plasma/plasmoids/org.kde.latte.spacer"
