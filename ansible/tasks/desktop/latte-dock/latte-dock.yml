@@ -36,8 +36,9 @@
     update: yes
 
 - name: install latte dock
+  become: true
   shell: >
-    /tmp/latte-dock/install.sh
+    sh /tmp/latte-dock/install.sh
 
 - name: post install cleanup
   apt:
