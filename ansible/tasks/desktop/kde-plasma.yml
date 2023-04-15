@@ -75,7 +75,8 @@
 
 # disable launch feedback
 - name: configure application launch feedback
-  become_user: "{{ user_home }}"
+  # become_user: "{{ user_home }}"
+  become: true
   shell: |
     kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group BusyCursorSettings --key bouncing false
     kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group FeedbackStyle --key BusyCursor false
