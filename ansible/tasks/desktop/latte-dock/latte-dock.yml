@@ -37,6 +37,7 @@
 
 - name: install latte dock
   become: true
+  become_user: "{{ host_user }}"
   shell: >
     sh /tmp/latte-dock/install.sh
 
