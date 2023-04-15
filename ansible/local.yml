@@ -23,29 +23,29 @@
       when: is_macos
 
   tasks:
-    # - include: tasks/desktop/kde-plasma.yml
+    - include: tasks/desktop/kde-plasma.yml
     # repositories
-    - include_tasks: tasks/common/repositories/self.yml
-    - include_tasks: tasks/common/repositories/tpm.yml
-    - include_tasks: tasks/common/repositories/fzf.yml # become
+    # - include_tasks: tasks/common/repositories/self.yml
+    # - include_tasks: tasks/common/repositories/tpm.yml
+    # - include_tasks: tasks/common/repositories/fzf.yml # become
 
     # macos
-    - include_tasks: tasks/macos/install.yml
+    # - include_tasks: tasks/macos/install.yml
 
     # ubuntu
-    - include_tasks: tasks/ubuntu/utils.yml
-    - include_tasks: tasks/ubuntu/nvim.yml
-    - include_tasks: tasks/ubuntu/docker.yml
-    - include_tasks: tasks/ubuntu/software.yml
+    # - include_tasks: tasks/ubuntu/utils.yml
+    # - include_tasks: tasks/ubuntu/nvim.yml
+    # - include_tasks: tasks/ubuntu/docker.yml
+    # - include_tasks: tasks/ubuntu/software.yml
 
     # programming languages
-    - include_tasks: tasks/common/programming_languages/go.yml # become
-    - include_tasks: tasks/common/programming_languages/node.yml
-    - include_tasks: tasks/common/programming_languages/rust.yml # become
+    # - include_tasks: tasks/common/programming_languages/go.yml # become
+    # - include_tasks: tasks/common/programming_languages/node.yml
+    # - include_tasks: tasks/common/programming_languages/rust.yml # become
     # software
-    - include_tasks: tasks/common/software/kitty.yml # become
-    - include_tasks: tasks/common/software/nvm.yml
-    - include_tasks: tasks/common/software/ohmyzsh.yml # become
+    # - include_tasks: tasks/common/software/kitty.yml # become
+    # - include_tasks: tasks/common/software/nvm.yml
+    # - include_tasks: tasks/common/software/ohmyzsh.yml # become
 
     # - include_tasks: tasks_to_include.yml
     #   include_tasks:
@@ -86,5 +86,5 @@
     #     state: present
     #   become: yes
 
-  handlers:
-    - include_tasks: handlers/docker.yml
+  # handlers:
+  # - include_tasks: handlers/docker.yml
