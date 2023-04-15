@@ -18,11 +18,11 @@
   #     become: true
   #     when: is_debian_based_distribution
 
-    # - name: ensuring homebrew is installed
-    #   stat:
-    #     path: /usr/local/bin/brew
-    #   register: homebrew_check
-    #   when: is_macos
+  # - name: ensuring homebrew is installed
+  #   stat:
+  #     path: /usr/local/bin/brew
+  #   register: homebrew_check
+  #   when: is_macos
 
   tasks:
     - include: tasks/desktop/kde-plasma.yml
