@@ -85,3 +85,6 @@
     kwriteconfig5 --file "{{ user_home }}/.config/kplashrc" \
       --group KSplash \
       --key Theme none
+
+- name: change global theme
+  shell: lookandfeeltool -a com.github.vinceluice.Layan
