@@ -55,6 +55,8 @@
 
 - name: change gnome/gtk application style
   become_user: "{{ host_user }}"
+  environment:
+    DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
   shell: dbus-send --session --dest=org.kde.GtkConfig --type=method_call /GtkConfig org.kde.GtkConfig.setGtkTheme 'string:Layan-Dark-Solid'
 
 - name: change kvantum theme to layan
@@ -73,8 +75,6 @@
 # disable launch feedback
 - name: configure application launch feedback
   become_user: "{{ user_home }}"
-  environment:
-    DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
   shell: |
     kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group BusyCursorSettings --key bouncing false
     kwriteconfig5 --file "{{ user_home }}/.config/klaunchrc" --group FeedbackStyle --key BusyCursor false
