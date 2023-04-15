@@ -8,7 +8,7 @@
     - user_home: "{{ ansible_env.HOME }}"
     - include: tasks/macos/brew_packages.yml
     - include: tasks/macos/cask_packages.yml
-    - allow_world_readable_tmpfiles: true
+    # - allow_world_readable_tmpfiles: true
 
   pre_tasks:
     - name: update repositories
