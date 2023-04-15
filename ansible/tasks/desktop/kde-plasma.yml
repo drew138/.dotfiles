@@ -5,6 +5,7 @@
 #     kwriteconfig5 --file kdeglobals --group User --key Picture ~/.dotfiles/desktop/profile.png
 
 - name: change wallpaper
+  become: true
   shell: >
     plasma-apply-wallpaperimage {{ user_home }}/.dotfiles/assets/images/wallpaper.jpg
 
