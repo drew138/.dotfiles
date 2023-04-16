@@ -4,12 +4,12 @@
       - latte-dock
     state: present
 
-- name: run latte dock
-  become_user: "{{ host_user }}"
-  environment:
-    XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
-  shell: |
-    latte-dock
+# - name: run latte dock
+#   become_user: "{{ host_user }}"
+#   environment:
+#     XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
+#   shell: |
+#     latte-dock
 
 - name: Create symbolic link
   file:
