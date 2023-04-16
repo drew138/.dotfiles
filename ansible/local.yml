@@ -6,6 +6,7 @@
     - has_extra_software: "{{ EXTRA_SOFTWARE == 'true' }}"
     - is_debian_based_distribution: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
     - dbus_session_bus_address: "unix:path=/run/user/1000/bus"
+    - xdg_runtime_dir: "/run/user/1000"
     - is_macos: "{{ ansible_distribution == 'MacOSX' }}"
     - host_user: "{{ ansible_env.SUDO_USER }}"
     - user_home: "/home/{{ host_user }}"
