@@ -6,7 +6,7 @@
 
 - name: run latte dock
   environment:
-    DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
+    XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
   shell: |
     latte-dock
 
