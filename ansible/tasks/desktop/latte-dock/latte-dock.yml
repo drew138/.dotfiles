@@ -8,8 +8,8 @@
   become_user: "{{ host_user }}"
   environment:
     XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
-  shell: nohup latte-dock --enable-autostart
-  async: 0
+  shell: latte-dock --enable-autostart
+  async: 10000
   poll: 0
 
 - name: create symbolic link
