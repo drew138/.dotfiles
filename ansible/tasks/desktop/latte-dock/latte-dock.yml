@@ -4,11 +4,14 @@
       - latte-dock
     state: present
 
-# - name: run latte dock
-#   become_user: "{{ host_user }}"
-#   environment:
-#     XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
-#   command: latte-dock --enable-autostart
+- name: run latte dock
+  become_user: "{{ host_user }}"
+  environment:
+    XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
+  ansible.builtin.nohup:
+    cmd: latte-dock --enable-autostart
+  async: 0
+  poll: 0
 
 - name: Create symbolic link
   file:
@@ -16,13 +19,6 @@
     dest: "{{ user_home }}/.config/latte/layout.layout.latte"
     state: link
     force: yes
-
-# - name: switch latte dock layout
-#   become_user: "{{ host_user }}"
-#   shell: >
-#     kwriteconfig5 --file "{{ user_home }}/.config/lattedockrc" \
-#       --group UniversalSettings \
-#       --key singleModeLayoutName layout
 
 - name: switch latte dock layout
   environment:
