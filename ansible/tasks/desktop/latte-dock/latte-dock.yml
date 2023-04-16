@@ -12,6 +12,9 @@
   async: 10000
   poll: 0
 
+- name: pause while latte starts
+  command: sleep 10s
+
 - name: create symbolic link
   file:
     src: "{{ user_home }}/.dotfiles/assets/latte/layout.layout.latte"
@@ -23,6 +26,5 @@
   environment:
     DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
   become_user: "{{ host_user }}"
-  shell: |
-    sleep 5s
+  shell: >
     qdbus org.kde.lattedock /Latte org.kde.LatteDock.switchToLayout layout
