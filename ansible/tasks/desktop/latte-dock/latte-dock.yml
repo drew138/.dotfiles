@@ -4,8 +4,8 @@
       - latte-dock
     state: present
 
-- name: fuck knows
-  # become_user: "{{ host_user }}"
+- name: run latte dock
+  become_user: "{{ host_user }}"
   environment:
     XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
   ansible.builtin.nohup:
