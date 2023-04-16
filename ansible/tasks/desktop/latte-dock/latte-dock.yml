@@ -4,13 +4,22 @@
       - latte-dock
     state: present
 
-# - name: run latte dock
-#   shell: |
-#     latte-dock
-
 - name: run latte dock
-  become_user: "{{ host_user }}"
   environment:
     DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
+  shell: |
+    latte-dock
+
+- name: Create symbolic link
+  file:
+    src: "{{ user_home }}/.dotfiles/assets/latte/layout.layout.latte"
+    dest: "{{ user_home }}/.config/latte/layout.layout.latte"
+    state: link
+    force: yes
+
+- name: switch latte dock layout
+  become_user: "{{ host_user }}"
   shell: >
-    dbus-send --session --type=method_call --dest=org.kde.LatteDock /LatteDock org.kde.LatteDock.reloadConfig string:"/home/drew/.dotfiles/assets/latte/layout.layout.latte"
+    kwriteconfig5 --file "{{ user_home }}/.config/lattedockrc" \
+      --group UniversalSettings \
+      --key singleModeLayoutName layout
