@@ -5,7 +5,7 @@
     state: present
 
 - name: run latte dock
-  become_user: "{{ host_user }}"
+  # become_user: "{{ host_user }}"
   environment:
     XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
   ansible.builtin.nohup:
@@ -13,7 +13,7 @@
   async: 0
   poll: 0
 
-- name: Create symbolic link
+- name: create symbolic link
   file:
     src: "{{ user_home }}/.dotfiles/assets/latte/layout.layout.latte"
     dest: "{{ user_home }}/.config/latte/layout.layout.latte"
