@@ -26,6 +26,8 @@
 #       --key singleModeLayoutName layout
 
 - name: switch latte dock layout
+  environment:
+    DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
   become_user: "{{ host_user }}"
   shell: >
     qdbus org.kde.lattedock /Latte org.kde.LatteDock.switchToLayout layout
