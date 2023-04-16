@@ -8,8 +8,7 @@
   become_user: "{{ host_user }}"
   environment:
     XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
-  shell: |
-    latte-dock --enable-autostart
+  command: latte-dock --enable-autostart
 
 - name: Create symbolic link
   file:
