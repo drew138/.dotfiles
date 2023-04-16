@@ -23,5 +23,6 @@
   environment:
     DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
   become_user: "{{ host_user }}"
-  shell: >
+  shell: |
+    sleep 5s
     qdbus org.kde.lattedock /Latte org.kde.LatteDock.switchToLayout layout
