@@ -8,9 +8,8 @@
   # become_user: "{{ host_user }}"
   # environment:
   #   XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
-  # ansible.builtin.nohup:
-  #   cmd: latte-dock --enable-autostart
-  command: echo hola
+  ansible.builtin.nohup:
+    cmd: latte-dock --enable-autostart
   # async: 0
   # poll: 0
 
