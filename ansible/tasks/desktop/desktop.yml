@@ -2,5 +2,5 @@
 # - include: tasks/desktop/applications/applications.yml
 # - include: tasks/desktop/shortcuts/shortcuts.yml
 # - include: tasks/desktop/wallpaper/wallpaper.yml
-# - include: tasks/desktop/widgets/widgets.yml
+- include: tasks/desktop/widgets/widgets.yml
 - include: tasks/desktop/latte-dock/latte-dock.yml
