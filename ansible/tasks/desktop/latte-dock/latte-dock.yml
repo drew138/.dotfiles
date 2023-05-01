@@ -12,19 +12,33 @@
   async: 10000
   poll: 0
 
+- name: run latte dock
+  become_user: "{{ host_user }}"
+  environment:
+    XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
+  shell: latte-dock --import-layout "{{ user_home }}/.dotfiles/assets/latte/layout.layout.latte"
+  async: 10000
+  poll: 0
+
 - name: pause while latte starts
   command: sleep 10s
+# - name: create symbolic link
+#   file:
+#     src: "{{ user_home }}/.dotfiles/assets/latte/layout.layout.latte"
+#     dest: "{{ user_home }}/.config/latte/layout.layout.latte"
+#     state: link
+#     force: yes
 
-- name: create symbolic link
-  file:
-    src: "{{ user_home }}/.dotfiles/assets/latte/layout.layout.latte"
-    dest: "{{ user_home }}/.config/latte/layout.layout.latte"
-    state: link
-    force: yes
+# - name: switch latte dock layout
+#   environment:
+#     DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
+#   become_user: "{{ host_user }}"
+#   shell: >
+#     qdbus org.kde.lattedock /Latte org.kde.LatteDock.switchToLayout layout
 
-- name: switch latte dock layout
-  environment:
-    DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
-  become_user: "{{ host_user }}"
-  shell: >
-    qdbus org.kde.lattedock /Latte org.kde.LatteDock.switchToLayout layout
+# - name: switch latte dock layout
+#   environment:
+#     DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address }}"
+#   become_user: "{{ host_user }}"
+#   shell: >
+

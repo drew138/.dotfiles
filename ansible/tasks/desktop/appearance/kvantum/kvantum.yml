@@ -23,14 +23,3 @@
       qmake && make
       make install
     chdir: /tmp/Kvantum/Kvantum
-# - name: post install cleanup
-#   apt:
-#     name:
-#       - g++
-#       - libx11-dev
-#       - libxext-dev
-#       - qtbase5-dev
-#       - libqt5svg5-dev
-#       - libqt5x11extras5-dev
-#       - qttools5-dev-tools
-#     state: absent
