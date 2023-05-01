@@ -1,6 +1,0 @@
-# - name: Set profile picture using kwriteconfig5
-#   # become: yes
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   shell: >
-#     kwriteconfig5 --file kdeglobals --group User --key Picture ~/.dotfiles/desktop/profile.png
-
