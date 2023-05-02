@@ -115,7 +115,7 @@ PATH="$PATH:/usr/local/go/bin"
 export GOPATH=$HOME/go
 export PATH=$PATH:/$GOPATH/bin
 
-alias nd='~/.dotfiles/scripts/nvim_dir.sh'
+alias nd='. ~/.dotfiles/scripts/nvim_dir.sh'
 alias nf='~/.dotfiles/scripts/nvim_file.sh'
 alias vim='nvim'
 
