@@ -55,12 +55,14 @@ return require('packer').startup(function(use)
     use 'tpope/vim-fugitive'
     -- copilot
     use 'github/copilot.vim'
-    -- -- debugging
+    -- debugging
     use 'mfussenegger/nvim-dap'
     use 'leoluz/nvim-dap-go'
     use 'rcarriga/nvim-dap-ui'
     use 'theHamsta/nvim-dap-virtual-text'
     use 'nvim-telescope/telescope-dap.nvim'
+    -- function context
+    use 'nvim-treesitter/nvim-treesitter-context'
 
     if packer_bootstrap then
         require('packer').sync()

@@ -12,7 +12,7 @@
       - xclip
       - protobuf-compiler
       - kde-full
-      # find ~ -type f -mmin -1 # find recently changed files
+      # find ~ -type f -mmin 1 # find recently changed files
   when: is_debian_based_distribution
 
 - name: add flathub repo
