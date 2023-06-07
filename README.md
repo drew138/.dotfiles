@@ -82,4 +82,4 @@ cat id_ed25519.pub
 
 ## Tmux plugins
 
-Tmux plugins are not installed automatically through ansible. Install them by pressing `<C-a> I` in an active session.
+Tmux plugins are not installed automatically through ansible. Install them by pressing <kbd>prefix + I</kbd> in an active session.
