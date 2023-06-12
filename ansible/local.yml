@@ -1,3 +1,4 @@
+---
 - hosts: localhost
   become: true
   vars:
@@ -28,6 +29,7 @@
 
   tasks:
     - include: tasks/desktop/desktop.yml
+
     # repositories
     # - include_tasks: tasks/common/repositories/self.yml
     # - include_tasks: tasks/common/repositories/tpm.yml
@@ -89,6 +91,11 @@
     #     virtualenv: /home/drew/.dotfiles/env
     #     state: present
     #   become: yes
+
+- name: Install migration-cli globally
+  npm:
+    name: 'commitlint/cli @commitlint/config-conventional'
+    global: true
 
   # handlers:
   # - include_tasks: handlers/docker.yml
