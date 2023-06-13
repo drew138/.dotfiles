@@ -10,6 +10,8 @@
       - postman
       - obs
       - bitwarden
+      - notion
+      - whatsapp
     state: present
   register: result
   until: result is successful

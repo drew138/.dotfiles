@@ -1,5 +1,0 @@
-awdasdasdasdasdadsasdsad
-- name: remove window buttons on the top left corner
-  become_user: "{{ host_user }}"
-  shell: >
-    kwriteconfig5 --file "{{ user_home }}/.config/kwinrc" --group "org.kde.kdecoration2" --key ButtonsOnLeft ""

@@ -42,12 +42,6 @@
     state: present
   when: is_debian_distro and has_extra_software
 
-# - name: copy xdg-open overwrite
-#   become_user: "{{ ansible_env.SUDO_USER }}"
-#   copy:
-#     src: ~/.dotfiles/scripts/xdg-open
-#     dest: /usr/local/bin
-
 - name: install slack
   flatpak:
     name: com.slack.Slack

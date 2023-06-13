@@ -5,5 +5,18 @@
       - i3
     state: present
   when: is_debian_distro
-# TODO add config tasks
+
+- name: create i3 directory if it does not exist
+  file:
+    path: "{{ user_home }}/.config/i3"
+    state: directory
+  when: is_debian_distro
+
+- name: Create i3 symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.config/i3/config"
+    dest: "{{ user_home }}/.config/i3/config"
+    state: link
+    force: true
+  when: is_debian_distro
 ...

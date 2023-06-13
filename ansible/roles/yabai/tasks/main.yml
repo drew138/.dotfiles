@@ -1,0 +1,17 @@
+---
+- name: install yabai
+  homebrew:
+    name:
+      - yabai
+    state: present
+  register: result
+  until: result is successful
+  when: is_macos and homebrew_check.stat.exists
+
+- name: Create .yabairc symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.yabairc"
+    dest: "{{ user_home }}/.yabairc"
+    state: link
+    force: true
+...

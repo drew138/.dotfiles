@@ -1,4 +1,0 @@
-- name: change krunner position to center
-  become_user: "{{ host_user }}"
-  shell: >
-    kwriteconfig5 --file "{{ user_home }}/.config/krunnerrc" --group General --key FreeFloating true
