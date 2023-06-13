@@ -1,0 +1,78 @@
+---
+- name: install flatpak
+  apt:
+    name:
+      - flatpak
+    state: present
+  when: is_debian_distro
+
+- name: add flathub repository
+  flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
+  when: is_debian_distro
+
+- name: install discord
+  flatpak:
+    name: com.discordapp.Discord
+    method: user
+    state: present
+  when: is_debian_distro and has_extra_software
+
+- name: install firefox
+  flatpak:
+    name: org.mozilla.firefox
+    method: user
+    state: present
+  when: is_debian_distro and has_extra_software
+
+- name: install obsidian
+  flatpak:
+    name: md.obsidian.Obsidian
+    method: user
+    state: present
+  when: is_debian_distro and has_extra_software
+
+- name: install postman
+  flatpak:
+    name: com.getpostman.Postman
+    method: user
+    state: present
+  when: is_debian_distro and has_extra_software
+
+# - name: copy xdg-open overwrite
+#   become_user: "{{ ansible_env.SUDO_USER }}"
+#   copy:
+#     src: ~/.dotfiles/scripts/xdg-open
+#     dest: /usr/local/bin
+
+- name: install slack
+  flatpak:
+    name: com.slack.Slack
+    method: user
+    state: present
+  when: is_debian_distro and has_extra_software
+
+- name: install spotify
+  flatpak:
+    name: com.spotify.Client
+    method: user
+    state: present
+  when: is_debian_distro and has_extra_software
+
+- name: install obs
+  flatpak:
+    name: com.obsproject.Studio
+    method: user
+    state: present
+  when: is_debian_distro and has_extra_software
+
+- name: install bitwarden
+  flatpak:
+    name: com.bitwarden.desktop
+    method: user
+    state: present
+  when: is_debian_distro and has_extra_software
+...

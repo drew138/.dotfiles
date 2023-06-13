@@ -1,0 +1,17 @@
+---
+- name: download algorithms repository
+  git:
+    repo: "git@github.com:Drew138/algorithms.git"
+    dest: "{{ user_home }}/dev/algorithms"
+    clone: true
+    update: true
+  when: has_user_repositories
+
+- name: download competitive programming repository
+  git:
+    repo: "git@github.com:Drew138/competitive-programming.git"
+    dest: "{{ user_home }}/dev/competitive-programming"
+    clone: true
+    update: true
+  when: has_user_repositories
+...

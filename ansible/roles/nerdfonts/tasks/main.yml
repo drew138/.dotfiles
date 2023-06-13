@@ -1,0 +1,22 @@
+---
+- name: create fonts directories if they don't exist
+  file:
+    path: "{{ user_home }}/.local/share/fonts"
+    state: directory
+
+- name: create symlink for NerdFonts directory
+  file:
+    src: "{{ user_home }}/.dotfiles/assets/fonts/NerdFonts"
+    dest: "{{ user_home }}/.local/share/fonts"
+    state: link
+    force: true
+    when: is_debian_distro
+
+- name: create symlink for NerdFonts directory
+  file:
+    src: "{{ user_home }}/.dotfiles/assets/fonts/NerdFonts"
+    dest: "{{ user_home }}/Library/Fonts"
+    state: link
+    force: true
+    when: is_macos
+...

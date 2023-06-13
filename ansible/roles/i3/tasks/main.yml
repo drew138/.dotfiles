@@ -1,0 +1,9 @@
+---
+- name: install i3
+  apt:
+    name:
+      - i3
+    state: present
+  when: is_debian_distro
+# TODO add config tasks
+...

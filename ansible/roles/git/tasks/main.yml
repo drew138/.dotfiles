@@ -1,0 +1,24 @@
+---
+- name: install git
+  apt:
+    name:
+      - git
+    state: present
+  when: is_debian_distro
+
+- name: install git
+  homebrew:
+    name:
+      - git
+    state: present
+  register: result
+  until: result is successful
+  when: is_macos and homebrew_check.stat.exists
+
+- name: Create .gitconfig symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.gitconfig"
+    dest: "{{ user_home }}/.gitconfig"
+    state: link
+    force: true
+...

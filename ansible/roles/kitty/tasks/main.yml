@@ -1,0 +1,33 @@
+---
+- name: install kitty
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  ansible.builtin.shell: >
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+  args:
+    warn: false
+  when: has_kitty_terminal
+
+- name: post install setup
+  become_user: "{{ host_user }}"
+  command: "~/.dotfiles/scripts/kitty_post_install.sh"
+  when: is_debian_distro and has_kitty_terminal
+
+- name: create kitty directory if they don't exist
+  file:
+    path: "{{ user_home }}/.config/kitty"
+    state: directory
+
+- name: Create kitty.conf symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.config/kitty/kitty.conf"
+    dest: "{{ user_home }}/.config/kitty/kitty.conf"
+    state: link
+    force: true
+
+- name: Create nightfox_kitty.conf symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.config/kitty/nightfox_kitty.conf"
+    dest: "{{ user_home }}/.config/kitty/nightfox_kitty.conf"
+    state: link
+    force: true
+...

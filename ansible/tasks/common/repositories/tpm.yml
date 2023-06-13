@@ -1,6 +1,0 @@
-- name: tmux package manager
-  git:
-    repo: "https://github.com/tmux-plugins/tpm.git"
-    dest: "{{ user_home }}/.tmux/plugins/tpm/"
-    clone: yes
-    update: yes

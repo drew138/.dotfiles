@@ -1,5 +1,11 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+PATH="$PATH:/home/$USER/.local/bin"
+PATH="$PATH:/home/$USER/go/bin"
+PATH="$PATH:/home/$USER/.go/bin"
+PATH="$PATH:/usr/local/go/bin"
+PATH="$HOME/bin:/usr/local/bin:$PATH"
+export GOPATH="$HOME/go"
+export PATH="$PATH:/$GOPATH/bin"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -108,13 +114,8 @@ source ~/.nvm/nvm.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-PATH="$PATH:/home/$USER/.local/bin"
-PATH="$PATH:/home/$USER/flutter/bin"
-PATH="$PATH:/home/$USER/go/bin"
-PATH="$PATH:/home/$USER/.go/bin"
-PATH="$PATH:/usr/local/go/bin"
-export GOPATH=$HOME/go
-export PATH=$PATH:/$GOPATH/bin
+# Disable homebrew auto update
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 alias nd='. ~/.dotfiles/scripts/nvim_dir.sh'
 alias nf='~/.dotfiles/scripts/nvim_file.sh'
@@ -129,9 +130,3 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
 [ -f ~/.workrc ] && source ~/.workrc 
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/drew/google-cloud-sdk/path.zsh.inc' ]; then . '/home/drew/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/drew/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/drew/google-cloud-sdk/completion.zsh.inc'; fi

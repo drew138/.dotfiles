@@ -1,0 +1,24 @@
+---
+- name: install utils (linux)
+  package:
+    name:
+      - htop
+      - ripgrep
+      - python3-pip
+      - python3-virtualenv
+      - python3.10-venv
+      - protobuf-compiler
+  when: is_debian_distro
+
+- name: install utils (macos)
+  homebrew:
+    name:
+      - htop
+      - ripgrep
+      - virtualenv
+      - protobuf
+    state: present
+  register: result
+  until: result is successful
+  when: is_macos and homebrew_check.stat.exists
+...

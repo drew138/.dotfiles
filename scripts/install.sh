@@ -7,9 +7,9 @@ SCRIPT_DIR="$DIR/scripts"
 install(){
   sudo ansible-pull -U https://github.com/Drew138/.dotfiles.git ansible/local.yml \
       --extra-vars \
-      "USER_REPOSITORIES=$USER_REPOSITORIES \
-      KITTY_TERMINAL=$KITTY_TERMINAL \
-      EXTRA_SOFTWARE=$EXTRA_SOFTWARE"
+      "user_repositories=$USER_REPOSITORIES \
+      kitty_terminal=$KITTY_TERMINAL \
+      extra_software=$EXTRA_SOFTWARE"
 
   "$SCRIPT_DIR/simbolic_links.sh"
   "$SCRIPT_DIR/python_venv.sh"

@@ -1,0 +1,49 @@
+---
+- name: clone nvim repository
+  git:
+    repo: "https://github.com/neovim/neovim.git"
+    dest: "{{ user_home }}/neovim"
+    depth: 1
+    clone: true
+    update: true
+
+- name: build and install nvim
+  shell:
+    cmd: |
+      make CMAKE_BUILD_TYPE=RelWithDebInfo
+      make install
+    chdir: "{{ user_home }}/neovim"
+
+- name: install dependencies
+  apt:
+    name:
+      - xclip
+    state: present
+  when: is_debian_distro
+
+- name: install dependencies
+  homebrew:
+    name:
+      - tree-sitter
+      - xclip
+    state: present
+  register: result
+  until: result is successful
+  when: is_macos and homebrew_check.stat.exists
+
+- name: install pynvim
+  ansible.builtin.pip:
+    name: pynvim
+
+- name: install commitlint node package
+  npm:
+    name: 'commitlint/cli @commitlint/config-conventional'
+    global: true
+
+- name: Create nvim symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.config/nvim"
+    dest: "{{ user_home }}/.config/nvim"
+    state: link
+    force: true
+...

@@ -1,0 +1,17 @@
+---
+- name: installing homebrew cask packages
+  homebrew_cask:
+    name:
+      - firefox
+      - slack
+      - spotify
+      - discord
+      - obsidian
+      - postman
+      - obs
+      - bitwarden
+    state: present
+  register: result
+  until: result is successful
+  when: is_macos and homebrew_check.stat.exists and has_user_repositories
+...
