@@ -14,13 +14,3 @@ create_autocmd("BufLeave", opts_leave)
 create_autocmd("FocusLost", opts_leave)
 create_autocmd("InsertEnter", opts_leave)
 create_autocmd("WinLeave", opts_leave)
-
--- packer
-
-local packer_user_config = vim.api.nvim_create_augroup("packer_user_config", { clear = true })
-local opts = {
-	pattern = "packer.lua",
-	command = "source <afile> | PackerCompile",
-	group = packer_user_config,
-}
-create_autocmd("BufWritePost", opts)

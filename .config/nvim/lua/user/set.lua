@@ -1,5 +1,6 @@
-local set = vim.keymap.set
 vim.g.mapleader = " "
+
+local set = vim.keymap.set
 set("n", "<up>", "<nop>")
 set("n", "<down>", "<nop>")
 set("n", "<left>", "<nop>")
