@@ -3,6 +3,7 @@
   file:
     path: "{{ user_home }}/.local/share/fonts"
     state: directory
+  when: is_debian_distro
 
 - name: create symlink for NerdFonts directory
   file:
@@ -10,7 +11,7 @@
     dest: "{{ user_home }}/.local/share/fonts"
     state: link
     force: true
-    when: is_debian_distro
+  when: is_debian_distro
 
 - name: create symlink for NerdFonts directory
   file:
@@ -18,5 +19,5 @@
     dest: "{{ user_home }}/Library/Fonts"
     state: link
     force: true
-    when: is_macos
+  when: is_macos
 ...
