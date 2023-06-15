@@ -5,6 +5,7 @@
 #       - xclip
 #       - cmake
 #       - make
+#       - gettext
 #     state: present
 #   when: is_debian_distro
 #
@@ -15,6 +16,7 @@
 #       - xclip
 #       - cmake
 #       - make
+#       - gettext
 #     state: present
 #   register: result
 #   until: result is successful
