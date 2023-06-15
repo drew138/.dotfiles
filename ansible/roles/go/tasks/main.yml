@@ -14,7 +14,7 @@
     var: go_exists.stdout
 
 - name: download go installer
-  when: go_exists is failed
+  when: go_exists is not failed
   get_url:
     url: https://get.golang.org/{{ uname_result.stdout }}/go_installer
     dest: /tmp/go_installer
@@ -23,6 +23,6 @@
 
 - name: install go
   become_user: "{{ host_user }}"
-  when: go_exists is failed
+  when: go_exists is not failed
   script: "/tmp/go_installer"
 ...
