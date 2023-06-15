@@ -1,4 +1,25 @@
 ---
+- name: install dependencies
+  apt:
+    name:
+      - xclip
+      - cmake
+      - make
+    state: present
+  when: is_debian_distro
+
+- name: install dependencies
+  homebrew:
+    name:
+      - tree-sitter
+      - xclip
+      - cmake
+      - make
+    state: present
+  register: result
+  until: result is successful
+  when: is_macos and homebrew_check.stat.exists
+
 - name: clone nvim repository
   git:
     repo: "https://github.com/neovim/neovim.git"
@@ -13,23 +34,6 @@
       make CMAKE_BUILD_TYPE=RelWithDebInfo
       make install
     chdir: "{{ user_home }}/neovim"
-
-- name: install dependencies
-  apt:
-    name:
-      - xclip
-    state: present
-  when: is_debian_distro
-
-- name: install dependencies
-  homebrew:
-    name:
-      - tree-sitter
-      - xclip
-    state: present
-  register: result
-  until: result is successful
-  when: is_macos and homebrew_check.stat.exists
 
 - name: install pynvim
   ansible.builtin.pip:
