@@ -31,8 +31,6 @@
     mode: 0755
     group: sys
     owner: "{{ host_user }}"
-  args:
-    creates: "{{ user_home }}/.workrc"
 
 - name: change default shell
   become: true
