@@ -19,7 +19,7 @@
     url: https://get.golang.org/{{ uname_result.stdout }}/go_installer
     dest: /tmp/go_installer
     mode: 0755
-    force: "yes"
+    force: true
 
 - name: install go
   become_user: "{{ host_user }}"
