@@ -9,7 +9,7 @@
 
 - name: post install setup
   become_user: "{{ host_user }}"
-  command: "~/.dotfiles/scripts/kitty_post_install.sh"
+  command: "{{ user_home }}/.dotfiles/scripts/kitty_post_install.sh"
   when: is_debian_distro and has_kitty_terminal
 
 - name: create kitty directory if they don't exist
