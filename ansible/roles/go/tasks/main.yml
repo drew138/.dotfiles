@@ -18,7 +18,7 @@
     force: "yes"
 
 - name: install go
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become_user: "{{ host_user }}"
   when: go_exists is failed
   script: "/tmp/go_installer"
 ...
