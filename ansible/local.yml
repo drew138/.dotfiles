@@ -1,25 +1,25 @@
 ---
 - hosts: localhost
 
-  # roles:
-  #   - casks
-  #   - docker
-  #   - fd
-  #   - flatpak
-  #   - fzf
-  #   - git
-  #   - go
-  #   - i3
-  #   - kitty
-  #   - nerdfonts
-  #   - node
-  #   - nvim
-  #   - ohmyzsh
-  #   - repositories
-  #   - rust
-  #   - tmux
-  #   - utils
-  #   - yabai
+  roles:
+    - casks
+    - docker
+    - fd
+    - flatpak
+    - fzf
+    - git
+    - go
+    - i3
+    - kitty
+    - nerdfonts
+    - node
+    - nvim
+    - ohmyzsh
+    - repositories
+    - rust
+    - tmux
+    - utils
+    - yabai
 
   vars:
     - has_user_repositories: "{{ user_repositories == 'true' }}"
@@ -31,46 +31,42 @@
     - user_home: "/home/{{ host_user }}"
 
   pre_tasks:
-    - name: Debug variable
-      debug:
-        var: "{{ host_user }}"
+    - name: update repositories
+      apt: update_cache=yes
+      become: true
+      when: is_debian_distro
 
-#     - name: update repositories
-#       apt: update_cache=yes
-#       become: true
-#       when: is_debian_distro
-#
-#     - name: ensuring homebrew is installed
-#       stat:
-#         path: /usr/local/bin/brew
-#       register: homebrew_check
-#       when: is_macos
-#
-#     - name: updating homebrew
-#       homebrew:
-#         update_homebrew: true
-#       when: is_macos and homebrew_check.stat.exists
-#
-#     - name: upgrading homebrew packages
-#       homebrew:
-#         upgrade_all: true
-#       register: result
-#       until: result is successful
-#       when: is_macos and homebrew_check.stat.exists
-#
-#     - name: download dotfiles repository ssh
-#       git:
-#         repo: git@github.com:Drew138/.dotfiles.git
-#         dest: "{{ user_home }}/.dotfiles"
-#         clone: true
-#         update: true
-#       when: has_user_repositories
-#
-#     - name: download dotfiles repository http
-#       git:
-#         repo: https://github.com/Drew138/.dotfiles.git
-#         dest: "{{ user_home }}/.dotfiles"
-#         clone: true
-#         update: true
-#       when: not has_user_repositories
-# ...
+    - name: ensuring homebrew is installed
+      stat:
+        path: /usr/local/bin/brew
+      register: homebrew_check
+      when: is_macos
+
+    - name: updating homebrew
+      homebrew:
+        update_homebrew: true
+      when: is_macos and homebrew_check.stat.exists
+
+    - name: upgrading homebrew packages
+      homebrew:
+        upgrade_all: true
+      register: result
+      until: result is successful
+      when: is_macos and homebrew_check.stat.exists
+
+    - name: download dotfiles repository ssh
+      git:
+        repo: git@github.com:Drew138/.dotfiles.git
+        dest: "{{ user_home }}/.dotfiles"
+        clone: true
+        update: true
+      when: has_user_repositories
+
+    - name: download dotfiles repository http
+      git:
+        repo: https://github.com/Drew138/.dotfiles.git
+        dest: "{{ user_home }}/.dotfiles"
+        clone: true
+        update: true
+      when: not has_user_repositories
+...
