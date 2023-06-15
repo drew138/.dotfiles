@@ -8,5 +8,6 @@
     update: true
 
 - name: install fzf
+  become_user: "{{ host_user }}"
   command: "{{ user_home }}/.fzf/install"
 ...

@@ -9,6 +9,9 @@
   command: "uname"
   register: uname_result
 
+- name: debug go version
+  debug: go_exists.stdout
+
 - name: download go installer
   when: go_exists is failed
   get_url:
