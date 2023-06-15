@@ -1,0 +1,74 @@
+---
+- name: check .oh-my-zsh installation
+  stat:
+    path: "{{ user_home }}/.oh-my-zsh"
+  register: ohmyzsh_file
+
+- name: download ohmyzsh installer
+  get_url:
+    url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/ohmyzsh_install.sh
+    mode: 0755
+    force: true
+  when: not ohmyzsh_file.stat.exists
+
+- name: install ohmyzsh
+  become: true
+  command: /tmp/ohmyzsh_install.sh
+  when: not ohmyzsh_file.stat.exists
+
+- name: download syntax highlighting plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    clone: true
+    update: true
+
+- name: download auto suggestions plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    clone: true
+    update: true
+
+- name: install zsh
+  package:
+    name:
+      - zsh
+    state: present
+  when: is_debian_distro
+
+- name: install zsh
+  homebrew:
+    name:
+      - zsh
+    state: present
+  register: result
+  until: result is successful
+  when: is_macos and homebrew_check.stat.exists
+
+- name: Create .zshrc symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.zshrc"
+    dest: "{{ user_home }}/.zshrc"
+    state: link
+    force: true
+
+- name: create .workrc file
+  copy:
+    content: ""
+    dest: "{{ user_home }}/.workrc"
+    backup: true
+    force: false
+    mode: 0755
+    group: sys
+    owner: "{{ host_user }}"
+  args:
+    creates: "{{ user_home }}/.workrc"
+
+- name: change default shell
+  become: true
+  shell: "sudo chsh $USER -s $(which zsh)"
+  args:
+    warn: false
+...

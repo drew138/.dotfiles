@@ -16,19 +16,16 @@ if [ "$PLATFORM" == "Darwin" ]; then
 elif [ "$PLATFORM" == "Linux" ]; then
     FONTS_DIR="$HOME/.local/share/fonts"
     mkdir -p "$FONTS_DIR"
-    ln -sfv "$HOME/.dotfiles/assets/fonts/NerdFonts" $FONTS_DIR
+    ln -sfv "$HOME/.dotfiles/assets/fonts/NerdFonts" "$FONTS_DIR"
     # programs
     mkdir -p "$HOME/.local/bin/"
-    ln -sfv $(which fdfind) "$HOME/.local/bin/fd"
+    ln -sfv "$(which fdfind)" "$HOME/.local/bin/fd"
 fi
 
-ln -sfv "$HOME/.dotfiles/.config/nvim" $CONFIG_DIR/nvim
+ln -sfv "$HOME/.dotfiles/.config/nvim" "$CONFIG_DIR"/nvim
 mkdir -p "$HOME/.config/kitty"
 ln -sfv "$HOME/.dotfiles/.config/kitty/kitty.conf" "$CONFIG_DIR/kitty/"
 ln -sfv "$HOME/.dotfiles/.config/kitty/nightfox_kitty.conf" "$CONFIG_DIR/kitty/"
-mkdir -p "$CONFIG_DIR/coc/"
-mkdir -p "$CONFIG_DIR/coc/ultisnips"
-ln -sfv "$HOME/.dotfiles/.config/coc/ultisnips" "$CONFIG_DIR/coc"
 
 # files
 ln -sfv "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"  

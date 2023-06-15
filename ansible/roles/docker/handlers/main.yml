@@ -1,0 +1,7 @@
+---
+- name: restart docker
+  service:
+    name: docker
+    state: restarted
+  when: is_debian_distro
+...

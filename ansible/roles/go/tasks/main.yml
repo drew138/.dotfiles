@@ -1,0 +1,24 @@
+---
+- name: check if go is installed
+  shell: go version
+  register: go_exists
+  ignore_errors: true
+  failed_when: "'go version' in go_exists.stdout"
+
+- name: get kernel version
+  command: "uname"
+  register: uname_result
+
+- name: download go installer
+  when: go_exists is failed
+  get_url:
+    url: https://get.golang.org/{{ uname_result.stdout }}/go_installer
+    dest: /tmp/go_installer
+    mode: 0755
+    force: "yes"
+
+- name: install go
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  when: go_exists is failed
+  script: "/tmp/go_installer"
+...

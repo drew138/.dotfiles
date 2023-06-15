@@ -1,3 +1,0 @@
-- name: change global theme
-  become_user: "{{ host_user }}"
-  shell: lookandfeeltool -a com.github.vinceliuice.Layan

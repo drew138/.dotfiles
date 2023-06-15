@@ -1,94 +1,72 @@
+---
 - hosts: localhost
-  become: true
+
+  roles:
+    - casks
+    - docker
+    - fd
+    - flatpak
+    - fzf
+    - git
+    - go
+    - i3
+    - kitty
+    - nerdfonts
+    - node
+    - nvim
+    - ohmyzsh
+    - repositories
+    - rust
+    - tmux
+    - utils
+    - yabai
+
   vars:
-    - has_user_repositories: "{{ USER_REPOSITORIES == 'true' }}"
-    - has_kitty_terminal: "{{ KITTY_TERMINAL == 'true' }}"
-    - has_extra_software: "{{ EXTRA_SOFTWARE == 'true' }}"
-    - is_debian_based_distribution: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
-    - dbus_session_bus_address: "unix:path=/run/user/1000/bus" # pass these two as environment variables
-    - xdg_runtime_dir: "/run/user/1000"
+    - has_user_repositories: "{{ user_repositories == 'true' }}"
+    - has_kitty_terminal: "{{ kitty_terminal == 'true' }}"
+    - has_extra_software: "{{ extra_software == 'true' }}"
     - is_macos: "{{ ansible_distribution == 'MacOSX' }}"
+    - is_debian_distro: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
     - host_user: "{{ ansible_env.SUDO_USER }}"
     - user_home: "/home/{{ host_user }}"
-    - include: tasks/macos/brew_packages.yml
-    - include: tasks/macos/cask_packages.yml
-    # - allow_world_readable_tmpfiles: true
 
-  # pre_tasks:
-  #   - name: update repositories
-  #     apt: update_cache=yes
-  #     become: true
-  #     when: is_debian_based_distribution
+  pre_tasks:
+    - name: update repositories
+      apt: update_cache=yes
+      become: true
+      when: is_debian_distro
 
-  # - name: ensuring homebrew is installed
-  #   stat:
-  #     path: /usr/local/bin/brew
-  #   register: homebrew_check
-  #   when: is_macos
+    - name: ensuring homebrew is installed
+      stat:
+        path: /usr/local/bin/brew
+      register: homebrew_check
+      when: is_macos
 
-  tasks:
-    - include: tasks/desktop/desktop.yml
-    # repositories
-    # - include_tasks: tasks/common/repositories/self.yml
-    # - include_tasks: tasks/common/repositories/tpm.yml
-    # - include_tasks: tasks/common/repositories/fzf.yml # become
+    - name: updating homebrew
+      homebrew:
+        update_homebrew: true
+      when: is_macos and homebrew_check.stat.exists
 
-    # macos
-    # - include_tasks: tasks/macos/install.yml
+    - name: upgrading homebrew packages
+      homebrew:
+        upgrade_all: true
+      register: result
+      until: result is successful
+      when: is_macos and homebrew_check.stat.exists
 
-    # ubuntu
-    # - include_tasks: tasks/ubuntu/utils.yml
-    # - include_tasks: tasks/ubuntu/nvim.yml
-    # - include_tasks: tasks/ubuntu/docker.yml
-    # - include_tasks: tasks/ubuntu/software.yml
+    - name: download dotfiles repository ssh
+      git:
+        repo: git@github.com:Drew138/.dotfiles.git
+        dest: "{{ user_home }}/.dotfiles"
+        clone: true
+        update: true
+      when: has_user_repositories
 
-    # programming languages
-    # - include_tasks: tasks/common/programming_languages/go.yml # become
-    # - include_tasks: tasks/common/programming_languages/node.yml
-    # - include_tasks: tasks/common/programming_languages/rust.yml # become
-    # software
-    # - include_tasks: tasks/common/software/kitty.yml # become
-    # - include_tasks: tasks/common/software/nvm.yml
-    # - include_tasks: tasks/common/software/ohmyzsh.yml # become
-
-    # - include_tasks: tasks_to_include.yml
-    #   include_tasks:
-    #   when: "'some_value' in my_var"
-
-    # - name: Configure SDDM as the default display manager
-    #     lineinfile:
-    #       path: /etc/X11/default-display-manager
-    #       line: /usr/bin/sddm
-    #       state: present
-    #     tags:
-    #       - configure
-    #
-    #   - name: Set KDE Plasma as the default desktop environment
-    #     lineinfile:
-    #       path: /etc/alternatives/x-session-manager
-    #       line: /usr/bin/startkde
-    #       state: present
-    #     tags:
-    #       - configure
-    #
-    #   - name: Restart system
-    #     reboot:
-    #     tags:
-    #       - reboot
-    #
-    #       - name: Create virtualenv
-    #   ansible.builtin.virtualenv:
-    #     dest: /home/drew/.dotfiles/env
-    #     python_interpreter: python3
-    #     system_site_packages: no
-    #   become: yes
-    #
-    # - name: Install pip packages
-    #   pip:
-    #     requirements: /home/drew/.dotfiles/requirements.txt
-    #     virtualenv: /home/drew/.dotfiles/env
-    #     state: present
-    #   become: yes
-
-  # handlers:
-  # - include_tasks: handlers/docker.yml
+    - name: download dotfiles repository http
+      git:
+        repo: https://github.com/Drew138/.dotfiles.git
+        dest: "{{ user_home }}/.dotfiles"
+        clone: true
+        update: true
+      when: not has_user_repositories
+...

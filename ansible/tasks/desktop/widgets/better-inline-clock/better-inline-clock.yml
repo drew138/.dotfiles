@@ -1,6 +1,0 @@
-- name: get better inline clock repository
-  git:
-    repo: "https://github.com/MarianArlt/kde-plasmoid-betterinlineclock.git"
-    dest: "{{ user_home }}/.local/share/plasma/plasmoids/kde-plasmoid-betterinlineclock"
-    clone: yes
-    update: yes
