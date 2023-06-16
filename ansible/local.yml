@@ -13,9 +13,9 @@
     - kitty
     - nerdfonts
     - node
-    - nvim
+    # - nvim
     - ohmyzsh
-    - repositories
+    # - repositories
     - rust
     - tmux
     - utils
