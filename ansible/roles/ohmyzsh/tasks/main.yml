@@ -55,7 +55,7 @@
     var: "{{host_user}}"
 
 - name: install ohmyzsh
-  become_user: "{{ host_user }}"
+  become_user: host_user
   # command: /tmp/ohmyzsh_install.sh
   ansible.builtin.shell: >
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
