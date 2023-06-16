@@ -33,7 +33,7 @@
     owner: "{{ host_user }}"
 
 - name: change default shell
-  become: true
+  become_user: "{{ host_user }}"
   shell: "sudo chsh $USER -s $(which zsh)"
   args:
     warn: false
@@ -50,6 +50,10 @@
     mode: 0755
     force: true
   when: not ohmyzsh_file.stat.exists
+
+- name: check host user
+  debug:
+    var: "{{host_user}}"
 
 - name: install ohmyzsh
   become_user: "{{ host_user }}"
