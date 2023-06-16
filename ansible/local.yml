@@ -34,7 +34,7 @@
 
     - name: check host user
       debug:
-        var: "{{host_user}}"
+        var: "{{ ansible_env.SUDO_USER }}"
 
     - name: update repositories
       apt: update_cache=yes
