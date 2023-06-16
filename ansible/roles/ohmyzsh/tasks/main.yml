@@ -30,7 +30,7 @@
     force: false
     mode: 0755
     group: sys
-    owner: host_user
+    owner: "{{ host_user }}"
 
 - name: change default shell
   shell: "sudo chsh {{ host_user }} -s $(which zsh)"
@@ -52,13 +52,13 @@
 
 - name: check host user
   debug:
-    var: host_user
+    var: "{{host_user}}"
 
 - name: install ohmyzsh
-  become_user: host_user
-  command: /tmp/ohmyzsh_install.sh
-  # ansible.builtin.shell: >
-  #   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  become_user: "{{ host_user }}"
+  # command: /tmp/ohmyzsh_install.sh
+  ansible.builtin.shell: >
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   when: not ohmyzsh_file.stat.exists
 
 - name: download syntax highlighting plugin
