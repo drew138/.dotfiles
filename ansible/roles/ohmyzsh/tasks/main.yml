@@ -33,8 +33,7 @@
     owner: "{{ host_user }}"
 
 - name: change default shell
-  become_user: "{{ host_user }}"
-  shell: "sudo chsh $USER -s $(which zsh)"
+  shell: "sudo chsh {{ host_user }} -s $(which zsh)"
   args:
     warn: false
 
