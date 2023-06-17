@@ -6,9 +6,9 @@
     # - go
     # - kitty
     # - node
-    # - nvim
+    - nvim
     # - repositories
-    - tmux
+    # - tmux
     # - yabai
     # done
     # - docker
