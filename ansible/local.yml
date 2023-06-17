@@ -33,6 +33,11 @@
   pre_tasks:
 
     - name: check host user
+      become_user: host_user
+      debug:
+        msg: "{{host_user}} has home ~"
+
+    - name: check host user
       debug:
         var: host_user
 
