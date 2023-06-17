@@ -5,8 +5,8 @@
     # - flatpak
     # - go
     # - i3
-    - kitty
-    # - nerdfonts
+    # - kitty
+    - nerdfonts
     # - node
     # - nvim
     # - repositories
