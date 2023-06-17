@@ -59,7 +59,6 @@
     name: "@commitlint/config-conventional"
     global: true
 
-
 - name: Create nvim symlink
   file:
     src: "{{ user_home }}/.dotfiles/.config/nvim"
