@@ -3,19 +3,19 @@
 
   roles:
     # - flatpak
-    # - kitty
+    - kitty
     # - node
     # - nvim
-    - repositories
     # - tmux
-    # - yabai
     # done
     # - docker
     # - i3
     # - fzf
     # - git
     # - fd
+    # - repositories
     # - casks
+    # - yabai
     # - go
     # - rust
     # - ohmyzsh
