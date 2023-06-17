@@ -3,8 +3,7 @@
 
   roles:
     # - flatpak
-    - fzf
-    # - git
+    - git
     # - go
     # - i3
     # - kitty
@@ -18,6 +17,7 @@
     # - yabai
     # done
     # - docker
+    # - fzf
     # - fd
     # - casks
     # - ohmyzsh
