@@ -34,7 +34,7 @@
 
 - name: change default shell
   become: true
-  command: "chsh -s $(which zsh) {{ host_user }}"
+  command: "chsh {{ host_user }} -s $(which zsh) "
   args:
     warn: false
 
