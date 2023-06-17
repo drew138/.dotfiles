@@ -11,8 +11,7 @@
     # - nvim
     # - repositories
     # - rust
-    - tmux
-    # - utils
+    # - tmux
     # - yabai
     # done
     # - docker
@@ -21,6 +20,7 @@
     # - fd
     # - casks
     # - ohmyzsh
+    - utils
 
   vars:
     - has_user_repositories: "{{ user_repositories == 'true' }}"
