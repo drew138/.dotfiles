@@ -3,9 +3,9 @@
 
   roles:
     # - flatpak
-    # - go
+    - go
     # - kitty
-    - node
+    # - node
     # - nvim
     # - repositories
     # - tmux
