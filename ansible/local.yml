@@ -2,8 +2,8 @@
 - hosts: localhost
 
   roles:
-    - flatpak
-    # - fzf
+    # - flatpak
+    - fzf
     # - git
     # - go
     # - i3
