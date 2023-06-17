@@ -48,14 +48,14 @@
 - name: install commitlint/cli package
   become: true
   become_user: "{{ host_user }}"
-  npm:
+  ansible.builtin.npm:
     name: "commitlint/cli"
     global: true
 
 - name: install @commitlint/config-conventional package
   become: true
   become_user: "{{ host_user }}"
-  npm:
+  ansible.builtin.npm:
     name: "@commitlint/config-conventional"
     global: true
 
