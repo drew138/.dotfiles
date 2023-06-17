@@ -58,6 +58,7 @@
   # command: /tmp/ohmyzsh_install.sh
 
 - name: install ohmyzsh
+  become: true
   become_user: host_user
   args:
     executable: /bin/bash
