@@ -5,8 +5,8 @@
     # - flatpak
     # - go
     # - kitty
-    # - node
-    - nvim
+    - node
+    # - nvim
     # - repositories
     # - tmux
     # - yabai
