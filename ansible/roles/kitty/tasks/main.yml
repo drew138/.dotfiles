@@ -1,6 +1,7 @@
 ---
 - name: install kitty
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become: true
+  become_user: "{{ host_uer }}"
   ansible.builtin.shell: >
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
   args:
