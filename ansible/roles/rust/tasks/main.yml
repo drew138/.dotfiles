@@ -14,7 +14,8 @@
     force: "yes"
 
 - name: install rust/cargo
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become: true
+  become_user: "{{ host_user }}"
   when: cargo_exists is failed
   shell: /tmp/sh.rustup.rs -y
 ...
