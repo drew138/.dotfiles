@@ -4,15 +4,15 @@
   roles:
     # - flatpak
     # - go
-    - i3
     # - kitty
     # - node
     # - nvim
     # - repositories
-    # - tmux
+    - tmux
     # - yabai
     # done
     # - docker
+    # - i3
     # - fzf
     # - git
     # - fd

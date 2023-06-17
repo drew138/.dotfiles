@@ -83,6 +83,9 @@ plugins=(
   docker
   tmux
   z
+  fzf
+  fd
+  ripgrep
 )
 
 source $ZSH/oh-my-zsh.sh
