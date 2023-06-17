@@ -6,11 +6,10 @@
     # - go
     # - i3
     # - kitty
-    - nerdfonts
     # - node
     # - nvim
     # - repositories
-    # - rust
+    - rust
     # - tmux
     # - yabai
     # done
@@ -20,6 +19,7 @@
     # - fd
     # - casks
     # - ohmyzsh
+    # - nerdfonts
     # - utils
 
   vars:
