@@ -6,7 +6,7 @@
     # - go
     - i3
     # - kitty
-    - node
+    # - node
     # - nvim
     # - repositories
     # - tmux
