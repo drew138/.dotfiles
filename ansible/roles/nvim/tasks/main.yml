@@ -6,6 +6,7 @@
       - cmake
       - make
       - gettext
+      - python3-pip
     state: present
   when: is_debian_distro
 
