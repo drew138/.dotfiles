@@ -28,14 +28,6 @@
     state: present
   when: is_debian_distro
 
-- name: install nvm
-  become_user: "{{ host_user }}"
-  ansible.builtin.shell: >
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-  args:
-    warn: false
-    creates: "{{ user_home }}/.nvm/nvm.sh"
-
 - name: install node
   homebrew:
     name:
@@ -44,4 +36,12 @@
   register: result
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
+
+- name: install nvm
+  become_user: "{{ host_user }}"
+  ansible.builtin.shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  args:
+    warn: false
+    creates: "{{ user_home }}/.nvm/nvm.sh"
 ...
