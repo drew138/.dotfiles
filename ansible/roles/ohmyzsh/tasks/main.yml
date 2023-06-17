@@ -50,33 +50,23 @@
     force: true
   when: not ohmyzsh_file.stat.exists
 
-# - name: check host user
-#   become_user: host_user
-#   debug:
-#     msg: "{{host_user}} has home ~"
-
-
 - name: install ohmyzsh
   become: true
   become_user: "{{ host_user }}"
   command: /tmp/ohmyzsh_install.sh
-  # args:
-  #   executable: /bin/bash
-  # ansible.builtin.shell:
-  #   cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   when: not ohmyzsh_file.stat.exists
 
-# - name: download syntax highlighting plugin
-#   git:
-#     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-#     dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-#     clone: true
-#     update: true
-#
-# - name: download auto suggestions plugin
-#   git:
-#     repo: https://github.com/zsh-users/zsh-autosuggestions.git
-#     dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-#     clone: true
-#     update: true
-# ...
+- name: download syntax highlighting plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    clone: true
+    update: true
+
+- name: download auto suggestions plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    clone: true
+    update: true
+...

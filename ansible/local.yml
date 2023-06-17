@@ -13,13 +13,14 @@
     # - kitty
     # - nerdfonts
     # - node
-    # - nvim
-    - ohmyzsh
+    - nvim
     # - repositories
     # - rust
     # - tmux
     # - utils
     # - yabai
+    # done
+    # - ohmyzsh
 
   vars:
     - has_user_repositories: "{{ user_repositories == 'true' }}"
