@@ -22,6 +22,7 @@
     force: true
 
 - name: install go
+  become: true
   become_user: "{{ host_user }}"
   when: go_exists is not failed
   script: "/tmp/go_installer"
