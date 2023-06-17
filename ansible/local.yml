@@ -2,8 +2,7 @@
 - hosts: localhost
 
   roles:
-    # - casks
-    # - docker
+    - docker
     # - fd
     # - flatpak
     # - fzf
@@ -13,13 +12,14 @@
     # - kitty
     # - nerdfonts
     # - node
-    - nvim
+    # - nvim
     # - repositories
     # - rust
     # - tmux
     # - utils
     # - yabai
     # done
+    # - casks
     # - ohmyzsh
 
   vars:
