@@ -3,10 +3,10 @@
 
   roles:
     # - flatpak
-    - kitty
     # - node
     # - nvim
     # - tmux
+    - ohmyzsh ## chsh prompting to password
     # done
     # - docker
     # - i3
@@ -15,10 +15,10 @@
     # - fd
     # - repositories
     # - casks
+    # - kitty
     # - yabai
     # - go
     # - rust
-    # - ohmyzsh
     # - nerdfonts
     # - utils
 
