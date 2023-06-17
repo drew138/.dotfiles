@@ -5,7 +5,7 @@
     # - flatpak
     # - go
     # - i3
-    # - kitty
+    - kitty
     # - nerdfonts
     # - node
     # - nvim
@@ -20,7 +20,7 @@
     # - fd
     # - casks
     # - ohmyzsh
-    - utils
+    # - utils
 
   vars:
     - has_user_repositories: "{{ user_repositories == 'true' }}"
