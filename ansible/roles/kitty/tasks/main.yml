@@ -1,53 +1,49 @@
 ---
-# - name: install kitty
-#   become: true
-#   become_user: "{{ host_user }}"
-#   ansible.builtin.shell: >
-#     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-#   args:
-#     warn: false
-#   when: has_kitty_terminal
-#
-# - name: create directories
-#   file:
-#     path: "{{ item }}"
-#     state: directory
-#   with_items:
-#     - "{{ user_home }}/.local/bin/"
-#     - "{{ user_home }}/.local/share/"
-#     - "{{ user_home }}/.local/share/applications/"
-#     - "{{ user_home }}/.config/kitty"
-#
-# - name: create symbolic link for kitty binary
-#   file:
-#     src: "{{ user_home }}/.local/kitty.app/bin/kitty"
-#     dest: "{{ user_home }}/.local/bin/kitty"
-#     state: link
-#     force: true
-#
-# - name: copy kitty.desktop file
-#   copy:
-#     src: "{{ user_home }}/.local/kitty.app/share/applications/kitty.desktop"
-#     dest: "{{ user_home }}/.local/share/applications/"
-#
-# - name: copy kitty-open.desktop file
-#   copy:
-#     src: "{{ user_home }}/.local/kitty.app/share/applications/kitty-open.desktop"
-#     dest: "{{ user_home }}/.local/share/applications/"
-#
-# - name: update paths in kitty.desktop file(s)
-#   become: true
-#   become_user: "{{ host_user }}"
-#   replace:
-#     path: "{{ item }}"
-#     regexp: "(Icon=)kitty"
-#     replace: "\\1{{ user_home }}/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png"
-#   with_fileglob:
-#     - "{{ user_home }}/.local/share/applications/kitty*.desktop"
-
-- name: update paths in kitty.desktop file(s)
+- name: install kitty
   become: true
   become_user: "{{ host_user }}"
+  ansible.builtin.shell: >
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+  args:
+    warn: false
+  when: has_kitty_terminal
+
+- name: create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ user_home }}/.local/bin/"
+    - "{{ user_home }}/.local/share/"
+    - "{{ user_home }}/.local/share/applications/"
+    - "{{ user_home }}/.config/kitty"
+
+- name: create symbolic link for kitty binary
+  file:
+    src: "{{ user_home }}/.local/kitty.app/bin/kitty"
+    dest: "{{ user_home }}/.local/bin/kitty"
+    state: link
+    force: true
+
+- name: copy kitty.desktop file
+  copy:
+    src: "{{ user_home }}/.local/kitty.app/share/applications/kitty.desktop"
+    dest: "{{ user_home }}/.local/share/applications/"
+
+- name: copy kitty-open.desktop file
+  copy:
+    src: "{{ user_home }}/.local/kitty.app/share/applications/kitty-open.desktop"
+    dest: "{{ user_home }}/.local/share/applications/"
+
+- name: update paths in kitty.desktop file(s)
+  replace:
+    path: "{{ item }}"
+    regexp: "(Icon=)kitty"
+    replace: "\\1{{ user_home }}/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png"
+  with_fileglob:
+    - "{{ user_home }}/.local/share/applications/kitty*.desktop"
+
+- name: update paths in kitty.desktop file(s)
   replace:
     path: "{{ item }}"
     regexp: "(Exec=)kitty"
@@ -55,21 +51,17 @@
   with_fileglob:
     - "{{ user_home }}/.local/share/applications/kitty*.desktop"
 
-# - name: create kitty.conf symlink
-#   become: true
-#   become_user: "{{ host_user }}"
-#   file:
-#     src: "{{ user_home }}/.dotfiles/.config/kitty/kitty.conf"
-#     dest: "{{ user_home }}/.config/kitty/kitty.conf"
-#     state: link
-#     force: true
-#
-# - name: create nightfox_kitty.conf symlink
-#   become: true
-#   become_user: "{{ host_user }}"
-#   file:
-#     src: "{{ user_home }}/.dotfiles/.config/kitty/nightfox_kitty.conf"
-#     dest: "{{ user_home }}/.config/kitty/nightfox_kitty.conf"
-#     state: link
-#     force: true
+- name: create kitty.conf symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.config/kitty/kitty.conf"
+    dest: "{{ user_home }}/.config/kitty/kitty.conf"
+    state: link
+    force: true
+
+- name: create nightfox_kitty.conf symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.config/kitty/nightfox_kitty.conf"
+    dest: "{{ user_home }}/.config/kitty/nightfox_kitty.conf"
+    state: link
+    force: true
 ...
