@@ -8,11 +8,6 @@
     warn: false
   when: has_kitty_terminal
 
-# - name: post install setup
-#   become_user: "{{ host_user }}"
-#   command: "{{ user_home }}/.dotfiles/scripts/kitty_post_install.sh"
-#   when: is_debian_distro and has_kitty_terminal
-
 - name: create directories
   file:
     path: "{{ item }}"
@@ -41,6 +36,8 @@
     dest: "{{ user_home }}/.local/share/applications/"
 
 - name: update paths in kitty.desktop file(s)
+  become: true
+  become_user: "{{ host_user }}"
   replace:
     path: "{{ item }}"
     regexp: "(Icon=)kitty"
@@ -49,6 +46,8 @@
     - "{{ user_home }}/.local/share/applications/kitty*.desktop"
 
 - name: update paths in kitty.desktop file(s)
+  become: true
+  become_user: "{{ host_user }}"
   replace:
     path: "{{ item }}"
     regexp: "(Exec=)kitty"
@@ -56,14 +55,14 @@
   with_fileglob:
     - "{{ user_home }}/.local/share/applications/kitty*.desktop"
 
-- name: Create kitty.conf symlink
+- name: create kitty.conf symlink
   file:
     src: "{{ user_home }}/.dotfiles/.config/kitty/kitty.conf"
     dest: "{{ user_home }}/.config/kitty/kitty.conf"
     state: link
     force: true
 
-- name: Create nightfox_kitty.conf symlink
+- name: create nightfox_kitty.conf symlink
   file:
     src: "{{ user_home }}/.dotfiles/.config/kitty/nightfox_kitty.conf"
     dest: "{{ user_home }}/.config/kitty/nightfox_kitty.conf"
