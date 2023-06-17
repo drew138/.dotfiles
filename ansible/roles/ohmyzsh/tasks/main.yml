@@ -51,8 +51,9 @@
 #   when: not ohmyzsh_file.stat.exists
 
 - name: check host user
+  become_user: host_user
   debug:
-    var: "{{host_user}}"
+    msg: "{{host_user}} has home ~"
 
 - name: install ohmyzsh
   become_user: host_user
