@@ -29,6 +29,7 @@
     - is_debian_distro: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
     - host_user: "{{ ansible_env.SUDO_USER }}"
     - user_home: "/home/{{ host_user }}"
+    - allow_world_readable_tmpfiles: true
 
   pre_tasks:
 
