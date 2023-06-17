@@ -8,8 +8,6 @@
       - gettext
       - python3-pip
       - python3.10-venv
-      - nodejs
-      - npm
     state: present
   when: is_debian_distro
 
@@ -20,7 +18,6 @@
       - xclip
       - cmake
       - make
-      - node
     state: present
   register: result
   until: result is successful
