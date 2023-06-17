@@ -59,7 +59,7 @@
 
 - name: install ohmyzsh
   become: true
-  become_user: host_user
+  become_user: "{{host_user}}"
   args:
     executable: /bin/bash
   ansible.builtin.shell:
