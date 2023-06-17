@@ -57,6 +57,7 @@
   when: not ohmyzsh_file.stat.exists
 
 - name: download syntax highlighting plugin
+  become_user: "{{ host_user }}"
   git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
@@ -64,6 +65,7 @@
     update: true
 
 - name: download auto suggestions plugin
+  become_user: "{{ host_user }}"
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions.git
     dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"

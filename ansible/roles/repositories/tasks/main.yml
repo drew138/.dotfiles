@@ -1,5 +1,6 @@
 ---
 - name: download algorithms repository
+  become_user: "{{ host_user }}"
   git:
     repo: "git@github.com:Drew138/algorithms.git"
     dest: "{{ user_home }}/dev/algorithms"
@@ -8,6 +9,7 @@
   when: has_user_repositories
 
 - name: download competitive programming repository
+  become_user: "{{ host_user }}"
   git:
     repo: "git@github.com:Drew138/competitive-programming.git"
     dest: "{{ user_home }}/dev/competitive-programming"

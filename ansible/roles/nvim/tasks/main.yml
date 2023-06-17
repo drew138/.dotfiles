@@ -24,6 +24,7 @@
   when: is_macos and homebrew_check.stat.exists
 
 - name: clone nvim repository
+  become_user: "{{ host_user }}"
   git:
     repo: "https://github.com/neovim/neovim.git"
     dest: "{{ user_home }}/neovim"

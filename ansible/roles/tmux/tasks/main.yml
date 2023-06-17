@@ -40,6 +40,7 @@
   when: is_macos and homebrew_check.stat.exists
 
 - name: tmux package manager
+  become_user: "{{ host_user }}"
   git:
     repo: "https://github.com/tmux-plugins/tpm.git"
     dest: "{{ user_home }}/.tmux/plugins/tpm"
