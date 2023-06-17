@@ -62,8 +62,8 @@
   become: true
   args:
     executable: /bin/bash
-  ansible.builtin.shell: >
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  ansible.builtin.shell:
+    cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   when: not ohmyzsh_file.stat.exists
 
 - name: download syntax highlighting plugin
