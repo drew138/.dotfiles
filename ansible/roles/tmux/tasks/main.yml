@@ -1,5 +1,7 @@
 ---
 - name: install dependencies
+  become: true
+  become_user: "{{ host_user }}"
   apt:
     name:
       - xclip
@@ -7,6 +9,8 @@
   when: is_debian_distro
 
 - name: install tmux
+  become: true
+  become_user: "{{ host_user }}"
   apt:
     name:
       - tmux
@@ -14,6 +18,8 @@
   when: is_debian_distro
 
 - name: install dependencies
+  become: true
+  become_user: "{{ host_user }}"
   homebrew:
     name:
       - xclip
@@ -23,6 +29,8 @@
   when: is_macos and homebrew_check.stat.exists
 
 - name: install tmux
+  become: true
+  become_user: "{{ host_user }}"
   homebrew:
     name:
       - tmux
