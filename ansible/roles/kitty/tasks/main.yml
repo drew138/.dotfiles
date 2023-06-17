@@ -16,7 +16,8 @@
     - "{{ user_home }}/.local/bin/"
     - "{{ user_home }}/.local/share/"
     - "{{ user_home }}/.local/share/applications/"
-    - "{{ user_home }}/.config/kitty"
+    - "{{ user_home }}/.config/"
+    - "{{ user_home }}/.config/kitty/"
 
 - name: create symbolic link for kitty binary
   file:
