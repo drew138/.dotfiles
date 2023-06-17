@@ -5,7 +5,6 @@
       - htop
       - ripgrep
       - python3-virtualenv
-      - python3.10-venv
       - protobuf-compiler
   when: is_debian_distro
 
