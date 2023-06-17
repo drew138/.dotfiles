@@ -42,28 +42,28 @@
     path: "{{ user_home }}/.oh-my-zsh"
   register: ohmyzsh_file
 
-# - name: download ohmyzsh installer
-#   get_url:
-#     url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-#     dest: /tmp/ohmyzsh_install.sh
-#     mode: 0755
-#     force: true
-#   when: not ohmyzsh_file.stat.exists
+- name: download ohmyzsh installer
+  get_url:
+    url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/ohmyzsh_install.sh
+    mode: 0755
+    force: true
+  when: not ohmyzsh_file.stat.exists
 
-- name: check host user
-  become_user: host_user
-  debug:
-    msg: "{{host_user}} has home ~"
+# - name: check host user
+#   become_user: host_user
+#   debug:
+#     msg: "{{host_user}} has home ~"
 
-  # command: /tmp/ohmyzsh_install.sh
 
 - name: install ohmyzsh
   become: true
   become_user: "{{host_user}}"
-  args:
-    executable: /bin/bash
-  ansible.builtin.shell:
-    cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  command: /tmp/ohmyzsh_install.sh
+  # args:
+  #   executable: /bin/bash
+  # ansible.builtin.shell:
+  #   cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   when: not ohmyzsh_file.stat.exists
 
 # - name: download syntax highlighting plugin
