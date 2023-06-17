@@ -58,6 +58,7 @@
     #   when: is_macos and homebrew_check.stat.exists
 
     - name: download dotfiles repository ssh
+      become: true
       become_user: "{{ host_user }}"
       git:
         repo: git@github.com:Drew138/.dotfiles.git
@@ -67,6 +68,7 @@
       when: has_user_repositories
 
     - name: download dotfiles repository http
+      become: true
       become_user: "{{ host_user }}"
       git:
         repo: https://github.com/Drew138/.dotfiles.git
