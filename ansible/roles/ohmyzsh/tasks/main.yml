@@ -58,7 +58,7 @@
 
 - name: install ohmyzsh
   become: true
-  become_user: "{{host_user}}"
+  become_user: "{{ host_user }}"
   command: /tmp/ohmyzsh_install.sh
   # args:
   #   executable: /bin/bash
