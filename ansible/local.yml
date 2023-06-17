@@ -3,7 +3,7 @@
 
   roles:
     # - flatpak
-    - go
+    # - go
     # - i3
     # - kitty
     # - nerdfonts
@@ -11,7 +11,7 @@
     # - nvim
     # - repositories
     # - rust
-    # - tmux
+    - tmux
     # - utils
     # - yabai
     # done
