@@ -49,7 +49,9 @@
   become: true
   become_user: "{{ host_user }}"
   npm:
-    name: 'commitlint/cli @commitlint/config-conventional'
+    name:
+      - "commitlint/cli"
+      - "@commitlint/config-conventional"
     global: true
 
 - name: Create nvim symlink
