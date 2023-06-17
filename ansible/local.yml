@@ -4,12 +4,11 @@
   roles:
     # - flatpak
     # - go
-    # - i3
+    - i3
     # - kitty
-    # - node
+    - node
     # - nvim
     # - repositories
-    - rust
     # - tmux
     # - yabai
     # done
@@ -18,6 +17,7 @@
     # - git
     # - fd
     # - casks
+    # - rust
     # - ohmyzsh
     # - nerdfonts
     # - utils
