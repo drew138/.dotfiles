@@ -2,8 +2,7 @@
 - hosts: localhost
 
   roles:
-    - docker
-    # - fd
+    - fd
     # - flatpak
     # - fzf
     # - git
@@ -19,6 +18,7 @@
     # - utils
     # - yabai
     # done
+    # - docker
     # - casks
     # - ohmyzsh
 
