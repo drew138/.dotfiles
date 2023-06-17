@@ -56,6 +56,8 @@
     - "{{ user_home }}/.local/share/applications/kitty*.desktop"
 
 - name: create kitty.conf symlink
+  become: true
+  become_user: "{{ host_user }}"
   file:
     src: "{{ user_home }}/.dotfiles/.config/kitty/kitty.conf"
     dest: "{{ user_home }}/.config/kitty/kitty.conf"
@@ -63,6 +65,8 @@
     force: true
 
 - name: create nightfox_kitty.conf symlink
+  become: true
+  become_user: "{{ host_user }}"
   file:
     src: "{{ user_home }}/.dotfiles/.config/kitty/nightfox_kitty.conf"
     dest: "{{ user_home }}/.config/kitty/nightfox_kitty.conf"
