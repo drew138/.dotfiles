@@ -1,16 +1,15 @@
 ---
 - name: install dependencies
-  package:
+  apt:
     name:
       - xclip
     state: present
   when: is_debian_distro
 
 - name: install tmux
-  package:
+  apt:
     name:
       - tmux
-      - xclip
     state: present
   when: is_debian_distro
 
