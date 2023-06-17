@@ -35,7 +35,7 @@
 - name: change default shell
   become: true
   become_user: "{{ host_user }}"
-  command: "chsh {{ host_user }} -s $(which zsh)"
+  command: "chsh -s $(which zsh) {{ host_user }}"
   args:
     warn: false
 
