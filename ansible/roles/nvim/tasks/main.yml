@@ -7,6 +7,7 @@
       - make
       - gettext
       - python3-pip
+      - nodejs
     state: present
   when: is_debian_distro
 
