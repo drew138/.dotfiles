@@ -46,6 +46,7 @@
     name: pynvim
 
 - name: install commitlint node package
+  become_user: "{{ host_user }}"
   npm:
     name: 'commitlint/cli @commitlint/config-conventional'
     global: true
