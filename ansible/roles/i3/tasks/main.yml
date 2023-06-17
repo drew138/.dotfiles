@@ -1,18 +1,18 @@
 ---
-- name: install i3
+- name: install i3 (linux)
   apt:
     name:
       - i3
     state: present
   when: is_debian_distro
 
-- name: create i3 directory if it does not exist
+- name: create i3 directory if it does not exist (linux)
   file:
     path: "{{ user_home }}/.config/i3"
     state: directory
   when: is_debian_distro
 
-- name: Create i3 symlink
+- name: create i3 symlink (linux)
   file:
     src: "{{ user_home }}/.dotfiles/.config/i3/config"
     dest: "{{ user_home }}/.config/i3/config"

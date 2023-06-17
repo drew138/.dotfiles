@@ -1,5 +1,5 @@
 ---
-- name: install dependencies
+- name: install dependencies (linux)
   become: true
   become_user: "{{ host_user }}"
   apt:
@@ -8,7 +8,7 @@
     state: present
   when: is_debian_distro
 
-- name: install tmux
+- name: install tmux (linux)
   become: true
   become_user: "{{ host_user }}"
   apt:
@@ -17,7 +17,7 @@
     state: present
   when: is_debian_distro
 
-- name: install dependencies
+- name: install dependencies (macos)
   become: true
   become_user: "{{ host_user }}"
   homebrew:
@@ -28,7 +28,7 @@
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
 
-- name: install tmux
+- name: install tmux (macos)
   become: true
   become_user: "{{ host_user }}"
   homebrew:
@@ -40,6 +40,7 @@
   when: is_macos and homebrew_check.stat.exists
 
 - name: tmux package manager
+  become: true
   become_user: "{{ host_user }}"
   git:
     repo: "https://github.com/tmux-plugins/tpm.git"
@@ -48,7 +49,7 @@
     clone: true
     update: true
 
-- name: Create .tmux.conf symlink
+- name: create .tmux.conf symlink
   file:
     src: "{{ user_home }}/.dotfiles/.tmux.conf"
     dest: "{{ user_home }}/.tmux.conf"

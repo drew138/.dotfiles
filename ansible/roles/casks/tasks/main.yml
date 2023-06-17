@@ -1,5 +1,5 @@
 ---
-- name: installing homebrew cask packages
+- name: installing homebrew cask packages (macos)
   homebrew_cask:
     name:
       - firefox

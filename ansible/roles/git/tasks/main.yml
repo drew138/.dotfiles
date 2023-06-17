@@ -1,12 +1,12 @@
 ---
-- name: install git
+- name: install git (linux)
   apt:
     name:
       - git
     state: present
   when: is_debian_distro
 
-- name: install git
+- name: install git (macos)
   homebrew:
     name:
       - git

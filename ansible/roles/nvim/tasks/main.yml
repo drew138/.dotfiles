@@ -1,5 +1,5 @@
 ---
-- name: install dependencies
+- name: install dependencies (linux)
   apt:
     name:
       - xclip
@@ -11,7 +11,7 @@
     state: present
   when: is_debian_distro
 
-- name: install dependencies
+- name: install dependencies (macos)
   homebrew:
     name:
       - tree-sitter
@@ -24,6 +24,7 @@
   when: is_macos and homebrew_check.stat.exists
 
 - name: clone nvim repository
+  become: true
   become_user: "{{ host_user }}"
   git:
     repo: "https://github.com/neovim/neovim.git"
@@ -33,6 +34,7 @@
     update: true
 
 - name: build and install nvim
+  become: true
   become_user: "{{ host_user }}"
   shell:
     cmd: |

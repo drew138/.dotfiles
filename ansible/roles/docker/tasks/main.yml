@@ -1,5 +1,5 @@
 ---
-- name: install dependencies
+- name: install dependencies (linux)
   package:
     name:
       - apt-transport-https
@@ -9,19 +9,19 @@
       - software-properties-common
   when: is_debian_distro
 
-- name: add gpg key
+- name: add gpg key (linux)
   apt_key:
     url: https://download.docker.com/linux/debian/gpg
     state: present
   when: is_debian_distro
 
-- name: add docker repository
+- name: add docker repository (linux)
   apt_repository:
     repo: deb https://download.docker.com/linux/debian bullseye stable
     state: present
   when: is_debian_distro
 
-- name: install docker
+- name: install docker (linux)
   package:
     name:
       - docker-ce
@@ -29,21 +29,21 @@
       - containerd.io
   when: is_debian_distro
 
-- name: make sure docker is active
+- name: make sure docker is active (linux)
   service:
     name: docker
     state: started
     enabled: true
   when: is_debian_distro
 
-- name: Add remote user to "docker" group
+- name: Add remote user to "docker" group (linux)
   user:
     name: "{{ host_user }}"
     groups: "docker"
     append: true
   when: is_debian_distro
 
-- name: install docker-compose
+- name: install docker-compose (linux)
   get_url:
     url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
     dest: /usr/local/bin/docker-compose
@@ -51,7 +51,7 @@
   when: is_debian_distro
 
 # docker macos
-- name: install docker, docker-compose and colima
+- name: install docker, docker-compose and colima (macos)
   homebrew:
     name:
       - docker

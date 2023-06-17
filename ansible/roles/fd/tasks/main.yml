@@ -1,18 +1,18 @@
 ---
-- name: install fd-find
+- name: install fd-find (linux)
   apt:
     name:
       - fd-find
     state: present
   when: is_debian_distro
 
-- name: Create parent directories if they don't exist
+- name: create bin directory if it doesn't exist (linux)
   file:
     path: "{{ user_home }}/.local/bin"
     state: directory
   when: is_debian_distro
 
-- name: create symlink for fdfind
+- name: create symlink for fdfind (linux)
   file:
     src: "{{ lookup('pipe', 'which fdfind') }}"
     dest: "{{ user_home }}/.local/bin/fd"
@@ -20,7 +20,7 @@
     force: true
   when: is_debian_distro
 
-- name: install fd
+- name: install fd (macos)
   homebrew:
     name:
       - fd

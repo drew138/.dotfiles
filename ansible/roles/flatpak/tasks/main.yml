@@ -1,12 +1,12 @@
 ---
-- name: install flatpak
+- name: install flatpak (linux)
   apt:
     name:
       - flatpak
     state: present
   when: is_debian_distro
 
-- name: add flathub repository
+- name: add flathub repository (linux)
   flatpak_remote:
     name: flathub
     state: present
@@ -14,56 +14,56 @@
     method: user
   when: is_debian_distro
 
-- name: install discord
+- name: install discord (linux)
   flatpak:
     name: com.discordapp.Discord
     method: user
     state: present
   when: is_debian_distro and has_extra_software
 
-- name: install firefox
+- name: install firefox (linux)
   flatpak:
     name: org.mozilla.firefox
     method: user
     state: present
   when: is_debian_distro and has_extra_software
 
-- name: install obsidian
+- name: install obsidian (linux)
   flatpak:
     name: md.obsidian.Obsidian
     method: user
     state: present
   when: is_debian_distro and has_extra_software
 
-- name: install postman
+- name: install postman (linux)
   flatpak:
     name: com.getpostman.Postman
     method: user
     state: present
   when: is_debian_distro and has_extra_software
 
-- name: install slack
+- name: install slack (linux)
   flatpak:
     name: com.slack.Slack
     method: user
     state: present
   when: is_debian_distro and has_extra_software
 
-- name: install spotify
+- name: install spotify (linux)
   flatpak:
     name: com.spotify.Client
     method: user
     state: present
   when: is_debian_distro and has_extra_software
 
-- name: install obs
+- name: install obs (linux)
   flatpak:
     name: com.obsproject.Studio
     method: user
     state: present
   when: is_debian_distro and has_extra_software
 
-- name: install bitwarden
+- name: install bitwarden (linux)
   flatpak:
     name: com.bitwarden.desktop
     method: user

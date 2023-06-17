@@ -1,5 +1,5 @@
 ---
-- name: restart docker
+- name: restart docker (linux)
   service:
     name: docker
     state: restarted

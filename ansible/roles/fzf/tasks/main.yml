@@ -1,5 +1,7 @@
 ---
 - name: clone fzf repo
+  become: true
+  become_user: "{{ host_user }}"
   git:
     repo: "https://github.com/junegunn/fzf.git"
     dest: "{{ user_home }}/.fzf"
