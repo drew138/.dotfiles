@@ -15,6 +15,7 @@
   when: is_debian_distro
 
 - name: install discord (linux)
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.discordapp.Discord
     method: user
@@ -22,6 +23,7 @@
   when: is_debian_distro and has_extra_software
 
 - name: install firefox (linux)
+  become_user: "{{ host_user }}"
   flatpak:
     name: org.mozilla.firefox
     method: user
@@ -29,6 +31,7 @@
   when: is_debian_distro and has_extra_software
 
 - name: install obsidian (linux)
+  become_user: "{{ host_user }}"
   flatpak:
     name: md.obsidian.Obsidian
     method: user
@@ -36,6 +39,7 @@
   when: is_debian_distro and has_extra_software
 
 - name: install postman (linux)
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.getpostman.Postman
     method: user
@@ -43,6 +47,7 @@
   when: is_debian_distro and has_extra_software
 
 - name: install slack (linux)
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.slack.Slack
     method: user
@@ -50,6 +55,7 @@
   when: is_debian_distro and has_extra_software
 
 - name: install spotify (linux)
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.spotify.Client
     method: user
@@ -57,6 +63,7 @@
   when: is_debian_distro and has_extra_software
 
 - name: install obs (linux)
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.obsproject.Studio
     method: user
@@ -64,6 +71,7 @@
   when: is_debian_distro and has_extra_software
 
 - name: install bitwarden (linux)
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.bitwarden.desktop
     method: user
