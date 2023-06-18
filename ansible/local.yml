@@ -5,8 +5,7 @@
     # - flatpak
     # - node
     # - nvim
-    # - tmux
-    - ohmyzsh ## chsh prompting to password
+    - tmux
     # done
     # - docker
     # - i3
@@ -17,6 +16,7 @@
     # - casks
     # - kitty
     # - yabai
+    # - ohmyzsh
     # - go
     # - rust
     # - nerdfonts
