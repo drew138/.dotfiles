@@ -2,11 +2,11 @@
 - hosts: localhost
 
   roles:
-    - node
-    # - nvim
+    - nvim
     # done
     # - docker
     # - i3
+    # - node
     # - fzf
     # - tmux
     # - git
