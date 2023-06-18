@@ -2,8 +2,8 @@
 - hosts: localhost
 
   roles:
-    # - flatpak
-    - node
+    - flatpak
+    # - node
     # - nvim
     # done
     # - docker
