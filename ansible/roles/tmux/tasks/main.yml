@@ -1,7 +1,7 @@
 ---
 - name: install dependencies (linux)
   # become: true
-  # become_user: "{{ host_user }}"
+  become_user: "{{ host_user }}"
   apt:
     name:
       - xclip
@@ -9,7 +9,7 @@
   when: is_debian_distro
 
 - name: install tmux (linux)
-  become: true
+  # become: true
   become_user: "{{ host_user }}"
   apt:
     name:
