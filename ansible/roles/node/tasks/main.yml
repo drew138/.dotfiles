@@ -17,7 +17,7 @@
 
 - name: add nodejs repository (linux)
   apt_repository:
-    repo: deb https://deb.nodesource.com/node_14.x {{ ansible_lsb.codename }} main
+    repo: deb https://deb.nodesource.com/node_19.x {{ ansible_lsb.codename }} main
     state: present
     update_cache: true
   when: is_debian_distro
