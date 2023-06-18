@@ -38,8 +38,8 @@
   become_user: "{{ host_user }}"
   shell:
     cmd: |
-      make CMAKE_BUILD_TYPE=RelWithDebInfo
-      make install
+      sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
+      sudo make install
     chdir: "{{ user_home }}/neovim"
 
 - name: install pynvim
