@@ -47,13 +47,6 @@
   ansible.builtin.pip:
     name: pynvim
 
-# - name: install global npm packages required by neovim
-#   ansible.builtin.shell:
-#     cmd: "npm i -g {{ item }}"
-#   loop:
-#     - "@commitlint/cli"
-#     - "@commitlint/config-conventional"
-
 - name: install global npm packages required by neovim
   become_user: "{{ host_user }}"
   community.general.npm:
