@@ -29,5 +29,4 @@
     creates: "{{ user_home }}/.nvm/versions/{{ item }}"
   loop:
     - 19.9.0
-
 ...
