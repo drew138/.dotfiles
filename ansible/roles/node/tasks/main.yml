@@ -40,15 +40,6 @@
 #   register: result
 #   until: result is successful
 #   when: is_macos and homebrew_check.stat.exists
-#
-# - name: install nvm
-#   become_user: "{{ host_user }}"
-#   ansible.builtin.shell: >
-#     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-#   args:
-#     warn: false
-#     creates: "{{ user_home }}/.nvm/nvm.sh"
-# curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash
 
 - name: install nvm
   become_user: "{{ host_user }}"
@@ -56,9 +47,19 @@
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
   args:
     warn: false
-    executable: /bin/bash
-    chdir: "{{ user_home }}"
     creates: "{{ user_home }}/.nvm/nvm.sh"
+
+# curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash
+
+# - name: install nvm
+#   become_user: "{{ host_user }}"
+#   ansible.builtin.shell: >
+#     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+#   args:
+#     warn: false
+#     executable: /bin/bash
+#     chdir: "{{ user_home }}"
+#     creates: "{{ user_home }}/.nvm/nvm.sh"
 
 - name: install node
   become: false
