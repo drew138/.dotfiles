@@ -51,7 +51,6 @@
 # curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash
 
 - name: install nvm
-  become: false
   become_user: "{{ host_user }}"
   ansible.builtin.shell: >
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
