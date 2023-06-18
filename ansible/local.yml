@@ -2,14 +2,14 @@
 - hosts: localhost
 
   roles:
-    - nvim
+    - node
+    # - nvim
     # done
     # - docker
     # - i3
     # - fzf
     # - tmux
     # - git
-    # - node
     # - fd
     # - flatpak
     # - repositories
