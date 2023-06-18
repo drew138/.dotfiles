@@ -1,6 +1,5 @@
 ---
 - name: install dependencies (linux)
-  # become: true
   become_user: "{{ host_user }}"
   apt:
     name:
@@ -9,7 +8,6 @@
   when: is_debian_distro
 
 - name: install tmux (linux)
-  # become: true
   become_user: "{{ host_user }}"
   apt:
     name:
@@ -18,7 +16,6 @@
   when: is_debian_distro
 
 - name: install dependencies (macos)
-  become: true
   become_user: "{{ host_user }}"
   homebrew:
     name:
@@ -29,7 +26,6 @@
   when: is_macos and homebrew_check.stat.exists
 
 - name: install tmux (macos)
-  become: true
   become_user: "{{ host_user }}"
   homebrew:
     name:
