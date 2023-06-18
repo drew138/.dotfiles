@@ -34,28 +34,28 @@
 
   pre_tasks:
 
-    # - name: update repositories
-    #   apt: update_cache=yes
-    #   become: true
-    #   when: is_debian_distro
-    #
-    # - name: ensuring homebrew is installed
-    #   stat:
-    #     path: /usr/local/bin/brew
-    #   register: homebrew_check
-    #   when: is_macos
-    #
-    # - name: updating homebrew
-    #   homebrew:
-    #     update_homebrew: true
-    #   when: is_macos and homebrew_check.stat.exists
-    #
-    # - name: upgrading homebrew packages
-    #   homebrew:
-    #     upgrade_all: true
-    #   register: result
-    #   until: result is successful
-    #   when: is_macos and homebrew_check.stat.exists
+    - name: update repositories
+      apt: update_cache=yes
+      become: true
+      when: is_debian_distro
+
+    - name: ensuring homebrew is installed
+      stat:
+        path: /usr/local/bin/brew
+      register: homebrew_check
+      when: is_macos
+
+    - name: updating homebrew
+      homebrew:
+        update_homebrew: true
+      when: is_macos and homebrew_check.stat.exists
+
+    - name: upgrading homebrew packages
+      homebrew:
+        upgrade_all: true
+      register: result
+      until: result is successful
+      when: is_macos and homebrew_check.stat.exists
 
     - name: download dotfiles repository ssh
       become: true
