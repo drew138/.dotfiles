@@ -47,21 +47,48 @@
   ansible.builtin.pip:
     name: pynvim
 
-- name: install commitlint/cli package
-  become_user: "{{ host_user }}"
-  community.general.npm:
-    name: "@commitlint/cli"
-    # check node version in the node role
-    executable: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
-    global: true
 
-- name: install @commitlint/config-conventional package
-  become_user: "{{ host_user }}"
-  community.general.npm:
-    name: "@commitlint/config-conventional"
+- name: discover npm binaries directory
+  ansible.builtin.command:
     # check node version in the node role
-    executable: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
-    global: true
+    cmd: >
+      bash -c "source {{ user_home }}/.nvm/nvm.sh &&
+      nvm exec --silent v19.9.9 npm bin -g"
+  register: npm_bin_result
+  changed_when: false
+
+- name: set npm binaries directory
+  ansible.builtin.set_fact:
+    npm_binaries_dir: "{{ npm_bin_result.stdout }}"
+
+- name: install global npm packages
+  ansible.builtin.command:
+    # check node version in the node role
+    cmd: >
+      bash -c "source {{ user_home }}/.nvm/nvm.sh &&
+      nvm exec v19.9.0 npm install -g {{ item }}"
+    creates: "{{ npm_binaries_dir }}/{{ item }}"
+  loop:
+    - "@commitlint/cli"
+    - "@commitlint/config-conventional"
+
+# - name: install @commitlint/cli package
+#   become_user: "{{ host_user }}"
+#   community.general.npm:
+#     name: "@commitlint/cli"
+#     # check node version in the node role
+#     executable: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
+#     state: present
+#     global: true
+
+# - name: install @commitlint/config-conventional package
+#   become_user: "{{ host_user }}"
+#   community.general.npm:
+#     name: "@commitlint/config-conventional"
+#     # check node version in the node role
+#     executable: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
+#     state: present
+#     global: true
 
 - name: Create nvim symlink
   file:
