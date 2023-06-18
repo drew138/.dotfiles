@@ -15,66 +15,74 @@
   when: is_debian_distro
 
 - name: install discord (linux)
+  become: true
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.discordapp.Discord
     method: user
-    users: "{{ host_user }}"
     state: present
   when: is_debian_distro and has_extra_software
 
 - name: install firefox (linux)
+  become: true
+  become_user: "{{ host_user }}"
   flatpak:
     name: org.mozilla.firefox
     method: user
-    users: "{{ host_user }}"
     state: present
   when: is_debian_distro and has_extra_software
 
 - name: install obsidian (linux)
+  become: true
+  become_user: "{{ host_user }}"
   flatpak:
     name: md.obsidian.Obsidian
     method: user
-    users: "{{ host_user }}"
     state: present
   when: is_debian_distro and has_extra_software
 
 - name: install postman (linux)
+  become: true
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.getpostman.Postman
     method: user
-    users: "{{ host_user }}"
     state: present
   when: is_debian_distro and has_extra_software
 
 - name: install slack (linux)
+  become: true
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.slack.Slack
     method: user
-    users: "{{ host_user }}"
     state: present
   when: is_debian_distro and has_extra_software
 
 - name: install spotify (linux)
+  become: true
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.spotify.Client
     method: user
-    users: "{{ host_user }}"
     state: present
   when: is_debian_distro and has_extra_software
 
 - name: install obs (linux)
+  become: true
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.obsproject.Studio
     method: user
-    users: "{{ host_user }}"
     state: present
   when: is_debian_distro and has_extra_software
 
 - name: install bitwarden (linux)
+  become: true
+  become_user: "{{ host_user }}"
   flatpak:
     name: com.bitwarden.desktop
     method: user
-    users: "{{ host_user }}"
     state: present
   when: is_debian_distro and has_extra_software
 ...
