@@ -2,8 +2,7 @@
 - hosts: localhost
 
   roles:
-    - flatpak
-    # - node
+    - node
     # - nvim
     # done
     # - docker
@@ -12,6 +11,7 @@
     # - tmux
     # - git
     # - fd
+    # - flatpak
     # - repositories
     # - casks
     # - kitty
