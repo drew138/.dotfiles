@@ -57,23 +57,23 @@
       until: result is successful
       when: is_macos and homebrew_check.stat.exists
 
-    - name: download dotfiles repository ssh
-      become: true
-      become_user: "{{ host_user }}"
-      git:
-        repo: git@github.com:Drew138/.dotfiles.git
-        dest: "{{ user_home }}/.dotfiles"
-        clone: true
-        update: true
-      when: has_user_repositories
-
-    - name: download dotfiles repository http
-      become: true
-      become_user: "{{ host_user }}"
-      git:
-        repo: https://github.com/Drew138/.dotfiles.git
-        dest: "{{ user_home }}/.dotfiles"
-        clone: true
-        update: true
-      when: not has_user_repositories
-...
+#     - name: download dotfiles repository ssh
+#       become: true
+#       become_user: "{{ host_user }}"
+#       git:
+#         repo: git@github.com:Drew138/.dotfiles.git
+#         dest: "{{ user_home }}/.dotfiles"
+#         clone: true
+#         update: true
+#       when: has_user_repositories
+#
+#     - name: download dotfiles repository http
+#       become: true
+#       become_user: "{{ host_user }}"
+#       git:
+#         repo: https://github.com/Drew138/.dotfiles.git
+#         dest: "{{ user_home }}/.dotfiles"
+#         clone: true
+#         update: true
+#       when: not has_user_repositories
+# ...
