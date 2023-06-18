@@ -52,7 +52,7 @@
   npm:
     name: "@commitlint/cli"
     # check node version in the node role
-    executable: "{{ user_home }}/.nvim/versions/node/v19.9.0/bin/npm"
+    executable: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
     global: true
 
 - name: install @commitlint/config-conventional package
@@ -60,7 +60,7 @@
   npm:
     name: "@commitlint/config-conventional"
     # check node version in the node role
-    executable: "{{ user_home }}/.nvim/versions/node/v19.9.0/bin/npm"
+    executable: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
     global: true
 
 - name: Create nvim symlink
