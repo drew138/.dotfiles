@@ -62,15 +62,15 @@
 #     chdir: "{{ user_home }}"
 #     creates: "{{ user_home }}/.nvm/nvm.sh"
 
-# - name: install node
-#   become: false
-#   shell: >
-#     . {{ user_home }}/.nvm/nvm.sh && nvm install {{ item }}
-#   args:
-#     executable: /bin/bash
-#     chdir: "{{ user_home }}"
-#     creates: "{{ user_home }}/.nvm/versions/{{ item }}"
-#   loop:
-#     - 19.9.0
+- name: install node
+  become: false
+  shell: >
+    . {{ user_home }}/.nvm/nvm.sh && nvm install {{ item }}
+  args:
+    executable: /bin/bash
+    chdir: "{{ user_home }}"
+    creates: "{{ user_home }}/.nvm/versions/{{ item }}"
+  loop:
+    - 19.9.0
 
 ...
