@@ -35,7 +35,6 @@
 
 - name: build and install nvim
   become: true
-  become_user: "{{ host_user }}"
   shell:
     cmd: |
       sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
