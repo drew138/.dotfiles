@@ -53,7 +53,7 @@
     # check node version in the node role
     cmd: >
       bash -c "source {{ user_home }}/.nvm/nvm.sh &&
-      nvm exec --silent v19.9.9 npm bin -g"
+      nvm exec --silent v19.9.0 npm bin -g"
   register: npm_bin_result
   changed_when: false
 
