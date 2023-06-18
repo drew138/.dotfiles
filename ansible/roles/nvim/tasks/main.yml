@@ -51,8 +51,9 @@
     # check node version in the node role
     # cmd: "npm i -g {{ item }}"
     # "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm i -g {{ item }}"
-  ansible.builtin.shell: >
-     "npm i -g {{ item }}"
+  ansible.builtin.shell:
+    cmd: "npm i -g {{ item }}"
+    executable: /bin/bash
   loop:
     - "@commitlint/cli"
     - "@commitlint/config-conventional"
