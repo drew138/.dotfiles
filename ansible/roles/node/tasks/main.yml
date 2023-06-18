@@ -14,7 +14,7 @@
   become: true
   become_user: "{{ host_user }}"
   ansible.builtin.shell: >
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    curl -o- {{ nvm_script_url }} | bash
   args:
     warn: false
     creates: "{{ user_home }}/.nvm/nvm.sh"
@@ -28,7 +28,7 @@
     chdir: "{{ user_home }}"
     creates: "{{ user_home }}/.nvm/versions/{{ item }}"
   loop:
-    - 19.9.0
+    - "{{ node_version }}"
 
 - name: create node symlink to /usr/bin
   file:

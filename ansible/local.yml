@@ -3,7 +3,6 @@
 
   roles:
     - nvim
-    # done
     # - docker
     # - i3
     # - node

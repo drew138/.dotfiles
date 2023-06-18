@@ -28,19 +28,19 @@
 
 - name: copy kitty.desktop file
   copy:
-    src: "{{ user_home }}/.local/kitty.app/share/applications/kitty.desktop"
+    src: "{{ kitty_desktop_path }}"
     dest: "{{ user_home }}/.local/share/applications/"
 
 - name: copy kitty-open.desktop file
   copy:
-    src: "{{ user_home }}/.local/kitty.app/share/applications/kitty-open.desktop"
+    src: "{{ kitty_open_desktop_path }}"
     dest: "{{ user_home }}/.local/share/applications/"
 
 - name: update paths in kitty.desktop file(s)
   replace:
     path: "{{ item }}"
     regexp: "(Icon=)kitty"
-    replace: "\\1{{ user_home }}/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png"
+    replace: "\\1{{ kitty_png_path }}"
   with_fileglob:
     - "{{ user_home }}/.local/share/applications/kitty*.desktop"
 
