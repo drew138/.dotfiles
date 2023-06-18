@@ -50,8 +50,8 @@
 - name: install global npm packages
   ansible.builtin.command:
     # check node version in the node role
-    cmd: >
-      "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm i -g {{ item }}"
+    # "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm i -g {{ item }}"
+    cmd: "npm i -g {{ item }}"
   loop:
     - "@commitlint/cli"
     - "@commitlint/config-conventional"
