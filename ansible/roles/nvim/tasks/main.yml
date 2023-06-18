@@ -47,34 +47,22 @@
   ansible.builtin.pip:
     name: pynvim
 
-- name: install global npm packages
-    # check node version in the node role
-    # cmd: "npm i -g {{ item }}"
-    # "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm i -g {{ item }}"
-  ansible.builtin.shell:
-    cmd: "npm i -g {{ item }}"
-    # executable: /bin/bash
+# - name: install global npm packages required by neovim
+#   ansible.builtin.shell:
+#     cmd: "npm i -g {{ item }}"
+#   loop:
+#     - "@commitlint/cli"
+#     - "@commitlint/config-conventional"
+
+- name: install global npm packages required by neovim
+  become_user: "{{ host_user }}"
+  community.general.npm:
+    name: "{{ item }}"
+    state: present
+    global: true
   loop:
     - "@commitlint/cli"
     - "@commitlint/config-conventional"
-
-# - name: install @commitlint/cli package
-#   become_user: "{{ host_user }}"
-#   community.general.npm:
-#     name: "@commitlint/cli"
-#     # check node version in the node role
-#     executable: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
-#     state: present
-#     global: true
-
-# - name: install @commitlint/config-conventional package
-#   become_user: "{{ host_user }}"
-#   community.general.npm:
-#     name: "@commitlint/config-conventional"
-#     # check node version in the node role
-#     executable: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
-#     state: present
-#     global: true
 
 - name: Create nvim symlink
   file:
