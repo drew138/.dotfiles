@@ -32,7 +32,7 @@
 
 - name: create node symlink to /usr/bin
   file:
-    src: "{{ user_home }}/.nvim/versions/node/v19.9.0/bin/node"
+    src: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/node"
     dest: "/usr/bin/node"
     state: link
     force: true
@@ -40,7 +40,7 @@
 
 - name: create npm symlink to /usr/bin
   file:
-    src: "{{ user_home }}/.nvim/versions/node/v19.9.0/bin/npm"
+    src: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
     dest: "/usr/bin/npm"
     state: link
     force: true
