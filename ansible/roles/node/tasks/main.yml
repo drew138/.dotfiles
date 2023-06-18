@@ -29,4 +29,20 @@
     creates: "{{ user_home }}/.nvm/versions/{{ item }}"
   loop:
     - 19.9.0
+
+- name: create node symlink to /usr/bin
+  file:
+    src: "{{ lookup('pipe', 'which node') }}"
+    dest: "/usr/bin/node"
+    state: link
+    force: true
+  when: is_debian_distro
+
+- name: create npm symlink to /usr/bin
+  file:
+    src: "{{ lookup('pipe', 'which npm') }}"
+    dest: "/usr/bin/npm"
+    state: link
+    force: true
+  when: is_debian_distro
 ...
