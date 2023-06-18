@@ -52,7 +52,7 @@
     # cmd: "npm i -g {{ item }}"
     # "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm i -g {{ item }}"
   ansible.builtin.shell:
-    cmd: "npm i -g {{ item }}"
+    cmd: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm i -g {{ item }}"
     # executable: /bin/bash
   loop:
     - "@commitlint/cli"
