@@ -34,10 +34,10 @@
 
   pre_tasks:
 
-    - name: update repositories
-      apt: update_cache=yes
-      become: true
-      when: is_debian_distro
+    # - name: update repositories
+    #   apt: update_cache=yes
+    #   become: true
+    #   when: is_debian_distro
 
     - name: ensuring homebrew is installed
       stat:
