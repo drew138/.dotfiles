@@ -3,13 +3,13 @@
 
   roles:
     # - flatpak
-    # - node
+    - node
     # - nvim
-    - tmux
     # done
     # - docker
     # - i3
     # - fzf
+    # - tmux
     # - git
     # - fd
     # - repositories
