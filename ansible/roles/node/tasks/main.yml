@@ -1,5 +1,6 @@
 ---
 - name: install nodejs prerequisites (linux)
+  become_user: "{{ host_user }}"
   apt:
     name:
       - apt-transport-https
@@ -10,12 +11,14 @@
   when: is_debian_distro
 
 - name: add nodejs apt key (linux)
+  become_user: "{{ host_user }}"
   apt_key:
     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
     state: present
   when: is_debian_distro
 
 - name: add nodejs repository (linux)
+  become_user: "{{ host_user }}"
   apt_repository:
     repo: deb https://deb.nodesource.com/node_19.x {{ ansible_lsb.codename }} main
     state: present
@@ -23,6 +26,7 @@
   when: is_debian_distro
 
 - name: install nodejs (linux)
+  become_user: "{{ host_user }}"
   apt:
     name: nodejs
     state: present
