@@ -57,6 +57,16 @@
     - "@commitlint/cli"
     - "@commitlint/config-conventional"
 
+- name: create commitlint.config.js file
+  copy:
+    content: "module.exports = {extends: ['@commitlint/config-conventional']}"
+    dest: "{{ user_home }}/commitlint.config.js"
+    backup: true
+    force: true
+    mode: 0755
+    group: sys
+    owner: "{{ host_user }}"
+
 - name: Create nvim symlink
   file:
     src: "{{ user_home }}/.dotfiles/.config/nvim"
