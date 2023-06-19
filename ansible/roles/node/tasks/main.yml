@@ -34,6 +34,7 @@
   file:
     src: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/node"
     dest: "/usr/bin/node"
+    owner: "{{ host_user }}"
     state: link
     force: true
   when: is_debian_distro
@@ -42,6 +43,7 @@
   file:
     src: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
     dest: "/usr/bin/npm"
+    owner: "{{ host_user }}"
     state: link
     force: true
   when: is_debian_distro
