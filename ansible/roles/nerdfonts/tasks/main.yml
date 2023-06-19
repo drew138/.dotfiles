@@ -9,6 +9,7 @@
   file:
     src: "{{ user_home }}/.dotfiles/assets/fonts/NerdFonts"
     dest: "{{ user_home }}/.local/share/fonts"
+    owner: "{{ host_user }}"
     state: link
     force: true
   when: is_debian_distro
@@ -17,6 +18,7 @@
   file:
     src: "{{ user_home }}/.dotfiles/assets/fonts/NerdFonts"
     dest: "{{ user_home }}/Library/Fonts"
+    owner: "{{ host_user }}"
     state: link
     force: true
   when: is_macos

@@ -71,6 +71,7 @@
   file:
     src: "{{ user_home }}/.dotfiles/.config/nvim"
     dest: "{{ user_home }}/.config/nvim"
+    owner: "{{ host_user }}"
     state: link
     force: true
 ...

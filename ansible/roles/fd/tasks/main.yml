@@ -16,6 +16,7 @@
   file:
     src: "{{ lookup('pipe', 'which fdfind') }}"
     dest: "{{ user_home }}/.local/bin/fd"
+    owner: "{{ host_user }}"
     state: link
     force: true
   when: is_debian_distro

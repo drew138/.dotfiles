@@ -49,6 +49,7 @@
   file:
     src: "{{ user_home }}/.dotfiles/.tmux.conf"
     dest: "{{ user_home }}/.tmux.conf"
+    owner: "{{ host_user }}"
     state: link
     force: true
 ...

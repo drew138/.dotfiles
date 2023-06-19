@@ -3,6 +3,8 @@
   apt:
     name:
       - i3
+      - nitrogen
+      - picom
     state: present
   when: is_debian_distro
 
@@ -16,6 +18,7 @@
   file:
     src: "{{ user_home }}/.dotfiles/.config/i3/config"
     dest: "{{ user_home }}/.config/i3/config"
+    owner: "{{ host_user }}"
     state: link
     force: true
   when: is_debian_distro

@@ -23,6 +23,7 @@
   file:
     src: "{{ user_home }}/.local/kitty.app/bin/kitty"
     dest: "{{ user_home }}/.local/bin/kitty"
+    owner: "{{ host_user }}"
     state: link
     force: true
 
@@ -56,6 +57,7 @@
   file:
     src: "{{ user_home }}/.dotfiles/.config/kitty/kitty.conf"
     dest: "{{ user_home }}/.config/kitty/kitty.conf"
+    owner: "{{ host_user }}"
     state: link
     force: true
 
@@ -63,6 +65,7 @@
   file:
     src: "{{ user_home }}/.dotfiles/.config/kitty/nightfox_kitty.conf"
     dest: "{{ user_home }}/.config/kitty/nightfox_kitty.conf"
+    owner: "{{ host_user }}"
     state: link
     force: true
 ...

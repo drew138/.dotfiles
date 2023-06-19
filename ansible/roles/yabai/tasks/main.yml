@@ -12,6 +12,7 @@
   file:
     src: "{{ user_home }}/.dotfiles/.yabairc"
     dest: "{{ user_home }}/.yabairc"
+    owner: "{{ host_user }}"
     state: link
     force: true
   when: is_macos and homebrew_check.stat.exists
