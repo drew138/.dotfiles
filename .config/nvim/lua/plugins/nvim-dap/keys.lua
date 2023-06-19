@@ -1,5 +1,3 @@
-local widgets = require("dap.ui.widgets")
-
 local function debug_test()
 	local filetype = vim.bo.filetype
 	if filetype == "go" then
@@ -10,8 +8,8 @@ local function debug_test()
 end
 
 local Keys = {
-	{ "<leader>di", widgets.hover, desc = "see object current value" },
 	{ "<leader>dt", debug_test, desc = "debug current test selection" },
+	{ "<leader>di", "<cmd>lua require'dap.ui.widgets'.hover()<cr>", desc = "see object current value" },
 	{ "<leader>dr", "<cmd>lua require'dap'.repl.open()<cr>", desc = "open repl window" },
 	{ "<leader>5", "<cmd>lua require'dap'.step_over()<cr>", desc = "step over" },
 	{ "<leader>6", "<cmd>lua require'dap'.continue()<cr>", desc = "continue" },

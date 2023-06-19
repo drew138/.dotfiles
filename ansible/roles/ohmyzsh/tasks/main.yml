@@ -15,13 +15,6 @@
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
 
-- name: create .zshrc symlink
-  file:
-    src: "{{ user_home }}/.dotfiles/.zshrc"
-    dest: "{{ user_home }}/.zshrc"
-    state: link
-    force: true
-
 - name: create .workrc file
   copy:
     content: ""
@@ -74,4 +67,11 @@
     dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
     clone: true
     update: true
+
+- name: create .zshrc symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/.zshrc"
+    dest: "{{ user_home }}/.zshrc"
+    state: link
+    force: true
 ...

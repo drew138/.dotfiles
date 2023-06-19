@@ -1,11 +1,9 @@
-local builtin = require("telescope.builtin")
-
 local Keys = {
-	{ "<leader>ff", builtin.find_files, desc = "open files picker" },
-	{ "<leader>fg", builtin.live_grep, desc = "open grep picker" },
-	{ "<leader>fb", builtin.buffers, desc = "open active buffers picker" },
-	{ "<leader>fh", builtin.help_tags, desc = "open help tags picker" },
-	{ "<leader>fd", builtin.diagnostics, desc = "open diagnostics finder" }, --[[ TODO apply picker config to this ]]
+	{ "<leader>ff", "<cmd>lua require'telescope.builtin'.find_files()<cr>", desc = "open files picker" },
+	{ "<leader>fg", "<cmd>lua require'telescope.builtin'.live_grep()<cr>", desc = "open grep picker" },
+	{ "<leader>fb", "<cmd>lua require'telescope.builtin'.buffers()<cr>", desc = "open active buffers picker" },
+	{ "<leader>fh", "<cmd>lua require'telescope.builtin'.help_tags()<cr>", desc = "open help tags picker" },
+	{ "<leader>fd", "<cmd>lua require'telescope.builtin'.diagnostics()<cr>", desc = "open diagnostics finder" },
 }
 
 return Keys
