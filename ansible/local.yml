@@ -2,7 +2,6 @@
 - hosts: localhost
 
   roles:
-    - i3
     - nvim
     - docker
     - node
@@ -14,7 +13,6 @@
     - repositories
     - casks
     - kitty
-    # - yabai
     - ohmyzsh
     - go
     - rust
