@@ -31,4 +31,5 @@
     - com.spotify.Client
     - com.obsproject.Studio
     - com.bitwarden.desktop
+    - com.brave.Browser
 ...
