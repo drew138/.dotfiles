@@ -26,9 +26,6 @@ font pango:DejaVu Sans Mono 8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -154,8 +151,16 @@ bar {
 
 
 ## config
-exec picom
+
+# set wallpaper
+exec_always feh --bg-fill /home/$USER/.dotfiles/assets/images/wallpaper.jpg
 
 bindsym $mod+Return exec kitty
 
+# window look
+# exec picom
 
+# locking
+bindsym $mod+l exec '/home/$USER/.dotfiles/scripts/lock.sh'
+# automatic locking
+exec --no-startup-id '/home/$USER/.dotfiles/scripts/autolock.sh'
