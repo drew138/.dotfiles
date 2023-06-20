@@ -6,6 +6,7 @@
       - feh
       # - picom
       - dmenu
+      - polybar
     state: present
   when: is_debian_distro
 
@@ -67,6 +68,17 @@
   args:
     warn: false
 
+
+- name: install audio required packages
+  apt:
+    name:
+      - pulseaudio-module-bluetooth
+      - pulseaudio-equalizer
+      - pulseaudio-module-jack
+      - alsa-utils
+      - playerctl
+    state: present
+  when: is_debian_distro
 
 # - name: install build packages for xidlehook
 #   apt:
