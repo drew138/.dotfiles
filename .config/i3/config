@@ -163,4 +163,4 @@ bindsym $mod+Return exec kitty
 # locking
 bindsym $mod+l exec '/home/$USER/.dotfiles/scripts/lock.sh'
 # automatic locking
-exec --no-startup-id '/home/$USER/.dotfiles/scripts/autolock.sh'
+# exec --no-startup-id '/home/$USER/.dotfiles/scripts/autolock.sh'
