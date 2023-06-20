@@ -16,7 +16,7 @@ set $mod Mod4
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 # font pango:JetBrainsMono Nerd Font 8
-font pango:monospace 8
+font pango:JetBrainsMono Nerd Font 8
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -192,7 +192,9 @@ bindsym $mod+Return exec kitty
 
 # allocate applications to workspaces
 
-for_window [class="kitty"] move to workspace number $ws1
-for_window [class="Brave-browser"] move to workspace number $ws2
-for_window [class="discord"] move to workspace number $ws3
-for_window [class="Slack"] move to workspace number $ws4
+# for_window [class="kitty"] move to workspace number $ws1
+# for_window [class="Brave-browser"] move to workspace number $ws2
+# for_window [class="discord"] move to workspace number $ws3
+# for_window [class="Slack"] move to workspace number $ws4
+
+exec --no-startup-id gnome-settings-daemon
