@@ -3,23 +3,23 @@
 
   roles:
     - i3
-    # - nvim
-    # - docker
-    # - node
-    # - fzf
-    # - tmux
-    # - git
-    # - fd
-    # - flatpak
-    # - repositories
-    # - casks
-    # - kitty
-    # - yabai
-    # - ohmyzsh
-    # - go
-    # - rust
-    # - nerdfonts
-    # - utils
+    - nvim
+    - docker
+    - node
+    - fzf
+    - tmux
+    - git
+    - fd
+    - flatpak
+    - repositories
+    - casks
+    - kitty
+    - yabai
+    - ohmyzsh
+    - go
+    - rust
+    - nerdfonts
+    - utils
 
   vars:
     - has_user_repositories: "{{ user_repositories == 'true' }}"

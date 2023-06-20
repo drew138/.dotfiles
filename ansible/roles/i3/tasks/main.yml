@@ -24,7 +24,6 @@
     force: true
   when: is_debian_distro
 
-
 - name: install build packages for i3lock-color
   apt:
     name:
@@ -69,34 +68,34 @@
     warn: false
 
 
-- name: install build packages for xidlehook
-  apt:
-    name:
-      - libxcb
-      - libxss
-      - libpulseaudio
-      - libxcb-dev
-      - libxss-dev
-      - libpulseaudio-dev
-    state: present
-  when: is_debian_distro
-
-- name: clone xidlehook repository
-  become: true
-  become_user: "{{ host_user }}"
-  git:
-    repo: "https://gitlab.com/jD91mZM2/xidlehook"
-    dest: "{{ user_home }}/xidlehook"
-    depth: 1
-    clone: true
-    update: true
-
-- name: build and install xidlehook
-  become: true
-  become_user: "{{ host_user }}"
-  shell:
-    cmd: cargo build --release --bins
-    dest: "{{ user_home }}/xidlehook"
-  args:
-    warn: false
+# - name: install build packages for xidlehook
+#   apt:
+#     name:
+#       - libxcb
+#       - libxss
+#       - libpulseaudio
+#       - libxcb-dev
+#       - libxss-dev
+#       - libpulseaudio-dev
+#     state: present
+#   when: is_debian_distro
+#
+# - name: clone xidlehook repository
+#   become: true
+#   become_user: "{{ host_user }}"
+#   git:
+#     repo: "https://gitlab.com/jD91mZM2/xidlehook"
+#     dest: "{{ user_home }}/xidlehook"
+#     depth: 1
+#     clone: true
+#     update: true
+#
+# - name: build and install xidlehook
+#   become: true
+#   become_user: "{{ host_user }}"
+#   shell:
+#     cmd: cargo build --release --bins
+#     dest: "{{ user_home }}/xidlehook"
+#   args:
+#     warn: false
 ...
