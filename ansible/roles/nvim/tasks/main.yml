@@ -63,8 +63,7 @@
     dest: "{{ user_home }}/commitlint.config.js"
     backup: true
     force: true
-    mode: 0755
-    group: sys
+    mode: 0644
     owner: "{{ host_user }}"
 
 - name: Create nvim symlink

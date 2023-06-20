@@ -23,13 +23,12 @@
     state: present
   when: is_debian_distro and has_extra_software
   loop:
-    - com.discordapp.Discord
-    - org.mozilla.firefox
-    - md.obsidian.Obsidian
-    - com.getpostman.Postman
+    - com.brave.Browser
     - com.slack.Slack
     - com.spotify.Client
+    - com.discordapp.Discord
+    - md.obsidian.Obsidian
+    - com.getpostman.Postman
     - com.obsproject.Studio
     - com.bitwarden.desktop
-    - com.brave.Browser
 ...

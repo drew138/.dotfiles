@@ -2,7 +2,7 @@
 - name: installing homebrew cask packages (macos)
   homebrew_cask:
     name:
-      - firefox
+      - brave-browser
       - slack
       - spotify
       - discord

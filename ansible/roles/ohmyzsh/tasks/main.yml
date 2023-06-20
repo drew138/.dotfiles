@@ -21,9 +21,13 @@
     dest: "{{ user_home }}/.workrc"
     backup: true
     force: false
-    mode: 0755
-    group: sys
+    mode: 0644
     owner: "{{ host_user }}"
+
+- name: create dev directory
+  file:
+    path: "{{ user_home }}/dev/"
+    state: directory
 
 - name: change default shell
   become: true
