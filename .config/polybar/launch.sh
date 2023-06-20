@@ -8,5 +8,5 @@ polybar-msg cmd quit
 
 # Launch bar1 and bar2
 echo "---" | tee -a /tmp/polybar.log
-polybar bar 2>&1 | tee -a /tmp/polybar.log & disown
+polybar --config="/home/drew/.config/polybar/config.ini" bar 2>&1 | tee -a /tmp/polybar.log & disown
 
