@@ -14,7 +14,7 @@
     method: user
   when: is_debian_distro
 
-- name: install discord (linux)
+- name: install flatpak packages (linux)
   become: true
   become_user: "{{ host_user }}"
   flatpak:
