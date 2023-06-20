@@ -69,15 +69,24 @@
     warn: false
 
 
-- name: install audio required packages
-  apt:
-    name:
-      - pulseaudio-module-bluetooth
-      - pulseaudio-equalizer
-      - pulseaudio-module-jack
-      - alsa-utils
-      - playerctl
-    state: present
+# - name: install audio required packages
+#   apt:
+#     name:
+#       - pulseaudio-module-bluetooth
+#       - pulseaudio-equalizer
+#       - pulseaudio-module-jack
+#       - alsa-utils
+#       - playerctl
+#     state: present
+#   when: is_debian_distro
+
+- name: create symlink for polybar directory (linux)
+  file:
+    src: "{{ user_home }}/.dotfiles/.config/polybar"
+    dest: "{{ user_home }}/.config/polybar"
+    owner: "{{ host_user }}"
+    state: link
+    force: true
   when: is_debian_distro
 
 # - name: install build packages for xidlehook
