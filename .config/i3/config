@@ -192,9 +192,9 @@ bindsym $mod+Return exec kitty
 
 # allocate applications to workspaces
 
-# for_window [class="kitty"] move to workspace number $ws1
-# for_window [class="Brave-browser"] move to workspace number $ws2
-# for_window [class="discord"] move to workspace number $ws3
-# for_window [class="Slack"] move to workspace number $ws4
+for_window [class="kitty"] move to workspace 1
+for_window [class="Brave-browser"] move to workspace 2
+for_window [class="discord"] move to workspace 3
+for_window [class="Slack"] move to workspace 4
 
 exec --no-startup-id gnome-settings-daemon
