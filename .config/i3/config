@@ -161,6 +161,6 @@ bindsym $mod+Return exec kitty
 # exec picom
 
 # locking
-bindsym $mod+l exec '/home/$USER/.dotfiles/scripts/lock.sh'
+bindsym $mod+l exec /home/$USER/.dotfiles/scripts/lock.sh
 # automatic locking
 # exec --no-startup-id '/home/$USER/.dotfiles/scripts/autolock.sh'
