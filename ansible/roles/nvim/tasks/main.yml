@@ -29,6 +29,7 @@
   git:
     repo: "https://github.com/neovim/neovim.git"
     dest: "{{ user_home }}/neovim"
+    version: release-0.9
     depth: 1
     clone: true
     update: true
