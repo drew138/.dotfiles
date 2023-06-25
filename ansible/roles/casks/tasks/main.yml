@@ -12,6 +12,7 @@
       - bitwarden
       - notion
       - whatsapp
+      - dropbox
     state: present
   register: result
   until: result is successful

@@ -31,4 +31,5 @@
     - com.getpostman.Postman
     - com.obsproject.Studio
     - com.bitwarden.desktop
+    - com.dropbox.Client
 ...
