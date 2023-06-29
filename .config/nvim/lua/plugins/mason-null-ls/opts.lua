@@ -1,56 +1,56 @@
 local Opts = {
-    ensure_installed = {
-        -- code actions
-        "gomodifytags",
-        "impl",
+	ensure_installed = {
+		-- code actions
+		"gomodifytags",
+		"impl",
 
-        -- completion
-        "luasnip",
+		-- completion
+		"luasnip",
 
-        -- diagnostics
-        "stylelint",
-        "actionlint",
-        "ansible-lint",
-        "buf",
-        "commitlint",
-        "hadolint",
-        "jsonlint",
-        "markdownlint",
-        "misspell",
-        "flake8",
-        "shellcheck",
-        "sqlfluff",
-        "yamllint",
-        "selene",
+		-- diagnostics
+		"stylelint",
+		"actionlint",
+		"ansible-lint",
+		"buf",
+		"commitlint",
+		"hadolint",
+		"jsonlint",
+		"markdownlint",
+		"misspell",
+		"flake8",
+		"shellcheck",
+		"sqlfluff",
+		"yamllint",
+		"selene",
 
-        -- formatting
-        "stylua", -- lua
-        "black", -- python
-        "beautysh", -- shell
-        "clang_format",
-        "buf",
-        "prettier",
-        -- go
-        "gofmt",
-        "goimports",
-        "goimports-reviser",
-        "golines",
-        --
-        "protolint",
-        "rustfmt",
-        "shfmt",
-        "trim_whitespace",
+		-- formatting
+		"stylua", -- lua
+		"black", -- python
+		"beautysh", -- shell
+		"clang_format",
+		"buf",
+		"prettier",
+		-- go
+		"gofmt",
+		"goimports",
+		"goimports-reviser",
+		"golines",
+		--
+		"protolint",
+		"rustfmt",
+		"shfmt",
+		"trim_whitespace",
 
-        -- "clang_check",
+		-- "clang_check",
 
-        -- "shellcheck",
-        -- "dotenv_linter",
-        -- "zsh",
-        -- "gospel",
+		-- "shellcheck",
+		-- "dotenv_linter",
+		-- "zsh",
+		-- "gospel",
 
-        -- flake8
-    },
-    automatic_installation = true,
+		-- flake8
+	},
+	automatic_installation = true,
 }
 
 return Opts
