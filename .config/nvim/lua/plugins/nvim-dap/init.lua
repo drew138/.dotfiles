@@ -14,7 +14,7 @@ local Plugin = {
 			ft = "python",
 			config = function()
 				require("dap-python").test_runner = "pytest"
-				local path = "/home/drew/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
+				local path = vim.fn.expand("$HOME/.local/share/nvim/mason/packages/debugpy/venv/bin/python")
 				require("dap-python").setup(path)
 			end,
 		},

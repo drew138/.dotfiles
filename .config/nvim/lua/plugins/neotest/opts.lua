@@ -16,27 +16,8 @@ local Opts = {
 		}),
 	},
 	quickfix = {
-		enabled = false, -- disable annoying popping split
+		open = false,
 	},
 }
-
-local augroup = vim.api.nvim_create_augroup("AutoTest", { clear = true })
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.go", "*.py" },
-	group = augroup,
-	callback = function()
-		require("neotest").run.run(vim.fn.getcwd())
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufReadPost" }, {
-	pattern = { "*.go", "*.py" },
-	group = augroup,
-	callback = function()
-		require("neotest").run.run(vim.fn.getcwd())
-	end,
-	once = true,
-})
 
 return Opts

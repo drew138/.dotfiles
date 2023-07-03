@@ -14,7 +14,9 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
+# ZSH_THEME="passion"
+ZSH_THEME="af-magic"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -77,15 +79,15 @@ HYPHEN_INSENSITIVE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
-  zsh-syntax-highlighting
-  zsh-autosuggestions
-  docker
-  tmux
-  z
-  fzf
-  fd
-  ripgrep
+    git
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+    docker
+    tmux
+    z
+    fzf
+    fd
+    ripgrep
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -119,19 +121,23 @@ export NVM_DIR="$HOME/.nvm"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Disable homebrew auto update
-export HOMEBREW_NO_AUTO_UPDATE=1
 
 alias nd='. ~/.dotfiles/scripts/nvim_dir.sh'
 alias nf='~/.dotfiles/scripts/nvim_file.sh'
 alias vim='nvim'
+alias unstage='git restore --staged .'
+alias merge='git mergetool'
+alias abort='git reset --merge'
 
 export EDITOR='nvim'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+# Disable homebrew auto update
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
-[ -f ~/.workrc ] && source ~/.workrc 
+[ -f ~/.workrc ] && source ~/.workrc

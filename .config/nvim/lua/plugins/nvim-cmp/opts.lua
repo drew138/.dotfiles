@@ -22,10 +22,10 @@ local Opts = {
 	}),
 	sources = cmp.config.sources({
 		{ name = "luasnip" },
-		{ name = "nvim_lsp", keyword_length = 4 },
-		{ name = "nvim_lua", keyword_length = 4 },
-		{ name = "buffer", keyword_length = 4 },
-		{ name = "path", keyword_length = 4 },
+		{ name = "nvim_lsp", keyword_length = 3 },
+		{ name = "nvim_lua", keyword_length = 3 },
+		{ name = "buffer", keyword_length = 3 },
+		{ name = "path", keyword_length = 3 },
 	}),
 	formatting = {
 		format = lspkind.cmp_format({
@@ -44,24 +44,5 @@ local Opts = {
 		select = false,
 	},
 }
-
--- https://github.com/tjdevries/config_manager/blob/78608334a7803a0de1a08a9a4bd1b03ad2a5eb11/xdg_config/nvim/after/plugin/luasnip.lua#L275
--- -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
--- cmp.setup.cmdline({ "/", "?" }, {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = {
---         { name = "buffer" },
---     },
--- })
---
--- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
--- cmp.setup.cmdline(":", {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = cmp.config.sources({
---         { name = "path" },
---     }, {
---         { name = "cmdline" },
---     }),
--- })
 
 return Opts

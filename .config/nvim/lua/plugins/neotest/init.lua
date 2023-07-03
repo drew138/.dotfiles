@@ -12,6 +12,7 @@ local Plugin = {
 		return require("plugins.neotest.opts")
 	end,
 	init = function()
+		-- Add diagnostics for failed tests
 		local neotest_ns = vim.api.nvim_create_namespace("neotest")
 		vim.diagnostic.config({
 			virtual_text = {
@@ -21,10 +22,32 @@ local Plugin = {
 				end,
 			},
 		}, neotest_ns)
-		local neotest = require("neotest")
-		vim.keymap.set("n", "<c-b>", neotest.summary.toggle, { remap = false, silent = true })
+
+		-- Run tests automatically when first
+		-- starting neovim and after every save
+		local augroup = vim.api.nvim_create_augroup("AutoTest", { clear = true })
+
+		vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+			pattern = { "*.go", "*.py" },
+			group = augroup,
+			callback = function()
+				require("neotest").run.run(vim.fn.getcwd())
+			end,
+		})
+
+		vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+			pattern = { "*.go", "*.py" },
+			group = augroup,
+			callback = function()
+				require("neotest").run.run(vim.fn.getcwd())
+			end,
+			once = true,
+		})
 	end,
 	config = true,
+	keys = function()
+		return require("plugins.neotest.keys")
+	end,
 }
 
 return Plugin

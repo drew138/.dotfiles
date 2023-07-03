@@ -21,7 +21,7 @@
     dest: "{{ user_home }}/.workrc"
     backup: true
     force: false
-    mode: 0644
+    mode: 644
     owner: "{{ host_user }}"
 
 - name: create dev directory
@@ -44,7 +44,7 @@
   get_url:
     url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
     dest: /tmp/ohmyzsh_install.sh
-    mode: 0755
+    mode: 755
     force: true
   when: not ohmyzsh_file.stat.exists
 

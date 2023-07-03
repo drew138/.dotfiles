@@ -9,3 +9,7 @@
 	rebase = false
 [alias]
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+[merge]
+	tool = nvimdiff
+[mergetool]
+	keepBackup = false
