@@ -1,5 +1,5 @@
 local Plugin = {
-	"christoomey/vim-tmux-navigator",
+    "christoomey/vim-tmux-navigator",
 }
 
 return Plugin

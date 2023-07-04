@@ -4,10 +4,10 @@ local i = ls.insert_node
 local fmt = require("luasnip.extras.fmt").fmt
 
 local Snippets = {
-	snippet(
-		"cpt",
-		fmt(
-			[[
+    snippet(
+        "cpt",
+        fmt(
+            [[
             #include <bits/stdc++.h>
             using namespace std;
 
@@ -65,15 +65,15 @@ local Snippets = {
               {}
             }}
             ]],
-			{
-				i(0),
-			}
-		)
-	),
-	snippet(
-		"hash",
-		fmt(
-			[[
+            {
+                i(0),
+            }
+        )
+    ),
+    snippet(
+        "hash",
+        fmt(
+            [[
             // unordered_map<pair<int,int>, other_type, HASH> m;
             struct HASH{{
              size_t operator()(const pair<int,int>&x)const{{
@@ -81,13 +81,13 @@ local Snippets = {
              }}
             }};
             ]],
-			{}
-		)
-	),
-	snippet(
-		"comp",
-		fmt(
-			[[
+            {}
+        )
+    ),
+    snippet(
+        "comp",
+        fmt(
+            [[
             // priority_queue<pair<int,int>, vector<pair<int,int>>, Comparator> pq;
             struct Comparator {{
               constexpr bool operator()(
@@ -99,13 +99,13 @@ local Snippets = {
               }}
             }};
             ]],
-			{}
-		)
-	),
-	snippet(
-		"ncrmod",
-		fmt(
-			[[
+            {}
+        )
+    ),
+    snippet(
+        "ncrmod",
+        fmt(
+            [[
             ll inv(ll num, int mod) {{
               ll pow = mod - 2;
               ll res = 1;
@@ -130,13 +130,13 @@ local Snippets = {
               return total;
             }}
             ]],
-			{}
-		)
-	),
-	snippet(
-		"ncr",
-		fmt(
-			[[
+            {}
+        )
+    ),
+    snippet(
+        "ncr",
+        fmt(
+            [[
             ll ncrmod(ll n, ll r, vector<int> &fact) {{
               ll total = fact[n];
               total /= fact[n - r];
@@ -144,13 +144,13 @@ local Snippets = {
               return total;
             }}
             ]],
-			{}
-		)
-	),
-	snippet(
-		"nprmod",
-		fmt(
-			[[
+            {}
+        )
+    ),
+    snippet(
+        "nprmod",
+        fmt(
+            [[
             ll inv(ll num, int mod) {{
               ll pow = mod - 2;
               ll res = 1;
@@ -173,26 +173,26 @@ local Snippets = {
               return total;
             }}
             ]],
-			{}
-		)
-	),
-	snippet(
-		"npr",
-		fmt(
-			[[
+            {}
+        )
+    ),
+    snippet(
+        "npr",
+        fmt(
+            [[
             ll npr(ll n, ll r, vector<int> &fact) {{
               ll total = fact[n];
               total /= fact[r];
               return total;
             }}
             ]],
-			{}
-		)
-	),
-	snippet(
-		"sieve",
-		fmt(
-			[[
+            {}
+        )
+    ),
+    snippet(
+        "sieve",
+        fmt(
+            [[
             vector<bool> seen(4e4 + 1, false);
             vector<int> primes;
             for (int i = 2; i < seen.size(); ++i) {{
@@ -203,9 +203,9 @@ local Snippets = {
               }}
             }}
             ]],
-			{}
-		)
-	),
+            {}
+        )
+    ),
 }
 
 return Snippets
