@@ -4,4 +4,3 @@
     name: docker
     state: restarted
   when: is_debian_distro
-...

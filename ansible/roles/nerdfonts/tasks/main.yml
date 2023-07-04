@@ -22,4 +22,3 @@
     state: link
     force: true
   when: is_macos
-...

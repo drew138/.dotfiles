@@ -18,7 +18,7 @@
   get_url:
     url: https://get.golang.org/{{ uname_result.stdout }}/go_installer
     dest: /tmp/go_installer
-    mode: 0755
+    mode: 755
     force: true
 
 - name: install go
@@ -26,4 +26,3 @@
   become_user: "{{ host_user }}"
   when: go_exists is not failed
   script: "/tmp/go_installer"
-...

@@ -5,7 +5,10 @@
       - htop
       - ripgrep
       - python3-virtualenv
+      - gcc
+      - g++
       - protobuf-compiler
+      - libstdc++-12-dev
   when: is_debian_distro
 
 - name: install utils (macos)
@@ -19,4 +22,3 @@
   register: result
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
-...

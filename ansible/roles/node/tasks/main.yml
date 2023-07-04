@@ -47,4 +47,3 @@
     state: link
     force: true
   when: is_debian_distro
-...

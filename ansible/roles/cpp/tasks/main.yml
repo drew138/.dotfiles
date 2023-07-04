@@ -1,0 +1,8 @@
+---
+- name: install cpp (linux)
+  package:
+    name:
+      - gcc
+      - g++
+      - libstdc++-12-dev
+  when: is_debian_distro

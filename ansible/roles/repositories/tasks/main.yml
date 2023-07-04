@@ -18,4 +18,3 @@
     clone: true
     update: true
   when: has_user_repositories
-...

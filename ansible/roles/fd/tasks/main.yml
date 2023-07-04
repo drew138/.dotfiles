@@ -29,4 +29,3 @@
   register: result
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
-...

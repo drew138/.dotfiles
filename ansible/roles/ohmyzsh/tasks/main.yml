@@ -79,4 +79,3 @@
     owner: "{{ host_user }}"
     state: link
     force: true
-...

@@ -10,7 +10,7 @@
   get_url:
     url: https://sh.rustup.rs
     dest: /tmp/sh.rustup.rs
-    mode: 0755
+    mode: 755
     force: "yes"
 
 - name: install rust/cargo
@@ -18,4 +18,3 @@
   become_user: "{{ host_user }}"
   when: cargo_exists is not failed
   shell: /tmp/sh.rustup.rs -y
-...
