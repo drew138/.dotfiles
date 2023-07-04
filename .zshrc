@@ -130,7 +130,7 @@ alias merge='git mergetool'
 alias abort='git reset --merge'
 alias status='git status'
 alias checkout='git checkout .'
-alias push='git push .'
+alias push='git push'
 
 export EDITOR='nvim'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
