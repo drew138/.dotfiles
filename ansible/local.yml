@@ -13,7 +13,7 @@
     - repositories
     - casks
     - kitty
-    - ohmyzsh
+    # - ohmyzsh  # broken
     - cpp
     - go
     - rust
