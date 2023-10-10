@@ -2,23 +2,23 @@
 - hosts: localhost
 
   roles:
-    - nvim
-    - docker
-    - node
-    - fzf
-    - tmux
-    - git
-    - fd
-    - flatpak
-    - repositories
-    - casks
-    - kitty
-    # - ohmyzsh  # broken
-    - cpp
-    - go
-    - rust
-    - nerdfonts
-    - utils
+    # - nvim
+    # - docker
+    # - node
+    # - fzf
+    # - tmux
+    # - git
+    # - fd
+    # - flatpak
+    # - repositories
+    # - casks
+    # - kitty
+    - ohmyzsh # broken
+    # - cpp
+    # - go
+    # - rust
+    # - nerdfonts
+    # - utils
 
   vars:
     - has_user_repositories: "{{ user_repositories == 'true' }}"
