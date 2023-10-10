@@ -48,9 +48,6 @@
     force: true
   when: not ohmyzsh_file.stat.exists
 
-- debug:
-    msg: "System {{ host_user }}"
-
 - name: install ohmyzsh
   become_user: "{{ host_user }}"
   command: /tmp/ohmyzsh_install.sh
