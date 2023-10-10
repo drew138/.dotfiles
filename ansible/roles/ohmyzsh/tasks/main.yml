@@ -1,52 +1,57 @@
 ---
-- name: install zsh (linux)
-  package:
-    name:
-      - zsh
-    state: present
-  when: is_debian_distro
+# - name: install zsh (linux)
+#   package:
+#     name:
+#       - zsh
+#     state: present
+#   when: is_debian_distro
+#
+# - name: install zsh (macos)
+#   homebrew:
+#     name:
+#       - zsh
+#     state: present
+#   register: result
+#   until: result is successful
+#   when: is_macos and homebrew_check.stat.exists
+#
+# - name: create .workrc file
+#   copy:
+#     content: ""
+#     dest: "{{ user_home }}/.workrc"
+#     backup: true
+#     force: false
+#     mode: 644
+#     owner: "{{ host_user }}"
+#
+# - name: create dev directory
+#   file:
+#     path: "{{ user_home }}/dev/"
+#     state: directory
+#
+# - name: change default shell
+#   become: true
+#   shell: "sudo chsh {{ host_user }} -s $(which zsh) "
+#   args:
+#     warn: false
+#
+# - name: check .oh-my-zsh installation
+#   stat:
+#     path: "{{ user_home }}/.oh-my-zsh"
+#   register: ohmyzsh_file
+#
+# - name: download ohmyzsh installer
+#   get_url:
+#     url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+#     dest: /tmp/ohmyzsh_install.sh
+#     mode: 755
+#     force: true
+#   when: not ohmyzsh_file.stat.exists
 
-- name: install zsh (macos)
-  homebrew:
-    name:
-      - zsh
-    state: present
-  register: result
-  until: result is successful
-  when: is_macos and homebrew_check.stat.exists
-
-- name: create .workrc file
-  copy:
-    content: ""
-    dest: "{{ user_home }}/.workrc"
-    backup: true
-    force: false
-    mode: 644
-    owner: "{{ host_user }}"
-
-- name: create dev directory
-  file:
-    path: "{{ user_home }}/dev/"
-    state: directory
-
-- name: change default shell
-  become: true
-  shell: "sudo chsh {{ host_user }} -s $(which zsh) "
-  args:
-    warn: false
-
-- name: check .oh-my-zsh installation
-  stat:
-    path: "{{ user_home }}/.oh-my-zsh"
-  register: ohmyzsh_file
-
-- name: download ohmyzsh installer
-  get_url:
-    url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    dest: /tmp/ohmyzsh_install.sh
-    mode: 755
-    force: true
-  when: not ohmyzsh_file.stat.exists
+- debug:
+    become: true
+    become_user: "{{ host_user }}"
+    msg: "System {{ host_user }} "
 
 - name: install ohmyzsh
   become: true
