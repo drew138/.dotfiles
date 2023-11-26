@@ -22,6 +22,11 @@
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
 
+- name: create dev directory
+  file:
+    path: "{{ user_home }}/dev/"
+    state: directory
+
 - name: clone nvim repository
   become: true
   become_user: "{{ host_user }}"

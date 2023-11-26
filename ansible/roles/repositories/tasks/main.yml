@@ -1,4 +1,9 @@
 ---
+- name: create dev directory
+  file:
+    path: "{{ user_home }}/dev/"
+    state: directory
+
 - name: download algorithms repository
   become: true
   become_user: "{{ host_user }}"

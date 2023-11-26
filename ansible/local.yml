@@ -2,6 +2,8 @@
 - hosts: localhost
 
   roles:
+    - nerdfonts
+    - utils
     - nvim
     - docker
     - node
@@ -13,13 +15,11 @@
     - repositories
     - casks
     - kitty
-    # - ohmyzsh
+    - zsh
     - starship
+    - rust
     - cpp
     - go
-    - rust
-    - nerdfonts
-    - utils
 
   vars:
     - has_user_repositories: "{{ user_repositories == 'true' }}"
