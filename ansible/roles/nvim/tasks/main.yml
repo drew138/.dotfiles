@@ -35,7 +35,6 @@
     repo: "https://github.com/neovim/neovim.git"
     dest: "{{ user_home }}/dev/neovim"
     version: release-0.9
-    owner: "{{ host_user }}"
     depth: 1
     clone: true
     update: true
