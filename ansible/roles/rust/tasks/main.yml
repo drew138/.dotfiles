@@ -10,7 +10,7 @@
   get_url:
     url: https://sh.rustup.rs
     dest: /tmp/sh.rustup.rs
-    mode: 755
+    mode: "u+rwx"
     force: "yes"
 
 - name: install rust/cargo
