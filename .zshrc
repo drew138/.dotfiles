@@ -1,13 +1,6 @@
-# If you come from bash you might have to change your $PATH.
 eval "$(starship init zsh)"
 
-# PATH="$PATH:/home/$USER/.local/bin"
-# PATH="$PATH:/home/$USER/go/bin"
-# PATH="$PATH:/home/$USER/.go/bin"
-# PATH="$PATH:/usr/local/go/bin"
-# PATH="$HOME/bin:/usr/local/bin:$PATH"
-# export GOPATH="$HOME/go"
-# export PATH="$PATH:/$GOPATH/bin"
+PATH="/usr/local/go/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

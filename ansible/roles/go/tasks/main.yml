@@ -1,10 +1,10 @@
 ---
 - name: download go tar file (linux)
-  command: wget https://go.dev/dl/go{{version}}.linux-amd64.tar.gz
+  command: wget https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
   when: is_debian_distro
 
 - name: download go tar file (macos)
-  command: wget https://go.dev/dl/go{{version}}.darwin-amd64.tar.gz
+  command: wget https://go.dev/dl/go{{ go_version }}.darwin-amd64.tar.gz
   when: is_macos and homebrew_check.stat.exists
 
 - name: delete previous installation
@@ -12,14 +12,14 @@
   become: true
 
 - name: extract and move new go folder to /usr/local (linux)
-  command: tar -C /usr/local -xzf go{{version}}.linux-amd64.tar.gz
+  command: tar -C /usr/local -xzf go{{ go_version }}.linux-amd64.tar.gz
   become: true
   when: is_debian_distro
 
 - name: extract and move new go folder to /usr/local (macos)
-  command: tar -C /usr/local -xzf go{{version}}.darwin-amd64.tar.gz
+  command: tar -C /usr/local -xzf go{{ go_version }}.darwin-amd64.tar.gz
   become: true
   when: is_macos and homebrew_check.stat.exists
 
 - name: delete downloaded tar file
-  shell: rm -rf go{{version}}.linux-amd64.tar.gz*
+  shell: rm -rf go{{ go_version }}.linux-amd64.tar.gz*

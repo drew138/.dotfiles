@@ -22,17 +22,15 @@
 - name: install node
   become: false
   shell: >
-    . {{ user_home }}/.nvm/nvm.sh && nvm install {{ item }}
+    . {{ user_home }}/.nvm/nvm.sh && nvm install {{ node_version }}
   args:
     executable: /bin/bash
     chdir: "{{ user_home }}"
-    creates: "{{ user_home }}/.nvm/versions/{{ item }}"
-  loop:
-    - "{{ node_version }}"
+    creates: "{{ user_home }}/.nvm/versions/{{ node_version }}"
 
 - name: create node symlink to /usr/bin
   file:
-    src: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/node"
+    src: "{{ user_home }}/.nvm/versions/node/v{{ node_version }}/bin/node"
     dest: "/usr/bin/node"
     owner: "{{ host_user }}"
     state: link
@@ -41,8 +39,7 @@
 
 - name: create npm symlink to /usr/bin
   file:
-    # change version below to install higher versions
-    src: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
+    src: "{{ user_home }}/.nvm/versions/node/v{{ node_version }}/bin/npm"
     dest: "/usr/bin/npm"
     owner: "{{ host_user }}"
     state: link
