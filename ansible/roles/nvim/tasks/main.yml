@@ -26,6 +26,7 @@
   file:
     path: "{{ user_home }}/dev/"
     state: directory
+    owner: "{{ host_user }}"
 
 - name: clone nvim repository
   become: true
@@ -34,6 +35,7 @@
     repo: "https://github.com/neovim/neovim.git"
     dest: "{{ user_home }}/dev/neovim"
     version: release-0.9
+    owner: "{{ host_user }}"
     depth: 1
     clone: true
     update: true
