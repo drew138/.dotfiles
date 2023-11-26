@@ -13,7 +13,8 @@
     - repositories
     - casks
     - kitty
-    - ohmyzsh
+    # - ohmyzsh
+    - starship
     - cpp
     - go
     - rust

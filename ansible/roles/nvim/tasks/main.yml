@@ -67,7 +67,7 @@
     mode: 644
     owner: "{{ host_user }}"
 
-- name: Create nvim symlink
+- name: create nvim symlink
   file:
     src: "{{ user_home }}/.dotfiles/.config/nvim"
     dest: "{{ user_home }}/.config/nvim"
