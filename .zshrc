@@ -37,7 +37,7 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 [ -f ~/.workrc ] && source ~/.workrc
 
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
 
 source $HOME/dev/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
