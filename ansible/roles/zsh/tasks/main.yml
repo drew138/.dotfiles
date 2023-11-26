@@ -21,7 +21,7 @@
     dest: "{{ user_home }}/.workrc"
     backup: true
     force: false
-    mode: 644
+    mode: "u+rwx"
     owner: "{{ host_user }}"
 
 - name: create dev directory
