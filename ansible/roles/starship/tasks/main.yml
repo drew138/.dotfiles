@@ -24,7 +24,7 @@
 
 - name: create starship symlink
   file:
-    src: "{{ user_home }}/.dotfiles/.config/starship.toml"
+    src: "{{ user_home }}/.dotfiles/.config/starship/starship.toml"
     dest: "{{ user_home }}/.config/starship.toml"
     owner: "{{ host_user }}"
     state: link
