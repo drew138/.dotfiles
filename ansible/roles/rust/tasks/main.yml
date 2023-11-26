@@ -6,6 +6,7 @@
   ignore_errors: true
 
 - name: download Installer
+  become_user: "{{ host_user }}"
   when: cargo_exists is not failed
   get_url:
     url: https://sh.rustup.rs
@@ -14,7 +15,6 @@
     force: "yes"
 
 - name: install rust/cargo
-  become: true
   become_user: "{{ host_user }}"
   when: cargo_exists is not failed
   shell: /tmp/sh.rustup.rs -y
