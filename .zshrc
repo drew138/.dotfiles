@@ -133,6 +133,8 @@ alias abort='git reset --merge'
 alias status='git status'
 alias checkout='git checkout .'
 alias push='git push'
+alias ..='cd ..'
+alias l='ls'
 
 export EDITOR='nvim'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
@@ -146,3 +148,6 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
 [ -f ~/.workrc ] && source ~/.workrc
+
+source $HOME/dev/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

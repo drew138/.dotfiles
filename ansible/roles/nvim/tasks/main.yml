@@ -27,7 +27,7 @@
   become_user: "{{ host_user }}"
   git:
     repo: "https://github.com/neovim/neovim.git"
-    dest: "{{ user_home }}/neovim"
+    dest: "{{ user_home }}/dev/neovim"
     version: release-0.9
     depth: 1
     clone: true
@@ -39,7 +39,7 @@
     cmd: |
       sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
       sudo make install
-    chdir: "{{ user_home }}/neovim"
+    chdir: "{{ user_home }}/dev/neovim"
   args:
     warn: false
 

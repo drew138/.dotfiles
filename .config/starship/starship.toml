@@ -1,10 +1,10 @@
 format = """$username\
 $hostname\
 $directory\
-$character\
 $python\
 $golang\
 $git_branch
+$character\
 """
 
 add_newline = true
@@ -20,7 +20,10 @@ format = "[$user]($style)"
 format = ":[$hostname]($style) "
 
 [python]
+symbol =  ''
 pyenv_version_name = true
+detect_extensions = []
 
 [golang]
-symbol = 'Go '
+symbol = ''
+detect_extensions = []
