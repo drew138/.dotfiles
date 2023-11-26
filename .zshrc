@@ -22,7 +22,10 @@ alias status='git status'
 alias checkout='git checkout .'
 alias push='git push'
 alias ..='cd ..'
-alias l='ls'
+alias l='ls -F --color'
+alias ls='ls -F --color'
+alias la='ls -la'
+alias ll='ls -l'
 
 export EDITOR='nvim'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
@@ -36,6 +39,14 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
 [ -f ~/.workrc ] && source ~/.workrc
+
+## pyenv configs
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi
 
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
 

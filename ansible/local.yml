@@ -19,6 +19,7 @@
     - starship
     - rust
     - cpp
+    - pyenv
     - go
 
   vars:

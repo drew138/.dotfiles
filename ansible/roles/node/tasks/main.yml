@@ -41,6 +41,7 @@
 
 - name: create npm symlink to /usr/bin
   file:
+    # change version below to install higher versions
     src: "{{ user_home }}/.nvm/versions/node/v19.9.0/bin/npm"
     dest: "/usr/bin/npm"
     owner: "{{ host_user }}"
