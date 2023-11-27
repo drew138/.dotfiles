@@ -23,14 +23,14 @@
     - go
 
   vars:
-    - has_user_repositories: "{{ user_repositories == 'true' }}"
-    - has_kitty_terminal: "{{ kitty_terminal == 'true' }}"
-    - has_extra_software: "{{ extra_software == 'true' }}"
-    - is_macos: "{{ ansible_distribution == 'MacOSX' }}"
-    - is_debian_distro: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
-    - host_user: "{{ ansible_env.SUDO_USER }}"
-    - user_home: "/home/{{ host_user }}"
-    - allow_world_readable_tmpfiles: true
+    has_user_repositories: "{{ user_repositories == 'true' }}"
+    has_kitty_terminal: "{{ kitty_terminal == 'true' }}"
+    has_extra_software: "{{ extra_software == 'true' }}"
+    is_macos: "{{ ansible_distribution == 'MacOSX' }}"
+    is_debian_distro: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
+    host_user: "{{ ansible_env.SUDO_USER }}"
+    user_home: "/home/{{ host_user }}"
+    allow_world_readable_tmpfiles: true
 
   pre_tasks:
     - name: update repositories
