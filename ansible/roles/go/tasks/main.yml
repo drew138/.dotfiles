@@ -1,25 +1,36 @@
 ---
-- name: download go tar file (linux)
-  command: wget https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
-  when: is_debian_distro
+# - name: download go tar file (linux)
+#   command: wget https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
+#   when: is_debian_distro
+#
+# - name: download go tar file (macos)
+#   command: wget https://go.dev/dl/go{{ go_version }}.darwin-amd64.tar.gz
+#   when: is_macos and homebrew_check.stat.exists
+#
+# - name: delete previous installation
+#   command: rm -rf /usr/local/go
+#   become: true
+#
+# - name: extract and move new go folder to /usr/local (linux)
+#   command: tar -C /usr/local -xzf go{{ go_version }}.linux-amd64.tar.gz
+#   become: true
+#   when: is_debian_distro
+#
+# - name: extract and move new go folder to /usr/local (macos)
+#   command: tar -C /usr/local -xzf go{{ go_version }}.darwin-amd64.tar.gz
+#   become: true
+#   when: is_macos and homebrew_check.stat.exists
+#
+# - name: delete downloaded tar file
+#   shell: rm -rf go{{ go_version }}.linux-amd64.tar.gz*
 
-- name: download go tar file (macos)
-  command: wget https://go.dev/dl/go{{ go_version }}.darwin-amd64.tar.gz
-  when: is_macos and homebrew_check.stat.exists
-
-- name: delete previous installation
-  command: rm -rf /usr/local/go
-  become: true
-
-- name: extract and move new go folder to /usr/local (linux)
-  command: tar -C /usr/local -xzf go{{ go_version }}.linux-amd64.tar.gz
-  become: true
-  when: is_debian_distro
-
-- name: extract and move new go folder to /usr/local (macos)
-  command: tar -C /usr/local -xzf go{{ go_version }}.darwin-amd64.tar.gz
-  become: true
-  when: is_macos and homebrew_check.stat.exists
-
-- name: delete downloaded tar file
-  shell: rm -rf go{{ go_version }}.linux-amd64.tar.gz*
+- name: download and extract go tar file (linux)
+  unarchive:
+    src: wget https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
+    dest: /usr/local
+    remote_src: true
+# - name: download and extract go tar file (macos)
+#   unarchive:
+#     src: https://example.com/example.zip
+#     dest: /usr/local/bin
+#     remote_src: yes
