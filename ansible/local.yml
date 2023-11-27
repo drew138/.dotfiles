@@ -45,14 +45,12 @@
       when: is_macos
 
     - name: updating homebrew
-      become: false
       become_user: "{{ host_user }}"
       homebrew:
         update_homebrew: true
       when: is_macos and homebrew_check.stat.exists
 
     - name: upgrading homebrew packages
-      become: false
       become_user: "{{ host_user }}"
       homebrew:
         upgrade_all: true
