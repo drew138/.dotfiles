@@ -1,44 +1,7 @@
 ---
-# - name: download go tar file (linux)
-#   command: wget https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
-#   when: is_debian_distro
-#
-# - name: download go tar file (macos)
-#   command: wget https://go.dev/dl/go{{ go_version }}.darwin-amd64.tar.gz
-#   when: is_macos and homebrew_check.stat.exists
-#
-# - name: delete previous installation
-#   command: rm -rf /usr/local/go
-#   become: true
-#
-# - name: extract and move new go folder to /usr/local (linux)
-#   command: tar -C /usr/local -xzf go{{ go_version }}.linux-amd64.tar.gz
-#   become: true
-#   when: is_debian_distro
-#
-# - name: extract and move new go folder to /usr/local (macos)
-#   command: tar -C /usr/local -xzf go{{ go_version }}.darwin-amd64.tar.gz
-#   become: true
-#   when: is_macos and homebrew_check.stat.exists
-#
-# - name: delete downloaded tar file
-#   shell: rm -rf go{{ go_version }}.linux-amd64.tar.gz*
-
-- name: check if go is installed
-  command: go version
-  ignore_errors: true
-  register: go_version_output
-
-- name: capture installed go version
-  set_fact:
-    installed_go_version: "{{ go_version_output.stdout | regex_replace('.* ([0-9]+\\.[0-9]+(\\.[0-9]+)?) .*', '\\1') }}"
-  when: go_version_output.rc == 0
-
-- name: Remove /usr/local/go if versions match
-  file:
-    path: /usr/local/go
-    state: absent
-  when: installed_go_version != go_version
+- name: delete previous installation
+  command: rm -rf /usr/local/go
+  become: true
 
 - name: download and extract go tar file (linux)
   unarchive:
