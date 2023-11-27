@@ -1,8 +1,4 @@
 ---
-# - name: delete previous installation
-#   command: rm -rf /usr/local/go
-#   become: true
-
 - name: delete previous installation
   file:
     path: /usr/local/go
