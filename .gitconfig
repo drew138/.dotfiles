@@ -14,4 +14,4 @@
 [mergetool]
 	keepBackup = false
 [include]
-    path = ~/.gitwork.conf
+    path = ~/.gitconfig.work
