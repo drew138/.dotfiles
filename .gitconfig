@@ -13,3 +13,5 @@
 	tool = nvimdiff
 [mergetool]
 	keepBackup = false
+[include]
+    path = ~/.gitwork.conf
