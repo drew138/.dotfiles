@@ -15,7 +15,7 @@
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
 
-- name: Create .gitconfig symlink
+- name: create .gitconfig symlink
   file:
     src: "{{ user_home }}/.dotfiles/.gitconfig"
     dest: "{{ user_home }}/.gitconfig"

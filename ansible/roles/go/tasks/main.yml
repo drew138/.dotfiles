@@ -1,28 +1,19 @@
 ---
-- name: check if go is installed
-  shell: go version
-  register: go_exists
-  ignore_errors: true
-  failed_when: "'go version' in go_exists.stdout"
+- name: delete previous installation
+  file:
+    path: /usr/local/go
+    state: absent
 
-- name: get kernel version
-  command: "uname"
-  register: uname_result
+- name: download and extract go tar file (linux)
+  unarchive:
+    src: https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
+    dest: /usr/local
+    remote_src: true
+  when: is_debian_distro
 
-- name: debug go version
-  debug:
-    var: go_exists.stdout
-
-- name: download go installer
-  when: go_exists is not failed
-  get_url:
-    url: https://get.golang.org/{{ uname_result.stdout }}/go_installer
-    dest: /tmp/go_installer
-    mode: 755
-    force: true
-
-- name: install go
-  become: true
-  become_user: "{{ host_user }}"
-  when: go_exists is not failed
-  script: "/tmp/go_installer"
+- name: download and extract go tar file (macos)
+  unarchive:
+    src: https://go.dev/dl/go{{ go_version }}.darwin-amd64.tar.gz
+    dest: /usr/local
+    remote_src: true
+  when: is_macos and homebrew_check.stat.exists
