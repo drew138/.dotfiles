@@ -24,13 +24,32 @@
 # - name: delete downloaded tar file
 #   shell: rm -rf go{{ go_version }}.linux-amd64.tar.gz*
 
+- name: check if go is installed
+  command: go version
+  ignore_errors: true
+  register: go_version_output
+
+- name: capture installed go version
+  set_fact:
+    installed_go_version: "{{ go_version_output.stdout | regex_replace('.* ([0-9]+\\.[0-9]+(\\.[0-9]+)?) .*', '\\1') }}"
+  when: go_version_output.rc == 0
+
+- name: Remove /usr/local/go if versions match
+  file:
+    path: /usr/local/go
+    state: absent
+  when: installed_go_version != go_version
+
 - name: download and extract go tar file (linux)
   unarchive:
     src: https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
     dest: /usr/local
     remote_src: true
-# - name: download and extract go tar file (macos)
-#   unarchive:
-#     src: https://example.com/example.zip
-#     dest: /usr/local/bin
-#     remote_src: yes
+  when: is_debian_distro
+
+- name: download and extract go tar file (macos)
+  unarchive:
+    src: https://go.dev/dl/go{{ go_version }}.darwin-amd64.tar.gz
+    dest: /usr/local
+    remote_src: true
+  when: is_macos and homebrew_check.stat.exists
