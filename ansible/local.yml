@@ -51,6 +51,7 @@
       when: is_macos and homebrew_check.stat.exists
 
     - name: upgrading homebrew packages
+      become: false
       homebrew:
         upgrade_all: true
       register: result
