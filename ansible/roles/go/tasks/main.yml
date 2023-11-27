@@ -1,7 +1,12 @@
 ---
+# - name: delete previous installation
+#   command: rm -rf /usr/local/go
+#   become: true
+
 - name: delete previous installation
-  command: rm -rf /usr/local/go
-  become: true
+  file:
+    path: /usr/local/go
+    state: absent
 
 - name: download and extract go tar file (linux)
   unarchive:
