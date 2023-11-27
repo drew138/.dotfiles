@@ -26,7 +26,7 @@
 
 - name: download and extract go tar file (linux)
   unarchive:
-    src: wget https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
+    src: https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
     dest: /usr/local
     remote_src: true
 # - name: download and extract go tar file (macos)
