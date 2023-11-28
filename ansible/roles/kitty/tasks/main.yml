@@ -4,8 +4,6 @@
   become_user: "{{ host_user }}"
   ansible.builtin.shell: >
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-  args:
-    warn: false
   when: has_kitty_terminal
 
 - name: create directories
