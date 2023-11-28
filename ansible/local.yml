@@ -9,7 +9,6 @@
     - node
     - fzf
     - tmux
-    - git
     - fd
     - flatpak
     - repositories
