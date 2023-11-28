@@ -45,6 +45,7 @@
       when: is_macos
 
     - name: updating homebrew
+      become: true
       become_user: "{{ host_user }}"
       homebrew:
         update_homebrew: true
