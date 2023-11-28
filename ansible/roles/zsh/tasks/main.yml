@@ -7,6 +7,8 @@
   when: is_debian_distro
 
 - name: install zsh (macos)
+  become: true
+  become_user: "{{ host_user }}"
   homebrew:
     name:
       - zsh
@@ -34,15 +36,6 @@
   shell: "sudo chsh {{ host_user }} -s $(which zsh) "
   args:
     warn: false
-
-- name: download syntax highlighting plugin
-  become: true
-  become_user: "{{ host_user }}"
-  git:
-    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-    clone: true
-    update: true
 
 - name: download auto suggestions plugin
   become: true
