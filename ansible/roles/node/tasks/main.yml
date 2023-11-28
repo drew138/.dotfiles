@@ -16,7 +16,6 @@
   shell: >
     curl -o- {{ nvm_script_url }} | bash
   args:
-    warn: false
     creates: "{{ user_home }}/.nvm/nvm.sh"
 
 - name: install node
