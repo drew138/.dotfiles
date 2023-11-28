@@ -24,16 +24,19 @@
     owner: "{{ host_user }}"
     state: link
     force: true
+  when: is_debian_distro
 
 - name: copy kitty.desktop file
   copy:
     src: "{{ kitty_desktop_path }}"
     dest: "{{ user_home }}/.local/share/applications/"
+  when: is_debian_distro
 
 - name: copy kitty-open.desktop file
   copy:
     src: "{{ kitty_open_desktop_path }}"
     dest: "{{ user_home }}/.local/share/applications/"
+  when: is_debian_distro
 
 - name: update paths in kitty.desktop file(s)
   replace:
@@ -42,6 +45,7 @@
     replace: "\\1{{ kitty_png_path }}"
   with_fileglob:
     - "{{ user_home }}/.local/share/applications/kitty*.desktop"
+  when: is_debian_distro
 
 - name: update paths in kitty.desktop file(s)
   replace:
@@ -50,6 +54,7 @@
     replace: "\\1{{ user_home }}/.local/kitty.app/bin/kitty"
   with_fileglob:
     - "{{ user_home }}/.local/share/applications/kitty*.desktop"
+  when: is_debian_distro
 
 - name: create kitty.conf symlink
   file:
