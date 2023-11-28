@@ -25,7 +25,7 @@
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
 
-- name: create .workrc file
+- name: create .gitconfig.workrc file
   copy:
     content: ""
     dest: "{{ user_home }}/.gitconfig.work"
