@@ -52,6 +52,7 @@
       when: is_macos and homebrew_check.stat.exists
 
     - name: upgrading homebrew packages
+      become: true
       become_user: "{{ host_user }}"
       homebrew:
         upgrade_all: true
