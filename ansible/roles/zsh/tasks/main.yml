@@ -34,8 +34,6 @@
 - name: change default shell
   become: true
   shell: "sudo chsh {{ host_user }} -s $(which zsh) "
-  args:
-    warn: false
 
 - name: download auto suggestions plugin
   become: true
