@@ -13,7 +13,7 @@
 - name: install nvm
   become: true
   become_user: "{{ host_user }}"
-  ansible.builtin.shell: >
+  shell: >
     curl -o- {{ nvm_script_url }} | bash
   args:
     warn: false
