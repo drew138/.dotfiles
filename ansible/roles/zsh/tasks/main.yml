@@ -33,7 +33,8 @@
 
 - name: change default shell
   become: true
-  shell: "sudo chsh {{ host_user }} -s $(which zsh) "
+  shell: "sudo chsh {{ host_user }} -s $(which zsh)"
+  when: is_debian_distro
 
 - name: download auto suggestions plugin
   become: true
