@@ -4,17 +4,17 @@
   become_user: "{{ host_user }}"
   homebrew_cask:
     name:
-      - brave-browser
-      - slack
-      - spotify
-      - discord
-      - obsidian
-      - postman
+      # - brave-browser
+      # - slack
+      # - spotify
+      # - discord
+      # - obsidian
+      # - postman
       - obs
-      - bitwarden
-      - notion
-      - whatsapp
-      - dropbox
+      # - bitwarden
+      # - notion
+      # - whatsapp
+      # - dropbox
     state: present
   register: result
   until: result is successful
