@@ -29,6 +29,8 @@
   when: is_debian_distro
 
 - name: install pyenv (macos)
+  become: true
+  become_user: "{{ host_user }}"
   homebrew:
     name:
       - pyenv
