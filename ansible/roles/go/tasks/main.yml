@@ -16,4 +16,5 @@
     src: https://go.dev/dl/go{{ go_version }}.darwin-amd64.tar.gz
     dest: /usr/local
     remote_src: true
+    format: gz
   when: is_macos and homebrew_check.stat.exists
