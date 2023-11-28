@@ -48,8 +48,6 @@
       sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
       sudo make install
     chdir: "{{ user_home }}/dev/neovim"
-  args:
-    warn: false
 
 - name: install pynvim
   ansible.builtin.pip:
