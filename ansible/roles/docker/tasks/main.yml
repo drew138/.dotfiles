@@ -51,6 +51,8 @@
   when: is_debian_distro
 
 - name: install docker, docker-compose and colima (macos)
+  become: true
+  become_user: "{{ host_user }}"
   homebrew:
     name:
       - docker
