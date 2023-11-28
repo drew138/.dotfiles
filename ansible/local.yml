@@ -29,10 +29,19 @@
     is_macos: "{{ ansible_distribution == 'MacOSX' }}"
     is_debian_distro: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
     host_user: "{{ ansible_env.SUDO_USER }}"
-    user_home: "/home/{{ host_user }}"
     allow_world_readable_tmpfiles: true
 
   pre_tasks:
+    - name: set user home directory (linux)
+      set_fact:
+        user_home: "/home/{{ host_user }}"
+      when: is_debian_distro
+
+    - name: set user home directory (linux)
+      set_fact:
+        user_home: "/Users/{{ host_user }}"
+      when: is_debian_distro
+
     - name: update repositories
       apt: update_cache=yes
       become: true
