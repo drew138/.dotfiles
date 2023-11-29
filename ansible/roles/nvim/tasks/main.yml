@@ -50,7 +50,6 @@
 
 - name: build and install nvim
   become: true
-  become_user: "{{ host_user }}"
   shell:
     cmd: |
       sudo make distclean
