@@ -18,7 +18,7 @@
 - name: extract and move new go folder to /usr/local
   become: true
   # unarchive does not work propertly on macos
-  command: tar -C /usr/local -xzf /tmp/go{{ go_version }}.linux-amd64.tar.gz
+  command: tar -C /usr/local -xzf /tmp/go{{ go_version }}.darwin-amd64.tar.gz
   args:
     creates: "/usr/local/go"
   when: is_macos
