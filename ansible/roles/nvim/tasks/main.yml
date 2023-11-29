@@ -46,6 +46,7 @@
   become_user: "{{ host_user }}"
   shell:
     cmd: |
+      sudo make distclean
       sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
       sudo make install
     chdir: "{{ user_home }}/dev/neovim"
