@@ -14,11 +14,16 @@
     force: true
   when: is_debian_distro
 
-- name: create symlink for NerdFonts directory (macos)
+- name: create Fonts directory if it doesn't exist (macos)
+  become: true
   file:
-    src: "{{ user_home }}/.dotfiles/assets/fonts/NerdFonts"
-    dest: "{{ user_home }}/Library/Fonts"
-    owner: "{{ host_user }}"
-    state: link
-    force: true
+    path: "{{ user_home }}/Library/Fonts"
+    state: directory
+  when: is_macos
+
+- name: Create symbolic links for NerdFonts (macos)
+  command: ln -s "{{ item.src }}" "{{ item.dest }}"
+  with_fileglob: "{{ user_home }}/.dotfiles/assets/fonts/NerdFonts/*"
+  vars:
+    dest: "{{ user_home }}/Library/Fonts/{{ item.src | regex_replace('.*/', '') }}"
   when: is_macos
