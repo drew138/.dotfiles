@@ -20,5 +20,5 @@
   # unarchive does not work propertly on macos
   command: tar -C /usr/local -xzf /tmp/go{{ go_version }}.linux-amd64.tar.gz
   args:
-    cretes: "/usr/local/go"
+    creates: "/usr/local/go"
   when: is_macos
