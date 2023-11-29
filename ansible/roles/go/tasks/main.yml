@@ -7,10 +7,16 @@
     creates: "/usr/local/go"
   when: is_debian_distro
 
-- name: download and extract go tar file (macos)
-  unarchive:
-    src: https://go.dev/dl/go{{ go_version }}.darwin-amd64.tar.gz
-    dest: /usr/local
-    remote_src: true
-    creates: "/usr/local/go"
-  when: is_macos and homebrew_check.stat.exists
+- name: download go gzip
+  get_url:
+    url: https://go.dev/dl/go{{ go_version }}.darwin-amd64.tar.gz
+    dest: /tmp/go{{ go_version }}.darwin-amd64.tar.gz
+    mode: "u+rwx"
+  register: download
+  when: is_macos
+
+- name: extract and move new go folder to /usr/local
+  become: true
+  # unarchive does not work propertly on macos
+  command: tar -C /usr/local -xzf /tmp/go{{version}}.linux-amd64.tar.gz
+  when: is_macos
