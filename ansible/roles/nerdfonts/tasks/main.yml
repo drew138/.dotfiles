@@ -21,9 +21,14 @@
     state: directory
   when: is_macos
 
-- name: Create symbolic links for NerdFonts (macos)
-  command: ln -s "{{ item.src }}" "{{ item.dest }}"
+- name: create symbolic links for NerdFonts (macos)
   with_fileglob: "{{ user_home }}/.dotfiles/assets/fonts/NerdFonts/*"
   vars:
-    dest: "{{ user_home }}/Library/Fonts/{{ item.src | regex_replace('.*/', '') }}"
+    destination_file: "{{ user_home }}/Library/Fonts/{{ item.src | regex_replace('.*/', '') }}"
+  file:
+    src: "{{ item }}"
+    dest: "{{ destination_file }}"
+    owner: "{{ host_user }}"
+    state: link
+    force: true
   when: is_macos
