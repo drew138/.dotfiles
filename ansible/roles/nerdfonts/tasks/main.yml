@@ -25,10 +25,9 @@
   with_fileglob: "{{ user_home }}/.dotfiles/assets/fonts/NerdFonts/*"
   vars:
     destination_file: "{{ user_home }}/Library/Fonts/{{ item | regex_replace('.*/', '') }}"
-  file:
+  copy:
     src: "{{ item }}"
     dest: "{{ destination_file }}"
     owner: "{{ host_user }}"
-    state: link
     force: true
   when: is_macos
