@@ -29,6 +29,5 @@
     src: "{{ item }}"
     dest: "{{ destination_file }}"
     owner: "{{ host_user }}"
-    state: link
     force: true
   when: is_macos
