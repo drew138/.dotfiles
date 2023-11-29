@@ -71,6 +71,7 @@
     backup: true
     force: true
     mode: 644
+    creates: "{{ user_home }}/commitlint.config.js"
     owner: "{{ host_user }}"
 
 - name: create nvim symlink

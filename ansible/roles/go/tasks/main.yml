@@ -19,4 +19,5 @@
   become: true
   # unarchive does not work propertly on macos
   command: tar -C /usr/local -xzf /tmp/go{{ go_version }}.linux-amd64.tar.gz
+  creates: "/usr/local/go"
   when: is_macos
