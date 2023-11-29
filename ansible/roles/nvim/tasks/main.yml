@@ -41,6 +41,13 @@
     clone: true
     update: true
 
+- name: clean previous neovim build
+  become: true
+  shell:
+    cmd: |
+      sudo make distclean
+    chdir: "{{ user_home }}/dev/neovim"
+
 - name: build and install nvim
   become: true
   become_user: "{{ host_user }}"
