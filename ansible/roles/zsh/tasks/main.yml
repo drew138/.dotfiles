@@ -54,6 +54,15 @@
     clone: true
     update: true
 
+- name: download z plugin
+  become: true
+  become_user: "{{ host_user }}"
+  git:
+    repo: https://github.com/agkozak/zsh-z.git
+    dest: "{{ user_home }}/dev/zsh-z.git"
+    clone: true
+    update: true
+
 - name: create .zshrc symlink
   file:
     src: "{{ user_home }}/.dotfiles/.zshrc"

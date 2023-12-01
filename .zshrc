@@ -43,5 +43,7 @@ fi
 
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
 
+source $HOME/dev/zsh-z/zsh-z.plugin.zsh
+autoload -U compinit; compinit
 source $HOME/dev/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

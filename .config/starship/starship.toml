@@ -3,6 +3,7 @@ $hostname\
 $directory\
 $python\
 $golang\
+$nodejs\
 $git_branch
 $character\
 """
@@ -20,10 +21,16 @@ format = "[$user]($style)"
 format = ":[$hostname]($style) "
 
 [python]
-symbol =  ''
+symbol = " "
 pyenv_version_name = true
 detect_extensions = []
 
 [golang]
-symbol = ''
+# symbol = " "
+# symbol =''
+format = '[ $version](bold cyan) '
 detect_extensions = []
+
+[nodejs]
+detect_extensions = []
+symbol = " "
