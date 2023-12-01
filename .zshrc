@@ -31,7 +31,7 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
-[ -f ~/.workrc ] && source ~/.workrc
+[ -f ~/.workrc.sh ] && source ~/.workrc.sh
 
 ## pyenv configs
 export PYENV_ROOT="$HOME/.pyenv"

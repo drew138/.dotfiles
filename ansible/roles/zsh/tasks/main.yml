@@ -17,10 +17,10 @@
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
 
-- name: create .workrc file
+- name: create .workrc.sh file
   copy:
-    content: ""
-    dest: "{{ user_home }}/.workrc"
+    content: "!/bin/sh"
+    dest: "{{ user_home }}/.workrc.sh"
     backup: true
     force: false
     mode: "u+rwx"
