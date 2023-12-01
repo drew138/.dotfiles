@@ -59,7 +59,7 @@
   become_user: "{{ host_user }}"
   git:
     repo: https://github.com/agkozak/zsh-z.git
-    dest: "{{ user_home }}/dev/zsh-z.git"
+    dest: "{{ user_home }}/dev/zsh-z"
     clone: true
     update: true
 
