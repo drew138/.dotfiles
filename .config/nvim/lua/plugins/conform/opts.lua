@@ -23,7 +23,7 @@ local Opts = {
 		rust = { "rustfmt" },
 		proto = { "buf" },
 		cpp = { "clang_format" },
-		sql = { "sqlfluff " },
+		sql = { "sqlfluff" },
 		["*"] = { "trim_whitespace" },
 	},
 	format_on_save = {

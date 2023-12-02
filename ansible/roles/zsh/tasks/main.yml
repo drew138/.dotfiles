@@ -19,7 +19,7 @@
 
 - name: create .workrc.sh file
   copy:
-    content: "!/bin/sh"
+    content: "#!/bin/sh"
     dest: "{{ user_home }}/.workrc.sh"
     backup: true
     force: false
