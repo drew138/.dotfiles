@@ -37,22 +37,22 @@ local Snippets = {
 			}
 		)
 	),
-	snippet(
-		"authfda",
-		fmt(
-			[[
-                from melitk.fda2 import inventory
-                inventory.init('{}')
-                productive_model = inventory.get('{}')
-
-            ]],
-			{
-				i(1, "token"),
-				i(2, "model"),
-				i(0),
-			}
-		)
-	),
+	-- snippet(
+	-- 	"authfda",
+	-- 	fmt(
+	-- 		[[
+	--                from melitk.fda2 import inventory
+	--                inventory.init('{}')
+	--                productive_model = inventory.get('{}')
+	--
+	--            ]],
+	-- 		{
+	-- 			i(1, "token"),
+	-- 			i(2, "model"),
+	-- 			i(0),
+	-- 		}
+	-- 	)
+	-- ),
 }
 
 return Snippets
