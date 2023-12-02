@@ -7,9 +7,6 @@ local Plugin = {
 		vim.opt.termguicolors = false
 		vim.opt.listchars:append("eol:↴")
 	end,
-	opts = function()
-		return require("plugins.indent_blankline.opts")
-	end,
 	config = true,
 }
 return Plugin
