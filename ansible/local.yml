@@ -2,23 +2,23 @@
 - hosts: localhost
 
   roles:
-    # - nerdfonts
-    # - utils
-    # - nvim
-    # - docker
-    # - node
-    # - fzf
-    # - tmux
-    # - fd
-    # - flatpak
-    # - repositories
-    # - casks
-    # - kitty
-    # - zsh
-    # - starship
-    # - rust
-    # - cpp
-    # - pyenv
+    - nerdfonts
+    - utils
+    - nvim
+    - docker
+    - node
+    - fzf
+    - tmux
+    - fd
+    - flatpak
+    - repositories
+    - casks
+    - kitty
+    - zsh
+    - starship
+    - rust
+    - cpp
+    - pyenv
     - go
 
   vars:
