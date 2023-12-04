@@ -77,7 +77,7 @@ ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 Copy contents of your public key file and add them to your github keys.
 
 ```
-cat id_ed25519.pub
+<!-- cat id_ed25519.pub -->
 ```
 
 ## Tmux plugins

@@ -30,7 +30,7 @@ local Opts = {
 		-- linters used by nvim-lint
 		"eslint_d",
 		"flake8",
-		"vale",
+		"markdownlint",
 		"buf",
 		"commitlint",
 		"hadolint",

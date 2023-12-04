@@ -15,14 +15,14 @@ end
 -- TODO change these keybinds
 local Keys = {
 	{
-		"<leader>h",
+		"<c-h>",
 		prev,
 		mode = { "i", "s" },
 		silent = true,
 		desc = "prev jumpable point",
 	},
 	{
-		"<leader>l",
+		"<c-l>",
 		next,
 		mode = { "i", "s" },
 		silent = true,
