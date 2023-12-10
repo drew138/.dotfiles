@@ -10,7 +10,7 @@ sudo apt-get update && apt-get upgrade -y
 
 Alternatively, install Homebrew if on macOS.
 
-```
+```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
@@ -76,10 +76,11 @@ ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 Copy contents of your public key file and add them to your github keys.
 
-```
-<!-- cat id_ed25519.pub -->
+```bash
+cat id_ed25519.pub
 ```
 
 ## Tmux plugins
 
-Tmux plugins are not installed automatically through ansible. Install them by pressing <kbd>prefix + I</kbd> in an active session.
+Tmux plugins are not installed automatically through ansible.
+Install them by pressing <kbd>prefix + I</kbd> in an active session.
