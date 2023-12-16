@@ -19,6 +19,7 @@
       - xclip
       - cmake
       - make
+      - python
     state: present
   register: result
   until: result is successful
