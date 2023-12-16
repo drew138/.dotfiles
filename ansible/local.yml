@@ -3,7 +3,7 @@
 
   roles:
     # - nerdfonts
-    # - utils
+    - utils
     # - nvim
     # - docker
     # - node
@@ -20,7 +20,7 @@
     # - cpp
     # - pyenv
     # - go
-    - git
+    # - git
     - gh
 
   vars:
