@@ -20,6 +20,7 @@
     # - cpp
     # - pyenv
     # - go
+    - git
     - gh
 
   vars:
