@@ -34,6 +34,9 @@ local Plugin = {
 				lint.try_lint()
 			end,
 		})
+
+		local commitlint = require("lint").linters.commitlint
+		commitlint.args = { "-g", "~/commitlint.config.js" }
 	end,
 }
 
