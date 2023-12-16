@@ -21,3 +21,12 @@
     dest: "{{ user_home }}/.gitconfig"
     state: link
     force: true
+
+- name: create .gitconfig.workrc file
+  copy:
+    content: ""
+    dest: "{{ user_home }}/.gitconfig.work"
+    backup: true
+    force: false
+    mode: "u+rwx"
+    owner: "{{ host_user }}"
