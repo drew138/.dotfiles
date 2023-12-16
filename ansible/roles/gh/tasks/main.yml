@@ -15,7 +15,8 @@
 
 - name: install gh cli (linux)
   apt:
-    name: gh
+    name:
+      - gh
     state: present
   when: is_debian_distro
 
