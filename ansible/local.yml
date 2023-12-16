@@ -3,8 +3,8 @@
 
   roles:
     # - nerdfonts
-    - utils
-    # - nvim
+    # - utils
+    - nvim
     # - docker
     # - node
     # - fzf
