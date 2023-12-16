@@ -2,24 +2,25 @@
 - hosts: localhost
 
   roles:
-    - nerdfonts
-    - utils
-    - nvim
-    - docker
-    - node
-    - fzf
-    - tmux
-    - fd
-    - flatpak
-    - repositories
-    - casks
-    - kitty
-    - zsh
-    - starship
-    - rust
-    - cpp
-    - pyenv
-    - go
+    # - nerdfonts
+    # - utils
+    # - nvim
+    # - docker
+    # - node
+    # - fzf
+    # - tmux
+    # - fd
+    # - flatpak
+    # - repositories
+    # - casks
+    # - kitty
+    # - zsh
+    # - starship
+    # - rust
+    # - cpp
+    # - pyenv
+    # - go
+    - gh
 
   vars:
     has_user_repositories: "{{ user_repositories == 'true' }}"
