@@ -22,7 +22,7 @@
     state: link
     force: true
 
-- name: create .gitconfig.workrc file
+- name: create .gitconfig.work file
   copy:
     content: ""
     dest: "{{ user_home }}/.gitconfig.work"
