@@ -14,6 +14,7 @@
   when: is_debian_distro
 
 - name: install gh cli (linux)
+  become_user: "{{ host_user }}"
   apt:
     name:
       - gh
