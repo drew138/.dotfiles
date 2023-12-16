@@ -1,5 +1,6 @@
 local Plugin = {
-    "windwp/nvim-autopairs",
-    config = true,
+	"windwp/nvim-autopairs",
+	config = true,
 }
+
 return Plugin

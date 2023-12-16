@@ -7,7 +7,6 @@ local Plugin = {
 		{ "kyazdani42/nvim-web-devicons" },
 		{ "nvim-telescope/telescope-dap.nvim" },
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-		{ "olacin/telescope-cc.nvim" },
 	},
 	opts = function()
 		return require("plugins.telescope.opts")
