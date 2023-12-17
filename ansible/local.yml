@@ -4,7 +4,8 @@
   roles:
     # - nerdfonts
     # - utils
-    - nvim
+    # - nvim
+    - scripts
     # - docker
     # - node
     # - fzf
