@@ -1,0 +1,27 @@
+---
+- name: install gum
+  shell: go install github.com/charmbracelet/gum@latest
+
+- name: create commit symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/scripts/conventional_commit.sh"
+    dest: "/usr/local/bin/commit"
+    owner: "{{ host_user }}"
+    state: link
+    force: true
+
+- name: create nd symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/scripts/nvim_dir.sh"
+    dest: "/usr/local/bin/nd"
+    owner: "{{ host_user }}"
+    state: link
+    force: true
+
+- name: create nf symlink
+  file:
+    src: "{{ user_home }}/.dotfiles/scripts/nvim_file.sh"
+    dest: "/usr/local/bin/nf"
+    owner: "{{ host_user }}"
+    state: link
+    force: true

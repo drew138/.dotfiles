@@ -1,12 +1,10 @@
+# starship configs
 eval "$(starship init zsh)"
 
-PATH="/usr/local/go/bin:$PATH"
+# editor configs
+export EDITOR='nvim'
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-alias nd='. ~/.dotfiles/scripts/nvim_dir.sh'
-alias nf='~/.dotfiles/scripts/nvim_file.sh'
+# aliases
 alias vim='nvim'
 alias unstage='git restore --staged .'
 alias merge='git mergetool'
@@ -20,18 +18,26 @@ alias ls='ls -F --color'
 alias la='ls -la'
 alias ll='ls -l'
 
-export EDITOR='nvim'
+# workrc configs
+[ -f ~/.workrc.sh ] && source ~/.workrc.sh
+
+# go configs
+PATH="/usr/local/go/bin:$HOME/go/bin/:$PATH"
+
+# homebrew configs
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+# nvm configs
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# fzf configs
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# Disable homebrew auto update
-export HOMEBREW_NO_AUTO_UPDATE=1
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+# rust configs
 [ -f ~/.cargo/env ] && source ~/.cargo/env
-
-[ -f ~/.workrc.sh ] && source ~/.workrc.sh
 
 ## pyenv configs
 export PYENV_ROOT="$HOME/.pyenv"
@@ -41,9 +47,13 @@ if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
 
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
-
+# zsh-z configs
 source $HOME/dev/zsh-z/zsh-z.plugin.zsh
 autoload -U compinit; compinit
+
+# zsh-autosuggestions configs
 source $HOME/dev/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# zsh-syntax-highlighting configs
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
 source $HOME/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
