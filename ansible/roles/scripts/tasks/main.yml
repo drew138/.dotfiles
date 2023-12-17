@@ -1,5 +1,7 @@
 ---
 - name: install gum
+  become: true
+  become_user: "{{ host_user }}"
   shell: /usr/local/go/bin/go install github.com/charmbracelet/gum@latest
 
 - name: create commit symlink
