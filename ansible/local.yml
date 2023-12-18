@@ -2,26 +2,26 @@
 - hosts: localhost
 
   roles:
-    # - nerdfonts
-    # - utils
-    # - nvim
+    - nerdfonts
+    - utils
+    - nvim
     - scripts
-    # - docker
-    # - node
-    # - fzf
-    # - tmux
-    # - fd
-    # - flatpak
-    # - repositories
-    # - casks
-    # - kitty
-    # - zsh
-    # - starship
-    # - rust
-    # - cpp
-    # - pyenv
-    # - go
-    # - git
+    - docker
+    - node
+    - fzf
+    - tmux
+    - fd
+    - flatpak
+    - repositories
+    - casks
+    - kitty
+    - zsh
+    - starship
+    - rust
+    - cpp
+    - pyenv
+    - go
+    - git
     # - gh
 
   vars:
@@ -44,10 +44,10 @@
         user_home: "/Users/{{ host_user }}"
       when: is_macos
 
-    # - name: update repositories
-    #   apt: update_cache=yes
-    #   become: true
-    #   when: is_debian_distro
+    - name: update repositories
+      apt: update_cache=yes
+      become: true
+      when: is_debian_distro
 
     - name: ensuring homebrew is installed
       stat:
