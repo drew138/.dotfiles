@@ -1,5 +1,11 @@
 #!/bin/sh
 
+INSIDE_GIT_REPO="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+if [ ! "$INSIDE_GIT_REPO" ]; then
+    echo "fatal: not a git repository (or any of the parent directories): .git"
+    exit 1
+fi
+
 TYPE=$(
     gum choose --header="Commit Type" \
         "fix" "feat" "docs" "style" "refactor" "test" "chore" "revert" \
