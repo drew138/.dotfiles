@@ -4,7 +4,7 @@ local Plugin = {
 		"BufReadPre",
 		"BufNewFile",
 	},
-	config = function()
+	init = function()
 		local lint = require("lint")
 
 		lint.linters_by_ft = {
@@ -15,12 +15,9 @@ local Plugin = {
 			svelte = { "eslint_d" },
 			python = { "flake8" },
 			markdown = { "markdownlint" },
-			proto = { "buf" },
-			gitcommit = { "commitlint" },
 			dockerfile = { "hadolint" },
-			json = { "json" },
+			json = { "jsonlint" },
 			sh = { "shellcheck" },
-			zsh = { "zsh" },
 			lua = { "selene" },
 			yaml = { "yamllint" },
 			sql = { "sqlfluff" },
@@ -34,9 +31,6 @@ local Plugin = {
 				lint.try_lint()
 			end,
 		})
-
-		local commitlint = require("lint").linters.commitlint
-		commitlint.args = { "-g", "~/commitlint.config.js" }
 	end,
 }
 

@@ -69,19 +69,7 @@
     state: present
     global: true
   loop:
-    - "@commitlint/cli"
-    - "@commitlint/config-conventional"
     - "tree-sitter-cli"
-
-- name: create commitlint.config.js file
-  copy:
-    content: "module.exports = {extends: ['@commitlint/config-conventional']}"
-    dest: "{{ user_home }}/commitlint.config.js"
-    backup: true
-    force: true
-    mode: 644
-    creates: "{{ user_home }}/commitlint.config.js"
-    owner: "{{ host_user }}"
 
 - name: create nvim symlink
   file:
