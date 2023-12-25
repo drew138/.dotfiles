@@ -1,8 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 
 INSIDE_GIT_REPO="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
 if [ ! "$INSIDE_GIT_REPO" ]; then
     echo "fatal: not a git repository (or any of the parent directories): .git"
+    exit 1
+fi
+
+CONTAINS_CHANGES=$(git status)
+if [[ ! "$CONTAINS_CHANGES" == *"Changes to be committed:"* ]]; then
+    echo "$CONTAINS_CHANGES"
     exit 1
 fi
 

@@ -1,0 +1,32 @@
+---
+# name: deploy laravel
+# on:
+#   push:
+#     branches: [main]
+#
+# jobs:
+#   example_matrix:
+#     strategy:
+#       matrix:
+#         version: [10, 12, 14]
+#         os: [macos-latest, windows-latest]
+#     runs-on: ${{ matrix.os }}
+
+name: vagrant-up
+
+on: [push]
+
+jobs:
+  vagrant-up:
+    runs-on: macos-10.15
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache Vagrant boxes
+        uses: actions/cache@v2
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
+          restore-keys: |
+            ${{ runner.os }}-vagrant-

@@ -1,0 +1,10 @@
+---
+- name: install molecule packages
+  ansible.builtin.pip:
+    name:
+      - pytest-testinfra
+      - molecule
+      - molecule-plugins[vagrant]
+      - molecule-plugins[docker]
+
+install virtualbox
