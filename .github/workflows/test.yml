@@ -12,13 +12,50 @@
 #         os: [macos-latest, windows-latest]
 #     runs-on: ${{ matrix.os }}
 
-name: vagrant-up
+name: test ansible roles
 
 on: [push]
 
 jobs:
+  # check-roles:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #
+  #     - name: list ansible roles
+  #
+  #       run: command ls | cat >> $GITHUB_OUTPUT
+  #       with:
+  #         path: ./ansible/roles/
+  #
+  # test:
+  #   needs:
+  #     - lint
+  #   runs-on: ubuntu-20.04
+  #   strategy:
+  #     matrix:
+  #       image:
+  #         - alpine
+  #         - amazonlinux
+  #         - debian
+  #         - centos
+  #         - fedora
+  #         - opensuse
+  #         - ubuntu
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         path: "${{ github.repository }}"
+  #     - name: molecule
+  #       uses: robertdebock/molecule-action@6.0.0
+  #       with:
+  #         image: "${{ matrix.image }}"
+  #         options: parallel
+  #         scenario: my_specific_scenario
+
   vagrant-up:
-    runs-on: macos-10.15
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v2

@@ -1,4 +1,8 @@
 ---
+driver:
+  name: docker
+lint:
+  name: "yamllint"
 platforms:
   - name: instance
     # you might want to add your own variables here based on what provisioning
