@@ -55,65 +55,55 @@ jobs:
       matrix:
         roles: ${{ fromJson(needs.check-roles.outputs.roles) }}
     steps:
-      - run: echo ${{ needs.check-roles.outputs.roles }}
-  # test:
-  #   needs:
-  #     - lint
-  #   runs-on: ubuntu-20.04
-  #   strategy:
-  #     matrix:
-  #       image:
-  #         - alpine
-  #         - amazonlinux
-  #         - debian
-  #         - centos
-  #         - fedora
-  #         - opensuse
-  #         - ubuntu
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         path: "${{ github.repository }}"
-  #     - name: molecule
-  #       uses: robertdebock/molecule-action@6.0.0
-  #       with:
-  #         image: "${{ matrix.image }}"
-  #         options: parallel
-  #         scenario: my_specific_scenario
+      - name: check out the codebase
+        uses: actions/checkout@v2
 
-  # vagrant-up:
-  #   runs-on: macos-latest
-  #
-  #   steps:
-  #     - name: check out the codebase
-  #       uses: actions/checkout@v2
-  #
-  #     - name: set up python 3
-  #       uses: actions/setup-python@v2
-  #       with:
-  #         python-version: "3.x"
-  #
-  #     - name: install test dependencies
-  #       run: pip3 install pytest-testinfra molecule molecule-plugins[vagrant] yamllint ansible-lint
-  #
-  #     - name: Cache Vagrant boxes
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: ~/.vagrant.d/boxes
-  #         key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-vagrant-
-  #
-  #     - name: Show Vagrant version
-  #       run: vagrant --version
-  #
-  #     # - name: Run vagrant up
-  #     #   run: vagrant up
-  #     #
-  #     - name: run molecule tests
-  #       run: molecule test -s macos
-  #       working-directory: ./ansible/roles/go
-  #       env:
-  #         PY_COLORS: "1"
-  #         ANSIBLE_FORCE_COLOR: "1"
+      - name: set up python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: install test dependencies
+        run: pip3 install \
+          pytest-testinfra \
+          molecule \
+          molecule-plugins[vagrant] \
+          yamllint \
+          ansible-lint
+
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: install virtualbox
+        run: brew install virtualbox
+
+      - name: install vagrant
+        run: brew install vagrant
+
+      - name: create Vatgrantfile
+        run: |
+          echo 'Vagrant.configure("2") do |config|' > Vagrantfile
+          echo '  config.vm.box = "yzgyyang/macOS-10.14"' >> Vagrantfile
+          echo 'end' >> Vagrantfile
+
+      - name: Cache Vagrant boxes
+        uses: actions/cache@v2
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
+          restore-keys: |
+            ${{ runner.os }}-vagrant-
+
+      - name: Show Vagrant version
+        run: vagrant --version
+
+      - name: Run vagrant up
+        run: vagrant up
+
+      - name: run molecule tests
+        run: molecule test -s macos
+        working-directory: ./ansible/roles/go
+        env:
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
