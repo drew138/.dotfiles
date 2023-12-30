@@ -32,7 +32,7 @@ jobs:
           echo 'EOF' >> "${GITHUB_OUTPUT}"
         working-directory: ./ansible/roles/
 
-      - run: echo "${{ check-roles.outputs.roles }}"
+      - run: echo "${{ steps.rolesoutputs.roles }}"
 
   test:
     runs-on: ubuntu-20.04
