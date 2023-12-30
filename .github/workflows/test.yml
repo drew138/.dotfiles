@@ -35,6 +35,7 @@ jobs:
       - run: echo "${{ steps.rolesoutputs.roles }}"
 
   test:
+    needs: check-roles
     runs-on: ubuntu-20.04
     # strategy:
     #   matrix:
