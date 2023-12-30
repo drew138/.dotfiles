@@ -76,7 +76,7 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@master
 
       - name: install virtualbox
-        run: brew install--cask virtualbox
+        run: brew install --cask virtualbox
 
       - name: create Vatgrantfile
         run: |
