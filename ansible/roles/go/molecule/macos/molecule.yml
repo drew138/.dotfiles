@@ -21,15 +21,15 @@ platforms:
       - "customize ['setextradata', :id, 'VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC', '1']"
       - "customize ['setextradata', :id, 'VBoxInternal2/EfiGopMode', '4']"
 
-provisioner:
-  name: ansible
-  lint:
-    name: ansible-lint
-    enabled: false
+# provisioner:
+#   name: ansible
+#   lint:
+#     name: ansible-lint
+#     enabled: false
 
-lint:
-  name: yamllint
-  enabled: false
+# lint:
+#   name: yamllint
+#   enabled: false
 verifier:
   name: testinfra
   directory: ../tests/
