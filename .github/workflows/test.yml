@@ -27,10 +27,11 @@ jobs:
       - name: list ansible roles
         id: roles
         run: |
-          delimiter="$(openssl rand -hex 8)"
-          echo "roles<<${delimiter}" >> "${GITHUB_OUTPUT}"
-          echo command ls | cat >> "${GITHUB_OUTPUT}"
-          echo "${delimiter}" >> "${GITHUB_OUTPUT}"
+          {
+            echo 'roles<<EOF'
+            echo command ls | cat
+            echo 'EOF'
+          } >> "${GITHUB_OUTPUT}"
         working-directory: ./ansible/roles/
 
   test:
