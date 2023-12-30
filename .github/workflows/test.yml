@@ -29,7 +29,7 @@ jobs:
         run: |
           {
             echo 'roles<<EOF'
-            echo command ls | cat
+             ls | cat
             echo 'EOF'
           } >> "${GITHUB_OUTPUT}"
         working-directory: ./ansible/roles/
