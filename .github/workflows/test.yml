@@ -39,16 +39,23 @@ jobs:
 
       - run: echo "${{ steps.roles.outputs.roles }}"
 
-  test:
+  test-ubuntu:
     needs: check-roles
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         roles: ${{ fromJson(needs.check-roles.outputs.roles) }}
     steps:
-      # - run: echo ${{ matrix.role }}
       - run: echo ${{ needs.check-roles.outputs.roles }}
 
+  test-macos:
+    needs: check-roles
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        roles: ${{ fromJson(needs.check-roles.outputs.roles) }}
+    steps:
+      - run: echo ${{ needs.check-roles.outputs.roles }}
   # test:
   #   needs:
   #     - lint
