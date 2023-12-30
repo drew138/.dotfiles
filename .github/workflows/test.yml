@@ -28,9 +28,11 @@ jobs:
         id: roles
         run: |
           echo 'roles<<EOF' >> "${GITHUB_OUTPUT}"
-          ls -1 | sed 's:/$::' | awk '{printf "\"%s\",\n", $0}' | sed '$s/,$//' | awk 'BEGIN {print "["} {print $0} END {print "]"}' >> "${GITHUB_OUTPUT}"
+          echo $(ls -1 | sed 's:/$::' | awk '{printf "\"%s\",\n", $0}' | sed '$s/,$//' | awk 'BEGIN {print "["} {print $0} END {print "]"}') >> "${GITHUB_OUTPUT}"
           echo 'EOF' >> "${GITHUB_OUTPUT}"
         working-directory: ./ansible/roles/
+
+      - run: echo "${{ check-roles.outputs.roles }}"
 
   test:
     runs-on: ubuntu-20.04
