@@ -27,11 +27,9 @@ jobs:
       - name: list ansible roles
         id: roles
         run: |
-          {
-            echo 'roles<<EOF'
-            ls -1 | sed 's:/$::' | awk '{printf "\"%s\",\n", $0}' | sed '$s/,$//' | awk 'BEGIN {print "["} {print $0} END {print "]"}'
-            echo 'EOF'
-          } >> "${GITHUB_OUTPUT}"
+          echo 'roles<<EOF' >> "${GITHUB_OUTPUT}"
+          ls -1 | sed 's:/$::' | awk '{printf "\"%s\",\n", $0}' | sed '$s/,$//' | awk 'BEGIN {print "["} {print $0} END {print "]"}' >> "${GITHUB_OUTPUT}"
+          echo 'EOF' >> "${GITHUB_OUTPUT}"
         working-directory: ./ansible/roles/
 
   test:
