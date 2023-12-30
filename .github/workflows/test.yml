@@ -37,9 +37,9 @@ jobs:
   test:
     needs: check-roles
     runs-on: ubuntu-20.04
-    # strategy:
-    #   matrix:
-    #     roles: ${{ needs.check-roles.steps.roles.outputs.roles }}
+    strategy:
+      matrix:
+        roles: fromJson(${{ needs.check-roles.steps.roles.outputs.roles }})
     steps:
       # - run: echo ${{ matrix.role }}
       - run: echo ${{ needs.check-roles.outputs.roles }}
