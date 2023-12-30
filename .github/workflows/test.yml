@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        roles: ${{ needs.check-roles.outputs.roles }}
+        roles: ${{ fromJson(needs.check-roles.outputs.roles) }}
     steps:
       # - run: echo ${{ matrix.role }}
       - run: echo ${{ needs.check-roles.outputs.roles }}
