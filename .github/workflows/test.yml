@@ -85,8 +85,7 @@ jobs:
       #
       - name: run molecule tests
         run: molecule test -s macos
-        with:
-          path: ~/ansible/roles/go
+        working-directory: ~/ansible/roles/go
         env:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
