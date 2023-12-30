@@ -55,10 +55,19 @@ jobs:
   #         scenario: my_specific_scenario
 
   vagrant-up:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: check out the codebase
+        uses: actions/checkout@v2
+
+      - name: set up python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: install test dependencies
+        run: pip3 install pytest-testinfra molecule molecule-plugins[vagrant] yamllint ansible-lint
 
       - name: Cache Vagrant boxes
         uses: actions/cache@v2
@@ -71,5 +80,11 @@ jobs:
       - name: Show Vagrant version
         run: vagrant --version
 
-      - name: Run vagrant up
-        run: vagrant up
+      # - name: Run vagrant up
+      #   run: vagrant up
+      #
+      - name: run molecule tests
+        run: molecule test
+        env:
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
