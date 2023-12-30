@@ -55,7 +55,7 @@ jobs:
   #         scenario: my_specific_scenario
 
   vagrant-up:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
