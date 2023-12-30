@@ -35,11 +35,12 @@ jobs:
 
   test:
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        roles: ${{ needs.check-roles.steps.roles.outputs.roles }}
+    # strategy:
+    #   matrix:
+    #     roles: ${{ needs.check-roles.steps.roles.outputs.roles }}
     steps:
-      - run: echo ${{ matrix.role }}
+      # - run: echo ${{ matrix.role }}
+      - run: echo ${{ needs.check-roles.steps.roles.outputs.roles }}
 
   # test:
   #   needs:
