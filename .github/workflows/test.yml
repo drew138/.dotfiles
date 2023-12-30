@@ -34,8 +34,6 @@ jobs:
           } >> "${GITHUB_OUTPUT}"
         working-directory: ./ansible/roles/
 
-      - run: echo ${{ steps.roles.outputs.roles }}
-
   test:
     runs-on: ubuntu-20.04
     # strategy:
@@ -43,7 +41,7 @@ jobs:
     #     roles: ${{ needs.check-roles.steps.roles.outputs.roles }}
     steps:
       # - run: echo ${{ matrix.role }}
-      - run: echo ${{ needs.check-roles.steps.roles.outputs.roles }}
+      - run: echo "${{ needs.check-roles.steps.roles.outputs.roles }}"
 
   # test:
   #   needs:
