@@ -50,7 +50,7 @@ jobs:
 
   test-macos:
     needs: check-roles
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
         roles: ${{ fromJson(needs.check-roles.outputs.roles) }}
