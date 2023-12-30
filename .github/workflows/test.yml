@@ -22,17 +22,18 @@ jobs:
     outputs:
       roles: ${{ steps.roles.outputs.roles }}
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout code
+        uses: actions/checkout@v2
 
-      - run: sudo apt-get install jq
-
-      - run: ls -1 -d */ | sed 's:/$::' | jq -R -s 'split("\n")[:-1]'
+      - name: install jq
+        run: sudo apt-get install jq
 
       - name: list ansible roles
         id: roles
         run: |
           echo 'roles<<EOF' >> "${GITHUB_OUTPUT}"
-          echo $(ls -1 | sed 's:/$::' | awk '{printf "\"%s\",\n", $0}' | sed '$s/,$//' | awk 'BEGIN {print "["} {print $0} END {print "]"}') >> "${GITHUB_OUTPUT}"
+          roles=$(ls -1 -d */ | sed 's:/$::' | jq -R -s 'split("\n")[:-1]')
+          echo $roles>> "${GITHUB_OUTPUT}"
           echo 'EOF' >> "${GITHUB_OUTPUT}"
         working-directory: ./ansible/roles/
 
