@@ -1,6 +1,6 @@
 ---
 scenario:
-  name: vagrant-macosx
+  name: macos
 
 driver:
   name: vagrant
