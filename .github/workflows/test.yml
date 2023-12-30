@@ -41,7 +41,7 @@ jobs:
     #     roles: ${{ needs.check-roles.steps.roles.outputs.roles }}
     steps:
       # - run: echo ${{ matrix.role }}
-      - run: echo "${{ needs.check-roles.steps.roles.outputs.roles }}"
+      - run: echo ${{ needs.check-roles.outputs.roles }}
 
   # test:
   #   needs:
