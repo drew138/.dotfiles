@@ -2,7 +2,7 @@
 driver:
   name: docker
 platforms:
-  - name: ubuntu
+  - name: instance
     image: "geerlingguy/docker-ubuntu2204-ansible:latest"
     command: ""
     volumes:
@@ -15,4 +15,4 @@ provisioner:
   #   defaults:
   #     remote_tmp: /tmp
 verifier:
-  name: testinfra
+  name: ansible
