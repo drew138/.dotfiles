@@ -1,10 +1,13 @@
 ---
 driver:
   name: docker
-  priviledged: true
 platforms:
   - name: ubuntu
     image: "geerlingguy/docker-ubuntu2204-ansible:latest"
+    priviledged: true
+    tmpfs:
+      - /run
+      - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
