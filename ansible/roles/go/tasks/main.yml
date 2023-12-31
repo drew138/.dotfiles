@@ -1,6 +1,5 @@
 ---
 - name: download and extract go tar file (linux)
-  become: true
   unarchive:
     src: https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
     dest: /usr/local
