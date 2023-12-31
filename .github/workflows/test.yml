@@ -50,8 +50,7 @@ jobs:
           molecule \
           "molecule-plugins[docker]" \
           ansible \
-          ansible-core \
-          docker
+          ansible-core
 
       - run: molecule --version
 
