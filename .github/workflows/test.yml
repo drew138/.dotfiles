@@ -1,17 +1,4 @@
 ---
-# name: deploy laravel
-# on:
-#   push:
-#     branches: [main]
-#
-# jobs:
-#   example_matrix:
-#     strategy:
-#       matrix:
-#         version: [10, 12, 14]
-#         os: [macos-latest, windows-latest]
-#     runs-on: ${{ matrix.os }}
-
 name: test ansible roles
 
 on: [push]
@@ -61,10 +48,9 @@ jobs:
         run: pip3 install \
           pytest-testinfra \
           molecule \
-          molecule-plugins[docker] \
+          "molecule-plugins[docker]" \
           ansible \
-          yamllint \
-          ansible-lint
+          ansible-core
 
       - run: molecule --version
 
@@ -95,8 +81,8 @@ jobs:
   #         pytest-testinfra \
   #         molecule \
   #         molecule-plugins[vagrant] \
-  #         yamllint \
-  #         ansible-lint
+  #         ansible \
+  #         ansible-core
   #
   #     - name: set up homebrew
   #       id: set-up-homebrew
