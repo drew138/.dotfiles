@@ -5,10 +5,6 @@ platforms:
   - name: ubuntu
     image: "geerlingguy/docker-ubuntu2204-ansible:latest"
     priviledged: true
-    command: /sbin/init
-    tmpfs:
-      - /run
-      - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
