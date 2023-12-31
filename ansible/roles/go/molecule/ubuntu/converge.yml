@@ -8,6 +8,6 @@
     is_macos: false
     is_debian_distro: true
     host_user: "{{ ansible_env.SUDO_USER }}"
-    allow_world_readable_tmpfiles: true
+    # allow_world_readable_tmpfiles: true
   tasks:
     - include_tasks: ../../tasks/main.yml
