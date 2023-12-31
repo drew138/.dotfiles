@@ -8,4 +8,4 @@
     host_user: "{{ ansible_env.SUDO_USER }}"
     allow_world_readable_tmpfiles: true
   tasks:
-    - include: ../../tasks/main.yml
+    - include_tasks: ../../tasks/main.yml
