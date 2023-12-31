@@ -2,5 +2,10 @@
 - name: Converge
   hosts: all
   gather_facts: false
+  vars:
+    is_macos: "{{ ansible_distribution == 'MacOSX' }}"
+    is_debian_distro: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
+    host_user: "{{ ansible_env.SUDO_USER }}"
+    allow_world_readable_tmpfiles: true
   tasks:
     - include: ../../tasks/main.yml
