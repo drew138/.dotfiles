@@ -8,5 +8,8 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
+  config_options:
+    defaults:
+      remote_tmp: /tmp
 verifier:
   name: testinfra
