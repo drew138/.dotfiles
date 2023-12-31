@@ -3,8 +3,8 @@
   hosts: all
   gather_facts: false
   vars:
-    is_macos: "{{ ansible_distribution == 'MacOSX' }}"
-    is_debian_distro: "{{ ansible_distribution in ['Ubuntu', 'Pop!_OS'] }}"
+    is_macos: false
+    is_debian_distro: true
     host_user: "{{ ansible_env.SUDO_USER }}"
     allow_world_readable_tmpfiles: true
   tasks:
