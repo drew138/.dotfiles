@@ -62,6 +62,7 @@ jobs:
           pytest-testinfra \
           molecule \
           molecule-plugins[docker] \
+          ansible \
           yamllint \
           ansible-lint
 
