@@ -2,6 +2,8 @@
 - name: Converge
   hosts: all
   gather_facts: false
+  vars_files:
+    - ../../vars/main.yml
   vars:
     is_macos: false
     is_debian_distro: true
