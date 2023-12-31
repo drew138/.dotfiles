@@ -13,8 +13,8 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
-  # config_options:
-  #   defaults:
-  #     remote_tmp: /tmp
+  config_options:
+    defaults:
+      remote_tmp: /var/tmp/drew/ansible
 verifier:
   name: ansible
