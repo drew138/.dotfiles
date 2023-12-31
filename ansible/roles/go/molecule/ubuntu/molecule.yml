@@ -1,6 +1,7 @@
 ---
 driver:
   name: docker
+  priviledged: true
 platforms:
   - name: ubuntu
     image: "geerlingguy/docker-ubuntu2204-ansible:latest"
@@ -8,8 +9,8 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
-  config_options:
-    defaults:
-      remote_tmp: /tmp
+  # config_options:
+  #   defaults:
+  #     remote_tmp: /tmp
 verifier:
   name: testinfra
