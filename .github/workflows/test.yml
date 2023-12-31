@@ -50,7 +50,8 @@ jobs:
           molecule \
           "molecule-plugins[docker]" \
           ansible \
-          ansible-core
+          ansible-core \
+          ansible-pull
 
       # - run: molecule --version
       - run: sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash
