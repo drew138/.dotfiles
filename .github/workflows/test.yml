@@ -65,13 +65,15 @@ jobs:
           yamllint \
           ansible-lint
 
+      - run: molecule --version
+
       - name: run molecule tests
         run: molecule test -s ubuntu
         working-directory: ./ansible/roles/go
         env:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
-  #
+
   # test-macos:
   #   needs: check-roles
   #   runs-on: macos-latest
