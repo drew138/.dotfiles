@@ -15,6 +15,6 @@ provisioner:
   name: ansible
   config_options:
     defaults:
-      remote_tmp: /var/tmp/drew/ansible
+      remote_tmp: /tmp/drew/ansible
 verifier:
   name: ansible
