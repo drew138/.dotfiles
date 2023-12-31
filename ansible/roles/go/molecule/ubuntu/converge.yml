@@ -2,15 +2,15 @@
 - name: Converge
   hosts: all
   gather_facts: false
-  # vars_files:
-  #   - ../../vars/main.yml
+  vars_files:
+    - ../../vars/main.yml
   vars:
     is_macos: false
     is_debian_distro: true
     host_user: "{{ ansible_env.SUDO_USER }}"
     allow_world_readable_tmpfiles: true
   tasks:
-    # - include_tasks: ../../tasks/main.yml
+    - include_tasks: ../../tasks/main.yml
     - name: Replace this task with one that validates your content
       ansible.builtin.debug:
         msg: "This is the effective test"
