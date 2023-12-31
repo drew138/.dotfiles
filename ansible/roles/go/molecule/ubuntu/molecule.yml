@@ -3,9 +3,9 @@ driver:
   name: docker
 platforms:
   - name: ubuntu
-    image: "nmusatti/ubuntu2204-pys-systemd:latest"
+    image: "geerlingguy/docker-ubuntu2204-ansible:latest"
     volumes:
-      - /run/docker.sock:/var/run/docker.sock
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
 verifier:
