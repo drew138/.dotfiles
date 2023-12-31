@@ -50,18 +50,16 @@ jobs:
           molecule \
           "molecule-plugins[docker]" \
           ansible \
-          ansible-core \
-          ansible-pull
+          ansible-core
 
-      # - run: molecule --version
-      - run: sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/install.sh | bash
+      - run: molecule --version
 
-      # - name: run molecule tests
-      #   run: molecule test -s ubuntu
-      #   working-directory: ./ansible/roles/go
-      #   env:
-      #     PY_COLORS: "1"
-      #     ANSIBLE_FORCE_COLOR: "1"
+      - name: run molecule tests
+        run: molecule test -s ubuntu
+        working-directory: ./ansible/roles/go
+        env:
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
 
   # test-macos:
   #   needs: check-roles
