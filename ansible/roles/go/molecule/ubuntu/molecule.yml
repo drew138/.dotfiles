@@ -31,6 +31,8 @@ platforms:
 
 provisioner:
   name: ansible
+  ansible_args:
+    - --connection=local
   # env:
   #   ANSIBLE_LOCAL_TEMP: "${WORKSPACE:-$HOME}/.ansible/tmp"
   #   ANSIBLE_REMOTE_TMP: /tmp
