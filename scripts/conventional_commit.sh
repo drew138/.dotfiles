@@ -23,9 +23,6 @@ if [ -z "$TYPE" ]; then
     exit 1
 fi
 
-echo $TYPE
-
-
 SCOPE=$(
     gum input --placeholder "commit scope" \
         --header="Scope" \
@@ -47,6 +44,7 @@ if [ "$BREAKING_CHANGE" = "Yes" ]; then
     SCOPE="$SCOPE!"
 fi
 
+
 SUMMARY=$(
     gum input --prompt "$TYPE$SCOPE: " \
         --header="Description" \
@@ -56,4 +54,4 @@ SUMMARY=$(
         --cursor.foreground=""
 )
 
-test -n "$SUMMARY" && git commit -m "$SUMMARY"
+test -n "$SUMMARY" && git commit -m "$TYPE$SCOPE: $SUMMARY"
