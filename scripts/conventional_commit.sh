@@ -23,6 +23,8 @@ if [ -z "$TYPE" ]; then
     exit 1
 fi
 
+echo $TYPE
+
 
 SCOPE=$(
     gum input --placeholder "commit scope" \
