@@ -1,0 +1,29 @@
+---
+- name: install dependencies
+  become: true
+  become_user: "{{ tmux_host_user }}"
+  homebrew:
+    name:
+      - xclip
+      - tmux
+    state: present
+  register: result
+  until: result is successful
+
+- name: tmux package manager
+  become: true
+  become_user: "{{ tmux_host_user }}"
+  git:
+    repo: "https://github.com/tmux-plugins/tpm.git"
+    dest: "{{ tmux_user_home }}/.tmux/plugins/tpm"
+    depth: 1
+    clone: true
+    update: true
+
+- name: create .tmux.conf symlink
+  file:
+    src: "{{ tmux_user_home }}/.dotfiles/.tmux.conf"
+    dest: "{{ tmux_user_home }}/.tmux.conf"
+    owner: "{{ tmux_host_user }}"
+    state: link
+    force: true

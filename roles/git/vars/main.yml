@@ -1,0 +1,3 @@
+---
+git_host_user: "{{ ansible_env.USER }}"
+git_user_home: "{{ ansible_env.HOME }}"

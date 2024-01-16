@@ -1,0 +1,28 @@
+---
+repositories_host_user: "{{ ansible_env.USER }}"
+repositories_user_home: "{{ ansible_env.HOME }}"
+repository_names:
+  - algorithms
+  # - competitive-programming
+  # - ansible_repositories
+  # - ansible_go
+  # - ansible_rust
+  # - ansible_fzf
+  # - ansible_starship
+  # - ansible_nerdfonts
+  # - ansible_nvim
+  # - ansible_docker
+  # - ansible_node
+  # - ansible_tmux
+  # - ansible_fd
+  # - ansible_flatpak
+  # - ansible_kitty
+  # - ansible_zsh
+  # - ansible_cpp
+  # - ansible_pyenv
+  # - ansible_git
+  # - ansible_casks
+  # - ansible_gh
+  # - ansible_utils
+  # - ansible_scripts
+  # - ansible_repositories

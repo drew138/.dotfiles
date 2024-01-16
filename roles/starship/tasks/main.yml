@@ -1,0 +1,31 @@
+---
+- name: check for starship command
+  command: command -v starship >/dev/null 2>&1
+  register: installed
+  no_log: true
+  ignore_errors: true
+
+- name: download starship installer
+  get_url:
+    url: https://starship.rs/install.sh
+    dest: /tmp/starship-installer.sh
+    mode: "u+rwx"
+  when: installed.rc != 0
+  register: download
+
+- name: run the install script
+  shell: /tmp/starship-installer.sh --yes
+  when: download.changed
+
+- name: remove starship-installer.sh
+  file:
+    path: /tmp/starship-installer.sh
+    state: absent
+
+- name: create starship symlink
+  file:
+    src: "{{ starship_user_home }}/.dotfiles/roles/starship/files/starship.toml"
+    dest: "{{ starship_user_home }}/.config/starship.toml"
+    owner: "{{ starship_host_user }}"
+    state: link
+    force: true

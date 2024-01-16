@@ -1,0 +1,58 @@
+---
+- name: run uname command and set a fact
+  command: uname
+  register: go_uname_result
+  changed_when: false
+
+- name: set fact with uname output
+  set_fact:
+    go_os: "{{ go_uname_result.stdout | lower }}"
+  changed_when: false
+
+- name: get filename prefix with latest version
+  set_fact:
+    go_filename_prefix: \
+      "{{ lookup('url', go_latest_version_url, split_lines=False) }}"
+  when: go_version == "latest"
+
+- name: get filename prefix with fixed version
+  set_fact:
+    go_filename_prefix: go{{ ansible_go_version }}
+  when: go_version != "latest"
+
+- name: try to get current go version installed
+  command: go version
+  register: result
+  changed_when: false
+
+- name: set go_current_version var
+  set_fact:
+    go_current_version: "{{ result.stdout.split(' ')[2] }}"
+  when: result.failed == false
+
+- name: set go_current_version var to none
+  set_fact:
+    go_current_version: "none"
+  when: result.failed == true
+
+- name: download go gzip
+  get_url:
+    url: "{{ go_download_url }}"
+    dest: "/tmp/{{ go_archive_name }}"
+    mode: "u+rwx"
+  register: download
+  changed_when: false
+
+- name: extract and move new go folder to /usr/local
+  become: true
+  become_user: "{{ go_host_user }}"
+  # unarchive does not work propertly on macos
+  command: tar -C /usr/local -xzf /tmp/{{ go_archive_name }}
+  args:
+    creates: "/usr/local/go"
+
+- name: remove go gzip file
+  file:
+    path: "/tmp/{{ go_archive_name }}"
+    state: absent
+  changed_when: false

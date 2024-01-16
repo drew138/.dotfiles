@@ -1,0 +1,3 @@
+---
+tmux_host_user: "{{ ansible_env.USER }}"
+tmux_user_home: "{{ ansible_env.HOME }}"

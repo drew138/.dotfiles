@@ -26,18 +26,27 @@ jobs:
 
       - run: echo "${{ steps.roles.outputs.roles }}"
 
-  test-ubuntu:
+  test:
     needs: check-roles
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
-        roles: ${{ fromJson(needs.check-roles.outputs.roles) }}
+        os: ["macos", "ubuntu"]
+        # roles: ${{ fromJson(needs.check-roles.outputs.roles) }}
+    env:
+      PY_COLORS: "1"
+      ANSIBLE_FORCE_COLOR: "1"
+      OBJC_DISABLE_INITIALIZE_FORK_SAFETY: YES
     steps:
       - name: check out the codebase
         uses: actions/checkout@v2
 
-      - uses: docker-practice/actions-setup-docker@master
-        timeout-minutes: 12
+      - name: setup ssh key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          if_key_exists: replace
 
       - name: set up python 3
         uses: actions/setup-python@v2
@@ -46,74 +55,13 @@ jobs:
 
       - name: install test dependencies
         run: pip3 install \
-          pytest-testinfra \
-          molecule \
-          "molecule-plugins[docker]" \
           ansible \
-          ansible-core
+          molecule \
+          "molecule-plugins[vagrant]"
 
-      - run: molecule --version
-
-      - name: run molecule tests
-        run: molecule test -s ubuntu
-        working-directory: ./ansible/roles/go
-        env:
-          PY_COLORS: "1"
-          ANSIBLE_FORCE_COLOR: "1"
-
-  # test-macos:
-  #   needs: check-roles
-  #   runs-on: macos-latest
-  #   strategy:
-  #     matrix:
-  #       roles: ${{ fromJson(needs.check-roles.outputs.roles) }}
-  #   steps:
-  #     - name: check out the codebase
-  #       uses: actions/checkout@v2
-  #
-  #     - name: set up python 3
-  #       uses: actions/setup-python@v2
-  #       with:
-  #         python-version: "3.x"
-  #
-  #     - name: install test dependencies
-  #       run: pip3 install \
-  #         pytest-testinfra \
-  #         molecule \
-  #         molecule-plugins[vagrant] \
-  #         ansible \
-  #         ansible-core
-  #
-  #     - name: set up homebrew
-  #       id: set-up-homebrew
-  #       uses: Homebrew/actions/setup-homebrew@master
-  #
-  #     - name: install virtualbox
-  #       run: brew install --cask virtualbox
-  #
-  #     - name: create Vatgrantfile
-  #       run: |
-  #         echo 'Vagrant.configure("2") do |config|' > Vagrantfile
-  #         echo '  config.vm.box = "yzgyyang/macOS-10.14"' >> Vagrantfile
-  #         echo 'end' >> Vagrantfile
-  #
-  #     - name: Cache Vagrant boxes
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: ~/.vagrant.d/boxes
-  #         key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-vagrant-
-  #
-  #     - name: Show Vagrant version
-  #       run: vagrant --version
-  #
-  #     - name: Run vagrant up
-  #       run: vagrant up
-  #
-  #     - name: run molecule tests
-  #       run: molecule test -s macos
-  #       working-directory: ./ansible/roles/go
-  #       env:
-  #         PY_COLORS: "1"
-  #         ANSIBLE_FORCE_COLOR: "1"
+      # - name: run molecule tests
+      #   run: molecule test -s ubuntu
+      #   working-directory: ./ansible/roles/go
+      #   env:
+      #     PY_COLORS: "1"
+      #     ANSIBLE_FORCE_COLOR: "1"

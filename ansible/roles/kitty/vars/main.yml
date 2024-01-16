@@ -1,6 +1,0 @@
----
-kitty_desktop_path: "{{ user_home }}/.local/kitty.app/share/applications/kitty.desktop"
-
-kitty_open_desktop_path: "{{ user_home }}/.local/kitty.app/share/applications/kitty-open.desktop"
-
-kitty_png_path: "{{ user_home }}/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png"

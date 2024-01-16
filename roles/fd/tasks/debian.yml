@@ -1,0 +1,19 @@
+---
+- name: install fd-find
+  apt:
+    name:
+      - fd-find
+    state: present
+
+- name: create bin directory if it doesn't exist
+  file:
+    path: "{{ fd_user_home }}/.local/bin"
+    state: directory
+
+- name: create symlink for fdfind
+  file:
+    src: "{{ lookup('pipe', 'which fdfind') }}"
+    dest: "{{ fd_user_home }}/.local/bin/fd"
+    owner: "{{ fd_host_user }}"
+    state: link
+    force: true

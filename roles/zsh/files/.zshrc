@@ -22,7 +22,7 @@ alias ll='ls -l'
 [ -f ~/.workrc.sh ] && source ~/.workrc.sh
 
 # go configs
-PATH="$HOME/go/bin:/usr/local/go/bin:$PATH"
+export PATH="$HOME/go/bin:/usr/local/go/bin:$PATH"
 
 # homebrew configs
 export HOMEBREW_NO_AUTO_UPDATE=1

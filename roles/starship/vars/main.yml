@@ -1,0 +1,3 @@
+---
+starship_host_user: "{{ ansible_env.USER }}"
+starship_user_home: "{{ ansible_env.HOME }}"

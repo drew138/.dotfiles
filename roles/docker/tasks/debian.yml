@@ -1,0 +1,44 @@
+---
+- name: install dependencies
+  package:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+
+- name: add gpg key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: add docker repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/debian bullseye stable
+    state: present
+
+- name: install docker
+  package:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+- name: make sure docker is active
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Add remote user to "docker" group
+  user:
+    name: "{{ docker_host_user }}"
+    groups: "docker"
+    append: true
+
+- name: install docker-compose
+  get_url:
+    url: "{{ docker_compose_Linux_x86_64 }}"
+    dest: /usr/local/bin/docker-compose
+    mode: "+x"

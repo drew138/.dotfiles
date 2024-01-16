@@ -1,0 +1,23 @@
+---
+- name: Verify
+  hosts: localhost
+  tasks:
+    - name: Check if the Go directory exists
+      stat:
+        path: /usr/local/go
+      register: go_directory_facts
+
+    - name: Fail if Go directory does not exist
+      fail:
+        msg: "Go directory /usr/local/go does not exist."
+      when: not go_directory_facts.stat.exists
+
+    - name: Check if the Go binary exists
+      stat:
+        path: /usr/local/go/bin/go
+      register: go_binary_facts
+
+    - name: Fail if Go binary does not exist
+      fail:
+        msg: "Go binary /usr/local/go/bin/go does not exist."
+      when: not go_binary_facts.stat.exists

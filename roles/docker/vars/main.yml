@@ -1,0 +1,4 @@
+---
+docker_compose_Linux_x86_64: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
+docker_host_user: "{{ ansible_env.USER }}"
+docker_user_home: "{{ ansible_env.HOME }}"

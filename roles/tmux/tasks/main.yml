@@ -1,0 +1,6 @@
+---
+- name: include tasks based on the operating system
+  include_tasks: "{{ item }}"
+  with_fileglob:
+    - "{{ tmux_user_home }}/.dotfiles/roles/tmux/tasks"
+  when: "ansible_os_family | lower in item"

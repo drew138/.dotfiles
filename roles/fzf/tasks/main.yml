@@ -1,0 +1,16 @@
+---
+- name: clone fzf repo
+  become: true
+  become_user: "{{ fzf_host_user }}"
+  git:
+    repo: "https://github.com/junegunn/fzf.git"
+    dest: "{{ fzf_user_home }}/.fzf"
+    depth: 1
+    clone: true
+    update: true
+
+- name: install fzf
+  become: true
+  become_user: "{{ fzf_host_user }}"
+  command: "{{ fzf_user_home }}/.fzf/install"
+  changed_when: false

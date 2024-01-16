@@ -1,0 +1,28 @@
+---
+- name: Verify
+  hosts: localhost
+  gather_facts: true
+  vars_files:
+    - ../../vars/main.yml
+  tasks:
+    - name: Check if dotfiles repository exist
+      stat:
+        path: "{{ ansible_repositories_user_home }}/.dotfiles"
+      register: dotfiles_facts"
+
+    - name: Fail if dotfiles repository exist
+      fail:
+        msg: "{{ ansible_repositories_user_home }}/{{ item }} does not exist"
+      when: not dotfiles_facts.stat.exists
+
+    - name: Check if repositories exist
+      stat:
+        path: "{{ ansible_repositories_user_home }}/dev/{{ item }}"
+      register: "{{ item }}_facts"
+      with_items: "{{ ansible_repositories_names }}"
+
+    - name: Fail if repositories do not exist
+      fail:
+        msg: "{{ ansible_repositories_user_home }}/dev/{{ item }} does not exist"
+      when: not {{ item }}_facts.stat.exists
+      with_items: "{{ ansible_repositories_names }}"

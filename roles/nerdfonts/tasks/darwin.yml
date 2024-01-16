@@ -1,0 +1,16 @@
+---
+- name: create Fonts directory if it doesn't exist
+  become: true
+  file:
+    path: "{{ nerdfonts_user_home }}/Library/Fonts"
+    state: directory
+
+- name: create symbolic links for NerdFonts
+  with_fileglob: "{{ nerdfonts_user_home }}/.dotfiles/roles/nerdfonts/files"
+  vars:
+    destination_file: "{{ nerdfonts_user_home }}/Library/Fonts/{{ item | regex_replace('.*/', '') }}"
+  copy:
+    src: "{{ item }}"
+    dest: "{{ destination_file }}"
+    owner: "{{ nerdfonts_host_user }}"
+    force: true

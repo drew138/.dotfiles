@@ -1,0 +1,67 @@
+---
+- name: install kitty
+  become: true
+  become_user: "{{ kitty_host_user }}"
+  shell: >
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+
+- name: create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ kitty_user_home }}/.local/bin/"
+    - "{{ kitty_user_home }}/.local/share/"
+    - "{{ kitty_user_home }}/.local/share/applications/"
+    - "{{ kitty_user_home }}/.config/"
+    - "{{ kitty_user_home }}/.config/kitty/"
+
+- name: create symbolic link for kitty binary
+  file:
+    src: "{{ kitty_user_home }}/.local/kitty.app/bin/kitty"
+    dest: "{{ kitty_user_home }}/.local/bin/kitty"
+    owner: "{{ kitty_host_user }}"
+    state: link
+    force: true
+
+- name: copy kitty.desktop file
+  copy:
+    src: "{{ kitty_desktop_path }}"
+    dest: "{{ kitty_user_home }}/.local/share/applications/"
+
+- name: copy kitty-open.desktop file
+  copy:
+    src: "{{ kitty_open_desktop_path }}"
+    dest: "{{ kitty_user_home }}/.local/share/applications/"
+
+- name: update paths in kitty.desktop file(s)
+  replace:
+    path: "{{ item }}"
+    regexp: "(Icon=)kitty"
+    replace: "\\1{{ kitty_png_path }}"
+  with_fileglob:
+    - "{{ kitty_user_home }}/.local/share/applications/kitty*.desktop"
+
+- name: update paths in kitty.desktop file(s)
+  replace:
+    path: "{{ item }}"
+    regexp: "(Exec=)kitty"
+    replace: "\\1{{ kitty_user_home }}/.local/kitty.app/bin/kitty"
+  with_fileglob:
+    - "{{ kitty_user_home }}/.local/share/applications/kitty*.desktop"
+
+- name: create kitty.conf symlink
+  file:
+    src: "{{ kitty_user_home }}/.dotfiles/roles/kitty/files/kitty.conf"
+    dest: "{{ kitty_user_home }}/.config/kitty/kitty.conf"
+    owner: "{{ kitty_host_user }}"
+    state: link
+    force: true
+
+- name: create nightfox_kitty.conf symlink
+  file:
+    src: "{{ kitty_user_home }}/.dotfiles/roles/kitty/files/nightfox_kitty.conf"
+    dest: "{{ kitty_user_home }}/.config/kitty/nightfox_kitty.conf"
+    owner: "{{ kitty_host_user }}"
+    state: link
+    force: true

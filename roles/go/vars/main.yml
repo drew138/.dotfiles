@@ -1,0 +1,5 @@
+---
+go_latest_version_url: https://golang.org/VERSION?m=text
+go_archive_name: "{{ ansible_go_current_version }}.{{ ansible_go_os }}-{{ ansible_go_arch }}.tar.gz"
+go_download_url: "https://dl.google.com/go/{{ ansible_go_archive_name }}"
+go_host_user: "{{ ansible_env.USER }}"

@@ -1,0 +1,12 @@
+---
+driver:
+  name: default
+platforms:
+  - name: instance
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      ansible_connection: local
+verifier:
+  name: ansible

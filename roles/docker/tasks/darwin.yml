@@ -1,0 +1,12 @@
+---
+- name: install docker, docker-compose and colima
+  become: true
+  become_user: "{{ docker_host_user }}"
+  homebrew:
+    name:
+      - docker
+      - colima
+      - docker-compose
+    state: present
+  register: result
+  until: result is successful

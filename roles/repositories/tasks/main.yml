@@ -1,0 +1,24 @@
+---
+- name: create dev directory
+  file:
+    path: "{{ repositories_user_home }}/dev/"
+    state: directory
+
+- name: download dotfiles repository
+  become: true
+  become_user: "{{ repositories_host_user }}"
+  git:
+    repo: "git@github.com:drew138/.dotfiles.git"
+    dest: "{{ repositories_user_home }}/.dotfiles"
+    clone: true
+    update: true
+
+- name: download repositories
+  become: true
+  become_user: "{{ repositories_host_user }}"
+  git:
+    repo: "git@github.com:drew138/{{ item }}.git"
+    dest: "{{ repositories_user_home }}/dev/{{ item }}"
+    clone: true
+    update: true
+  with_items: "{{ repository_names }}"
