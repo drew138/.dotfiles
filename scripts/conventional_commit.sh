@@ -1,7 +1,7 @@
 #!/bin/bash
 
-INSIDE_GIT_REPO="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
-if [ ! "$INSIDE_GIT_REPO" ]; then
+IS_INSIDE_GIT_REPO="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+if [ ! "$IS_INSIDE_GIT_REPO" ]; then
     echo "fatal: not a git repository (or any of the parent directories): .git"
     exit 1
 fi
@@ -14,7 +14,14 @@ fi
 
 TYPE=$(
     gum choose --header="Commit Type" \
-        "fix" "feat" "docs" "style" "refactor" "test" "chore" "revert" \
+        "feat:      A new feature" \
+        "fix:       A bug fix" \
+        "docs:      Documentation only changes" \
+        "style:     Changes that do no affect the meaning of the code (formatting)" \
+        "refactor:  A code change that neither fixes a bug or adds a feature" \
+        "perf:      A code change that improves performance" \
+        "test:      Adding missing tests" \
+        "chore:     Changes to the build process or auxiliary tools"  \
         --header.foreground="#9d79d6" \
         --cursor.foreground="#f4a261"
 )
@@ -22,6 +29,8 @@ TYPE=$(
 if [ -z "$TYPE" ]; then
     exit 1
 fi
+
+TYPE="${TYPE%%:*}"
 
 SCOPE=$(
     gum input --placeholder "commit scope" \
@@ -33,17 +42,16 @@ SCOPE=$(
 
 test -n "$SCOPE" && SCOPE="($SCOPE)"
 
-BREAKING_CHANGE=$(
+IS_BREAKING_CHANGE=$(
     gum choose No Yes \
         --header="Is it a breaking change?" \
         --header.foreground="#9d79d6" \
         --cursor.foreground="#f4a261"
 )
 
-if [ "$BREAKING_CHANGE" = "Yes" ]; then
+if [ "$IS_BREAKING_CHANGE" = "Yes" ]; then
     SCOPE="$SCOPE!"
 fi
-
 
 SUMMARY=$(
     gum input --prompt "$TYPE$SCOPE: " \
