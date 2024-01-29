@@ -1,7 +1,7 @@
 local Opts = {
 	ensure_installed = {
 		-- lsps required by lspconfig
-		"ansiblels",
+		"ansible-language-server",
 		"awk_ls",
 		"bashls",
 		"clangd",
