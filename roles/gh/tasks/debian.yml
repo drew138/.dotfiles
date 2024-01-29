@@ -1,0 +1,19 @@
+---
+- name: download gitHub cli archive keyring
+  get_url:
+    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
+    mode: 0644
+
+- name: add gitHub cli repository
+  lineinfile:
+    dest: /etc/apt/sources.list.d/github-cli.list
+    line: "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+    create: true
+
+- name: install gh cli
+  become_user: "{{ host_user }}"
+  apt:
+    name:
+      - gh
+    state: present

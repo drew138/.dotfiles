@@ -1,29 +1,14 @@
 ---
 - name: install gum
   become: true
-  become_user: "{{ host_user }}"
+  become_user: "{{ scripts_host_user }}"
   shell: /usr/local/go/bin/go install github.com/charmbracelet/gum@latest
 
-- name: create commit symlink
+- name: create symlinks
   file:
-    src: "{{ user_home }}/.dotfiles/scripts/conventional_commit.sh"
-    dest: "/usr/local/bin/commit"
-    owner: "{{ host_user }}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ scripts_host_user }}"
     state: link
     force: true
-
-- name: create nd symlink
-  file:
-    src: "{{ user_home }}/.dotfiles/scripts/nvim_dir.sh"
-    dest: "/usr/local/bin/nd"
-    owner: "{{ host_user }}"
-    state: link
-    force: true
-
-- name: create nf symlink
-  file:
-    src: "{{ user_home }}/.dotfiles/scripts/nvim_file.sh"
-    dest: "/usr/local/bin/nf"
-    owner: "{{ host_user }}"
-    state: link
-    force: true
+  loop: "{{ scripts_symlinks }}"

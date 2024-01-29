@@ -1,4 +1,10 @@
 ---
+- name: installs curl
+  apt:
+    name:
+      - curl
+    state: present
+
 - name: install kitty
   become: true
   become_user: "{{ kitty_host_user }}"
@@ -50,18 +56,11 @@
   with_fileglob:
     - "{{ kitty_user_home }}/.local/share/applications/kitty*.desktop"
 
-- name: create kitty.conf symlink
+- name: create symbolic links
   file:
-    src: "{{ kitty_user_home }}/.dotfiles/roles/kitty/files/kitty.conf"
-    dest: "{{ kitty_user_home }}/.config/kitty/kitty.conf"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     owner: "{{ kitty_host_user }}"
     state: link
     force: true
-
-- name: create nightfox_kitty.conf symlink
-  file:
-    src: "{{ kitty_user_home }}/.dotfiles/roles/kitty/files/nightfox_kitty.conf"
-    dest: "{{ kitty_user_home }}/.config/kitty/nightfox_kitty.conf"
-    owner: "{{ kitty_host_user }}"
-    state: link
-    force: true
+  loop: "{{ kitty_config_files }}"

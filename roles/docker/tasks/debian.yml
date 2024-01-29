@@ -1,6 +1,6 @@
 ---
 - name: install dependencies
-  package:
+  apt:
     name:
       - apt-transport-https
       - ca-certificates
@@ -19,7 +19,7 @@
     state: present
 
 - name: install docker
-  package:
+  apt:
     name:
       - docker-ce
       - docker-ce-cli
@@ -31,7 +31,7 @@
     state: started
     enabled: true
 
-- name: Add remote user to "docker" group
+- name: add remote user to "docker" group
   user:
     name: "{{ docker_host_user }}"
     groups: "docker"

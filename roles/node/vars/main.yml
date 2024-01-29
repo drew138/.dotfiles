@@ -1,4 +1,4 @@
 ---
 # change version below to install higher versions
-node_version: 19.9.0
+node_version: 20.11.0
 nvm_script_url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh

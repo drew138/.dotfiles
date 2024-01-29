@@ -1,3 +1,18 @@
 ---
+galaxy_info:
+  author: drew138
+  description: installs my custom scripts
+  license: MIT
+  min_ansible_version: 2.16.1
+  role_name: scripts
+  namespace: drew138
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: MacOSX
+      versions:
+        - all
 dependencies:
   - role: go
+  - role: repositories

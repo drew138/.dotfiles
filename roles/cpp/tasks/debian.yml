@@ -1,0 +1,7 @@
+---
+- name: install dependencies
+  apt:
+    name:
+      - gcc
+      - g++
+      - libstdc++-12-dev

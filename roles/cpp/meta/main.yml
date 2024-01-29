@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: drew138
+  description: installs the cpp programming language
+  license: MIT
+  min_ansible_version: 2.16.1
+  role_name: cpp
+  namespace: drew138
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+dependencies: []

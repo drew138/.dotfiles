@@ -1,0 +1,6 @@
+---
+- name: include tasks based on the operating system
+  include_tasks: "{{ item }}"
+  with_fileglob:
+    - "{{ nvm_user_home }}/.dotfiles/roles/nvm/tasks"
+  when: "ansible_os_family | lower in item"

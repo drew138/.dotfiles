@@ -1,0 +1,39 @@
+---
+- name: install zsh
+  become: true
+  become_user: "{{ zsh_user_home }}"
+  homebrew:
+    name:
+      - zsh
+    state: present
+
+- name: create .workrc.zsh file
+  copy:
+    content: "#!/bin/sh"
+    dest: "{{ zsh_user_home }}/.workrc.zsh"
+    backup: true
+    force: false
+    mode: "u+rwx"
+    owner: "{{ zsh_host_user }}"
+
+- name: change default shell
+  become: true
+  shell: "sudo chsh {{ zsh_host_user }} -s $(which zsh)"
+
+- name: download zsh plugins
+  become: true
+  become_user: "{{ zsh_host_user }}"
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    clone: true
+    update: true
+  loop: "{{ zsh_plugins }}"
+
+- name: create .zshrc symlink
+  file:
+    src: "{{ zsh_user_home }}/.dotfiles/.zshrc"
+    dest: "{{ zsh_user_home }}/.zshrc"
+    owner: "{{ zsh_host_user }}"
+    state: link
+    force: true

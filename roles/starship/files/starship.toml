@@ -26,8 +26,6 @@ pyenv_version_name = true
 detect_extensions = []
 
 [golang]
-# symbol = " "
-# symbol =''
 format = '[ $version](bold cyan) '
 detect_extensions = []
 

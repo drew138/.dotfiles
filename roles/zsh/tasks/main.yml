@@ -1,54 +1,6 @@
 ---
-- name: install zsh
-  package:
-    name:
-      - zsh
-    state: present
-
-- name: create .workrc.sh file
-  copy:
-    content: "#!/bin/sh"
-    dest: "{{ zsh_user_home }}/.workrc.sh"
-    backup: true
-    force: false
-    mode: "u+rwx"
-    owner: "{{ zsh_host_user }}"
-
-- name: change default shell
-  become: true
-  shell: "sudo chsh {{ zsh_host_user }} -s $(which zsh)"
-
-- name: download auto suggestions plugin
-  become: true
-  become_user: "{{ zsh_host_user }}"
-  git:
-    repo: https://github.com/zsh-users/zsh-autosuggestions.git
-    dest: "{{ zsh_user_home }}/dev/zsh-autosuggestions"
-    clone: true
-    update: true
-
-- name: download syntax highlighting plugin
-  become: true
-  become_user: "{{ zsh_host_user }}"
-  git:
-    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: "{{ zsh_user_home }}/dev/zsh-syntax-highlighting"
-    clone: true
-    update: true
-
-- name: download z plugin
-  become: true
-  become_user: "{{ zsh_host_user }}"
-  git:
-    repo: https://github.com/agkozak/zsh-z.git
-    dest: "{{ zsh_user_home }}/dev/zsh-z"
-    clone: true
-    update: true
-
-- name: create .zshrc symlink
-  file:
-    src: "{{ zsh_user_home }}/.dotfiles/.zshrc"
-    dest: "{{ zsh_user_home }}/.zshrc"
-    owner: "{{ zsh_host_user }}"
-    state: link
-    force: true
+- name: include tasks based on the operating system
+  include_tasks: "{{ item }}"
+  with_fileglob:
+    - "{{ go_user_home }}/.dotfiles/roles/go/tasks"
+  when: "ansible_os_family | lower in item"

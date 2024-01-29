@@ -44,3 +44,6 @@
     state: link
     force: true
   when: is_debian_distro
+
+
+https://stackoverflow.com/questions/71902980/how-to-determine-latest-stable-version-of-node-from-nvm

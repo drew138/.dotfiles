@@ -19,7 +19,10 @@ alias la='ls -la'
 alias ll='ls -l'
 
 # workrc configs
-[ -f ~/.workrc.sh ] && source ~/.workrc.sh
+[ -f $HOME/.workrc.zsh ] && \. $HOME/.workrc.zsh
+
+# scripts configs
+export PATH="$HOME/.dotfiles/roles/scripts/files:$PATH"
 
 # go configs
 export PATH="$HOME/go/bin:/usr/local/go/bin:$PATH"
@@ -32,12 +35,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # fzf configs
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # rust configs
-[ -f ~/.cargo/env ] && source ~/.cargo/env
+[ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
 
 ## pyenv configs
 export PYENV_ROOT="$HOME/.pyenv"
@@ -53,7 +56,7 @@ autoload -U compinit; compinit
 
 # zsh-autosuggestions configs
 source $HOME/dev/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
+
 # zsh-syntax-highlighting configs
 source $HOME/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

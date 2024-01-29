@@ -1,12 +1,44 @@
 ---
+# driver:
+#   name: docker
+#   provider:
+#     name: virtualbox
+# platforms:
+#   - name: vagrant-macosx
+#     box: yzgyyang/macOS-10.14
+#     memory: 4096
+#     cpus: 2
+#     provider_raw_config_args:
+#       # Some needed OSX configs
+#       - "customize ['modifyvm', :id, '--cpuid-set', '00000001', '000106e5', '00100800', '0098e3fd', 'bfebfbff']"
+#       - "customize ['setextradata', :id, 'VBoxInternal/Devices/efi/0/Config/DmiSystemProduct', 'MacBookPro11,3']"
+#       - "customize ['setextradata', :id, 'VBoxInternal/Devices/efi/0/Config/DmiSystemVersion', '1.0']"
+#       - "customize ['setextradata', :id, 'VBoxInternal/Devices/efi/0/Config/DmiBoardProduct', 'Iloveapple']"
+#       - "customize ['setextradata', :id, 'VBoxInternal/Devices/smc/0/Config/DeviceKey', 'ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc']"
+#       - "customize ['setextradata', :id, 'VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC', '1']"
+#       - "customize ['setextradata', :id, 'VBoxInternal2/EfiGopMode', '4']"
+# provisioner:
+#   name: ansible
+#   # config_options
+#   #   defaults:
+#   #     ansible_connection: local
+# verifier:
+#   name: ansible
 driver:
-  name: default
+  name: docker
 platforms:
-  - name: instance
+  - name: ubuntu
+    image: geerlingguy/docker-ubuntu2004-ansible
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    capabilities:
+      - SYS_ADMIN
+    command: "/lib/systemd/systemd"
+    pre_build_image: true
 provisioner:
   name: ansible
-  config_options:
-    defaults:
-      ansible_connection: local
 verifier:
   name: ansible

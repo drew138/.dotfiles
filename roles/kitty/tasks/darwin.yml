@@ -1,22 +1,23 @@
 ---
+- name: install curl
+  become: true
+  become_user: "{{ kitty_host_user }}"
+  homebrew:
+    name:
+      - curl
+    state: present
+
 - name: install kitty
   become: true
   become_user: "{{ kitty_host_user }}"
   shell: >
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
-- name: create kitty.conf symlink
+- name: create symbolic links
   file:
-    src: "{{ kitty_user_home }}/.dotfiles/roles/kitty/files/kitty.conf"
-    dest: "{{ kitty_user_home }}/.config/kitty/kitty.conf"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     owner: "{{ kitty_host_user }}"
     state: link
     force: true
-
-- name: create nightfox_kitty.conf symlink
-  file:
-    src: "{{ kitty_user_home }}/.dotfiles/roles/kitty/files/nightfox_kitty.conf"
-    dest: "{{ kitty_user_home }}/.config/kitty/nightfox_kitty.conf"
-    owner: "{{ kitty_host_user }}"
-    state: link
-    force: true
+  loop: "{{ kitty_config_files }}"

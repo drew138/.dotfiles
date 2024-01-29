@@ -1,0 +1,21 @@
+---
+- name: install git
+  apt:
+    name: git
+    state: present
+
+- name: create .gitconfig symlink
+  file:
+    src: "{{ git_user_home }}/.dotfiles/.gitconfig"
+    dest: "{{ git_user_home }}/.gitconfig"
+    state: link
+    force: true
+
+- name: create .work.gitconfig file
+  copy:
+    content: ""
+    dest: "{{ git_user_home }}/.work.gitconfig"
+    backup: true
+    force: false
+    mode: "u+rwx"
+    owner: "{{ git_host_user }}"

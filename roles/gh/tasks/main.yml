@@ -1,33 +1,6 @@
 ---
-- name: download gitHub cli archive keyring
-  get_url:
-    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
-    dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
-    mode: 0644
-  when: is_debian_distro
-
-- name: add gitHub cli repository
-  lineinfile:
-    dest: /etc/apt/sources.list.d/github-cli.list
-    line: "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
-    create: true
-  when: is_debian_distro
-
-- name: install gh cli (linux)
-  become_user: "{{ host_user }}"
-  apt:
-    name:
-      - gh
-    state: present
-  when: is_debian_distro
-
-- name: install gh cli (macos)
-  become: true
-  become_user: "{{ host_user }}"
-  homebrew:
-    name:
-      - gh
-    state: present
-  register: result
-  until: result is successful
-  when: is_macos and homebrew_check.stat.exists
+- name: include tasks based on the operating system
+  include_tasks: "{{ item }}"
+  with_fileglob:
+    - "{{ gh_user_home }}/.dotfiles/roles/gh/tasks"
+  when: "ansible_os_family | lower in item"

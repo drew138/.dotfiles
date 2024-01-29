@@ -1,0 +1,10 @@
+---
+scripts_host_user: "{{ ansible_env.USER }}"
+scripts_user_home: "{{ ansible_env.HOME }}"
+scripts_symlinks:
+  - src: "{{ scripts_user_home }}/.dotfiles/roles/scripts/files/conventional_commit.sh"
+    dest: "/usr/local/bin/commit"
+  - src: "{{ scripts_user_home }}/.dotfiles/roles/scripts/files/nvim_dir.sh"
+    dest: "/usr/local/bin/nd"
+  - src: "{{ scripts_user_home }}/.dotfiles/roles/scripts/files/nvim_file.sh"
+    dest: "/usr/local/bin/nf"

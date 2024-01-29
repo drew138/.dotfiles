@@ -7,8 +7,6 @@
       - xclip
       - tmux
     state: present
-  register: result
-  until: result is successful
 
 - name: tmux package manager
   become: true

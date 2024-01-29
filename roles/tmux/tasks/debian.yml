@@ -1,6 +1,5 @@
 ---
 - name: install dependencies
-  become_user: "{{ tmux_host_user }}"
   apt:
     name:
       - xclip

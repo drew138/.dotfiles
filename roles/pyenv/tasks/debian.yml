@@ -1,0 +1,27 @@
+---
+- name: install pyenv prerequisites
+  become_user: "{{ pyenv_host_user }}"
+  apt:
+    name:
+      - curl
+      - git-core
+      - gcc
+      - make
+      - zlib1g-dev
+      - libbz2-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - libssl-dev
+      - tk-dev
+      - liblzma-dev
+    state: present
+
+- name: clone pyenv repository
+  become: true
+  become_user: "{{ pyenv_host_user }}"
+  git:
+    repo: "https://github.com/pyenv/pyenv.git"
+    dest: "{{ pyenv_user_home }}/.pyenv"
+    depth: 1
+    clone: true
+    update: true
