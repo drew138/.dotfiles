@@ -1,16 +1,35 @@
 ---
-name: test ansible roles
+name: ci
 
 on: [push]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out the codebase
+        uses: actions/checkout@v4
+
+      - name: set up python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: install test dependencies.
+        run: pip3 install yamllint
+
+      - name: lint code
+        run: |
+          yamllint .
+
   check-roles:
+    needs: lint
     runs-on: ubuntu-latest
     outputs:
       roles: ${{ steps.roles.outputs.roles }}
     steps:
       - name: checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: install jq
         run: sudo apt-get install jq
@@ -24,32 +43,21 @@ jobs:
           echo 'EOF' >> "${GITHUB_OUTPUT}"
         working-directory: ./ansible/roles/
 
-      - run: echo "${{ steps.roles.outputs.roles }}"
-
-  test:
+  molecule:
     needs: check-roles
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: ["macos", "ubuntu"]
-        # roles: ${{ fromJson(needs.check-roles.outputs.roles) }}
+        role: ${{ fromJson(needs.check-roles.outputs.roles) }}
     env:
       PY_COLORS: "1"
       ANSIBLE_FORCE_COLOR: "1"
-      OBJC_DISABLE_INITIALIZE_FORK_SAFETY: YES
     steps:
       - name: check out the codebase
-        uses: actions/checkout@v2
-
-      - name: setup ssh key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_KEY }}
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-          if_key_exists: replace
+        uses: actions/checkout@v4
 
       - name: set up python 3
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
@@ -57,11 +65,10 @@ jobs:
         run: pip3 install \
           ansible \
           molecule \
-          "molecule-plugins[vagrant]"
+          docker \
+          "molecule-plugins[docker]"
 
-      # - name: run molecule tests
-      #   run: molecule test -s ubuntu
-      #   working-directory: ./ansible/roles/go
-      #   env:
-      #     PY_COLORS: "1"
-      #     ANSIBLE_FORCE_COLOR: "1"
+      - name: run molecule tests
+        run: molecule test
+        env:
+          MOLECULE_ROLE: "${{ matrix.role }}"
