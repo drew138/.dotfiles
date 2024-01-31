@@ -1,10 +1,8 @@
 ---
-zsh_host_user: "{{ ansible_env.USER }}"
-zsh_user_home: "{{ ansible_env.HOME }}"
 zsh_plugins:
   - repo: https://github.com/zsh-users/zsh-autosuggestions.git
-    dest: "{{ zsh_user_home }}/dev/zsh-autosuggestions"
+    dest: "{{ ansible_env.HOME }}/dev/zsh-autosuggestions"
   - repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: "{{ zsh_user_home }}/dev/zsh-syntax-highlighting"
+    dest: "{{ ansible_env.HOME }}/dev/zsh-syntax-highlighting"
   - repo: https://github.com/agkozak/zsh-z.git
-    dest: "{{ zsh_user_home }}/dev/zsh-z"
+    dest: "{{ ansible_env.HOME }}/dev/zsh-z"

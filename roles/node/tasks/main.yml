@@ -1,6 +1,6 @@
 ---
 - name: install nodejs prerequisites (linux)
-  become_user: "{{ host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   apt:
     name:
       - apt-transport-https
@@ -12,35 +12,35 @@
 
 - name: install nvm
   become: true
-  become_user: "{{ host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   shell: >
     curl -o- {{ nvm_script_url }} | bash
   args:
-    creates: "{{ user_home }}/.nvm/nvm.sh"
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
 
 - name: install node
   become: false
   shell: >
-    . {{ user_home }}/.nvm/nvm.sh && nvm install {{ node_version }}
+    . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install {{ node_version }}
   args:
     executable: /bin/bash
-    chdir: "{{ user_home }}"
-    creates: "{{ user_home }}/.nvm/versions/{{ node_version }}"
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.nvm/versions/{{ node_version }}"
 
 - name: create node symlink to /usr/bin
   file:
-    src: "{{ user_home }}/.nvm/versions/node/v{{ node_version }}/bin/node"
+    src: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ node_version }}/bin/node"
     dest: "/usr/bin/node"
-    owner: "{{ host_user }}"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true
   when: is_debian_distro
 
 - name: create npm symlink to /usr/bin
   file:
-    src: "{{ user_home }}/.nvm/versions/node/v{{ node_version }}/bin/npm"
+    src: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ node_version }}/bin/npm"
     dest: "/usr/bin/npm"
-    owner: "{{ host_user }}"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true
   when: is_debian_distro

@@ -1,6 +1,4 @@
 ---
-repositories_host_user: "{{ ansible_env.USER }}"
-repositories_user_home: "{{ ansible_env.HOME }}"
 repository_names:
   - algorithms
   # - competitive-programming

@@ -7,7 +7,7 @@
 
 - name: install kitty
   become: true
-  become_user: "{{ kitty_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   shell: >
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
@@ -16,29 +16,29 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{ kitty_user_home }}/.local/bin/"
-    - "{{ kitty_user_home }}/.local/share/"
-    - "{{ kitty_user_home }}/.local/share/applications/"
-    - "{{ kitty_user_home }}/.config/"
-    - "{{ kitty_user_home }}/.config/kitty/"
+    - "{{ ansible_env.HOME }}/.local/bin/"
+    - "{{ ansible_env.HOME }}/.local/share/"
+    - "{{ ansible_env.HOME }}/.local/share/applications/"
+    - "{{ ansible_env.HOME }}/.config/"
+    - "{{ ansible_env.HOME }}/.config/kitty/"
 
 - name: create symbolic link for kitty binary
   file:
-    src: "{{ kitty_user_home }}/.local/kitty.app/bin/kitty"
-    dest: "{{ kitty_user_home }}/.local/bin/kitty"
-    owner: "{{ kitty_host_user }}"
+    src: "{{ ansible_env.HOME }}/.local/kitty.app/bin/kitty"
+    dest: "{{ ansible_env.HOME }}/.local/bin/kitty"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true
 
 - name: copy kitty.desktop file
   copy:
     src: "{{ kitty_desktop_path }}"
-    dest: "{{ kitty_user_home }}/.local/share/applications/"
+    dest: "{{ ansible_env.HOME }}/.local/share/applications/"
 
 - name: copy kitty-open.desktop file
   copy:
     src: "{{ kitty_open_desktop_path }}"
-    dest: "{{ kitty_user_home }}/.local/share/applications/"
+    dest: "{{ ansible_env.HOME }}/.local/share/applications/"
 
 - name: update paths in kitty.desktop file(s)
   replace:
@@ -46,21 +46,21 @@
     regexp: "(Icon=)kitty"
     replace: "\\1{{ kitty_png_path }}"
   with_fileglob:
-    - "{{ kitty_user_home }}/.local/share/applications/kitty*.desktop"
+    - "{{ ansible_env.HOME }}/.local/share/applications/kitty*.desktop"
 
 - name: update paths in kitty.desktop file(s)
   replace:
     path: "{{ item }}"
     regexp: "(Exec=)kitty"
-    replace: "\\1{{ kitty_user_home }}/.local/kitty.app/bin/kitty"
+    replace: "\\1{{ ansible_env.HOME }}/.local/kitty.app/bin/kitty"
   with_fileglob:
-    - "{{ kitty_user_home }}/.local/share/applications/kitty*.desktop"
+    - "{{ ansible_env.HOME }}/.local/share/applications/kitty*.desktop"
 
 - name: create symbolic links
   file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ kitty_host_user }}"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true
   loop: "{{ kitty_config_files }}"

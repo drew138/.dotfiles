@@ -45,7 +45,7 @@
 
 - name: extract and move new go folder to /usr/local
   become: true
-  become_user: "{{ go_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   # unarchive does not work propertly on macos
   command: tar -C /usr/local -xzf /tmp/{{ go_archive_name }}
   args:

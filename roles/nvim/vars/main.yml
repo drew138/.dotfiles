@@ -1,4 +1,2 @@
 ---
-nvim_host_user: "{{ ansible_env.USER }}"
-nvim_user_home: "{{ ansible_env.HOME }}"
 nvim_release_branch: release-0.9

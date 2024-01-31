@@ -1,3 +1,0 @@
----
-homebrew_host_user: "{{ ansible_env.USER }}"
-homebrew_user_home: "{{ ansible_env.HOME }}"

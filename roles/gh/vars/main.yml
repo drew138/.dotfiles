@@ -1,3 +1,0 @@
----
-gh_host_user: "{{ ansible_env.USER }}"
-gh_user_home: "{{ ansible_env.HOME }}"

@@ -1,14 +1,14 @@
 ---
 - name: install gum
   become: true
-  become_user: "{{ scripts_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   shell: /usr/local/go/bin/go install github.com/charmbracelet/gum@latest
 
 - name: create symlinks
   file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ scripts_host_user }}"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true
   loop: "{{ scripts_symlinks }}"

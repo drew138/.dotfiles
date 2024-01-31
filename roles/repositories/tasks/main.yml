@@ -1,24 +1,24 @@
 ---
 - name: create dev directory
   file:
-    path: "{{ repositories_user_home }}/dev/"
+    path: "{{ ansible_env.HOME }}/dev/"
     state: directory
 
 - name: download dotfiles repository
   become: true
-  become_user: "{{ repositories_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   git:
     repo: "git@github.com:drew138/.dotfiles.git"
-    dest: "{{ repositories_user_home }}/.dotfiles"
+    dest: "{{ ansible_env.HOME }}/.dotfiles"
     clone: true
     update: true
 
 - name: download repositories
   become: true
-  become_user: "{{ repositories_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   git:
     repo: "git@github.com:drew138/{{ item }}.git"
-    dest: "{{ repositories_user_home }}/dev/{{ item }}"
+    dest: "{{ ansible_env.HOME }}/dev/{{ item }}"
     clone: true
     update: true
   with_items: "{{ repository_names }}"

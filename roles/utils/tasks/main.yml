@@ -29,5 +29,5 @@
   when: is_macos and homebrew_check.stat.exists
 
 - name: install pre-commit
-  ansible.builtin.pip:
+  pip:
     name: pre-commit

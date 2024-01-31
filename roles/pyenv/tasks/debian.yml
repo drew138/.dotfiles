@@ -1,6 +1,6 @@
 ---
 - name: install pyenv prerequisites
-  become_user: "{{ pyenv_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   apt:
     name:
       - curl
@@ -18,10 +18,10 @@
 
 - name: clone pyenv repository
   become: true
-  become_user: "{{ pyenv_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   git:
     repo: "https://github.com/pyenv/pyenv.git"
-    dest: "{{ pyenv_user_home }}/.pyenv"
+    dest: "{{ ansible_env.HOME }}/.pyenv"
     depth: 1
     clone: true
     update: true

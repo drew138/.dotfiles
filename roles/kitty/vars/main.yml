@@ -1,6 +1,4 @@
 ---
-kitty_host_user: "{{ ansible_env.USER }}"
-kitty_user_home: "{{ ansible_env.HOME }}"
 kitty_config_files:
   - src: "{{ kitty_user_home }}/.dotfiles/roles/kitty/files/kitty.conf"
     dest: "{{ kitty_user_home }}/.config/kitty/kitty.conf"

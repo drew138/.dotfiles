@@ -2,5 +2,5 @@
 - name: include tasks based on the operating system
   include_tasks: "{{ item }}"
   with_fileglob:
-    - "{{ go_user_home }}/.dotfiles/roles/go/tasks"
+    - "{{ ansible_env.HOME }}/.dotfiles/roles/zsh/tasks"
   when: "ansible_os_family | lower in item"

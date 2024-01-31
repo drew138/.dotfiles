@@ -14,7 +14,7 @@
 
 - name: install flatpak packages
   become: true
-  become_user: "{{ flatpak_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   flatpak:
     name: "{{ item }}"
     method: user

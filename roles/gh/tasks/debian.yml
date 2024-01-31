@@ -12,7 +12,7 @@
     create: true
 
 - name: install gh cli
-  become_user: "{{ host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   apt:
     name:
       - gh

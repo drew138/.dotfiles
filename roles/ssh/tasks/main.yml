@@ -2,9 +2,9 @@
 - name: save decrypted variable to id_ed25519
   copy:
     content: "{{ ssh_github_private_key | b64decode | ansible_vault_decrypt }}"
-    dest: "{{ ssh_user_home }}/.ssh/id_ed25519"
-    owner: "{{ ssh_host_user }}"
-    group: "{{ ssh_host_user }}"
+    dest: "{{ ansible_env.USER }}/.ssh/id_ed25519"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
     mode: "0600"
 
 - name: scan github rsa key
@@ -13,6 +13,6 @@
 
 - name: add github rsa key to known_hosts
   known_hosts:
-    path: "{{ ssh_user_home }}/.ssh/known_hosts"
+    path: "{{ ansible_env.HOME }}/.ssh/known_hosts"
     key: "{{ ssh_github_key_scan.stdout_lines }}"
     state: present

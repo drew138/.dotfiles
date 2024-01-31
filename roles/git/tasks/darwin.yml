@@ -1,7 +1,7 @@
 ---
 - name: install git
   become: true
-  become_user: "{{ git_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   homebrew:
     name:
       - git
@@ -9,16 +9,16 @@
 
 - name: create .gitconfig symlink
   file:
-    src: "{{ git_user_home }}/.dotfiles/.gitconfig"
-    dest: "{{ git_user_home }}/.gitconfig"
+    src: "{{ ansible_env.HOME }}/.dotfiles/.gitconfig"
+    dest: "{{ ansible_env.HOME }}/.gitconfig"
     state: link
     force: true
 
 - name: create .workrc.gitconfig file
   copy:
     content: ""
-    dest: "{{ git_user_home }}/.workrc.gitconfig"
+    dest: "{{ ansible_env.HOME }}/.workrc.gitconfig"
     backup: true
     force: false
     mode: "u+rwx"
-    owner: "{{ git_host_user }}"
+    owner: "{{ ansible_env.USER }}"

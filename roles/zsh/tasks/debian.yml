@@ -8,19 +8,19 @@
 - name: create .workrc.zsh file
   copy:
     content: "#!/bin/sh"
-    dest: "{{ zsh_user_home }}/.workrc.zsh"
+    dest: "{{ ansible_env.HOME }}/.workrc.zsh"
     backup: true
     force: false
     mode: "u+rwx"
-    owner: "{{ zsh_host_user }}"
+    owner: "{{ ansible_env.USER }}"
 
 - name: change default shell
   become: true
-  shell: "sudo chsh {{ zsh_host_user }} -s $(which zsh)"
+  shell: "sudo chsh {{ ansible_env.USER }} -s $(which zsh)"
 
 - name: download zsh plugins
   become: true
-  become_user: "{{ zsh_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   git:
     repo: "{{ item.repo }}"
     dest: "{{ item.dest }}"
@@ -30,8 +30,8 @@
 
 - name: create .zshrc symlink
   file:
-    src: "{{ zsh_user_home }}/.dotfiles/.zshrc"
-    dest: "{{ zsh_user_home }}/.zshrc"
-    owner: "{{ zsh_host_user }}"
+    src: "{{ ansible_env.HOME }}/.dotfiles/.zshrc"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true

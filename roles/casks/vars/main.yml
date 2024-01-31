@@ -1,2 +1,0 @@
----
-casks_host_user: "{{ ansible_env.USER }}"

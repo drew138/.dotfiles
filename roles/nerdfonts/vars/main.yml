@@ -1,3 +1,0 @@
----
-nerdfonts_host_user: "{{ ansible_env.USER }}"
-nerdfonts_user_home: "{{ ansible_env.HOME }}"

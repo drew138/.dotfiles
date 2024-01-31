@@ -1,2 +1,0 @@
----
-cpp_user_home: "{{ ansible_env.HOME }}"

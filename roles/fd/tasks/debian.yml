@@ -7,13 +7,13 @@
 
 - name: create bin directory if it doesn't exist
   file:
-    path: "{{ fd_user_home }}/.local/bin"
+    path: "{{ ansible_env.HOME }}/.local/bin"
     state: directory
 
 - name: create symlink for fdfind
   file:
     src: "{{ lookup('pipe', 'which fdfind') }}"
-    dest: "{{ fd_user_home }}/.local/bin/fd"
-    owner: "{{ fd_host_user }}"
+    dest: "{{ ansible_env.HOME }}/.local/bin/fd"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true

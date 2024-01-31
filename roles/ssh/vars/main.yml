@@ -1,6 +1,4 @@
 ---
-ssh_host_user: "{{ ansible_env.USER }}"
-ssh_user_home: "{{ ansible_env.HOME }}"
 ssh_github_private_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           64376265623538343838333735333735623632343939666339616466653336303630383136613537

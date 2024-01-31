@@ -1,7 +1,7 @@
 ---
 - name: install curl
   become: true
-  become_user: "{{ kitty_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   homebrew:
     name:
       - curl
@@ -9,7 +9,7 @@
 
 - name: install kitty
   become: true
-  become_user: "{{ kitty_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   shell: >
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
@@ -17,7 +17,7 @@
   file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ kitty_host_user }}"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true
   loop: "{{ kitty_config_files }}"

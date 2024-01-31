@@ -1,7 +1,7 @@
 ---
 - name: install dependencies
   become: true
-  become_user: "{{ gh_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   homebrew:
     name:
       - gh

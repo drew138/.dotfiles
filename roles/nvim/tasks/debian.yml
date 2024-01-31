@@ -12,10 +12,10 @@
 
 - name: clone nvim repository
   become: true
-  become_user: "{{ nvim_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   git:
     repo: "https://github.com/neovim/neovim.git"
-    dest: "{{ nvim_user_home }}/dev/neovim"
+    dest: "{{ ansible_env.HOME }}/dev/neovim"
     version: "{{ nvim_release_branch }}"
     depth: 1
     clone: true
@@ -26,7 +26,7 @@
   shell:
     cmd: |
       sudo make distclean
-    chdir: "{{ nvim_user_home }}/dev/neovim"
+    chdir: "{{ ansible_env.HOME }}/dev/neovim"
 
 - name: build and install nvim
   become: true
@@ -35,14 +35,14 @@
       sudo make distclean
       sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
       sudo make install
-    chdir: "{{ nvim_user_home }}/dev/neovim"
+    chdir: "{{ ansible_env.HOME }}/dev/neovim"
 
 - name: install pynvim
-  ansible.builtin.pip:
+  pip:
     name: pynvim
 
 - name: install global npm packages required by neovim
-  become_user: "{{ nvim_host_user }}"
+  become_user: "{{ ansible_env.USER }}"
   community.general.npm:
     name: "{{ item }}"
     state: present
@@ -52,8 +52,8 @@
 
 - name: create nvim symlink
   file:
-    src: "{{ nvim_user_home }}/.dotfiles/roles/nvim/files"
-    dest: "{{ nvim_user_home }}/.config/nvim"
-    owner: "{{ nvim_host_user }}"
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/nvim/files"
+    dest: "{{ ansible_env.HOME }}/.config/nvim"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true

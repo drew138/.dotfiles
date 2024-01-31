@@ -1,2 +1,0 @@
----
-rust_host_user: "{{ ansible_env.SUDO_USER }}"

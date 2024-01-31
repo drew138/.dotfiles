@@ -24,8 +24,8 @@
 
 - name: create starship symlink
   file:
-    src: "{{ starship_user_home }}/.dotfiles/roles/starship/files/starship.toml"
-    dest: "{{ starship_user_home }}/.config/starship.toml"
-    owner: "{{ starship_host_user }}"
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/starship/files/starship.toml"
+    dest: "{{ ansible_env.HOME }}/.config/starship.toml"
+    owner: "{{ ansible_env.USER }}"
     state: link
     force: true

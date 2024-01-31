@@ -1,3 +1,0 @@
----
-flatpak_host_user: "{{ ansible_env.USER }}"
-flatpak_user_home: "{{ ansible_env.HOME }}"

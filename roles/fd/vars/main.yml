@@ -1,3 +1,0 @@
----
-fd_host_user: "{{ ansible_env.USER }}"
-fd_user_home: "{{ ansible_env.HOME }}"
