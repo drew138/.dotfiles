@@ -1,2 +1,6 @@
 ---
-# tasks file for homebrew
+- name: include tasks based on the operating system
+  include_tasks: "{{ item }}"
+  with_fileglob:
+    - "{{ homebrew_user_home }}/.dotfiles/roles/homebrew/tasks"
+  when: "ansible_os_family | lower in item"

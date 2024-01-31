@@ -1,0 +1,7 @@
+---
+- name: ensure homebrew is installed
+  become: true
+  become_user: "{{ homebrew_host_user }}"
+  command: "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+  args:
+    creates: /usr/local/bin/brew

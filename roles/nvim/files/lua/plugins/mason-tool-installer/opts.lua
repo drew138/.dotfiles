@@ -2,8 +2,8 @@ local Opts = {
 	ensure_installed = {
 		-- lsps required by lspconfig
 		"ansible-language-server",
-		"awk_ls",
-		"bashls",
+		"awk-language-server",
+		"bash-language-server",
 		"clangd",
 		"cssls",
 		"docker_compose_language_service",

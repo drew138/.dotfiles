@@ -1,18 +1,16 @@
 ---
 galaxy_info:
   author: drew138
-  description: installs my repositories
+  description: sets up ssh configs
   license: MIT
   min_ansible_version: 2.16.1
-  role_name: repositories
+  role_name: ssh
   namespace: drew138
   platforms:
-    - name: Ubuntu
-      versions:
-        - all
     - name: MacOSX
       versions:
         - all
-dependencies:
-  - role: git
-  - role: ssh
+    - name: Ubuntu
+      versions:
+        - all
+dependencies: []

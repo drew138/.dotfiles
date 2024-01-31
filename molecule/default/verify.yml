@@ -1,0 +1,24 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: check if defaults exists
+      stat:
+        path: "./roles/{{ ansible_env.MOLECULE_ROLE }}/defaults/main.yml"
+      register: defaults_stat
+
+    - name: include defaults
+      include_vars: "./roles/{{ ansible_env.MOLECULE_ROLE }}/defaults/main.yml"
+      when: defaults_stat.stat.exists
+
+    - name: check if vars exists
+      stat:
+        path: "./roles/{{ ansible_env.MOLECULE_ROLE }}/vars/main.yml"
+      register: vars_stat
+
+    - name: include vars
+      include_vars: "./roles/{{ ansible_env.MOLECULE_ROLE }}/vars/main.yml"
+      when: vars_stat.stat.exists
+
+    - include_tasks: "./roles/{{ ansible_env.MOLECULE_ROLE }}/tests/main.yml"

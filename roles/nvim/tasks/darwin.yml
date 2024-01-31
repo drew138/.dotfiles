@@ -9,9 +9,6 @@
       - make
       - python
     state: present
-  register: result
-  until: result is successful
-  when: is_macos and homebrew_check.stat.exists
 
 - name: clone nvim repository
   become: true
@@ -19,7 +16,7 @@
   git:
     repo: "https://github.com/neovim/neovim.git"
     dest: "{{ nvim_user_home }}/dev/neovim"
-    version: release-0.9
+    version: "{{ nvim_release_branch }}"
     depth: 1
     clone: true
     update: true

@@ -11,10 +11,10 @@
     state: link
     force: true
 
-- name: create .work.gitconfig file
+- name: create .workrc.gitconfig file
   copy:
     content: ""
-    dest: "{{ git_user_home }}/.work.gitconfig"
+    dest: "{{ git_user_home }}/.workrc.gitconfig"
     backup: true
     force: false
     mode: "u+rwx"
