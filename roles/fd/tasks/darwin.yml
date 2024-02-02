@@ -5,4 +5,4 @@
   homebrew:
     name:
       - fd
-    state: present
+    state: latest

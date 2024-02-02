@@ -5,7 +5,7 @@
   homebrew:
     name:
       - git
-    state: present
+    state: latest
 
 - name: create .gitconfig symlink
   file:

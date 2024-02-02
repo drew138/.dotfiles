@@ -6,4 +6,4 @@
     name:
       - pyenv
       - xz
-    state: present
+    state: latest

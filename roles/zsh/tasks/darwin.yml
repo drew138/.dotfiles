@@ -5,7 +5,7 @@
   homebrew:
     name:
       - zsh
-    state: present
+    state: latest
 
 - name: create .workrc.zsh file
   copy:

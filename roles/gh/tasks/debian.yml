@@ -16,4 +16,4 @@
   apt:
     name:
       - gh
-    state: present
+    state: latest

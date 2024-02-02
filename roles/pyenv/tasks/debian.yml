@@ -14,7 +14,7 @@
       - libssl-dev
       - tk-dev
       - liblzma-dev
-    state: present
+    state: latest
 
 - name: clone pyenv repository
   become: true

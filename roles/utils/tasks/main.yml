@@ -1,6 +1,6 @@
 ---
 - name: install utils (linux)
-  package:
+  apt:
     name:
       - htop
       - ripgrep
@@ -10,6 +10,7 @@
       - protobuf-compiler
       - libstdc++-12-dev
       - git
+    state: latest
   when: is_debian_distro
 
 - name: install utils (macos)
@@ -23,7 +24,7 @@
       - protobuf
       - git
       - python
-    state: present
+    state: latest
   register: result
   until: result is successful
   when: is_macos and homebrew_check.stat.exists
@@ -31,3 +32,4 @@
 - name: install pre-commit
   pip:
     name: pre-commit
+    state: latest

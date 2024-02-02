@@ -3,7 +3,7 @@
   apt:
     name:
       - curl
-    state: present
+    state: latest
 
 - name: install kitty
   become: true

@@ -5,7 +5,7 @@ local Opts = {
 		"awk-language-server",
 		"bash-language-server",
 		"clangd",
-		"cssls",
+		"css-lsp",
 		"docker_compose_language_service",
 		"dockerls",
 		"gopls",

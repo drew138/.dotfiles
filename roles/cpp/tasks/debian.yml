@@ -5,3 +5,4 @@
       - gcc
       - g++
       - libstdc++-12-dev
+    state: latest

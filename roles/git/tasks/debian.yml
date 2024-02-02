@@ -2,7 +2,7 @@
 - name: install git
   apt:
     name: git
-    state: present
+    state: latest
 
 - name: create .gitconfig symlink
   file:

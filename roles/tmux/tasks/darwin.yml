@@ -6,7 +6,7 @@
     name:
       - xclip
       - tmux
-    state: present
+    state: latest
 
 - name: tmux package manager
   become: true

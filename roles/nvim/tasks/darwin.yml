@@ -8,7 +8,7 @@
       - cmake
       - make
       - python
-    state: present
+    state: latest
 
 - name: clone nvim repository
   become: true
@@ -40,6 +40,7 @@
 - name: install pynvim
   pip:
     name: pynvim
+    state: latest
 
 - name: install global npm packages required by neovim
   become_user: "{{ ansible_env.USER }}"

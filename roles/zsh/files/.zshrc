@@ -50,6 +50,11 @@ if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
 
+# open editor to write long commands
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
 # zsh-z configs
 source $HOME/dev/zsh-z/zsh-z.plugin.zsh
 autoload -U compinit; compinit
