@@ -23,7 +23,7 @@ jobs:
           roles=$(ls -1 -d */ | sed 's:/$::' | jq -R -s 'split("\n")[:-1]')
           echo $roles>> "${GITHUB_OUTPUT}"
           echo 'EOF' >> "${GITHUB_OUTPUT}"
-        working-directory: ./ansible/roles/
+        working-directory: ./roles/
 
   molecule:
     needs: check-roles
