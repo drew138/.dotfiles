@@ -21,7 +21,5 @@ platforms:
   pre_build_image: true
 provisioner:
   name: ansible
-  options:
-    playbook: create_user.yml
 verifier:
   name: ansible

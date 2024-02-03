@@ -2,7 +2,7 @@ local function git_commit_toggle()
 	local terminal = require("toggleterm.terminal").Terminal
 
 	local git_commit = terminal:new({
-		cmd = "~/.dotfiles/scripts/conventional_commit.sh",
+		cmd = "~/.dotfiles/roles/scripts/files/conventional_commit.sh",
 		dir = "git_dir",
 		hidden = true,
 		direction = "float",
