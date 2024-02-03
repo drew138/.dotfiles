@@ -5,7 +5,7 @@
   tasks:
     - name: Debug the variable
       debug:
-        var: "{{ lookup('env', 'PWD') }}"
+        var: "{{ lookup('env', 'ROOT_DIR') }}"
 
     - name: check if defaults exists
       stat:
