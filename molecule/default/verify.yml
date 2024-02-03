@@ -3,6 +3,10 @@
   hosts: all
   gather_facts: true
   tasks:
+    - name: Debug the variable
+      debug:
+        var: "{{ lookup('env', 'PWD'D) }}"
+
     - name: check if defaults exists
       stat:
         path: "../../roles/{{ lookup('env', 'PWD') }}/defaults/main.yml"
