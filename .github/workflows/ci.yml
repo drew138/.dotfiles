@@ -50,7 +50,7 @@ jobs:
       - name: run molecule tests
         run: molecule test
         env:
-          ROOT_DIR: ${{ $PWD }}
+          ROOT_DIR: ${{ github.workspace }}
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
