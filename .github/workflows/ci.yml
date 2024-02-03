@@ -5,7 +5,7 @@ on: [push]
 
 jobs:
   check-roles:
-    needs: lint
+    # needs: lint
     runs-on: ubuntu-latest
     outputs:
       roles: ${{ steps.roles.outputs.roles }}
