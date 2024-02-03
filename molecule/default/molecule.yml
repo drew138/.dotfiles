@@ -7,13 +7,7 @@ driver:
   name: docker
 platforms:
   - name: ubuntu
-    # image: "geerlingguy/docker-ubuntu2204-ansible:latest"
-    dockerfile: |
-      FROM geerlingguy/docker-ubuntu2204-ansible:latest
-      RUN useradd -m -s /bin/bash drew && echo 'drew:your_password_here' | chpasswd
-      RUN echo 'drew ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-      USER drew
-      WORKDIR /home/drew
+    image: "geerlingguy/docker-ubuntu2204-ansible:latest"
     command: ""
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
@@ -22,13 +16,7 @@ platforms:
     pre_build_image: true
 
   - name: macos
-    # image: "sickcodes/docker-osx:latest"
-    dockerfile: |
-      FROM sickcodes/docker-osx:latest
-      RUN useradd -m -s /bin/bash drew && echo 'drew:your_password_here' | chpasswd
-      RUN echo 'drew ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-      USER drew
-      WORKDIR /home/drew
+    image: "sickcodes/docker-osx:latest"
     privileged: true
     pre_build_image: true
 provisioner:
