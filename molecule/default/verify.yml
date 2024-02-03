@@ -5,20 +5,20 @@
   tasks:
     - name: check if defaults exists
       stat:
-        path: "./roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
+        path: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
       register: defaults_stat
 
     - name: include defaults
-      include_vars: "./roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
+      include_vars: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
       when: defaults_stat.stat.exists
 
     - name: check if vars exists
       stat:
-        path: "./roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
+        path: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
       register: vars_stat
 
     - name: include vars
-      include_vars: "./roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
+      include_vars: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
       when: vars_stat.stat.exists
 
-    - include_tasks: "./roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tests/main.yml"
+    - include_tasks: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tests/main.yml"
