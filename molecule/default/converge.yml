@@ -3,6 +3,10 @@
   hosts: all
   gather_facts: true
   tasks:
+    - name: Debug variable
+      debug:
+        msg: "The value of my_variable is {{ ansible_env }}"
+
     - name: check if defaults exists
       stat:
         path: "./roles/{{ ansible_env.MOLECULE_ROLE }}/defaults/main.yml"
