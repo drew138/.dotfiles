@@ -6,29 +6,33 @@ dependency:
 driver:
   name: docker
 platforms:
-- name: ubuntu
-  image: "geerlingguy/docker-ubuntu2204-ansible:latest"
-  command: ""
-  volumes:
-    - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  cgroupns_mode: host
-  privileged: true
-  pre_build_image: true
-  Dockerfile: |
-    FROM geerlingguy/docker-ubuntu2204-ansible:latest
-    RUN useradd -ms /bin/bash drew
-    RUN echo "drew ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-    USER drew
+  - name: ubuntu
+    image: "geerlingguy/docker-ubuntu2204-ansible:latest"
+    command: ""
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+    Dockerfile: |
+      FROM geerlingguy/docker-ubuntu2204-ansible:latest
+      RUN useradd -ms /bin/bash drew \
+        && echo 'drew ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+        && echo 'Defaults    !requiretty' >> /etc/sudoers \
+        && sed -i -r 's/^%sudo\s+ALL=\(ALL:ALL\) ALL/%sudo   ALL=(ALL:ALL) NOPASSWD:ALL/g' /etc/sudoers \
+        && sed -i -r 's/^#?\s*%sudo.*$/%sudo   ALL=(ALL:ALL) NOPASSWD:ALL/g' /etc/sudoers
 
-- name: macos
-  image: "sickcodes/docker-osx:latest"
-  privileged: true
-  pre_build_image: true
-  Dockerfile: |
-    FROM sickcodes/docker-osx:latest
-    RUN useradd -ms /bin/bash drew
-    RUN echo "drew ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-    USER drew
+  - name: macos
+    image: "sickcodes/docker-osx:latest"
+    privileged: true
+    pre_build_image: true
+    Dockerfile: |
+      FROM sickcodes/docker-osx:latest
+      RUN useradd -ms /bin/bash drew \
+        && echo 'drew ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+        && echo 'Defaults    !requiretty' >> /etc/sudoers \
+        && sed -i -r 's/^%sudo\s+ALL=\(ALL:ALL\) ALL/%sudo   ALL=(ALL:ALL) NOPASSWD:ALL/g' /etc/sudoers \
+        && sed -i -r 's/^#?\s*%sudo.*$/%sudo   ALL=(ALL:ALL) NOPASSWD
 provisioner:
   name: ansible
 verifier:
