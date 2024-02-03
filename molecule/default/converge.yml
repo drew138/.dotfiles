@@ -5,7 +5,7 @@
   tasks:
     - name: Debug variable
       debug:
-        msg: "The value of my_variable is {{ ansible_env }}"
+        msg: "{{ lookup('env', 'MOLECULE_ROLE')}} of{{ lookup('env', 'USER')}} my_variable is {{ ansible_env }}"
 
     - name: check if defaults exists
       stat:
