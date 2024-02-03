@@ -21,14 +21,7 @@ platforms:
   pre_build_image: true
 provisioner:
   name: ansible
+  options:
+    playbook: create_user.yml
 verifier:
   name: ansible
-scenario:
-  name: default
-  pre_tasks:
-    - name: Create drew user
-      command: useradd drew
-    - name: Set password for drew user
-      command: echo "drew:drewpassword" | chpasswd
-    - name: Grant sudo privileges to drew
-      command: echo "drew ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/drew

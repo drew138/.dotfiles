@@ -1,0 +1,15 @@
+---
+- hosts: all
+  tasks:
+    - name: Change current user to drew
+      user:
+        name: drew
+        shell: /bin/bash
+        update_password: always
+
+    - name: Grant sudo privileges to drew
+      lineinfile:
+        dest: /etc/sudoers
+        line: 'drew ALL=(ALL) NOPASSWD:ALL'
+        state: present
+        validate: /usr/sbin/visudo -cf %s
