@@ -4,24 +4,6 @@ name: ci
 on: [push]
 
 jobs:
-  # lint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: check out the codebase
-  #       uses: actions/checkout@v4
-  #
-  #     - name: set up python 3
-  #       uses: actions/setup-python@v5
-  #       with:
-  #         python-version: '3.x'
-  #
-  #     - name: install test dependencies.
-  #       run: pip3 install yamllint
-  #
-  #     - name: lint code
-  #       run: |
-  #         yamllint .
-
   check-roles:
     needs: lint
     runs-on: ubuntu-latest
@@ -72,3 +54,20 @@ jobs:
           ANSIBLE_FORCE_COLOR: "1"
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
           MOLECULE_ROLE: ${{ matrix.role }}
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: check out the codebase
+  #       uses: actions/checkout@v4
+  #
+  #     - name: set up python 3
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.x'
+  #
+  #     - name: install test dependencies.
+  #       run: pip3 install yamllint
+  #
+  #     - name: lint code
+  #       run: |
+  #         yamllint .
