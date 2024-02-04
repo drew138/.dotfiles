@@ -25,9 +25,9 @@ platforms:
   - name: ubuntu
     box: bento/ubuntu-22.04
 
-  - name: ubuntu
-    box: "gyptazy/popos22.04-arm64"
-    box_version: "0.0.9"
+  # - name: ubuntu
+  #   box: "gyptazy/popos22.04-arm64"
+  #   box_version: "0.0.9"
 
 provisioner:
   name: ansible
