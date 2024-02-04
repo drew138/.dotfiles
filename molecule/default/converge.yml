@@ -5,36 +5,36 @@
   tasks:
     - name: check if defaults exists
       stat:
-        path: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
+        path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
       register: defaults_stat
 
     - name: include defaults
-      include_vars: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
+      include_vars: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
       when: defaults_stat.stat.exists
 
     - name: check if vars exists
       stat:
-        path: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
+        path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
       register: vars_stat
 
     - name: include vars
-      include_vars: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
+      include_vars: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
       when: vars_stat.stat.exists
 
     - name: check if tasks exists
       stat:
-        path: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tasks/main.yml"
+        path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tasks/main.yml"
       register: tasks_stat
 
     - name: include tasks
-      include_tasks: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tasks/main.yml"
+      include_tasks: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tasks/main.yml"
       when: tasks_stat.stat.exists
 
     - name: check if handlers exists
       stat:
-        path: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/handlers/main.yml"
+        path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/handlers/main.yml"
       register: handlers_stat
 
     - name: include handlers
-      include_tasks: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/handlers/main.yml"
+      include_tasks: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/handlers/main.yml"
       when: handlers_stat.stat.exists

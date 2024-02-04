@@ -3,26 +3,22 @@
   hosts: all
   gather_facts: true
   tasks:
-    - name: Debug the variable
-      debug:
-        var: "{{ lookup('env', 'ROOT_DIR') }}"
-
     - name: check if defaults exists
       stat:
-        path: "../../roles/{{ lookup('env', 'PWD') }}/defaults/main.yml"
+        path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
       register: defaults_stat
 
     - name: include defaults
-      include_vars: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
-      # when: defaults_stat.stat.exists
+      include_vars: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
+      when: defaults_stat.stat.exists
 
     - name: check if vars exists
       stat:
-        path: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
+        path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
       register: vars_stat
 
     - name: include vars
-      include_vars: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
+      include_vars: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
       when: vars_stat.stat.exists
 
-    - include_tasks: "../../roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tests/main.yml"
+    - include_tasks: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tests/main.yml"
