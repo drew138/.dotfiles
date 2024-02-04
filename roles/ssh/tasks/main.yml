@@ -13,11 +13,6 @@
     mode: "0600"
 
 - name: scan github rsa key
-  shell: ssh-keyscan -t rsa github.com
-  register: ssh_github_key_scan
-
-- name: add github rsa key to known_hosts
-  known_hosts:
-    path: "{{ ansible_env.HOME }}/.ssh/known_hosts"
-    key: "{{ ssh_github_key_scan.stdout_lines }}"
-    state: present
+  shell: ssh-keyscan -t rsa github.com >> "{{ ansible_env.HOME }}/.ssh/known_hosts"
+  args:
+    creates: "{{ ansible_env.HOME }}/.ssh/known_hosts"
