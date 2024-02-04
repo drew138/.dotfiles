@@ -3,7 +3,8 @@
   hosts: all
   gather_facts: true
   tasks:
-    - include_role: "{{ lookup('env', 'MOLECULE_ROLE') }}"
+    - include_role:
+        name: "{{ lookup('env', 'MOLECULE_ROLE') }}"
   #   - name: check if defaults exists
   #     stat:
   #       path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
