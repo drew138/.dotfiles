@@ -2,7 +2,8 @@
 - name: Converge
   hosts: all
   gather_facts: true
-  roles: "{{ lookup('env', 'MOLECULE_ROLE') }}"
+  roles:
+    name: "{{ lookup('env', 'MOLECULE_ROLE') }}"
   # tasks:
   #   - name: check if defaults exists
   #     stat:
