@@ -1,7 +1,7 @@
 ---
 - name: save decrypted variable to id_ed25519
   copy:
-    content: "{{ ssh_github_private_key | b64decode | ansible_vault_decrypt }}"
+    content: "{{ ssh_github_private_key }}"
     dest: "{{ ansible_env.USER }}/.ssh/id_ed25519"
     owner: "{{ ansible_env.USER }}"
     group: "{{ ansible_env.USER }}"

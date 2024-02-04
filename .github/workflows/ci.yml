@@ -47,13 +47,16 @@ jobs:
           docker \
           "molecule-plugins[docker]"
 
+      - name: create password file
+        run: ${{ secrets.ANSIBLE_VAULT_PASSWORD }} >> vaultpassword
+
       - name: run molecule tests
         run: molecule test
         env:
           ROOT_DIR: ${{ github.workspace }}
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
-          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+          ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
   # lint:
   #   runs-on: ubuntu-latest
