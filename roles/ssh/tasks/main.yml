@@ -1,4 +1,9 @@
 ---
+- name: ensure .ssh directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.ssh"
+    state: directory
+
 - name: save decrypted variable to id_ed25519
   copy:
     content: "{{ ssh_github_private_key }}"
