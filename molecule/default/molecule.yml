@@ -5,6 +5,7 @@ dependency:
     ignore-errors: true
 driver:
   name: vagrant
+  provider: virtualbox
 platforms:
   - name: vagrant-macosx
     box: yzgyyang/macOS-10.14
