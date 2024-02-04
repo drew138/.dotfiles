@@ -40,11 +40,11 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: delete minkube
-        run: minikube delete
-
       - name: install test dependencies
         run: brew install --cask virtualbox
+
+      - name: delete minkube
+        run: killall -9 VBoxHeadless && vagrant destroy
 
       - name: install test dependencies
         run: pip3 install \
