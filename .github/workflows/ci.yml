@@ -43,14 +43,10 @@ jobs:
       - name: install test dependencies
         run: brew install --cask virtualbox
 
-      - name: delete minkube
-        run: killall -9 VBoxHeadless && vagrant destroy
-
       - name: install test dependencies
         run: pip3 install \
           ansible \
           molecule \
-          virtualbox \
           "molecule-plugins[vagrant]"
 
       - name: create password file
