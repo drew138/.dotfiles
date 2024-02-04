@@ -12,6 +12,7 @@ platforms:
     box: yzgyyang/macOS-10.14
     memory: 8192
     cpus: 2
+    gui: false
     provider_raw_config_args:
       # Some needed OSX configs
       - "customize ['modifyvm', :id, '--cpuid-set', '00000001', '000106e5', '00100800', '0098e3fd', 'bfebfbff']"
