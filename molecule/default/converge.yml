@@ -8,6 +8,12 @@
         path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
       register: defaults_stat
 
+    - debug:
+        var: "{{defaults_stat}}"
+
+    - debug:
+        var: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
+
     - name: include defaults
       include_vars: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
       when: defaults_stat.stat.exists
