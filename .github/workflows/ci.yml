@@ -48,7 +48,7 @@ jobs:
           "molecule-plugins[docker]"
 
       - name: create password file
-        run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > vaultpassword
+        run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
 
       - name: run molecule tests
         run: molecule test
