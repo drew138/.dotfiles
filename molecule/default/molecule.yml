@@ -22,8 +22,12 @@ platforms:
   #     - "customize ['setextradata', :id, 'VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC', '1']"
   #     - "customize ['setextradata', :id, 'VBoxInternal2/EfiGopMode', '4']"
 
-  - name: ubuntu
-    box: bento/ubuntu-22.04
+  - name: vagrant-ubuntu
+    box: ubuntu/bionic64
+    memory: 512
+    cpus: 1
+    provider_raw_config_args:
+      - "customize [ 'modifyvm', :id, '--uartmode1', 'disconnected' ]"
 
   # - name: ubuntu
   #   box: "gyptazy/popos22.04-arm64"
