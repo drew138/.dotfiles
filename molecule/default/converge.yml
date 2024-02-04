@@ -9,10 +9,10 @@
       register: defaults_stat
 
     - debug:
-        var: "{{defaults_stat}}"
+        msg: "{{defaults_stat}}"
 
     - debug:
-        var: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
+        msg: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
 
     - name: include defaults
       include_vars: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
