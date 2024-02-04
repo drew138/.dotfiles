@@ -2,9 +2,8 @@
 - name: Converge
   hosts: all
   gather_facts: true
-  roles:
-    name: "{{ lookup('env', 'MOLECULE_ROLE') }}"
-  # tasks:
+  tasks:
+    - include_role: "{{ lookup('env', 'MOLECULE_ROLE') }}"
   #   - name: check if defaults exists
   #     stat:
   #       path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
