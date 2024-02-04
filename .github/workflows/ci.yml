@@ -27,7 +27,7 @@ jobs:
 
   molecule:
     needs: check-roles
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
         role: ${{ fromJson(needs.check-roles.outputs.roles) }}
@@ -41,11 +41,14 @@ jobs:
           python-version: "3.x"
 
       - name: install test dependencies
+        run: brew install --cask virtualbox
+
+      - name: install test dependencies
         run: pip3 install \
           ansible \
           molecule \
-          docker \
-          "molecule-plugins[docker]"
+          virtualbox \
+          "molecule-plugins[vagrant]"
 
       - name: create password file
         run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
