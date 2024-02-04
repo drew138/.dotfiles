@@ -1,6 +1,4 @@
 ---
 - name: include tasks based on the operating system
-  include_tasks: "{{ item }}"
-  with_fileglob:
-    - .
-  when: "ansible_os_family | lower in item"
+  include_tasks: "{{ ansible_os_family }}.yml"
+  failed_when: false
