@@ -5,7 +5,7 @@ dependency:
     ignore-errors: true
 driver:
   name: vagrant
-  provider: kvm
+  provider: virtualbox
 platforms:
 
   - name: vagrant-ubuntu
