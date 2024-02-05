@@ -40,6 +40,9 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: install virutalbox extension pack
+        run: brew install virtualBox-extension-pack
+
       - name: install test dependencies
         run: pip3 install \
           ansible \
