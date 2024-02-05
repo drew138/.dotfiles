@@ -40,13 +40,14 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Download VirtualBox Extension Pack
-        run: |
-          curl -o Oracle_VM_VirtualBox_Extension_Pack-7.0.14.vbox-extpack https://download.virtualbox.org/virtualbox/7.0.14/Oracle_VM_VirtualBox_Extension_Pack-7.0.14.vbox-extpack
+      - name: Clone Repository
+        run: git clone https://github.com/kamildzi/VboxExtpackAutoinstall.git
 
-      - name: Install VirtualBox Extension Pack
+      - name: Execute Script
         run: |
-          echo "y" | VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-7.0.14.vbox-extpack
+          cd VboxExtpackAutoinstall
+          chmod +x run.sh
+          ./run.sh
 
       - name: install test dependencies
         run: pip3 install \
