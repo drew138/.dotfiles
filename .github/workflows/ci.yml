@@ -27,7 +27,7 @@ jobs:
 
   molecule:
     needs: check-roles
-    runs-on: macos-13
+    runs-on: macos-latest
     strategy:
       matrix:
         role: ${{ fromJson(needs.check-roles.outputs.roles) }}
