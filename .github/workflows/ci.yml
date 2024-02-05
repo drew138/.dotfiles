@@ -46,7 +46,7 @@ jobs:
 
       - name: Install VirtualBox Extension Pack
         run: |
-          VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-7.0.14.vbox-extpack --accept-license=GPL-2.0
+          echo "y" | VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-7.0.14.vbox-extpack
 
       - name: install test dependencies
         run: pip3 install \
