@@ -27,7 +27,7 @@ jobs:
 
   molecule:
     needs: check-roles
-    runs-on: macos-latest
+    runs-on: macos-13
     strategy:
       matrix:
         role: ${{ fromJson(needs.check-roles.outputs.roles) }}
@@ -39,15 +39,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-
-      - name: Clone Repository
-        run: git clone https://github.com/kamildzi/VboxExtpackAutoinstall.git
-
-      - name: Execute Script
+      
+      - name: install dependencies
         run: |
-          cd VboxExtpackAutoinstall
-          chmod +x run.sh
-          ./run.sh
+          brew install --cask virtualbox
+          brew install vagrant
 
       - name: install test dependencies
         run: pip3 install \
