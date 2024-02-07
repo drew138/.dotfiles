@@ -51,6 +51,7 @@ jobs:
       - name: run molecule tests
         run: molecule test
         env:
+          OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "YES"
           ROOT_DIR: ${{ github.workspace }}
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
