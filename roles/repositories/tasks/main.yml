@@ -1,24 +1,8 @@
 ---
-- name: create dev directory
-  file:
-    path: "{{ ansible_env.HOME }}/dev/"
-    state: directory
+- name: include darwin tasks
+  include_tasks: darwin.yml
+  when: ansible_os_family | lower == "darwin"
 
-- name: download dotfiles repository
-  become: true
-  become_user: "{{ ansible_env.USER }}"
-  git:
-    repo: "git@github.com:drew138/.dotfiles.git"
-    dest: "{{ ansible_env.HOME }}/.dotfiles"
-    clone: true
-    update: true
-
-- name: download repositories
-  become: true
-  become_user: "{{ ansible_env.USER }}"
-  git:
-    repo: "git@github.com:drew138/{{ item }}.git"
-    dest: "{{ ansible_env.HOME }}/dev/{{ item }}"
-    clone: true
-    update: true
-  with_items: "{{ repository_names }}"
+- name: include debian tasks
+  include_tasks: debian.yml
+  when: ansible_os_family | lower == "debian"
