@@ -25,9 +25,9 @@ jobs:
           echo 'EOF' >> "${GITHUB_OUTPUT}"
         working-directory: ./roles/
 
-  molecule:
+  test-macos:
     needs: check-roles
-    runs-on: macos-13
+    runs-on: macos-latest
     strategy:
       matrix:
         role: ${{ fromJson(needs.check-roles.outputs.roles) }}
@@ -39,17 +39,43 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      
-      - name: install dependencies
-        run: |
-          brew install --cask virtualbox
-          brew install vagrant
 
       - name: install test dependencies
         run: pip3 install \
           ansible \
-          molecule \
-          "molecule-plugins[vagrant]"
+          molecule
+
+      - name: create password file
+        run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
+
+      - name: run molecule tests
+        run: molecule test
+        env:
+          ROOT_DIR: ${{ github.workspace }}
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
+          ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
+          MOLECULE_ROLE: ${{ matrix.role }}
+
+  test-ubuntu:
+    needs: check-roles
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        role: ${{ fromJson(needs.check-roles.outputs.roles) }}
+    steps:
+      - name: check out the codebase
+        uses: actions/checkout@v4
+
+      - name: set up python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: install test dependencies
+        run: pip3 install \
+          ansible \
+          molecule
 
       - name: create password file
         run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword

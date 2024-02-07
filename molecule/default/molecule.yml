@@ -1,49 +1,12 @@
 ---
-dependency:
-  name: galaxy
-  options:
-    ignore-errors: true
 driver:
-  name: vagrant
-  provider: virtualbox
+  name: default
 platforms:
-
-  - name: vagrant-ubuntu
-    box: ubuntu/bionic64
-    memory: 512
-    cpus: 1
-    provider_raw_config_args:
-    - "customize [ 'modifyvm', :id, '--uartmode1', 'disconnected' ]"
-
-
-  - name: vagrant-macosx
-    box: yzgyyang/macOS-10.14
-    memory: 4096
-    cpus: 2
-    provider_raw_config_args:
-      # Some needed OSX configs
-      - "customize ['modifyvm', :id, '--cpuid-set', '00000001', '000106e5', '00100800', '0098e3fd', 'bfebfbff']"
-      - "customize ['setextradata', :id, 'VBoxInternal/Devices/efi/0/Config/DmiSystemProduct', 'MacBookPro11,3']"
-      - "customize ['setextradata', :id, 'VBoxInternal/Devices/efi/0/Config/DmiSystemVersion', '1.0']"
-      - "customize ['setextradata', :id, 'VBoxInternal/Devices/efi/0/Config/DmiBoardProduct', 'Iloveapple']"
-      - "customize ['setextradata', :id, 'VBoxInternal/Devices/smc/0/Config/DeviceKey', 'ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc']"
-      - "customize ['setextradata', :id, 'VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC', '1']"
-      - "customize ['setextradata', :id, 'VBoxInternal2/EfiGopMode', '4']"
-
-
-  # - name: vagrant-ubuntu
-  #   box: ubuntu/bionic64
-  #   memory: 512
-  #   cpus: 1
-  #   provider_raw_config_args:
-  #     - "customize [ 'modifyvm', :id, '--uartmode1', 'disconnected' ]"
-
-  # - name: ubuntu
-  #   box: "gyptazy/popos22.04-arm64"
-  #   box_version: "0.0.9"
-
+  - name: instance
 provisioner:
   name: ansible
+  ansible_args:
+    - --connection=local
   env:
     ANSIBLE_ROLES_PATH: "../../roles"
 verifier:
