@@ -1,5 +1,6 @@
 ---
 - name: install dependencies
+  become: true
   apt:
     name:
       - apt-transport-https
@@ -20,6 +21,7 @@
     state: present
 
 - name: install docker
+  become: true
   apt:
     name:
       - docker-ce
