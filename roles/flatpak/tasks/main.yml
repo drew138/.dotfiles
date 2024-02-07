@@ -1,3 +1,3 @@
----
-- name: include tasks based on the operating system
-  include_tasks: "{{ ansible_os_family | lower }}.yml"
+- name: include debian tasks
+  include_tasks: debian.yml
+  when: ansible_os_family | lower == "debian"

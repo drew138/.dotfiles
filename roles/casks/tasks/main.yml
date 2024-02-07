@@ -1,3 +1,4 @@
 ---
-- name: include tasks based on the operating system
-  include_tasks: "{{ ansible_os_family | lower }}.yml"
+- name: include darwin tasks
+  include_tasks: darwin.yml
+  when: ansible_os_family | lower == "darwin"
