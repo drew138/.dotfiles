@@ -1,7 +1,7 @@
 ---
 - name: Check if the .fzf directory exists
   stat:
-    path: "{{ fzf_user_home }}/.fzf"
+    path: "{{ ansible_env.HOME }}/.fzf"
   register: fzf_directory_facts
 
 - name: Fail if .fzf directory does not exist
@@ -11,7 +11,7 @@
 
 - name: Check if the fzf binary exists
   stat:
-    path: "{{ fzf_user_home }}/.fzf/bin/fzf"
+    path: "{{ ansible_env.HOME }}/.fzf/bin/fzf"
   register: fzf_binary_facts
 
 - name: Fail if fzf binary does not exist
