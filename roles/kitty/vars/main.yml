@@ -1,6 +1,6 @@
 ---
 kitty_config_files:
-  - src: "{{ kitty_user_home }}/.dotfiles/roles/kitty/files/kitty.conf"
-    dest: "{{ kitty_user_home }}/.config/kitty/kitty.conf"
-  - src: "{{ kitty_user_home }}/.dotfiles/roles/kitty/files/nightfox_kitty.conf"
-    dest: "{{ kitty_user_home }}/.config/kitty/nightfox_kitty.conf"
+  - src: "{{ ansible_env.HOME }}/.dotfiles/roles/kitty/files/kitty.conf"
+    dest: "{{ ansible_env.HOME }}/.config/kitty/kitty.conf"
+  - src: "{{ ansible_env.HOME }}/.dotfiles/roles/kitty/files/nightfox_kitty.conf"
+    dest: "{{ ansible_env.HOME }}/.config/kitty/nightfox_kitty.conf"
