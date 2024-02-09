@@ -1,5 +1,6 @@
 ---
 - name: install zsh
+  become: true
   apt:
     name:
       - zsh
