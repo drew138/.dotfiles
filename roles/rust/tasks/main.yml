@@ -8,18 +8,18 @@
 
 - name: download rust installer
   become: true
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become_user: "{{ ansible_env.USER }}"
   when: cargo_exists is not failed
   get_url:
     url: https://sh.rustup.rs
     dest: /tmp/sh.rustup.rs
     mode: "u+rwx"
-    owner: "{{ ansible_env.SUDO_USER }}"
+    owner: "{{ ansible_env.USER }}"
     force: true
 
 - name: install rust/cargo
   become: true
-  become_user: "{{ ansible_env.SUDO_USER }}"
+  become_user: "{{ ansible_env.USER }}"
   when: cargo_exists is not failed
   shell: /tmp/sh.rustup.rs -y
 
