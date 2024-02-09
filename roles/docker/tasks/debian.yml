@@ -10,10 +10,16 @@
       - software-properties-common
     state: latest
 
-- name: add gpg key
-  apt_key:
+# - name: add gpg key
+#   apt_key:
+#     url: https://download.docker.com/linux/debian/gpg
+#     state: present
+
+- name: add Docker GPG key
+  become: true  # Ensure root privileges for file operations
+  get_url:
     url: https://download.docker.com/linux/debian/gpg
-    state: present
+    dest: /etc/apt/trusted.gpg.d/docker.gpg
 
 - name: add docker repository
   apt_repository:
