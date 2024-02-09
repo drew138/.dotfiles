@@ -40,6 +40,9 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: check go version
+        run: go version
+
       - name: install test dependencies
         run: pip3 install \
           ansible \
