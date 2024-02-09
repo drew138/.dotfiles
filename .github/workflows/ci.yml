@@ -41,7 +41,9 @@ jobs:
           python-version: "3.x"
 
       - name: check go version
-        run: go version
+        run: |
+          rm -rf /usr/local/go
+          rm -rf ~/go
 
       - name: install test dependencies
         run: pip3 install \
