@@ -6,7 +6,7 @@
 
 - name: create .gitconfig symlink
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/.gitconfig"
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/git/files/.gitconfig"
     dest: "{{ ansible_env.HOME }}/.gitconfig"
     state: link
     force: true
