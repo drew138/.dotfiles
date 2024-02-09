@@ -1,5 +1,6 @@
 ---
 - name: install dependencies
+  become: true
   apt:
     name:
       - gcc
