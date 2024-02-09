@@ -1,17 +1,17 @@
 ---
 - name: Check if the cargo directory exists
   stat:
-    path: "{{ rust_host_user }}/.cargo"
+    path: "{{ ansible_env.USER }}/.cargo"
   register: cargo_directory_facts
 
 - name: Fail if cargo directory does not exist
   fail:
-    msg: "directory {{ rust_host_user }}/.cargo does not exist."
+    msg: "directory {{ ansible_env.USER }}/.cargo does not exist."
   when: not cargo_directory_facts.stat.exists
 
 - name: Check if the cargo binary exists
   stat:
-    path: "{{ rust_host_user }}/.cargo/bin/cargo"
+    path: "{{ ansible_env.USER }}/.cargo/bin/cargo"
   register: cargo_binary_facts
 
 - name: Fail if cargo binary does not exist
@@ -21,7 +21,7 @@
 
 - name: Check if the rustc binary exists
   stat:
-    path: "{{ rust_host_user }}/.cargo/bin/rustc"
+    path: "{{ ansible_env.USER }}/.cargo/bin/rustc"
   register: rustc_binary_facts
 
 - name: Fail if rustc binary does not exist
