@@ -42,4 +42,4 @@
     dest: /usr/local
     remote_src: true
     creates: "/usr/local/go"
-  when: go_current_version != ansible_go_filename_prefix
+  when: go_current_version != go_filename_prefix
