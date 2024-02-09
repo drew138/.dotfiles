@@ -23,6 +23,7 @@
 #     dest: /etc/apt/trusted.gpg.d/docker.gpg
 
 - name: add docker repository
+  become: true
   apt_repository:
     repo: deb https://download.docker.com/linux/debian bullseye stable
     state: present
