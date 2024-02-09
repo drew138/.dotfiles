@@ -1,35 +1,37 @@
----
-- name: install utils (linux)
-  apt:
-    name:
-      - htop
-      - ripgrep
-      - python3-virtualenv
-      - gcc
-      - g++
-      - protobuf-compiler
-      - libstdc++-12-dev
-      - git
-    state: latest
-  when: is_debian_distro
-
-- name: install utils (macos)
-  become: true
-  become_user: "{{ host_user }}"
-  homebrew:
-    name:
-      - htop
-      - ripgrep
-      - virtualenv
-      - protobuf
-      - git
-      - python
-    state: latest
-  register: result
-  until: result is successful
-  when: is_macos and homebrew_check.stat.exists
-
-- name: install pre-commit
-  pip:
-    name: pre-commit
-    state: latest
+# ---
+# - name: install utils (linux)
+#   apt:
+#     name:
+#       - htop
+#       - ripgrep
+#       - python3-virtualenv
+#       - gcc
+#       - g++
+#       - protobuf-compiler
+#       - libstdc++-12-dev
+#       - git
+#       - jq
+#     state: latest
+#   when: is_debian_distro
+#
+# - name: install utils (macos)
+#   become: true
+#   become_user: "{{ host_user }}"
+#   homebrew:
+#     name:
+#       - htop
+#       - ripgrep
+#       - virtualenv
+#       - protobuf
+#       - git
+#       - python
+#       - jq
+#     state: latest
+#   register: result
+#   until: result is successful
+#   when: is_macos and homebrew_check.stat.exists
+#
+# - name: install pre-commit
+#   pip:
+#     name: pre-commit
+#     state: latest
