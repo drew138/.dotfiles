@@ -4,6 +4,7 @@
   register: cargo_exists
   failed_when: "'' != cargo_exists.stdout"
   ignore_errors: true
+  changed_when: false
 
 - name: download rust installer
   become: true
