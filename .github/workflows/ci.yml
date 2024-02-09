@@ -46,8 +46,7 @@ jobs:
           rm -rf ~/go
 
       - name: uninstall rust
-        run: |
-          rustup self uninstall
+        run: rm -rf ~/.cargo
 
       - name: install test dependencies
         run: pip3 install \
