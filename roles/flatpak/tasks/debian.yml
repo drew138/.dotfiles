@@ -30,3 +30,7 @@
     - com.obsproject.Studio
     - com.bitwarden.desktop
     - com.dropbox.Client
+
+- name: update flatpaks
+  command: flatpak update
+  changed_when: false
