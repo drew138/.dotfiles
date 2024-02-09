@@ -4,6 +4,7 @@
   register: installed
   no_log: true
   ignore_errors: true
+  changed_when: false
 
 - name: download starship installer
   get_url:
