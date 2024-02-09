@@ -40,10 +40,14 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: check go version
+      - name: uninstall go
         run: |
           rm -rf /usr/local/go
           rm -rf ~/go
+
+      - name: uninstall rust
+        run: |
+          rustup self uninstall
 
       - name: install test dependencies
         run: pip3 install \
