@@ -1,6 +1,6 @@
 ---
 - name: install pyenv prerequisites
-  become_user: "{{ ansible_env.USER }}"
+  become: true
   apt:
     name:
       - curl
