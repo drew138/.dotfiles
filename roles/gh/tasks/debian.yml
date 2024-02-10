@@ -17,31 +17,31 @@
 #     name:
 #       - gh
 #     state: latest
-- name: Download GitHub CLI archive keyring
+- name: download gitHub cli archive keyring
   get_url:
     url: "https://cli.github.com/packages/githubcli-archive-keyring.gpg"
     dest: "/usr/share/keyrings/githubcli-archive-keyring.gpg"
     mode: "0644"
 
-- name: Set permissions on the keyring file
+- name: set permissions on the keyring file
   file:
     path: "/usr/share/keyrings/githubcli-archive-keyring.gpg"
     mode: "0644"
 
-- name: Add GitHub CLI repository
+- name: add gitHub cli repository
   become: true
   apt_repository:
     repo: "deb [arch={{ ansible_architecture }} signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
     state: present
     filename: "github-cli.list"
 
-- name: Update apt repositories
+- name: update apt repositories
   become: true
   apt:
     update_cache: yes
   changed_when: false
 
-- name: Install GitHub CLI
+- name: install gitHub cli
   become: true
   apt:
     name: gh
