@@ -12,7 +12,6 @@
 #       - git
 #       - jq
 #     state: latest
-#   when: is_debian_distro
 #
 # - name: install utils (macos)
 #   become: true
@@ -27,9 +26,6 @@
 #       - python
 #       - jq
 #     state: latest
-#   register: result
-#   until: result is successful
-#   when: is_macos and homebrew_check.stat.exists
 #
 # - name: install pre-commit
 #   pip:
