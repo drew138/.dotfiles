@@ -6,16 +6,22 @@
 #     curl -o- {{ nvm_script_url }} | bash
 #   args:
 #     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
-- name: Get latest NVM release URL
-  uri:
-    url: "https://github.com/nvm-sh/nvm/releases/latest"
-    method: GET
-    return_content: yes
-    status_code: 302
-  register: redirect_response
-
-- set_fact:
-    nvm_latest_release_url: "{{ redirect_response.redirect_url | basename }}"
+# - name: Get latest NVM release URL
+#   uri:
+#     url: "https://github.com/nvm-sh/nvm/releases/latest"
+#     method: GET
+#     return_content: yes
+#     status_code: 302
+#   register: redirect_response
+#
+# - set_fact:
+#     nvm_latest_release_url: "{{ redirect_response.redirect_url | basename }}"
+#
+# - debug:
+#     var: nvm_latest_release_url
+- name: Retrieve redirect URL
+  shell: "basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/nvm-sh/nvm/releases/latest)"
+  register: redirect_url_result
 
 - debug:
-    var: nvm_latest_release_url
+    var: redirect_url_result.stdout
