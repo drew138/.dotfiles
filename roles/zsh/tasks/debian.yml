@@ -18,6 +18,7 @@
 - name: change default shell
   become: true
   shell: "sudo chsh {{ ansible_env.USER }} -s $(which zsh)"
+  changed_when: false
 
 - name: download zsh plugins
   become: true
@@ -31,7 +32,7 @@
 
 - name: create .zshrc symlink
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/.zshrc"
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/zsh/files/.zshrc"
     dest: "{{ ansible_env.HOME }}/.zshrc"
     owner: "{{ ansible_env.USER }}"
     state: link
