@@ -17,27 +17,24 @@
 #     name:
 #       - gh
 #     state: latest
-
-- name: Download GitHub CLI keyring
+- name: Download GitHub CLI archive keyring
   get_url:
-    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
-    dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
-    mode: 0644  # Set appropriate permissions
+    url: "https://cli.github.com/packages/githubcli-archive-keyring.gpg"
+    dest: "/usr/share/keyrings/githubcli-archive-keyring.gpg"
+    mode: "0644"
 
-- name: Verify keyring signature
-  gpg:
-    state: present
-    keyring: /usr/share/keyrings/githubcli-archive-keyring.gpg
-    fingerprint: 4B8206325C9D86FB398EE1367D6EAA5AC0BD693B  # Ensure correct fingerprint
-    validate_certs: yes
+- name: Set permissions on the keyring file
+  file:
+    path: "/usr/share/keyrings/githubcli-archive-keyring.gpg"
+    mode: "0644"
 
 - name: Add GitHub CLI repository
-  deb_repository:
-    repo: "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+  apt_repository:
+    repo: "deb [arch={{ ansible_architecture }} signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
     state: present
-    deb_src: no  # Optional: Disable source repository if not needed
+    filename: "github-cli.list"
 
-- name: Update package lists
+- name: Update apt repositories
   apt:
     update_cache: yes
 
@@ -45,8 +42,3 @@
   apt:
     name: gh
     state: present
-
-- name: Clean up temporary file (optional)
-  file:
-    path: /etc/apt/sources.list.d/github-cli.list
-    state: absent  # Remove if the file was created temporarily
