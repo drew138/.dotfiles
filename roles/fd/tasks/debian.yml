@@ -12,6 +12,8 @@
     state: directory
 
 - name: create symlink for fdfind
+  become: true
+  become_user: "{{ ansible_env.USER }}"
   file:
     src: "{{ lookup('pipe', 'which fdfind') }}"
     dest: "{{ ansible_env.HOME }}/.local/bin/fd"
