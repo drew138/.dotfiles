@@ -17,3 +17,36 @@
 #     name:
 #       - gh
 #     state: latest
+
+- name: Download GitHub CLI keyring
+  get_url:
+    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
+    mode: 0644  # Set appropriate permissions
+
+- name: Verify keyring signature
+  gpg:
+    state: present
+    keyring: /usr/share/keyrings/githubcli-archive-keyring.gpg
+    fingerprint: 4B8206325C9D86FB398EE1367D6EAA5AC0BD693B  # Ensure correct fingerprint
+    validate_certs: yes
+
+- name: Add GitHub CLI repository
+  deb_repository:
+    repo: "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+    state: present
+    deb_src: no  # Optional: Disable source repository if not needed
+
+- name: Update package lists
+  apt:
+    update_cache: yes
+
+- name: Install GitHub CLI
+  apt:
+    name: gh
+    state: present
+
+- name: Clean up temporary file (optional)
+  file:
+    path: /etc/apt/sources.list.d/github-cli.list
+    state: absent  # Remove if the file was created temporarily
