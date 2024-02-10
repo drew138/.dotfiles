@@ -29,6 +29,7 @@
     mode: "0644"
 
 - name: Add GitHub CLI repository
+  become: true
   apt_repository:
     repo: "deb [arch={{ ansible_architecture }} signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
     state: present
