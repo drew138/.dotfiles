@@ -27,10 +27,12 @@ jobs:
 
   test-macos:
     needs: check-roles
-    runs-on: macos-latest
+    runs-on: matrix.os
     strategy:
+      fail-fast: false
       matrix:
         role: ${{ fromJson(needs.check-roles.outputs.roles) }}
+        os: [macos-latest, macos-14]
     steps:
       - name: check out the codebase
         uses: actions/checkout@v4
@@ -40,13 +42,11 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: uninstall go
+      - name: uninstall various programs
         run: |
           rm -rf /usr/local/go
           rm -rf ~/go
-
-      - name: uninstall rust
-        run: rm -rf ~/.cargo
+          rm -rf ~/.cargo
 
       - name: install test dependencies
         run: pip3 install \
@@ -70,6 +70,7 @@ jobs:
     needs: check-roles
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         role: ${{ fromJson(needs.check-roles.outputs.roles) }}
     steps:
@@ -80,6 +81,12 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
+
+      - name: uninstall various programs
+        run: |
+          rm -rf /usr/local/go
+          rm -rf ~/go
+          rm -rf ~/.cargo
 
       - name: install test dependencies
         run: pip3 install \
