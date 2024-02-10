@@ -1,4 +1,7 @@
 ---
+kitty_desktop_path: "{{ ansible_env.HOME }}/.local/kitty.app/share/applications/kitty.desktop"
+kitty_open_desktop_path: "{{ ansible_env.HOME }}/.local/kitty.app/share/applications/kitty-open.desktop"
+kitty_png_path: "{{ ansible_env.HOME }}/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png"
 kitty_config_files:
   - src: "{{ ansible_env.HOME }}/.dotfiles/roles/kitty/files/kitty.conf"
     dest: "{{ ansible_env.HOME }}/.config/kitty/kitty.conf"
