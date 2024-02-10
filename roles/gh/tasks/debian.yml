@@ -39,9 +39,11 @@
   become: true
   apt:
     update_cache: yes
+  changed_when: false
 
 - name: Install GitHub CLI
-  become: true
+  bccome: true
   apt:
     name: gh
     state: present
+  changed_when: false
