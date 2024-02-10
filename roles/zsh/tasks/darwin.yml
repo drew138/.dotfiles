@@ -33,7 +33,7 @@
 
 - name: create .zshrc symlink
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/roles/files/.zshrc"
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/zsh/files/.zshrc"
     dest: "{{ ansible_env.HOME }}/.zshrc"
     owner: "{{ ansible_env.USER }}"
     state: link
