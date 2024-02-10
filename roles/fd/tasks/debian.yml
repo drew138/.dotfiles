@@ -11,10 +11,14 @@
     path: "{{ ansible_env.HOME }}/.local/bin"
     state: directory
 
-- name: create symlink for fdfind
-  file:
-    src: "{{ lookup('pipe', 'which fdfind') }}"
-    dest: "{{ ansible_env.HOME }}/.local/bin/fd"
-    owner: "{{ ansible_env.USER }}"
-    state: link
-    force: true
+- name: check var
+  debug:
+    msg: "{{ lookup('pipe', 'which fdfind') }}"
+
+# - name: create symlink for fdfind
+#   file:
+#     src: "{{ lookup('pipe', 'which fdfind') }}"
+#     dest: "{{ ansible_env.HOME }}/.local/bin/fd"
+#     owner: "{{ ansible_env.USER }}"
+#     state: link
+#     force: true
