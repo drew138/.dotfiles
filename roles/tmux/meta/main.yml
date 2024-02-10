@@ -14,5 +14,5 @@ galaxy_info:
       versions:
         - all
 dependencies:
-  - role: git
+  - role: repositories
   - role: homebrew
