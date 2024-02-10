@@ -17,6 +17,7 @@
   become_user: "{{ ansible_env.USER }}"
   shell: >
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+  changed_when: false
 
 - name: create symbolic links
   file:
