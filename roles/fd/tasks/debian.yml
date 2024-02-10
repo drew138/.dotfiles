@@ -22,3 +22,12 @@
 #     owner: "{{ ansible_env.USER }}"
 #     state: link
 #     force: true
+#
+- name: Get file facts
+  stat:
+    path: /usr/bin/fdfind
+  register: file_info
+
+- name: Display file permissions
+  debug:
+    msg: "File permissions are {{ file_info.stat.mode }}"
