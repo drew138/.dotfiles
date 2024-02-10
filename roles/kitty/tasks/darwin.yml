@@ -1,4 +1,9 @@
 ---
+- name: create kitty directory
+  file:
+    path: "{{ ansible_env.HOME }}/.config/kitty"
+    state: directory
+
 - name: install curl
   become: true
   become_user: "{{ ansible_env.USER }}"
