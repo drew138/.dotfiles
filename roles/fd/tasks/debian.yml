@@ -1,6 +1,7 @@
 ---
 - name: install fd-find
   become: true
+  become_user: "{{ ansible_env.USER }}"
   apt:
     name:
       - fd-find
@@ -12,8 +13,6 @@
     state: directory
 
 - name: create symlink for fdfind
-  become: true
-  become_user: "{{ ansible_env.USER }}"
   file:
     src: "{{ lookup('pipe', 'which fdfind') }}"
     dest: "{{ ansible_env.HOME }}/.local/bin/fd"
