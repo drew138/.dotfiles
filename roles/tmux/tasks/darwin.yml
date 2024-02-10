@@ -20,7 +20,7 @@
 
 - name: create .tmux.conf symlink
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/.tmux.conf"
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/tmux/files/.tmux.conf"
     dest: "{{ ansible_env.HOME }}/.tmux.conf"
     owner: "{{ ansible_env.USER }}"
     state: link
