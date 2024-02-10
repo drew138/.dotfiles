@@ -42,7 +42,7 @@
   changed_when: false
 
 - name: Install GitHub CLI
-  bccome: true
+  become: true
   apt:
     name: gh
     state: present
