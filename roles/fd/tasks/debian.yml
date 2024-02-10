@@ -1,5 +1,6 @@
 ---
 - name: install fd-find
+  become: true
   apt:
     name:
       - fd-find
