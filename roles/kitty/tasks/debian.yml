@@ -35,11 +35,13 @@
   copy:
     src: "{{ kitty_desktop_path }}"
     dest: "{{ ansible_env.HOME }}/.local/share/applications/"
+  changed_when: false
 
 - name: copy kitty-open.desktop file
   copy:
     src: "{{ kitty_open_desktop_path }}"
     dest: "{{ ansible_env.HOME }}/.local/share/applications/"
+  changed_when: false
 
 - name: update paths in kitty.desktop file(s)
   replace:
@@ -48,6 +50,7 @@
     replace: "\\1{{ kitty_png_path }}"
   with_fileglob:
     - "{{ ansible_env.HOME }}/.local/share/applications/kitty*.desktop"
+  changed_when: false
 
 - name: update paths in kitty.desktop file(s)
   replace:
@@ -56,6 +59,7 @@
     replace: "\\1{{ ansible_env.HOME }}/.local/kitty.app/bin/kitty"
   with_fileglob:
     - "{{ ansible_env.HOME }}/.local/share/applications/kitty*.desktop"
+  changed_when: false
 
 - name: create symbolic links
   file:
