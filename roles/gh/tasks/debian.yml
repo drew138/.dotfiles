@@ -36,10 +36,12 @@
     filename: "github-cli.list"
 
 - name: Update apt repositories
+  become: true
   apt:
     update_cache: yes
 
 - name: Install GitHub CLI
+  become: true
   apt:
     name: gh
     state: present
