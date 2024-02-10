@@ -2,7 +2,7 @@
 - name: check for starship command
   command: command -v starship >/dev/null 2>&1
   register: installed
-  no_log: true
+  # no_log: true
   ignore_errors: true
   changed_when: false
 
