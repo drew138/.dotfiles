@@ -1,7 +1,8 @@
 ---
 - name: check for starship command
-  command: command -v starship >/dev/null 2>&1
-  register: installed
+  stat:
+    path: /usr/local/bin/starship
+  register: starship_path
   # no_log: true
   ignore_errors: true
   changed_when: false
@@ -11,7 +12,7 @@
     url: https://starship.rs/install.sh
     dest: /tmp/starship-installer.sh
     mode: "u+rwx"
-  when: installed.rc != 0
+  when: not starship_path.stat.exists
   register: download
 
 - name: run the install script
