@@ -94,16 +94,16 @@ jobs:
       - run: cat ~/.bash_profile
       - run: cat ~/.bashrc
 
-      - name: uninstall various programs
-        run: |
-          rm -rf /usr/local/go
-          rm -rf ~/go
-          rm -rf ~/.cargo
-          rm -rf $NVM_DIR ~/.npm ~/.bower
-          echo "" > ~/.bashrc
-          echo "" > ~/.bash_profile 
-          echo "" > ~/.zshrc
-          unset NVM_DIR
+      # - name: uninstall various programs
+      #   run: |
+      #     rm -rf /usr/local/go
+      #     rm -rf ~/go
+      #     rm -rf ~/.cargo
+      #     rm -rf $NVM_DIR ~/.npm ~/.bower
+      #     echo "" > ~/.bashrc
+      #     echo "" > ~/.bash_profile 
+      #     echo "" > ~/.zshrc
+      #     unset NVM_DIR
 
       - name: install test dependencies
         run: pip3 install \
@@ -121,7 +121,6 @@ jobs:
           ANSIBLE_FORCE_COLOR: "1"
           ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
-          NVIM_DIR: ""
   # lint:
   #   runs-on: ubuntu-latest
   #   steps:
