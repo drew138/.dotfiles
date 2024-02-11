@@ -1,7 +1,7 @@
 ---
 - name: Add line to .bashrc
   lineinfile:
-    path: "{{ ansible_env.HOME }}/bashrc"
+    path: "{{ ansible_env.HOME }}/.bashrc"
     line: '[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"'
     insertafter: EOF
 
