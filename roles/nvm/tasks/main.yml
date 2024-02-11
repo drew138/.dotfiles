@@ -1,27 +1,35 @@
-# ---
-# - name: install nvm
-#   become: true
-#   become_user: "{{ ansible_env.USER }}"
-#   shell: >
-#     curl -o- {{ nvm_script_url }} | bash
-#   args:
-#     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
-# - name: Get latest NVM release URL
-#   uri:
-#     url: "https://github.com/nvm-sh/nvm/releases/latest"
-#     method: GET
-#     return_content: yes
-#     status_code: 302
-#   register: redirect_response
-#
-# - set_fact:
-#     nvm_latest_release_url: "{{ redirect_response.redirect_url | basename }}"
-#
-# - debug:
-#     var: nvm_latest_release_url
-- name: Retrieve redirect URL
-  shell: "basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/nvm-sh/nvm/releases/latest)"
-  register: redirect_url_result
+---
+- name: check if nvm is installed
+  become_user: "{{ ansible_env.USER }}"
+  stat:
+    path: "{{ ansible_env.HOME }}/.nvm"
+  register: nvm_path
+  ignore_errors: true
+  changed_when: false
 
-- debug:
-    var: redirect_url_result.stdout
+- name: get latest version of nvm
+  shell: "basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/nvm-sh/nvm/releases/latest)"
+  register: nvm_latest_version
+  changed_when: false
+
+- name: check current nvm installation version
+  shell: . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm -v
+  register: nvm_output_version
+  when: nvm_path.stat.exists
+
+- name: set nvm version when nvm not installed
+  set_fact:
+    nvm_local_version: "{{ nvm_output_version.stdout }}"
+  when: nvm_path.stat.exists
+
+- name: set nvm version when nvm is not installed
+  set_fact:
+    nvm_local_version: ""
+  when: not nvm_path.stat.exists
+
+- name: install nvm
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  shell: >
+    curl -o- {{ nvm_script_url }} | bash
+  when: nvm_local_version != nvm_latest_version.stdout
