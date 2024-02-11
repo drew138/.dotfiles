@@ -90,8 +90,7 @@ jobs:
           python-version: "3.x"
 
 
-
-      - run: cat /etc/profile
+      - run: cat /etc/bash.bashrc
 
       - name: uninstall various programs
         run: |
