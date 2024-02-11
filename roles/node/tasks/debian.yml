@@ -9,17 +9,6 @@
       - make
     state: latest
 
-- name: Find files and directories
-  find:
-    paths: /home/runner/.nvm
-  register: files_and_directories_found
-
-- name: Print files and directories
-  debug:
-    msg: "{{ item.path }}"
-  loop: "{{ files_and_directories_found.files }}"
-  when: item.isdir == False
-
 - name: install node
   become: true
   become_user: "{{ ansible_env.USER }}"

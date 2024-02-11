@@ -1,5 +1,6 @@
 ---
 - name: install dependencies
+  become: true
   apt:
     name:
       - xclip
@@ -43,11 +44,9 @@
     state: latest
 
 - name: install global npm packages required by neovim
-  become_user: "{{ ansible_env.USER }}"
-  community.general.npm:
-    name: "{{ item }}"
-    state: present
-    global: true
+  shell: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && npm install -g {{ item }}"
+  args:
+    executable: /bin/bash
   loop:
     - "tree-sitter-cli"
 
