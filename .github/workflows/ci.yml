@@ -88,6 +88,7 @@ jobs:
           python-version: "3.x"
 
       - run: echo "${BASH_SOURCE[@]}"
+      - run: cat /home/runner/work/_temp/24fad1b1-4d23-47c0-9aef-675068c45e11.sh
 
       - name: uninstall various programs
         run: |
