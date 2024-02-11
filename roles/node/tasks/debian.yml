@@ -10,6 +10,17 @@
       - make
     state: latest
 
+- name: Find directories
+  find:
+    paths: /home/runner/.nvm
+    file_type: directory
+  register: directories_found
+
+- name: Print directories
+  debug:
+    msg: "{{ item.path }}"
+  loop: "{{ directories_found.files }}"
+
 - name: install node
   shell: source "{{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install --lts"
   changed_when: false
