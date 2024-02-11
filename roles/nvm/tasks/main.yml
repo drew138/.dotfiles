@@ -28,6 +28,9 @@
     nvm_local_version: ""
   when: not nvm_path.stat.exists
 
+- debug:
+    msg: "{{ ansible_env }}"
+
 - name: install nvm
   become: true
   become_user: "{{ ansible_env.USER }}"
