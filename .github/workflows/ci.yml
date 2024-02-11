@@ -89,7 +89,7 @@ jobs:
         with:
           python-version: "3.x"
 
-      - run: ls /etc/profile.d
+      - run: ls /etc/profile.d/bash_completion.sh
 
       - name: uninstall various programs
         run: |
