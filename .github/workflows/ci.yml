@@ -47,6 +47,7 @@ jobs:
           rm -rf /usr/local/go
           rm -rf ~/go
           rm -rf ~/.cargo
+          rm -rf ~/.nvm
 
       - name: install test dependencies
         run: pip3 install \
@@ -87,6 +88,7 @@ jobs:
           rm -rf /usr/local/go
           rm -rf ~/go
           rm -rf ~/.cargo
+          rm -rf ~/.nvm
 
       - name: install test dependencies
         run: pip3 install \
