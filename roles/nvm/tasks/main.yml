@@ -28,21 +28,9 @@
     nvm_local_version: ""
   when: not nvm_path.stat.exists
 
-- name: Download script from URL
-  get_url:
-    url: "{{ nvm_script_url }}"
-    dest: "/tmp/nvm_installer.sh"
-    mode: "+x"
-  when: nvm_local_version != nvm_latest_version.stdout
-
 - name: install nvm
   become: true
   become_user: "{{ ansible_env.USER }}"
-  shell: "/tmp/nvm_installer.sh" 
-  # environment: {}
+  shell: curl -o- {{ nvm_script_url }} | bash
+  environment: {}
   when: nvm_local_version != nvm_latest_version.stdout
-
-- name: Remove the script file
-  file:
-    path: "/tmp/nvm_installer.sh"
-    state: absent
