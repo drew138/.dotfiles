@@ -10,7 +10,7 @@
   git:
     repo: "https://github.com/nvm-sh/nvm.git"
     dest: "{{ ansible_env.HOME }}/.nvm"
-    version: "{{ nvm_latest_version.output }}"
+    version: "{{ nvm_latest_version.stdout }}"
     depth: 1
     clone: true
     update: true
