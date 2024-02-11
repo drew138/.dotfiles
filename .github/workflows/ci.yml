@@ -88,7 +88,6 @@ jobs:
           python-version: "3.x"
 
       - run: echo "${BASH_SOURCE[@]}"
-      - run: cat /home/runner/work/_temp/24fad1b1-4d23-47c0-9aef-675068c45e11.sh
 
       - name: uninstall various programs
         run: |
@@ -100,6 +99,8 @@ jobs:
           echo "" > ~/.bash_profile 
           echo "" > ~/.zshrc
           unset NVM_DIR
+
+      - run: cat ~/.bash_profile
 
       - name: install test dependencies
         run: pip3 install \
