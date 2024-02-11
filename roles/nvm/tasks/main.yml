@@ -13,7 +13,7 @@
   changed_when: false
 
 - debug:
-    msg: "{{ nvm_path }}"
+    msg: "{{ ansible_env }}"
 
 - name: check current nvm installation version
   become: true
