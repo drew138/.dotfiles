@@ -22,5 +22,5 @@
   when: item.isdir == False
 
 - name: install node
-  shell: source "{{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install --lts"
+  shell: (source "{{ ansible_env.HOME }}/.nvm/nvm.sh) && nvm install --lts"
   changed_when: false
