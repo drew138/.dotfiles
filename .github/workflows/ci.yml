@@ -93,11 +93,13 @@ jobs:
           rm -rf /usr/local/go
           rm -rf ~/go
           rm -rf ~/.cargo
-          rm -rf ~/.nvm
+          rm -rf $NVM_DIR ~/.npm ~/.bower
           echo "" > ~/.bashrc
           echo "" > ~/.bash_profile 
           echo "" > ~/.zshrc
           unset NVM_DIR
+
+      - run: echo $PATH
 
       - name: install test dependencies
         run: pip3 install \
