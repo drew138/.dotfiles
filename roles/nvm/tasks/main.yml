@@ -1,9 +1,9 @@
 ---
-- name: source nvm.sh script
-  script: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
-  args:
-    executable: bash
-  changed_when: false
+- name: Add line to .bashrc
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/bashrc"
+    line: '[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"'
+    insertafter: EOF
 
 - name: check if nvm is installed
   become_user: "{{ ansible_env.USER }}"
