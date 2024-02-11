@@ -31,7 +31,7 @@
 - name: install nvm
   become: true
   become_user: "{{ ansible_env.USER }}"
-  shell: curl -o- {{ nvm_script_url }} | bash
+  shell: curl -o- {{ nvm_script_url }} | bash --noprofile
   environment: {}
   when: nvm_local_version != nvm_latest_version.stdout
   changed_when: false
