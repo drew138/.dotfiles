@@ -1,7 +1,6 @@
 ---
 - name: install nodejs prerequisites
   become: true
-  become_user: "{{ ansible_env.USER }}"
   apt:
     name:
       - apt-transport-https
@@ -22,5 +21,9 @@
   when: item.isdir == False
 
 - name: install node
-  shell: (source "{{ ansible_env.HOME }}/.nvm/nvm.sh) && nvm install --lts"
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  shell: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install --lts"
   changed_when: false
+  args:
+    executable: /bin/bash
