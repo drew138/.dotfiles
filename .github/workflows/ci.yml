@@ -92,6 +92,7 @@ jobs:
       - run: cd ~ && ls -la
       - run: cat ~/.profile
       - run: cat ~/.bash_profile
+      - run: cat ~/.bashrc
 
       - name: uninstall various programs
         run: |
@@ -109,6 +110,7 @@ jobs:
           grep -rnw ~ -e 'NVIM_DIR'
 
       - run: cat ~/.bash_profile
+      - run: cat ~/.bashrc
 
       - run: bash
 
