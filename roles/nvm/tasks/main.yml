@@ -32,6 +32,7 @@
   get_url:
     url: "{{ nvm_script_url }}"
     dest: "/tmp/nvm_installer.sh"
+    mode: "+x"
   when: nvm_local_version != nvm_latest_version.stdout
 
 - name: install nvm
