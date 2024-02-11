@@ -19,7 +19,7 @@
   changed_when: false
 
 - name: check current nvm installation version
-  shell: nvm -v
+  command: nvm -v
   register: nvm_output_version
   when: nvm_path.stat.exists
 
