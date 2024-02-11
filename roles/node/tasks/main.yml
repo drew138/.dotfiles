@@ -1,49 +1,8 @@
-# ---
-# - name: install nodejs prerequisites (linux)
-#   become_user: "{{ ansible_env.USER }}"
-#   apt:
-#     name:
-#       - apt-transport-https
-#       - gcc
-#       - g++
-#       - make
-#     state: latest
-#   when: is_debian_distro
-#
-# - name: install nvm
-#   become: true
-#   become_user: "{{ ansible_env.USER }}"
-#   shell: >
-#     curl -o- {{ nvm_script_url }} | bash
-#   args:
-#     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
-#
-# - name: install node
-#   become: false
-#   shell: >
-#     . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install {{ node_version }}
-#   args:
-#     executable: /bin/bash
-#     chdir: "{{ ansible_env.HOME }}"
-#     creates: "{{ ansible_env.HOME }}/.nvm/versions/{{ node_version }}"
-#
-# - name: create node symlink to /usr/bin
-#   file:
-#     src: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ node_version }}/bin/node"
-#     dest: "/usr/bin/node"
-#     owner: "{{ ansible_env.USER }}"
-#     state: link
-#     force: true
-#   when: is_debian_distro
-#
-# - name: create npm symlink to /usr/bin
-#   file:
-#     src: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ node_version }}/bin/npm"
-#     dest: "/usr/bin/npm"
-#     owner: "{{ ansible_env.USER }}"
-#     state: link
-#     force: true
-#   when: is_debian_distro
-#
-#
-# # https://stackoverflow.com/questions/71902980/how-to-determine-latest-stable-version-of-node-from-nvm
+---
+- name: include darwin tasks
+  include_tasks: darwin.yml
+  when: ansible_os_family | lower == "darwin"
+
+- name: include debian tasks
+  include_tasks: debian.yml
+  when: ansible_os_family | lower == "debian"

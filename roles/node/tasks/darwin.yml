@@ -1,0 +1,4 @@
+---
+- name: install node
+  shell: nvm install --lts
+  changed_when: false

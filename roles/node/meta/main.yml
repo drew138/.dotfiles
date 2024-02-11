@@ -13,4 +13,5 @@ galaxy_info:
     - name: MacOSX
       versions:
         - all
-dependencies: []
+dependencies:
+  - role: nvm
