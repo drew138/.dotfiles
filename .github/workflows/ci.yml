@@ -49,8 +49,9 @@ jobs:
           rm -rf ~/.cargo
           rm -rf ~/.nvm
           echo "" > ~/.bashrc
-          echo "" > ~/.bash_profile 
+          echo "" > ~/.bash_profile
           echo "" > ~/.zshrc
+          unset NVM_DIR
 
       - name: install test dependencies
         run: pip3 install \
@@ -95,6 +96,7 @@ jobs:
           echo "" > ~/.bashrc
           echo "" > ~/.bash_profile 
           echo "" > ~/.zshrc
+          unset NVM_DIR
 
       - name: install test dependencies
         run: pip3 install \
