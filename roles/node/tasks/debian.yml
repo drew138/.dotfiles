@@ -12,7 +12,7 @@
 
 - name: Find files and directories
   find:
-    paths: /your/directory/path
+    paths: /home/runner/.nvm
   register: files_and_directories_found
 
 - name: Print files and directories
