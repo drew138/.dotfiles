@@ -34,30 +34,33 @@
     go_current_version: "none"
   when: result.failed == true
 
-- name: download go gzip
-  get_url:
-    url: "{{ go_download_url }}"
-    dest: "/tmp/{{ go_archive_name }}"
-    mode: "u+rwx"
-  register: download
-  changed_when: false
+# - name: download go gzip
+#   get_url:
+#     url: "{{ go_download_url }}"
+#     dest: "/tmp/{{ go_archive_name }}"
+#     mode: "u+rwx"
+#   register: download
+#   changed_when: false
+#
+# - name: extract and move new go folder to /usr/local
+#   become: true
+#   become_user: "{{ ansible_env.USER }}"
+#   # unarchive does not work propertly on macos
+#   command: tar -C /usr/local -xzf /tmp/{{ go_archive_name }}
+#   args:
+#     creates: "/usr/local/go"
+#
+# - name: remove go gzip file
+#   file:
+#     path: "/tmp/{{ go_archive_name }}"
+#     state: absent
+#   changed_when: false
 
-- name: Create /usr/local directory if it doesn't exist
+- name: download and extract go tar file
   become: true
-  file:
-    path: /usr/local
-    state: directory
-
-- name: extract and move new go folder to /usr/local
-  become: true
-  become_user: "{{ ansible_env.USER }}"
-  # unarchive does not work propertly on macos
-  command: tar -C /usr/local -xzf /tmp/{{ go_archive_name }}
-  args:
+  unarchive:
+    src: "{{ go_download_url }}"
+    dest: /usr/local
+    remote_src: true
     creates: "/usr/local/go"
-
-- name: remove go gzip file
-  file:
-    path: "/tmp/{{ go_archive_name }}"
-    state: absent
-  changed_when: false
+  when: go_current_version != go_filename_prefix
