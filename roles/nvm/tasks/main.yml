@@ -1,10 +1,4 @@
 ---
-- name: Add line to .bashrc
-  lineinfile:
-    path: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
-    line: '[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"'
-    insertafter: EOF
-
 - name: check if nvm is installed
   become_user: "{{ ansible_env.USER }}"
   stat:
@@ -17,6 +11,9 @@
   shell: "basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/nvm-sh/nvm/releases/latest)"
   register: nvm_latest_version
   changed_when: false
+
+- debug:
+    msg: "{{ nvm_path }}"
 
 - name: check current nvm installation version
   become: true
