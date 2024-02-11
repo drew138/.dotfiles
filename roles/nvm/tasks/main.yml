@@ -13,7 +13,6 @@
   changed_when: false
 
 - name: check current nvm installation version
-  become: true
   shell: "{{ ansible_env.HOME }}/.nvm/nvm.sh && nvm -v"
   register: nvm_output_version
   when: nvm_path.stat.exists
@@ -31,8 +30,7 @@
 - name: install nvm
   become: true
   become_user: "{{ ansible_env.USER }}"
-  shell: curl -o- {{ nvm_script_url }} | bash --noprofile
-  environment: {}
+  shell: curl -o- {{ nvm_script_url }} | bash
   when: nvm_local_version != nvm_latest_version.stdout
   changed_when: false
 
