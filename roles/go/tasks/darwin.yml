@@ -47,9 +47,6 @@
   file:
     path: /usr/local
     state: directory
-    owner: root
-    group: root
-    mode: '0755'
 
 - name: extract and move new go folder to /usr/local
   become: true
