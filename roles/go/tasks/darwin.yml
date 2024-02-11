@@ -42,6 +42,15 @@
   register: download
   changed_when: false
 
+- name: Create /usr/local directory if it doesn't exist
+  become: true
+  file:
+    path: /usr/local
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: extract and move new go folder to /usr/local
   become: true
   become_user: "{{ ansible_env.USER }}"
