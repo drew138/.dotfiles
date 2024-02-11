@@ -91,6 +91,7 @@ jobs:
 
       - run: cd ~ && ls -la
       - run: cat ~/.profile
+      - run: cat ~/.bash_profile
 
       - name: uninstall various programs
         run: |
