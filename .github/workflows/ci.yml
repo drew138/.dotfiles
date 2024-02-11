@@ -99,6 +99,8 @@ jobs:
           echo "" > ~/.zshrc
           unset NVM_DIR
 
+      - run: cat ~/.bash_profile
+
       - run: bash
 
       - run: echo $NVM_DIR
