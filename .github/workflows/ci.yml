@@ -101,7 +101,7 @@ jobs:
           unset NVM_DIR
 
       - run: cat ~/.bashrc
-      - run: cat ~/.bash_aliases
+      - run: cat ~/.bash_profile
 
       - name: install test dependencies
         run: pip3 install \
