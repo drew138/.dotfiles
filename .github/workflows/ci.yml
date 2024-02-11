@@ -96,6 +96,7 @@ jobs:
           rm -rf ~/.nvm
           echo "" > ~/.bashrc
           echo "" > ~/.zshrc
+          unset NVM_DIR
 
       - name: install test dependencies
         run: pip3 install \
