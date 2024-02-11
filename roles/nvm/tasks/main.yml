@@ -1,6 +1,6 @@
 ---
 - name: source nvm.sh script
-  script: "{{ lookup('env', 'HOME') }}/.nvm/nvm.sh"
+  script: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
   args:
     executable: bash
   changed_when: false
@@ -19,7 +19,7 @@
   changed_when: false
 
 - name: check current nvm installation version
-  command: nvm -v
+  shell: nvm -v
   register: nvm_output_version
   when: nvm_path.stat.exists
 
