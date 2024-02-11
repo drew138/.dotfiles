@@ -12,9 +12,6 @@
   register: nvm_latest_version
   changed_when: false
 
-- debug:
-    msg: "{{ ansible_env }}"
-
 - name: check current nvm installation version
   become: true
   shell: "{{ ansible_env.HOME }}/.nvm/nvm.sh && nvm -v"
@@ -35,4 +32,5 @@
   become: true
   become_user: "{{ ansible_env.USER }}"
   shell: curl -o- {{ nvm_script_url }} | bash
+  environment: {}
   when: nvm_local_version != nvm_latest_version.stdout
