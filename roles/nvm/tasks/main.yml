@@ -28,12 +28,10 @@
     nvm_local_version: ""
   when: not nvm_path.stat.exists
 
-- debug:
-    msg: "{{ ansible_env }}"
-
 - name: install nvm
   become: true
   become_user: "{{ ansible_env.USER }}"
   shell: curl -o- {{ nvm_script_url }} | bash
   environment: {}
   when: nvm_local_version != nvm_latest_version.stdout
+  changed_when: false
