@@ -93,6 +93,7 @@ jobs:
       - run: cat ~/.profile
       - run: cat ~/.bash_profile
       - run: cat ~/.bashrc
+      - run: cat ~/.bash_aliases
 
       - name: uninstall various programs
         run: |
