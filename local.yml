@@ -1,3 +1,5 @@
 ---
 - hosts: localhost
   roles: "{{ selected_roles }}"
+  vars:
+    ansible_shell_executable: /bin/bash
