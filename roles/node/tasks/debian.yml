@@ -1,6 +1,6 @@
 ---
 - name: install nodejs prerequisites
-  become_user: "{{ ansible_env.USER }}"
+  become: true
   apt:
     name:
       - apt-transport-https
