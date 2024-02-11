@@ -2,46 +2,7 @@
 - name: Converge
   hosts: all
   gather_facts: true
+  vars:
+    ansible_shell_executable: /bin/bash
   roles:
     - role: "{{ lookup('env', 'MOLECULE_ROLE') }}"
-  #   - name: check if defaults exists
-  #     stat:
-  #       path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
-  #     register: defaults_stat
-  #
-  #   - debug:
-  #       msg: "{{defaults_stat}}"
-  #
-  #   - debug:
-  #       msg: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
-  #
-  #   - name: include defaults
-  #     include_vars: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/defaults/main.yml"
-  #     when: defaults_stat.stat.exists
-  #
-  #   - name: check if vars exists
-  #     stat:
-  #       path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
-  #     register: vars_stat
-  #
-  #   - name: include vars
-  #     include_vars: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/vars/main.yml"
-  #     when: vars_stat.stat.exists
-  #
-  #   - name: check if tasks exists
-  #     stat:
-  #       path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tasks/main.yml"
-  #     register: tasks_stat
-  #
-  #   - name: include tasks
-  #     include_tasks: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/tasks/main.yml"
-  #     when: tasks_stat.stat.exists
-  #
-  #   - name: check if handlers exists
-  #     stat:
-  #       path: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/handlers/main.yml"
-  #     register: handlers_stat
-  #
-  #   - name: include handlers
-  #     include_tasks: "{{ lookup('env', 'ROOT_DIR') }}/roles/{{ lookup('env', 'MOLECULE_ROLE') }}/handlers/main.yml"
-  #     when: handlers_stat.stat.exists
