@@ -106,10 +106,10 @@ jobs:
 
 
       - run: |
-          grep -rnw '/etc' -e 'NVIM_DIR'
-          grep -rnw '/usr' -e 'NVIM_DIR'
-          grep -rnw '/home' -e 'NVIM_DIR'
-          grep -rnw '$HOME' -e 'NVIM_DIR'
+          sudo grep -rnw '/etc' -e 'NVIM_DIR'
+          sudo grep -rnw '/usr' -e 'NVIM_DIR'
+          sudo grep -rnw '/home' -e 'NVIM_DIR'
+          sudo grep -rnw '$HOME' -e 'NVIM_DIR'
 
       - run: cat ~/.bash_profile
 
