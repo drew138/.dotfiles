@@ -3,9 +3,6 @@
   script: "{{ lookup('env', 'HOME') }}/.nvm/nvm.sh"
   args:
     executable: bash
-  become: true
-  become_user: your_user
-  register: nvm_sourced
   changed_when: false
 
 - name: check if nvm is installed
