@@ -89,7 +89,7 @@ jobs:
         with:
           python-version: "3.x"
 
-      - run: ls -la
+      - run: cd ~ && ls -la
       - run: cat /etc/bash.bashrc
 
       - name: uninstall various programs
