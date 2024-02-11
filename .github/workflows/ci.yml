@@ -50,8 +50,8 @@ jobs:
           rm -rf ~/go
           rm -rf ~/.cargo
           rm -rf ~/.nvm
-          echo "" > ~/.bashrc
-          echo "" > ~/.zshrc
+          echo : > ~/.bashrc
+          echo : > ~/.zshrc
           unset NVM_DIR
 
       - name: install test dependencies
@@ -94,8 +94,8 @@ jobs:
           rm -rf ~/go
           rm -rf ~/.cargo
           rm -rf ~/.nvm
-          echo "" > ~/.bashrc
-          echo "" > ~/.zshrc
+          echo : > ~/.bashrc
+          echo : > ~/.zshrc
           unset NVM_DIR
 
       - name: install test dependencies
