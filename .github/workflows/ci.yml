@@ -89,16 +89,12 @@ jobs:
         with:
           python-version: "3.x"
 
-      # - name: uninstall various programs
-      #   run: |
-      #     rm -rf /usr/local/go
-      #     rm -rf ~/go
-      #     rm -rf ~/.cargo
-      #     rm -rf $NVM_DIR ~/.npm ~/.bower
-      #     echo "" > ~/.bashrc
-      #     echo "" > ~/.bash_profile 
-      #     echo "" > ~/.zshrc
-      #     unset NVM_DIR
+      - name: uninstall various programs
+        run: |
+          rm -rf /usr/local/go
+          rm -rf ~/go
+          rm -rf ~/.cargo
+          rm -rf ~/.nvm
 
       - name: install test dependencies
         run: pip3 install \
