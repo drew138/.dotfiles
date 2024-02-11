@@ -86,6 +86,8 @@ jobs:
         with:
           python-version: "3.x"
 
+      - run: cat ~/.bashrc
+
       - name: uninstall various programs
         run: |
           rm -rf /usr/local/go
