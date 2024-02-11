@@ -99,7 +99,9 @@ jobs:
           echo "" > ~/.zshrc
           unset NVM_DIR
 
-      - run: echo $PATH
+      - run: bash
+
+      - run: echo $NVM_DIR
 
       - name: install test dependencies
         run: pip3 install \
