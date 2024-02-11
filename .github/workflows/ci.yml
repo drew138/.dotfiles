@@ -106,7 +106,7 @@ jobs:
 
 
       - run: |
-          grep -rnw '$HOME' -e 'NVIM_DIR'
+          grep -rnw ~ -e 'NVIM_DIR'
 
       - run: cat ~/.bash_profile
 
