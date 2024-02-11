@@ -1,0 +1,20 @@
+---
+- name: install various clis
+  become: true
+  apt:
+    name:
+      - htop
+      - ripgrep
+      - python3-virtualenv
+      - gcc
+      - g++
+      - protobuf-compiler
+      - libstdc++-12-dev
+      - git
+      - jq
+    state: latest
+
+- name: install pre-commit
+  pip:
+    name: pre-commit
+    state: latest

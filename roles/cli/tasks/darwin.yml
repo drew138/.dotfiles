@@ -1,0 +1,19 @@
+---
+- name: install various clis
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name:
+      - htop
+      - ripgrep
+      - virtualenv
+      - protobuf
+      - git
+      - python
+      - jq
+    state: latest
+
+- name: install pre-commit
+  pip:
+    name: pre-commit
+    state: latest
