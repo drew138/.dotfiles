@@ -89,7 +89,7 @@ jobs:
         with:
           python-version: "3.x"
 
-      - run: cat ~./.profile
+      - run: cat /etc/profile
 
       - name: uninstall various programs
         run: |
