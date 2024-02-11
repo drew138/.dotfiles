@@ -35,3 +35,14 @@
   environment: {}
   when: nvm_local_version != nvm_latest_version.stdout
   changed_when: false
+
+- name: check if nvm is installed
+  become_user: "{{ ansible_env.USER }}"
+  stat:
+    path: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+  register: nvm_path
+  ignore_errors: true
+  changed_when: false
+
+- debug:
+    msg: "{{nvm_path}}"
