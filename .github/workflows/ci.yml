@@ -27,12 +27,12 @@ jobs:
 
   test-macos:
     needs: check-roles
-    runs-on: matrix.os
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         role: ${{ fromJson(needs.check-roles.outputs.roles) }}
-        os: [macos-latest, macos-14]
+        # os: [macos-latest, macos-14]
     steps:
       - name: check out the codebase
         uses: actions/checkout@v4
