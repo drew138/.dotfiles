@@ -119,7 +119,6 @@ jobs:
           ANSIBLE_FORCE_COLOR: "1"
           ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
-          NVM_DIR: ""
   # lint:
   #   runs-on: ubuntu-latest
   #   steps:
