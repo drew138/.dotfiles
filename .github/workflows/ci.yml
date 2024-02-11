@@ -101,7 +101,6 @@ jobs:
           echo "" > ~/.bashrc
           echo "" > ~/.bash_profile 
           echo "" > ~/.zshrc
-          sudo echo "" > /etc/profile
           unset NVM_DIR
 
       - run: cat ~/.bash_profile
