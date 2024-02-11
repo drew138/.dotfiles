@@ -1,4 +1,4 @@
 ---
 - name: install node
-  shell: nvm install --lts
+  shell: "{{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install --lts"
   changed_when: false

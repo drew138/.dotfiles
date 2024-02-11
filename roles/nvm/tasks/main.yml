@@ -1,7 +1,7 @@
 ---
 - name: Add line to .bashrc
   lineinfile:
-    path: "{{ ansible_env.HOME }}/.bashrc"
+    path: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
     line: '[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"'
     insertafter: EOF
 
@@ -19,7 +19,7 @@
   changed_when: false
 
 - name: check current nvm installation version
-  shell: nvm -v
+  shell: "{{ ansible_env.HOME }}/.nvm/nvm.sh && nvm -v"
   register: nvm_output_version
   when: nvm_path.stat.exists
 
