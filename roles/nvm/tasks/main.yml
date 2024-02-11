@@ -39,7 +39,7 @@
 - name: check if nvm is installed
   become_user: "{{ ansible_env.USER }}"
   stat:
-    path: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+    path: "{{ ansible_env.HOME }}/.nvm"
   register: nvm_path
   ignore_errors: true
   changed_when: false
