@@ -2,7 +2,7 @@
 - name: install go binaries
   become: true
   become_user: "{{ ansible_env.USER }}"
-  shell: /usr/local/go/bin/go install
+  shell: /usr/local/go/bin/go install {{ item }}
   loop:
     - github.com/charmbracelet/gum@latest
     - github.com/go-delve/delve/cmd/dlv@latest
