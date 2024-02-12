@@ -13,7 +13,7 @@ local Opts = {
 		"lua-language-server",
 		"marksman",
 		"pyright",
-		"rust_analyzer",
+		"rust-analyzer",
 		"sqlls",
 		"tailwindcss",
 		"terraformls",

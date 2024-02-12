@@ -47,6 +47,9 @@ jobs:
           rm -rf ~/go
           rm -rf ~/.cargo
           rm -rf ~/.nvm
+          rm /usr/local/bin/docker-compose
+          rm -rf ~/go
+          rm -rf ~/.go
 
       - name: install test dependencies
         run: pip3 install \
@@ -65,7 +68,6 @@ jobs:
           ANSIBLE_FORCE_COLOR: "1"
           ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
-          NVM_DIR: ""
 
   test-ubuntu:
     needs: check-roles

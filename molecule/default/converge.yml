@@ -2,7 +2,5 @@
 - name: Converge
   hosts: all
   gather_facts: true
-  vars:
-    ansible_shell_executable: /bin/bash
   roles:
     - role: "{{ lookup('env', 'MOLECULE_ROLE') }}"
