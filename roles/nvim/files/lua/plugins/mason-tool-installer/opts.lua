@@ -15,7 +15,7 @@ local Opts = {
 		"pyright",
 		"rust-analyzer",
 		"sqlls",
-		"tailwindcss",
+		"tailwindcss-language-server",
 		"terraformls",
 		"tsserver",
 		"yamlls",
