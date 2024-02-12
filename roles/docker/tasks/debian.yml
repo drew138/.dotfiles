@@ -16,12 +16,6 @@
     url: https://download.docker.com/linux/debian/gpg
     state: present
 
-# - name: add Docker GPG key
-#   become: true  # Ensure root privileges for file operations
-#   get_url:
-#     url: https://download.docker.com/linux/debian/gpg
-#     dest: /etc/apt/trusted.gpg.d/docker.gpg
-
 - name: add docker repository
   become: true
   apt_repository:
@@ -55,3 +49,5 @@
     url: "{{ docker_compose_Linux_x86_64 }}"
     dest: /usr/local/bin/docker-compose
     mode: "+x"
+  notify:
+    - restart docker
