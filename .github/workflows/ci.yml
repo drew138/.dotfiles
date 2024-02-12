@@ -32,7 +32,7 @@ jobs:
       fail-fast: false
       matrix:
         # role: ${{ fromJson(needs.check-roles.outputs.roles) }}
-        role: [go]
+        role: [scripts]
         # os: [macos-latest, macos-14]
     steps:
       - name: check out the codebase
