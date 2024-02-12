@@ -90,6 +90,8 @@ jobs:
           rm -rf ~/.cargo
           rm -rf ~/.nvm
           rm /usr/local/bin/docker-compose
+          rm -rf ~/go
+          rm -rf ~/.go
 
       - name: install test dependencies
         run: pip3 install \
