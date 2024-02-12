@@ -1,4 +1,19 @@
 ---
+- name: check system architecture
+  command: uname -m
+  register: go_arch_result
+  changed_when: false
+
+- name: set go_arch for amd64
+  set_fact:
+    go_arch: "amd64"
+  when: "'x86_64' in go_arch_result.stdout"
+
+- name: set go_arch for 386
+  set_fact:
+    go_arch: "386"
+  when: "'i386' in go_arch_result.stdout"
+
 - name: run uname command and set a fact
   command: uname
   register: go_uname_result
