@@ -7,12 +7,12 @@
 - name: set go_arch for amd64
   set_fact:
     go_arch: "amd64"
-  when: go_arch_result.sdout in "x86_64"
+  when: "go_arch_result.sdout in 'x86_64'"
 
 - name: set go_arch for amd64
   set_fact:
     go_arch: "386"
-  when: go_arch_result.sdout in "i386"
+  when: "go_arch_result.sdout in 'i386'"
 
 - name: run uname command and set a fact
   command: uname
