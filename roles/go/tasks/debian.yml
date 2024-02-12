@@ -49,6 +49,12 @@
     go_current_version: "none"
   when: result.failed == true
 
+- name: remove go folder
+  file:
+    path: "{{ ansible_env.HOME }}/go"
+    state: absent
+  when: go_current_version != go_filename_prefix
+
 - name: download and extract go tar file
   become: true
   unarchive:
@@ -57,3 +63,5 @@
     remote_src: true
     creates: "/usr/local/go"
   when: go_current_version != go_filename_prefix
+  notify:
+    - install go binaries

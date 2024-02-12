@@ -10,6 +10,14 @@
       - python
     state: latest
 
+- name: check if nvim is installed
+  stat:
+    path: /usr/local/bin/nvim
+  register: nvim_is_installed
+  changed_when: not nvim_is_installed.stat.exists
+  notify:
+    - install nvim packages, lsps, debuggers, linters and formatters
+
 - name: clone nvim repository
   become: true
   become_user: "{{ ansible_env.USER }}"
