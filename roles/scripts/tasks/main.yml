@@ -3,6 +3,7 @@
   become: true
   become_user: "{{ ansible_env.USER }}"
   shell: /usr/local/go/bin/go install github.com/charmbracelet/gum@latest
+  changed_when: false
 
 - name: create symlinks
   file:
