@@ -1,8 +1,9 @@
 ---
 - name: change keyboard repeat rates
-  shell: >
-    defaults write -g InitialKeyRepeat -int 15
-    defaults write -g KeyRepeat -int 2
+  shell: "{{ item }}"
   args:
     executable: /bin/bash
   changed_when: false
+  loop:
+    - defaults write -g InitialKeyRepeat -int 15
+    - defaults write -g KeyRepeat -int 2

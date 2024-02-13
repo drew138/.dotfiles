@@ -1,12 +1,13 @@
 ---
 - name: change dock preferences
-  shell: >
-    defaults write com.apple.dock autohide 1
-    defaults write com.apple.dock launchanim 0
-    defaults write com.apple.dock tilesize 36
+  shell: "{{ item }}"
   args:
     executable: /bin/bash
   changed_when: false
+  loop:
+    - defaults write com.apple.dock autohide 1
+    - defaults write com.apple.dock launchanim 0
+    - defaults write com.apple.dock tilesize 36
 
 - name: install dockutil
   become: true
