@@ -131,6 +131,3 @@ jobs:
           ANSIBLE_FORCE_COLOR: "1"
           ANSIBLE_VAULT_PASSWORD_FILE: $HOME/vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
-
-      - run: cd ~/.dotfiles && git status
-        if: always()
