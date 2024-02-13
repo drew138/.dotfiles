@@ -17,8 +17,8 @@ local Opts = {
 		"sqlls",
 		"tailwindcss-language-server",
 		"terraform-ls",
-		"tsserver",
-		"yamlls",
+		"typescript-language-server",
+		"yaml-language-server",
 
 		-- debuggers used by nvim dap
 		"delve",
