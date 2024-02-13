@@ -6,10 +6,6 @@ name: ci
   schedule:
     - cron: "0 7 * * 0"
 
-defaults:
-  run:
-    working-directory: 'app'
-
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -37,8 +33,6 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v4
-        with:
-          path: 'app'
 
       - name: install jq
         run: sudo apt-get install jq
@@ -62,8 +56,6 @@ jobs:
     steps:
       - name: check out the codebase
         uses: actions/checkout@v4
-        with:
-          path: 'app'
 
       - name: set up python 3
         uses: actions/setup-python@v5
@@ -107,8 +99,6 @@ jobs:
     steps:
       - name: check out the codebase
         uses: actions/checkout@v4
-        with:
-          path: 'app'
 
       - name: set up python 3
         uses: actions/setup-python@v5
