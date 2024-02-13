@@ -1,11 +1,11 @@
 ---
 - name: Run git status
   command: git status
-  register: git_status_output
+  register: git_status_output_xyz
 
 - name: Log git status output
   debug:
-    msg: "{{ git_status_output.stdout_lines }}"
+    msg: "{{ git_status_output_xyz.stdout_lines }}"
 
 - name: install dependencies
   become: true
