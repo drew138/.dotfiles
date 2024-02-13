@@ -132,5 +132,5 @@ jobs:
           ANSIBLE_VAULT_PASSWORD_FILE: $HOME/vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
 
-      - run: cd ~/.dotfiles && git status
+      - run: cd ~/.dotfiles && git diff
         if: always()
