@@ -4,34 +4,8 @@ name: ci
 on: [push]
 
 jobs:
-  check-roles:
-    # needs: lint
+  lint:
     runs-on: ubuntu-latest
-    outputs:
-      roles: ${{ steps.roles.outputs.roles }}
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v4
-
-      - name: install jq
-        run: sudo apt-get install jq
-
-      - name: list ansible roles
-        id: roles
-        run: |
-          echo 'roles<<EOF' >> "${GITHUB_OUTPUT}"
-          roles=$(ls -1 -d */ | sed 's:/$::' | jq -R -s 'split("\n")[:-1]')
-          echo $roles>> "${GITHUB_OUTPUT}"
-          echo 'EOF' >> "${GITHUB_OUTPUT}"
-        working-directory: ./roles/
-
-  test-macos:
-    needs: check-roles
-    runs-on: macos-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        role: ${{ fromJson(needs.check-roles.outputs.roles) }}
     steps:
       - name: check out the codebase
         uses: actions/checkout@v4
@@ -39,83 +13,43 @@ jobs:
       - name: set up python 3
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: '3.x'
 
-      - name: uninstall various programs
+      - name: install test dependencies.
+        run: pip3 install yamllint
+
+      - name: lint code
         run: |
-          rm -rf /usr/local/go
-          rm -rf ~/go
-          rm -rf ~/.cargo
-          rm -rf ~/.nvm
-          rm -rf ~/go
-          rm -rf ~/.go
+          yamllint .
 
-      - name: install test dependencies
-        run: pip3 install \
-          ansible \
-          molecule
-
-      - name: create password file
-        run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
-
-      - name: run molecule tests
-        run: molecule test
-        env:
-          OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "YES"
-          ROOT_DIR: ${{ github.workspace }}
-          PY_COLORS: "1"
-          ANSIBLE_FORCE_COLOR: "1"
-          ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
-          MOLECULE_ROLE: ${{ matrix.role }}
-
-  test-ubuntu:
-    needs: check-roles
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        role: ${{ fromJson(needs.check-roles.outputs.roles) }}
-    steps:
-      - name: check out the codebase
-        uses: actions/checkout@v4
-
-      - name: set up python 3
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-
-      - name: uninstall various programs
-        run: |
-          rm -rf /usr/local/go
-          rm -rf ~/go
-          rm -rf ~/.cargo
-          rm -rf ~/.nvm
-          rm /usr/local/bin/docker-compose
-          rm -rf ~/go
-          rm -rf ~/.go
-
-      - name: install test dependencies
-        run: pip3 install \
-          ansible \
-          molecule
-
-      - name: create password file
-        run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
-
-      - name: run molecule tests
-        run: molecule test
-        env:
-          ROOT_DIR: ${{ github.workspace }}
-          PY_COLORS: "1"
-          ANSIBLE_FORCE_COLOR: "1"
-          ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
-          MOLECULE_ROLE: ${{ matrix.role }}
-
-
-
-  # lint:
-  #
+  # check-roles:
+  #   # needs: lint
   #   runs-on: ubuntu-latest
+  #   outputs:
+  #     roles: ${{ steps.roles.outputs.roles }}
+  #   steps:
+  #     - name: checkout code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: install jq
+  #       run: sudo apt-get install jq
+  #
+  #     - name: list ansible roles
+  #       id: roles
+  #       run: |
+  #         echo 'roles<<EOF' >> "${GITHUB_OUTPUT}"
+  #         roles=$(ls -1 -d */ | sed 's:/$::' | jq -R -s 'split("\n")[:-1]')
+  #         echo $roles>> "${GITHUB_OUTPUT}"
+  #         echo 'EOF' >> "${GITHUB_OUTPUT}"
+  #       working-directory: ./roles/
+  #
+  # test-macos:
+  #   needs: check-roles
+  #   runs-on: macos-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       role: ${{ fromJson(needs.check-roles.outputs.roles) }}
   #   steps:
   #     - name: check out the codebase
   #       uses: actions/checkout@v4
@@ -123,11 +57,77 @@ jobs:
   #     - name: set up python 3
   #       uses: actions/setup-python@v5
   #       with:
-  #         python-version: '3.x'
+  #         python-version: "3.x"
   #
-  #     - name: install test dependencies.
-  #       run: pip3 install yamllint
-  #
-  #     - name: lint code
+  #     - name: uninstall various programs
   #       run: |
-  #         yamllint .
+  #         rm -rf /usr/local/go
+  #         rm -rf ~/go
+  #         rm -rf ~/.cargo
+  #         rm -rf ~/.nvm
+  #         rm -rf ~/go
+  #         rm -rf ~/.go
+  #
+  #     - name: install test dependencies
+  #       run: pip3 install \
+  #         ansible \
+  #         molecule
+  #
+  #     - name: create password file
+  #       run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
+  #
+  #     - name: run molecule tests
+  #       run: molecule test
+  #       env:
+  #         OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "YES"
+  #         ROOT_DIR: ${{ github.workspace }}
+  #         PY_COLORS: "1"
+  #         ANSIBLE_FORCE_COLOR: "1"
+  #         ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
+  #         MOLECULE_ROLE: ${{ matrix.role }}
+  #
+  # test-ubuntu:
+  #   needs: check-roles
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       role: ${{ fromJson(needs.check-roles.outputs.roles) }}
+  #   steps:
+  #     - name: check out the codebase
+  #       uses: actions/checkout@v4
+  #
+  #     - name: set up python 3
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: "3.x"
+  #
+  #     - name: uninstall various programs
+  #       run: |
+  #         rm -rf /usr/local/go
+  #         rm -rf ~/go
+  #         rm -rf ~/.cargo
+  #         rm -rf ~/.nvm
+  #         rm /usr/local/bin/docker-compose
+  #         rm -rf ~/go
+  #         rm -rf ~/.go
+  #
+  #     - name: install test dependencies
+  #       run: pip3 install \
+  #         ansible \
+  #         molecule
+  #
+  #     - name: create password file
+  #       run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
+  #
+  #     - name: run molecule tests
+  #       run: molecule test
+  #       env:
+  #         ROOT_DIR: ${{ github.workspace }}
+  #         PY_COLORS: "1"
+  #         ANSIBLE_FORCE_COLOR: "1"
+  #         ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
+  #         MOLECULE_ROLE: ${{ matrix.role }}
+  #
+  #
+  #
