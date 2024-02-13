@@ -16,7 +16,7 @@ local Opts = {
 		"rust-analyzer",
 		"sqlls",
 		"tailwindcss-language-server",
-		"terraformls",
+		"terraform-ls",
 		"tsserver",
 		"yamlls",
 

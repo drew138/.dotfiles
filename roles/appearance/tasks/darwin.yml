@@ -1,0 +1,6 @@
+---
+- name: change appearance to darkmode
+  shell: defaults write -g NSRequiresAquaSystemAppearance -bool true
+  args:
+    executable: /bin/bash
+  changed_when: false

@@ -1,0 +1,4 @@
+---
+- name: include darwin tasks
+  include_tasks: darwin.yml
+  when: ansible_os_family | lower == "darwin"
