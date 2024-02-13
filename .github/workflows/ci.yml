@@ -121,7 +121,7 @@ jobs:
           molecule
 
       - name: create password file
-        run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
+        run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > $HOME/vaultpassword
 
       - name: run molecule tests
         run: molecule test
@@ -129,5 +129,5 @@ jobs:
           ROOT_DIR: ${{ github.workspace }}
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
-          ANSIBLE_VAULT_PASSWORD_FILE: vaultpassword
+          ANSIBLE_VAULT_PASSWORD_FILE: $HOME/vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
