@@ -1,7 +1,7 @@
 ---
-- hosts: "{{ hosts }}"
+- hosts: "{{ selected_hosts }}"
   roles:
-    - "{{ roles }}"
+    - "{{ selected_roles }}"
   tasks:
     - name: reboot machine
       ansible.builtin.reboot:
