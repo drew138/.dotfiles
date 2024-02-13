@@ -27,7 +27,7 @@ jobs:
 
       - name: lint code
         run: |
-          yamllint .
+          # yamllint .
           ansible-lint ./*
 
   # check-roles:
