@@ -1,48 +1,17 @@
 #!/bin/bash
 
-install(){
-  sudo ansible-pull -U https://github.com/Drew138/.dotfiles.git ansible/local.yml \
-      --extra-vars \
-      "user_repositories=$USER_REPOSITORIES \
-      kitty_terminal=$KITTY_TERMINAL \
-      extra_software=$EXTRA_SOFTWARE"
-}
+echo -n "Please enter your vault password: "
 
-package="install.sh"
+read -r -s password
 
-while test $# -gt 0; do
-  case "$1" in
-    -h|--help)
-      echo "$package - automate work station installation"
-      echo " "
-      echo "$package [options] application [arguments]"
-      echo " "
-      echo "options:"
-      echo "-h, --help                show brief help"
-      echo "-r, --repos               install user repositories"
-      echo "-k, --kitty               install kitty terminal"
-      echo "-s, --software            install additional software"
-      exit 0
-      ;;
-    -r|--repos)
-      shift
-      USER_REPOSITORIES=true
-      continue
-      ;;
-    -k|--kitty)
-      shift
-      KITTY_TERMINAL=true
-      continue
-      ;;
-    -s|--software)
-      shift
-      EXTRA_SOFTWARE=true
-      ;;
-    *)
-      shift
-      break
-      ;;
-  esac
-done
+pip3 install ansible molecule
 
-install
+echo "$password" > ~/.vault_pass
+
+export ANSIBLE_VAULT_PASSWORD_FILE=~/.vault_pass
+
+ansible-pull -U https://github.com/Drew138/.dotfiles.git ansible/local.yml
+
+rm ~/.vault_pass
+
+unset ANSIBLE_VAULT_PASSWORD_FILE
