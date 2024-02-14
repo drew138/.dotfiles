@@ -135,5 +135,17 @@ jobs:
       - run: cd ~/.dotfiles && git diff
         if: always()
 
-      - run: cd ~/.tmux && ls -R
-        if: always()
+  notify-errors:
+    needs: [test-macos, test-ubuntu]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - name: check out the codebase
+        uses: actions/checkout@v4
+
+      - name: notify errors to my email
+        run: >
+          ./roles/scripts/files/notify_email.sh ${{ needs.test-ubuntu.outcome }} ${{ needs.test-macos.outcome }}
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+# https://github.com/marketplace/actions/send-email

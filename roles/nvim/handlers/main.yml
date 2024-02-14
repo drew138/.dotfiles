@@ -1,4 +1,3 @@
 ---
 - name: install nvim packages, lsps, debuggers, linters and formatters
-  # shell: nvim --headless -c "Lazy! restore"  -c 'MasonUpdateAll' -c 'qa'
-  shell: echo hello
+  shell: nvim --headless "+Lazy! restore" +MasonUpdateAll +qa
