@@ -132,9 +132,6 @@ jobs:
           ANSIBLE_VAULT_PASSWORD_FILE: $HOME/vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
 
-      - run: cd ~/.dotfiles && git diff
-        if: always()
-
   notify-errors:
     needs: [test-macos, test-ubuntu]
     runs-on: ubuntu-latest
@@ -143,9 +140,15 @@ jobs:
       - name: check out the codebase
         uses: actions/checkout@v4
 
-      - name: notify errors to my email
-        run: >
-          ./roles/scripts/files/notify_email.sh ${{ needs.test-ubuntu.outcome }} ${{ needs.test-macos.outcome }}
-        env:
-          EMAIL: ${{ secrets.EMAIL }}
-# https://github.com/marketplace/actions/send-email
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        if: ${{ needs.test-ubuntu.outcome }} != "success" || ${{ needs.test-macos.outcome }} != "success"
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Dotfiles Error
+          to: ${{ secrets.EMAIL }}
+          from: ${{ secrets.EMAIL }}
+          body: dotfiles test failed, check needed
