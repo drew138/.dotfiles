@@ -1,3 +1,3 @@
 ---
 - name: install tmux plugins
-  shell: tmux new-session -d -s headless_session && tmux send-keys -t headless_session C-a I
+  shell: tmux new-session -d -s headless_session && tmux send-keys -t headless_session <C-a>I
