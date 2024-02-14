@@ -15,8 +15,3 @@ sudo curl https://raw.githubusercontent.com/Drew138/.dotfiles/main/scripts/insta
 ```
 
 reminder: system reboot might be required for some software to work as expected.
-
-## Tmux plugins
-
-Tmux plugins are not installed automatically through ansible.
-Install them by pressing <kbd>prefix + I</kbd> in an active session.
