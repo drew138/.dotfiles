@@ -12,11 +12,14 @@ alias abort='git reset --merge'
 alias status='git status'
 alias checkout='git checkout'
 alias push='git push'
+alias gdiff='git diff --name-only --relative --diff-filter=d | xargs bat --diff'
 alias ..='cd ..'
 alias l='ls -F --color'
 alias ls='ls -F --color'
 alias la='ls -la'
 alias ll='ls -l'
+alias cat='bat'
+alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
 
 # workrc configs
 [ -f $HOME/.workrc.zsh ] && \. $HOME/.workrc.zsh
@@ -58,6 +61,9 @@ bindkey '^x^e' edit-command-line
 # zsh-z configs
 source $HOME/dev/zsh-z/zsh-z.plugin.zsh
 autoload -U compinit; compinit
+
+# zoxide
+eval "$(zoxide init --cmd cd zsh)"
 
 # zsh-autosuggestions configs
 source $HOME/dev/zsh-autosuggestions/zsh-autosuggestions.zsh

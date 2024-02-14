@@ -11,6 +11,8 @@
       - git
       - python
       - jq
+      - bat
+      - zoxide
     state: latest
 
 - name: install pre-commit

@@ -12,6 +12,8 @@
       - libstdc++-12-dev
       - git
       - jq
+      - bat
+      - zoxide
     state: latest
 
 - name: install pre-commit

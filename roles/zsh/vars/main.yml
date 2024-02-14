@@ -4,5 +4,3 @@ zsh_plugins:
     dest: "{{ ansible_env.HOME }}/dev/zsh-autosuggestions"
   - repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: "{{ ansible_env.HOME }}/dev/zsh-syntax-highlighting"
-  - repo: https://github.com/agkozak/zsh-z.git
-    dest: "{{ ansible_env.HOME }}/dev/zsh-z"
