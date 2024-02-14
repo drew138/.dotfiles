@@ -7,6 +7,8 @@
       - xclip
       - tmux
     state: latest
+  notify:
+    - install tmux plugins
 
 - name: tmux package manager
   become: true
