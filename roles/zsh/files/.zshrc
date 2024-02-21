@@ -58,10 +58,6 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
-# zsh-z configs
-source $HOME/dev/zsh-z/zsh-z.plugin.zsh
-autoload -U compinit; compinit
-
 # zoxide
 eval "$(zoxide init --cmd cd zsh)"
 

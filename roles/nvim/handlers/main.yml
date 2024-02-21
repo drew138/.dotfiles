@@ -1,8 +1,10 @@
 ---
 - name: install nvim packages, lsps, debuggers, linters and formatters
-  # TODO: install treesitter parsers
   shell: |
     nvim --headless "+Lazy! restore" +MasonUpdateAll +qa
     git checkout .
+  # git checkout since lazy restore updates
+  # lazy lock for some weird reason which messes
+  # up with role idempotency
   args:
     chdir: "{{ ansible_env.HOME }}/.dotfiles"

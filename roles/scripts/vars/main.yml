@@ -6,3 +6,5 @@ scripts_symlinks:
     dest: "/usr/local/bin/nd"
   - src: "{{ ansible_env.HOME }}/.dotfiles/roles/scripts/files/nvim_file.sh"
     dest: "/usr/local/bin/nf"
+  - src: "{{ ansible_env.HOME }}/.dotfiles/roles/scripts/files/repo.sh"
+    dest: "/usr/local/bin/repo"
