@@ -135,10 +135,13 @@ jobs:
   notify-errors:
     needs: [test-macos, test-ubuntu]
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
+    # if: github.event_name == 'schedule'
     steps:
       - name: check out the codebase
-        uses: actions/checkout@v4
+        run: echo ${{ needs.test-ubuntu.outcome }}
+
+      - name: check out the codebase
+        run: echo ${{ needs.test-macos.outcome }}
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
