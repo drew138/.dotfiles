@@ -148,7 +148,7 @@ jobs:
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
         # if: ${{ needs.test-ubuntu.result }} != "success" || ${{ needs.test-macos.result }} != "success"
-        if: ${{ needs.test-ubuntu.result }} != success
+        if: ${{ needs.test-ubuntu.result }} not in 'success'
         with:
           server_address: smtp.gmail.com
           server_port: 465
