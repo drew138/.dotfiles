@@ -133,22 +133,12 @@ jobs:
           MOLECULE_ROLE: ${{ matrix.role }}
 
   notify-errors:
-    # needs: [test-macos, test-ubuntu]
-    needs: [test-ubuntu]
+    needs: [test-macos, test-ubuntu]
     runs-on: ubuntu-latest
-    # if: github.event_name == 'schedule'
-    if: needs.test-ubuntu.result == 'failure'
+    if: github.event_name == 'schedule' && (needs.test-ubuntu.result == 'failure' || needs.test-macos.result == 'failure')
     steps:
-      - name: check out the codebase
-        run: echo ${{ needs.test-ubuntu.result }}
-
-      - name: check out the codebase
-        run: echo ${{ needs.test-ubuntu }}
-
-      - name: Send mail
+      - name: send mail
         uses: dawidd6/action-send-mail@v3
-        # if: ${{ needs.test-ubuntu.result }} != "success" || ${{ needs.test-macos.result }} != "success"
-        # if: ${{ needs.test-ubuntu.result }} not in 'success'
         with:
           server_address: smtp.gmail.com
           server_port: 465
