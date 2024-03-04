@@ -137,6 +137,7 @@ jobs:
     needs: [test-ubuntu]
     runs-on: ubuntu-latest
     # if: github.event_name == 'schedule'
+    if: ${{ needs.test-ubuntu.result }} != 'success'
     steps:
       - name: check out the codebase
         run: echo ${{ needs.test-ubuntu.result }}
