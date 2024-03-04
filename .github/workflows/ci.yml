@@ -133,15 +133,16 @@ jobs:
           MOLECULE_ROLE: ${{ matrix.role }}
 
   notify-errors:
-    needs: [test-macos, test-ubuntu]
+    # needs: [test-macos, test-ubuntu]
+    needs: [test-ubuntu]
     runs-on: ubuntu-latest
     # if: github.event_name == 'schedule'
     steps:
       - name: check out the codebase
-        run: echo ${{ needs.test-ubuntu.outcome }}
+        run: echo ${{ needs.test-ubuntu.result }}
 
       - name: check out the codebase
-        run: echo ${{ needs.test-macos.outcome }}
+        run: echo ${{ needs.test-ubuntu }}
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
