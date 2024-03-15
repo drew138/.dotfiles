@@ -1,8 +1,10 @@
 ---
-- hosts: "{{ selected_hosts }}"
-  roles:
-    - "{{ selected_roles }}"
+- hosts: localhost
+  # roles:
+  #   - "{{ selected_roles.split(',') }}"
   tasks:
-    - name: reboot machine
-      ansible.builtin.reboot:
-        msg: "rebooting machine"
+    - debug:
+        msg: "{{ selected_roles }}"
+    # - name: reboot machine
+    #   ansible.builtin.reboot:
+    #     msg: "rebooting machine"
