@@ -1,10 +1,10 @@
 ---
-- hosts: localhost
-  # roles:
-  #   "{{ selected_roles }}"
+- hosts: "{{ selected_hosts }}"
   tasks:
-    - debug:
-        msg: "{{ selected_roles }}"
+    - name: Include roles
+      include_role:
+        name: "{{ item }}"
+      loop: "{{ selected_roles }}"
     # - name: reboot machine
     #   ansible.builtin.reboot:
     #     msg: "rebooting machine"
