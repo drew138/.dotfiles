@@ -1,6 +1,7 @@
 ---
 - hosts: localhost
-  roles: "{{ selected_roles.split(',') }}"
+  roles:
+    - "{{ selected_roles.split(',') }}"
   tasks:
     - debug:
         msg: "{{ selected_roles }}"
