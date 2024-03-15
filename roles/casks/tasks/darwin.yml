@@ -1,7 +1,5 @@
 ---
 - name: installs homebrew cask packages
-  become: true
-  become_user: "{{ ansible_env.USER }}"
   homebrew_cask:
     name:
       - brave-browser
@@ -17,3 +15,5 @@
       - whatsapp
       - dropbox
     state: present
+  become: true
+  become_user: "{{ ansible_env.USER }}"
