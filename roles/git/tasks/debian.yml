@@ -1,9 +1,9 @@
 ---
 - name: install git
   become: true
-  become_user: "{{ ansible_env.USER }}"
   apt:
-    name: git
+    name:
+      - git
     state: latest
 
 - name: create .gitconfig symlink
