@@ -1,6 +1,7 @@
 ---
 - name: install git
   become: true
+  become_user: "{{ ansible_env.USER }}"
   apt:
     name: git
     state: latest
