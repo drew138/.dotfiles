@@ -6,3 +6,14 @@
   args:
     executable: /bin/bash
     creates: /usr/local/bin/brew
+
+
+- name: Run 'which brew' command
+  command: "which brew"
+  register: brew_location_output
+  changed_when: false
+
+- name: Print Homebrew installation location
+  debug:
+    msg: "Homebrew is installed at {{ brew_location_output.stdout }}"
+  when: brew_location_output.stdout is not none
