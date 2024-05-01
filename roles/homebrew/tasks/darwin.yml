@@ -2,6 +2,7 @@
 - name: ensure homebrew is installed
   become: true
   become_user: "{{ ansible_env.USER }}"
-  command: "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+  shell: "curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
   args:
+    executable: /bin/bash
     creates: /usr/local/bin/brew
