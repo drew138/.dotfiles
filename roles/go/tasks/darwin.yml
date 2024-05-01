@@ -37,18 +37,18 @@
 - name: try to get current go version installed
   command: go version
   register: result
-  ignore_errors: false
+  failed_when: false
   changed_when: false
 
 - name: set go_current_version var
   set_fact:
     go_current_version: "{{ result.stdout.split(' ')[2] }}"
-  when: result.failed == false
+  when: result.rc == 0
 
 - name: set go_current_version var to none
   set_fact:
     go_current_version: "none"
-  when: result.failed == true
+  when: result.rc != 0
 
 - name: download and extract go tar file
   become: true
