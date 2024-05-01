@@ -37,7 +37,7 @@
 - name: try to get current go version installed
   command: go version
   register: result
-  failed_when: false
+  ignore_errors: false
   changed_when: false
 
 - name: set go_current_version var
