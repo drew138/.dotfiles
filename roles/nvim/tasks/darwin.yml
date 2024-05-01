@@ -1,11 +1,18 @@
 ---
+- name: installs cmake
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  homebrew_cask:
+    name:
+      - cmake
+    state: present
+
 - name: install dependencies
   become: true
   become_user: "{{ ansible_env.USER }}"
   homebrew:
     name:
       - xclip
-      - cmake
       - make
       - python
     state: latest
