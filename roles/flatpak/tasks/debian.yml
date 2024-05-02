@@ -30,6 +30,7 @@
     - com.obsproject.Studio
     - com.bitwarden.desktop
     - com.dropbox.Client
+    - io.dbeaver.DBeaverCommunity
 
 - name: update flatpaks
   command: flatpak update

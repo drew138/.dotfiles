@@ -58,6 +58,10 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
+# terraform
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
+
 # zoxide
 eval "$(zoxide init --cmd cd zsh)"
 

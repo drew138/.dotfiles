@@ -5,7 +5,7 @@ local Plugin = {
 	"nvim-tree/nvim-tree.lua",
 	dependencies = {
 		{ "EdenEast/nightfox.nvim" },
-		{ "kyazdani42/nvim-web-devicons" },
+		{ "nvim-tree/nvim-web-devicons" },
 	},
 	opts = function()
 		return require("plugins.nvim-tree.opts")
