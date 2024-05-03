@@ -70,6 +70,7 @@ jobs:
           rm -rf ~/.nvm
           rm -rf ~/go
           rm -rf ~/.go
+          sudo spctl --master-disable
 
       - name: install test dependencies
         run: pip3 install \
