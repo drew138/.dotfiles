@@ -73,7 +73,7 @@ jobs:
 
       - name: install test dependencies
         run: pip3 install \
-          ansible-core==2.16.1 \
+          ansible-core \
           molecule
 
       - name: create password file
