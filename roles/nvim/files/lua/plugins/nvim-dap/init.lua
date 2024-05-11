@@ -4,6 +4,7 @@ local Plugin = {
 		{ "nvim-telescope/telescope-dap.nvim" },
 		{ "theHamsta/nvim-dap-virtual-text" },
 		{ "EdenEast/nightfox.nvim" },
+        {"nvim-neotest/nvim-nio"},
 		{ "rcarriga/nvim-dap-ui" },
 		{
 			"leoluz/nvim-dap-go",

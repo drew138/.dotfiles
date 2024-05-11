@@ -10,6 +10,7 @@ local Opts = {
 				test_table = true,
 			},
 			args = { "-count=1", "-timeout=60s" },
+			recursive_run = true,
 		}),
 		require("neotest-rust")({
 			args = { "--no-capture" },
