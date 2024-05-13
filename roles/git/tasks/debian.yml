@@ -1,12 +1,10 @@
 ---
 - name: install git
   become: true
-  become_method: sudo
-  become_user: root
   apt:
     name:
       - git
-    state: latest
+    state: present
 
 - name: create .gitconfig symlink
   file:
