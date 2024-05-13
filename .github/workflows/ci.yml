@@ -113,7 +113,6 @@ jobs:
           rm -rf ~/.cargo
           rm -rf ~/.nvm
           rm /usr/local/bin/docker-compose
-          sudo apt update git
           rm -rf ~/go
           rm -rf ~/.go
 
