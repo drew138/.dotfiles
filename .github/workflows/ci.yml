@@ -70,7 +70,6 @@ jobs:
           rm -rf ~/.nvm
           rm -rf ~/go
           rm -rf ~/.go
-          sudo apt remove git
           sudo spctl --master-disable
 
       - name: install test dependencies
@@ -114,6 +113,7 @@ jobs:
           rm -rf ~/.cargo
           rm -rf ~/.nvm
           rm /usr/local/bin/docker-compose
+          sudo apt remove git
           rm -rf ~/go
           rm -rf ~/.go
 
