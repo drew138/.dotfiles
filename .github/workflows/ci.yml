@@ -115,9 +115,7 @@ jobs:
           rm /usr/local/bin/docker-compose
           rm -rf ~/go
           rm -rf ~/.go
-          sudo rm -rf /var/lib/apt/lists/*
-          sudo apt-get clean
-          sudo apt-get update
+          sudo chmod 755 /var/lib/apt/extended_states
 
       - name: install test dependencies
         run: pip3 install \
