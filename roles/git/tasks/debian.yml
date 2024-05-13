@@ -1,6 +1,7 @@
 ---
 - name: install git
   become: true
+  become_method: sudo
   apt:
     name:
       - git
