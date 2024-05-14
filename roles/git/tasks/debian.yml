@@ -1,6 +1,6 @@
 ---
 - name: install git
-  # become: true
+  become: true
   apt:
     name:
       - git
