@@ -116,10 +116,6 @@ jobs:
           rm -rf ~/go
           rm -rf ~/.go
 
-      - name: cat file
-        run: cat ./roles/git/tasks/debian.yml
-
-
       - name: install test dependencies
         run: pip3 install \
           ansible \
