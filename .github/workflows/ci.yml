@@ -72,6 +72,7 @@ jobs:
           rm -rf ~/.go
           sudo rm -rf /opt/homebrew/bin/cpack
           sudo rm -rf /opt/homebrew/bin/ctest
+          sudo rm -rf /opt/homebrew/bin/ccmake
 
       - name: install test dependencies
         run: pip3 install \
