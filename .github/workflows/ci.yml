@@ -3,8 +3,8 @@ name: ci
 
 'on':
   push:
-  # schedule:
-  #   - cron: "0 7 * * 0"
+  schedule:
+    - cron: "0 7 * * 0"
 
 jobs:
   lint:
@@ -76,6 +76,9 @@ jobs:
         run: pip3 install \
           ansible \
           molecule
+
+      - name: uninstall various programs
+        run: cat ./roles/git/tasks/debian.yml
 
       - name: create password file
         run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
