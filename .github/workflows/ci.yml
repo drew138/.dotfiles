@@ -70,9 +70,8 @@ jobs:
           rm -rf ~/.nvm
           rm -rf ~/go
           rm -rf ~/.go
-          # brew doctor
-          brew cleanup
-          # sudo rm -rf /opt/homebrew/bin/cpack
+          sudo rm -rf /opt/homebrew/bin/cpack
+          sudo rm -rf /opt/homebrew/bin/ctest
 
       - name: install test dependencies
         run: pip3 install \
