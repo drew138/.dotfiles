@@ -8,7 +8,7 @@ name: ci
 
 jobs:
   lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: check out the codebase
         uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
 
   check-roles:
     needs: lint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
       roles: ${{ steps.roles.outputs.roles }}
     steps:
@@ -70,7 +70,7 @@ jobs:
           rm -rf ~/.nvm
           rm -rf ~/go
           rm -rf ~/.go
-          sudo spctl --master-disable
+          sudo rm -rf /opt/homebrew/bin/cpack
 
       - name: install test dependencies
         run: pip3 install \
@@ -92,7 +92,7 @@ jobs:
 
   test-ubuntu:
     needs: check-roles
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -135,7 +135,7 @@ jobs:
 
   notify-errors:
     needs: [test-macos, test-ubuntu]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: github.event_name == 'schedule' && (needs.test-ubuntu.result == 'failure' || needs.test-macos.result == 'failure')
     steps:
       - name: send mail
