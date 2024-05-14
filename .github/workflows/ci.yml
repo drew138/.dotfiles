@@ -77,9 +77,6 @@ jobs:
           ansible \
           molecule
 
-      - name: uninstall various programs
-        run: cat ./roles/git/tasks/debian.yml
-
       - name: create password file
         run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
 
@@ -118,6 +115,10 @@ jobs:
           rm /usr/local/bin/docker-compose
           rm -rf ~/go
           rm -rf ~/.go
+
+      - name: cat file
+        run: cat ./roles/git/tasks/debian.yml
+
 
       - name: install test dependencies
         run: pip3 install \
