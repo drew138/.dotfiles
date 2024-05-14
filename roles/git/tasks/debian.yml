@@ -1,23 +1,23 @@
 ---
-- name: install git
-  become: true
-  apt:
-    name:
-      - git
-    state: latest
-
-- name: create .gitconfig symlink
-  file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/roles/git/files/.gitconfig"
-    dest: "{{ ansible_env.HOME }}/.gitconfig"
-    state: link
-    force: true
-
-- name: create .workrc.gitconfig file
-  copy:
-    content: ""
-    dest: "{{ ansible_env.HOME }}/.workrc.gitconfig"
-    backup: true
-    force: false
-    mode: "u+rwx"
-    owner: "{{ ansible_env.USER }}"
+# - name: install git
+#   become: true
+#   apt:
+#     name:
+#       - git
+#     state: latest
+#
+# - name: create .gitconfig symlink
+#   file:
+#     src: "{{ ansible_env.HOME }}/.dotfiles/roles/git/files/.gitconfig"
+#     dest: "{{ ansible_env.HOME }}/.gitconfig"
+#     state: link
+#     force: true
+#
+# - name: create .workrc.gitconfig file
+#   copy:
+#     content: ""
+#     dest: "{{ ansible_env.HOME }}/.workrc.gitconfig"
+#     backup: true
+#     force: false
+#     mode: "u+rwx"
+#     owner: "{{ ansible_env.USER }}"
