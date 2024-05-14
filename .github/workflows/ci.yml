@@ -73,6 +73,7 @@ jobs:
           sudo rm -rf /opt/homebrew/bin/cpack
           sudo rm -rf /opt/homebrew/bin/ctest
           sudo rm -rf /opt/homebrew/bin/ccmake
+          sudo rm -rf /opt/homebrew/bin/cmake
 
       - name: install test dependencies
         run: pip3 install \
