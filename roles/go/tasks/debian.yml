@@ -4,13 +4,10 @@
 #   register: go_arch_result
 #   changed_when: false
 
-
 - name: set go_arch
   set_fact:
     go_arch: "{{ ansible_machine | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
   changed_when: false
-
-
 
 # - name: set go_arch for amd64
 #   set_fact:
