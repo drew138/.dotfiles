@@ -1,18 +1,26 @@
 ---
-- name: check system architecture
-  command: uname -m
-  register: go_arch_result
+# - name: check system architecture
+#   command: uname -m
+#   register: go_arch_result
+#   changed_when: false
+
+
+- name: set go_arch
+  set_fact:
+    go_arch: "{{ ansible_machine | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
   changed_when: false
 
-- name: set go_arch for amd64
-  set_fact:
-    go_arch: "amd64"
-  when: "'x86_64' in go_arch_result.stdout"
 
-- name: set go_arch for 386
-  set_fact:
-    go_arch: "386"
-  when: "'i386' in go_arch_result.stdout"
+
+# - name: set go_arch for amd64
+#   set_fact:
+#     go_arch: "amd64"
+#   when: "'x86_64' in go_arch_result.stdout"
+#
+# - name: set go_arch for 386
+#   set_fact:
+#     go_arch: "386"
+#   when: "'i386' in go_arch_result.stdout"
 
 - name: run uname command and set a fact
   command: uname
@@ -37,17 +45,18 @@
 - name: try to get current go version installed
   command: go version
   register: result
+  failed_when: false
   changed_when: false
 
 - name: set go_current_version var
   set_fact:
     go_current_version: "{{ result.stdout.split(' ')[2] }}"
-  when: result.failed == false
+  when: result.rc == 0
 
 - name: set go_current_version var to none
   set_fact:
     go_current_version: "none"
-  when: result.failed == true
+  when: result.rc == 0
 
 - name: download and extract go tar file
   become: true

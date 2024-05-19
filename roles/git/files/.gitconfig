@@ -3,6 +3,7 @@
 	name = drew
 [core]
 	editor = nvim
+	symlinks = false
 [push]
 	default = current
 [pull]

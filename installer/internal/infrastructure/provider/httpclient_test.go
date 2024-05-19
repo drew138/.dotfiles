@@ -1,4 +1,4 @@
-package roles
+package provider
 
 import (
 	"testing"
@@ -44,5 +44,4 @@ func TestRoles_getDirectoryNamesBody(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, expectedBody, body, "they should be equal")
 	})
-
 }
