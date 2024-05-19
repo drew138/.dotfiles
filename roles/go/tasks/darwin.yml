@@ -4,6 +4,9 @@
   register: go_arch_result
   changed_when: false
 
+- debug:
+    msg: "{{ go_arch_result.stdout }}"
+
 - name: set go_arch for amd64
   set_fact:
     go_arch: "amd64"
