@@ -1,28 +1,23 @@
 ---
-# - name: check system architecture
-#   command: uname -m
-#   register: go_arch_result
-#   changed_when: false
-
-- name: set go_arch
-  set_fact:
-    go_arch: "{{ ansible_machine | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
+- name: check system architecture
+  command: uname -m
+  register: go_arch_result
   changed_when: false
 
-# - name: set go_arch for arm64
-#   set_fact:
-#     go_arch: "arm64"
-#   when: "'arm64' in go_arch_result.stdout"
-#
-# - name: set go_arch for amd64
-#   set_fact:
-#     go_arch: "amd64"
-#   when: "'x86_64' in go_arch_result.stdout"
-#
-# - name: set go_arch for 386
-#   set_fact:
-#     go_arch: "386"
-#   when: "'i386' in go_arch_result.stdout"
+- name: set go_arch for arm64
+  set_fact:
+    go_arch: "arm64"
+  when: "'arm64' in go_arch_result.stdout"
+
+- name: set go_arch for amd64
+  set_fact:
+    go_arch: "amd64"
+  when: "'x86_64' in go_arch_result.stdout"
+
+- name: set go_arch for 386
+  set_fact:
+    go_arch: "386"
+  when: "'i386' in go_arch_result.stdout"
 
 - name: run uname command and set a fact
   command: uname

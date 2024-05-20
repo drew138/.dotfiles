@@ -37,9 +37,7 @@ func (r *repository) createForm(
 		huh.NewGroup(
 			huh.NewMultiSelect[string]().
 				Title("Roles").
-				Options(
-					options...,
-				).
+				Options(options...).
 				Value(selectedRoles),
 
 			huh.NewConfirm().

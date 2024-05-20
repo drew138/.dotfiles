@@ -13,6 +13,14 @@ type HttpClient struct {
 	mock.Mock
 }
 
+type HttpClient_Expecter struct {
+	mock *mock.Mock
+}
+
+func (_m *HttpClient) EXPECT() *HttpClient_Expecter {
+	return &HttpClient_Expecter{mock: &_m.Mock}
+}
+
 // Get provides a mock function with given fields: _a0
 func (_m *HttpClient) Get(_a0 string) (*http.Response, error) {
 	ret := _m.Called(_a0)
@@ -41,6 +49,34 @@ func (_m *HttpClient) Get(_a0 string) (*http.Response, error) {
 	}
 
 	return r0, r1
+}
+
+// HttpClient_Get_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Get'
+type HttpClient_Get_Call struct {
+	*mock.Call
+}
+
+// Get is a helper method to define mock.On call
+//   - _a0 string
+func (_e *HttpClient_Expecter) Get(_a0 interface{}) *HttpClient_Get_Call {
+	return &HttpClient_Get_Call{Call: _e.mock.On("Get", _a0)}
+}
+
+func (_c *HttpClient_Get_Call) Run(run func(_a0 string)) *HttpClient_Get_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(string))
+	})
+	return _c
+}
+
+func (_c *HttpClient_Get_Call) Return(_a0 *http.Response, _a1 error) *HttpClient_Get_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *HttpClient_Get_Call) RunAndReturn(run func(string) (*http.Response, error)) *HttpClient_Get_Call {
+	_c.Call.Return(run)
+	return _c
 }
 
 // NewHttpClient creates a new instance of HttpClient. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
