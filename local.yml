@@ -5,6 +5,3 @@
       include_role:
         name: "{{ item }}"
       loop: "{{ selected_roles }}"
-    # - name: reboot machine
-    #   ansible.builtin.reboot:
-    #     msg: "rebooting machine"
