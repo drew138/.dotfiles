@@ -6,6 +6,7 @@
     name:
       - docker
     state: present
+  ignore_errors: true
 
 - name: install docker-compose and colima
   become: true

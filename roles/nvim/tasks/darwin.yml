@@ -6,6 +6,7 @@
     name:
       - cmake
     state: present
+  ignore_errors: true
 
 - name: install dependencies
   become: true
