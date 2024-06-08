@@ -37,14 +37,6 @@
     clone: true
     update: true
 
-# - name: clean previous neovim build
-#   become: true
-#   shell:
-#     cmd: |
-#       sudo make distclean
-#     chdir: "{{ ansible_env.HOME }}/dev/neovim"
-#   changed_when: false
-
 - name: build and install nvim
   become: true
   shell:
