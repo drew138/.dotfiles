@@ -31,7 +31,7 @@ func (r *repository) createOptions(roles []string) []huh.Option[string] {
 func (r *repository) createForm(
 	selectedRoles *[]string,
 	options []huh.Option[string],
-	debug bool,
+	debug *bool,
 ) *huh.Form {
 	return huh.NewForm(
 		huh.NewGroup(
@@ -44,7 +44,7 @@ func (r *repository) createForm(
 				Title("Run in debug mode?").
 				Affirmative("Yes").
 				Negative("No").
-				Value(&debug),
+				Value(debug),
 		),
 	)
 }
@@ -63,7 +63,7 @@ func (r *repository) Run() error {
 		debug         bool
 	)
 
-	form := r.createForm(&selectedRoles, options, debug)
+	form := r.createForm(&selectedRoles, options, &debug)
 
 	form.Run()
 

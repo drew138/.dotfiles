@@ -19,3 +19,4 @@
       - whatsapp
       - dropbox
     state: present
+  ignore_errors: true
