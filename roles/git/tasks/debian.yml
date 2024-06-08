@@ -13,6 +13,13 @@
     state: link
     force: true
 
+- name: create .gitconfig symlink
+  file:
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/git/files/.gitconfig_global"
+    dest: "{{ ansible_env.HOME }}/.gitconfig_global"
+    state: link
+    force: true
+
 - name: create .workrc.gitconfig file
   copy:
     content: ""

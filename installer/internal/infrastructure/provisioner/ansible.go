@@ -18,7 +18,7 @@ type repository struct {
 }
 
 func New(command Command) *repository {
-	return &repository{}
+	return &repository{command: command}
 }
 
 func (r *repository) Pull(roles []string, debug bool) error {

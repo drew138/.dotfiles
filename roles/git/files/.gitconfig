@@ -4,6 +4,7 @@
 [core]
 	editor = nvim
 	symlinks = false
+	excludesfile = ~/.gitignore_global
 [push]
 	default = current
 [pull]

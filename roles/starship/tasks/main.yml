@@ -1,29 +1,4 @@
 ---
-- name: check for starship command
-  stat:
-    path: /usr/local/bin/starship
-  register: starship_path
-  # no_log: true
-  ignore_errors: true
-  changed_when: false
-
-- name: download starship installer
-  get_url:
-    url: https://starship.rs/install.sh
-    dest: /tmp/starship-installer.sh
-    mode: "u+rwx"
-  when: not starship_path.stat.exists
-  register: download
-
-- name: run the install script
-  shell: /tmp/starship-installer.sh --yes
-  when: download.changed
-
-- name: remove starship-installer.sh
-  file:
-    path: /tmp/starship-installer.sh
-    state: absent
-
 - name: create starship symlink
   file:
     src: "{{ ansible_env.HOME }}/.dotfiles/roles/starship/files/starship.toml"

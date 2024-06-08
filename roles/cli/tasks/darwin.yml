@@ -13,6 +13,8 @@
       - jq
       - bat
       - zoxide
+      - curl
+      - wget
     state: latest
 
 - name: install pre-commit

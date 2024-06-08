@@ -1,5 +1,43 @@
-# starship configs
-eval "$(starship init zsh)"
+# set vim keybinds
+bindkey -v
+
+# zinit
+export ZINIT_HOME="$HOME/.local/share/zinit"
+
+[ -d $ZINIT_HOME ] && source "$ZINIT_HOME/zinit.zsh"
+
+zinit light romkatv/zsh-defer
+zsh-defer zinit light zsh-users/zsh-syntax-highlighting
+zsh-defer zinit light zsh-users/zsh-completions
+zsh-defer zinit light zsh-users/zsh-autosuggestions
+zsh-defer zinit light Aloxaf/fzf-tab
+
+autoload -Uz compinit && compinit
+zinit cdreplay -q
+
+zinit ice as"command" from"gh-r" \
+          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+          atpull"%atclone" src"init.zsh"
+zinit light starship/starship
+
+export HISTSIZE=5000
+export HISTFILE=~/.zsh_history
+export SAVEHIST=$HISTSIZE
+export HISTDUP=erase
+
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath | command fzf'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # editor configs
 export EDITOR='nvim'
@@ -41,6 +79,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+eval "$(fzf --zsh)"
 
 # rust configs
 [ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
@@ -58,16 +97,5 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
-# terraform
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/terraform terraform
-
 # zoxide
 eval "$(zoxide init --cmd cd zsh)"
-
-# zsh-autosuggestions configs
-source $HOME/dev/zsh-autosuggestions/zsh-autosuggestions.zsh
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
-
-# zsh-syntax-highlighting configs
-source $HOME/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

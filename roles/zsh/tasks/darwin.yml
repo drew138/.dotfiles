@@ -21,6 +21,17 @@
   shell: "sudo chsh -s $(which zsh) {{ ansible_env.USER }}"
   changed_when: false
 
+- name: download zinit repository
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  git:
+    repo: "https://github.com/zdharma-continuum/zinit.git"
+    dest: "{{ ansible_env.USER }}/.local/share/zinit"
+    depth: 1
+    clone: true
+    update: true
+  loop: "{{ zsh_plugins }}"
+
 - name: download zsh plugins
   become: true
   become_user: "{{ ansible_env.USER }}"
