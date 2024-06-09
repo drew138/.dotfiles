@@ -8,6 +8,7 @@
     state: latest
 
 - name: create /etc/apt/keyrings directory if it doesn't exist
+  become: true
   file:
     path: /etc/apt/keyrings
     state: directory
