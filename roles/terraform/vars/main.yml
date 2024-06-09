@@ -1,3 +1,3 @@
 ---
-hashicorp_keyring_path: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+hashicorp_keyring_path: /etc/apt/keyrings/hashicorp-archive-keyring.gpg
 hashicorp_repo_url: https://apt.releases.hashicorp.com

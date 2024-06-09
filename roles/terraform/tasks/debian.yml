@@ -7,10 +7,16 @@
       - lsb-release
     state: latest
 
-- name: download and add hashicorp GPG key
-  apt_key:
+- name: download hashicorp armored GPG key
+  get_url:
     url: "{{ hashicorp_repo_url }}/gpg"
-    keyring: "{{ hashicorp_keyring_path }}"
+    dest: "{{ hashicorp_keyring_path }}"
+
+- name: de-armor hashicorp GPG key
+  command: "gpg --dearmor < {{ hashicorp_keyring_path }}_armored > {{ hashicorp_keyring_path }}"
+  no_log: true
+  args:
+    creates: "{{ hashicorp_keyring_path }}"
 
 - name: add hashicorp repository
   become: true

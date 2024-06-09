@@ -7,10 +7,16 @@
       - gnupg
     state: latest
 
-- name: download and add kubectl GPG key
-  apt_key:
+- name: download hashicorp armored GPG key
+  get_url:
     url: "{{ kubernetes_key_url }}/Release.key"
-    keyring: "{{ kubernetes_keyring_path }}"
+    dest: "{{ kubernetes_keyring_path }}"
+
+- name: de-armor hashicorp GPG key
+  command: "gpg --dearmor < {{ kubernetes_keyring_path }}_armored > {{ kubernetes_keyring_path }}"
+  no_log: true
+  args:
+    creates: "{{ kubernetes_keyring_path }}"
 
 - name: add kubernetes repository
   become: true
