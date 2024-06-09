@@ -16,7 +16,7 @@
 - name: download hashicorp armored GPG key
   get_url:
     url: "{{ hashicorp_repo_url }}/gpg"
-    dest: "{{ hashicorp_keyring_path }}"
+    dest: "{{ hashicorp_keyring_path }}_armored"
 
 - name: de-armor hashicorp GPG key
   command: "gpg --dearmor < {{ hashicorp_keyring_path }}_armored > {{ hashicorp_keyring_path }}"

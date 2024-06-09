@@ -16,7 +16,7 @@
 - name: download hashicorp armored GPG key
   get_url:
     url: "{{ kubernetes_key_url }}/Release.key"
-    dest: "{{ kubernetes_keyring_path }}"
+    dest: "{{ kubernetes_keyring_path }}_armored"
 
 - name: de-armor hashicorp GPG key
   command: "gpg --dearmor < {{ kubernetes_keyring_path }}_armored > {{ kubernetes_keyring_path }}"
