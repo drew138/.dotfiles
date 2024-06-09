@@ -31,5 +31,6 @@
 
 - name: install rust toolchain
   shell: rustup toolchain remove stable && rustup toolchain install stable
+  changed_when: false
   args:
     executable: /bin/bash
