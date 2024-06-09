@@ -28,3 +28,8 @@
   file:
     path: "/tmp/sh.rustup.rs"
     state: absent
+
+- name: install rust toolchain
+  shell: rustup toolchain remove stable && rustup toolchain install stable 
+  args:
+    executable: /bin/bash

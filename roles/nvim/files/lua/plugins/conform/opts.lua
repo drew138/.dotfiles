@@ -14,7 +14,7 @@ local Opts = {
 		lua = { "stylua" },
 		python = { "black" },
 		go = {
-			"gofmt",
+			"gofumpt",
 			"goimports",
 			"goimports-reviser",
 			"golines",
@@ -23,7 +23,7 @@ local Opts = {
 		rust = { "rustfmt" },
 		proto = { "buf" },
 		cpp = { "clang_format" },
-		sql = { "sqlfluff" },
+		sql = { "sqlfmt" },
 		["*"] = { "trim_whitespace" },
 	},
 	format_on_save = {

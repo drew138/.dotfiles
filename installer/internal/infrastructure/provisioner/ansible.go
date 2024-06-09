@@ -39,6 +39,7 @@ func (r *repository) Pull(roles []string, debug bool) error {
 		"-U",
 		url,
 		"local.yml",
+		"--ask-vault-pass",
 		"--extra-vars",
 		string(jsonData),
 	)
