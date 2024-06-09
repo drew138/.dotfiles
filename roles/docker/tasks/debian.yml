@@ -10,16 +10,24 @@
       - software-properties-common
     state: latest
 
-- name: add gpg key
+- name: download docker armored GPG key
   become: true
-  apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    state: present
+  get_url:
+    url: "{{ docker_repo_url }}/gpg"
+    dest: "{{ docker_keyring_path }}"
+
+- name: get system architecture
+  command: dpkg --print-architecture
+  register: system_architecture
+
+- name: get os version codename
+  shell: ". /etc/os-release && echo $VERSION_CODENAME"
+  register: os_version_codename
 
 - name: add docker repository
   become: true
   apt_repository:
-    repo: deb https://download.docker.com/linux/debian bullseye stable
+    repo: "deb [arch={{ system_architecture.stdout }} signed-by={{ docker_keyring_path }}] {{ docker_repo_url }} {{ os_version_codename.stdout }} stable"
     state: present
 
 - name: install docker

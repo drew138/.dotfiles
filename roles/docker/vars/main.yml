@@ -1,2 +1,4 @@
 ---
 docker_compose_Linux_x86_64: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
+docker_keyring_path: /etc/apt/keyrings/docker.asc
+docker_repo_url: https://download.docker.com/linux/ubuntu
