@@ -19,6 +19,7 @@
     url: https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key
     dest: /tmp/kubernetes.key
     mode: '0644'
+  changed_when: false
 
 - name: dearmor kubernetes GPG key
   shell:
@@ -42,11 +43,13 @@
   file:
     path: /tmp/kubernetes.key
     state: absent
+  changed_when: false
 
 - name: update apt cache after adding new repository
   become: true
   apt:
     update_cache: true
+  changed_when: false
 
 - name: install kubectl
   become: true
