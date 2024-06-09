@@ -30,6 +30,6 @@
     state: absent
 
 - name: install rust toolchain
-  shell: rustup toolchain remove stable && rustup toolchain install stable 
+  shell: rustup toolchain remove stable && rustup toolchain install stable
   args:
     executable: /bin/bash
