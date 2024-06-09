@@ -118,6 +118,7 @@ jobs:
           rm /usr/local/bin/docker-compose
           rm -rf ~/go
           rm -rf ~/.go
+          ls -la /etc/apt/keyrings
 
       - name: install test dependencies
         run: pip3 install \
