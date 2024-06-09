@@ -14,13 +14,14 @@
     state: directory
     mode: '0755'
 
-- name: download hashicorp armored GPG key
+- name: download kubernetes armored GPG key
   become: true
   get_url:
     url: "{{ kubernetes_key_url }}/Release.key"
     dest: "{{ kubernetes_keyring_path }}_armored"
 
-- name: de-armor hashicorp GPG key
+- name: de-armor kubernetes GPG key
+  become: true
   command: "gpg --dearmor < {{ kubernetes_keyring_path }}_armored > {{ kubernetes_keyring_path }}"
   no_log: true
   args:
