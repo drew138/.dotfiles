@@ -1,6 +1,9 @@
 # set vim keybinds
 bindkey -v
 
+# initialize completion system
+autoload -Uz compinit && compinit
+
 # zinit
 export ZINIT_HOME="$HOME/.local/share/zinit"
 
@@ -12,7 +15,6 @@ zsh-defer zinit light zsh-users/zsh-completions
 zsh-defer zinit light zsh-users/zsh-autosuggestions
 zsh-defer zinit light Aloxaf/fzf-tab
 
-autoload -Uz compinit && compinit
 zinit cdreplay -q
 
 zinit ice as"command" from"gh-r" \
@@ -99,3 +101,6 @@ bindkey '^x^e' edit-command-line
 
 # zoxide
 eval "$(zoxide init --cmd cd zsh)"
+
+# kubectl
+source <(kubectl completion zsh)

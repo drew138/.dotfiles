@@ -1,0 +1,3 @@
+---
+kubernetes_keyring_path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+kubernetes_key_url: https://pkgs.k8s.io/core:/stable:/v1.30/deb
