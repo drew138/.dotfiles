@@ -23,7 +23,7 @@
 - name: de-armor hashicorp GPG key
   become: true
   command: "gpg --dearmor < {{ hashicorp_keyring_path }}_armored > {{ hashicorp_keyring_path }}"
-  no_log: true
+  # no_log: true
   args:
     creates: "{{ hashicorp_keyring_path }}"
 
