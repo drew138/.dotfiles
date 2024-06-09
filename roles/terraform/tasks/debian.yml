@@ -23,13 +23,14 @@
 - name: de-armor hashicorp GPG key
   become: true
   shell: "gpg --dearmor < {{ hashicorp_keyring_path }}_armored > {{ hashicorp_keyring_path }}"
-  # no_log: true
+  no_log: true
   args:
     creates: "{{ hashicorp_keyring_path }}"
 
-- name: Get release codename with lsb_release
+- name: get release codename with lsb_release
   command: lsb_release -cs
   register: codename
+  changed_when: false
 
 - name: add hashicorp repository
   become: true
