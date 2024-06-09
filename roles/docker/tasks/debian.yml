@@ -19,10 +19,12 @@
 - name: get system architecture
   command: dpkg --print-architecture
   register: system_architecture
+  changed_when: false
 
 - name: get os version codename
   shell: ". /etc/os-release && echo $VERSION_CODENAME"
   register: os_version_codename
+  changed_when: false
 
 - name: add docker repository
   become: true
