@@ -7,6 +7,12 @@
       - gnupg
     state: latest
 
+- name: create /etc/apt/keyrings directory if it doesn't exist
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
 - name: download hashicorp armored GPG key
   get_url:
     url: "{{ kubernetes_key_url }}/Release.key"
