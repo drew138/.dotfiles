@@ -39,12 +39,12 @@
 
 - name: delete temporary file
   file:
-    path: /tmp/kubernetes.key 
+    path: /tmp/kubernetes.key
     state: absent
 
 - name: update apt cache after adding new repository
   apt:
-    update_cache: yes
+    update_cache: true
 
 - name: install kubectl
   apt:
