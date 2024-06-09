@@ -27,10 +27,14 @@
   args:
     creates: "{{ hashicorp_keyring_path }}"
 
+- name: Get release codename with lsb_release
+  command: lsb_release -cs
+  register: codename
+
 - name: add hashicorp repository
   become: true
   apt_repository:
-    repo: "deb [signed-by={{ hashicorp_keyring_path }}] {{ hashicorp_repo_url }} $(lsb_release -cs) main"
+    repo: "deb [signed-by={{ hashicorp_keyring_path }}] {{ hashicorp_repo_url }} {{ codename.stdout }} main"
     filename: /etc/apt/sources.list.d/hashicorp.list
 
 - name: update package cache and install terraform
