@@ -1,0 +1,52 @@
+---
+- name: install required packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+    state: latest
+
+- name: ensure /etc/apt/keyrings directory exists
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: import kubernetes repository GPG key
+  get_url:
+    url: https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key
+    dest: /tmp/kubernetes.key
+    mode: '0644'
+
+- name: dearmor kubernetes GPG key
+  shell:
+    cmd: gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg < /tmp/kubernetes.key
+    creates: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+- name: set permissions on kubernetes apt keyring
+  file:
+    path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    mode: '0644'
+
+- name: add kubernetes repository
+  lineinfile:
+    path: /etc/apt/sources.list.d/kubernetes.list
+    create: true
+    line: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /
+    mode: '0644'
+
+- name: delete temporary file
+  file:
+    path: /tmp/kubernetes.key 
+    state: absent
+
+- name: update apt cache after adding new repository
+  apt:
+    update_cache: yes
+
+- name: install kubectl
+  apt:
+    name: kubectl
+    state: latest
