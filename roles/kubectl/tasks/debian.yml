@@ -44,10 +44,12 @@
     state: absent
 
 - name: update apt cache after adding new repository
+  become: true
   apt:
     update_cache: true
 
 - name: install kubectl
+  become: true
   apt:
     name: kubectl
     state: latest
