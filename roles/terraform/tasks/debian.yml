@@ -44,6 +44,3 @@
     update_cache: true
     name: terraform
     state: latest
-
-- name: install terraform autocomplete
-  command: terraform -install-autocomplete

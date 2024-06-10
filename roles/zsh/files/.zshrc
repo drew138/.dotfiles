@@ -104,3 +104,9 @@ eval "$(zoxide init --cmd cd zsh)"
 
 # kubectl
 source <(kubectl completion zsh)
+
+# terraform
+complete -o nospace -C /usr/local/bin/terraform terraform
+
+# enable bash completion in zsh
+autoload -U +X bashcompinit && bashcompinit
