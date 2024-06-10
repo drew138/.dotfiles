@@ -1,8 +1,11 @@
 ---
-- name: install kubectl
+- name: install terraform
   become: true
   become_user: "{{ ansible_env.USER }}"
   homebrew:
     name:
-      - kubectl
+      - terraform
     state: latest
+
+- name: install terraform autocomplete
+  command: terraform -install-autocomplete
