@@ -8,6 +8,18 @@ Install ansible and molecule.
 pip3 install ansible molecule
 ```
 
+### Set ansible vault password
+
+```bash
+echo "<password>" > ~/.ansible_vault
+```
+
+### Set ansible vault password environment variable
+
+```bash
+export ANSIBLE_VAULT_PASSWORD_FILE=~/.ansible_vault
+```
+
 ### Install all
 
 ```bash
