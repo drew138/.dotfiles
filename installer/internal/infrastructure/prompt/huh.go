@@ -51,7 +51,6 @@ func (r *repository) createForm(
 
 func (r *repository) Run() error {
 	roles, err := r.service.GetRoles()
-
 	if err != nil {
 		return err
 	}
@@ -69,7 +68,6 @@ func (r *repository) Run() error {
 
 	action := func() {
 		err := r.service.Pull(selectedRoles, debug)
-
 		if err != nil {
 			log.Fatal(err)
 		}
