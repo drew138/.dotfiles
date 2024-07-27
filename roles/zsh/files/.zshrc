@@ -72,6 +72,7 @@ export PATH="$HOME/go/bin:/usr/local/go/bin:$PATH"
 
 # homebrew configs
 export HOMEBREW_NO_AUTO_UPDATE=1
+export PATH="/opt/homebrew/bin:$PATH"
 
 # nvm configs
 export NVM_DIR="$HOME/.nvm"
