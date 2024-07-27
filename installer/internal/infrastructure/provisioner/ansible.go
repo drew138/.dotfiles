@@ -38,6 +38,8 @@ func (r *repository) Pull(roles []string, debug bool) error {
 		"ansible-pull",
 		"-U",
 		url,
+		"--vault-password-file",
+		"$ANSIBLE_VAULT_PASSWORD_FILE",
 		"local.yml",
 		"--extra-vars",
 		string(jsonData),
