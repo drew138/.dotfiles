@@ -4,6 +4,9 @@ bindkey -v
 # initialize completion system
 autoload -Uz compinit && compinit
 
+# enable bash completion in zsh
+autoload -U +X bashcompinit && bashcompinit
+
 # zinit
 export ZINIT_HOME="$HOME/.local/share/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
@@ -112,6 +115,3 @@ source <(kubectl completion zsh)
 
 # terraform
 complete -o nospace -C /usr/local/bin/terraform terraform
-
-# enable bash completion in zsh
-autoload -U +X bashcompinit && bashcompinit
