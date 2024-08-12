@@ -4,7 +4,7 @@ local Plugin = {
 	main = "ibl",
 	init = function()
 		vim.opt.list = true
-		vim.opt.termguicolors = false
+		vim.opt.termguicolors = true
 		vim.opt.listchars:append("eol:↴")
 	end,
 	config = true,

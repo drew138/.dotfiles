@@ -1,6 +1,9 @@
 # set vim keybinds
 bindkey -v
 
+# poetry
+fpath+=~/.zfunc
+
 # initialize completion system
 autoload -Uz compinit && compinit
 
@@ -115,3 +118,6 @@ source <(kubectl completion zsh)
 
 # terraform
 complete -o nospace -C /usr/local/bin/terraform terraform
+
+# wezterm
+export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
