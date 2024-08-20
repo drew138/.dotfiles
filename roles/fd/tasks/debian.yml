@@ -7,6 +7,7 @@
     state: latest
 
 - name: create ~/.local directory
+  become: true
   file:
     path: "{{ ansible_env.HOME }}/.local/bin"
     state: directory
@@ -14,6 +15,7 @@
     owner: "{{ ansible_env.USER }}"
 
 - name: create ~/.local/bin directory
+  become: true
   file:
     path: "{{ ansible_env.HOME }}/.local/bin"
     state: directory

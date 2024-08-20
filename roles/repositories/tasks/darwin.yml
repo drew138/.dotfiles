@@ -8,6 +8,7 @@
     state: latest
 
 - name: create dev directory
+  become: true
   file:
     path: "{{ ansible_env.HOME }}/dev/"
     state: directory

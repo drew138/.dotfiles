@@ -1,5 +1,6 @@
 ---
 - name: ensure .ssh directory exists
+  become: true
   file:
     path: "{{ ansible_env.HOME }}/.ssh"
     state: directory
