@@ -14,7 +14,6 @@
     state: directory
     mode: 0755
     owner: "{{ ansible_env.USER }}"
-    group: "{{ ansible_env.USER }}"
 
 - name: download dotfiles repository
   become: true
