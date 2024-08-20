@@ -14,8 +14,6 @@
     force: false
     mode: "u+rwx"
     owner: "{{ ansible_env.USER }}"
-  args:
-    creates: "{{ ansible_env.HOME }}/.workrc.zsh"
 
 - name: change default shell
   become: true
