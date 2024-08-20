@@ -13,5 +13,4 @@
     version: "{{ nvm_latest_version.stdout }}"
     depth: 1
     clone: true
-    update: true
     force: true
