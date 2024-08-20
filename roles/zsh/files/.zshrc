@@ -120,4 +120,8 @@ source <(kubectl completion zsh)
 complete -o nospace -C /usr/local/bin/terraform terraform
 
 # wezterm
-export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
+if [[ "$(uname -s)" == "Linux" ]]; then
+    alias wezterm='flatpak run org.wezfurlong.wezterm'
+elif [[ "$(uname -s)" == "Darwin" ]]; then
+    export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
+fi

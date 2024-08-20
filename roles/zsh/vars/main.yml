@@ -1,6 +1,0 @@
----
-zsh_plugins:
-  - repo: https://github.com/zsh-users/zsh-autosuggestions.git
-    dest: "{{ ansible_env.HOME }}/dev/zsh-autosuggestions"
-  - repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: "{{ ansible_env.HOME }}/dev/zsh-syntax-highlighting"

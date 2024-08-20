@@ -6,10 +6,19 @@
       - fd-find
     state: latest
 
-- name: create bin directory if it doesn't exist
+- name: create ~/.local directory
   file:
     path: "{{ ansible_env.HOME }}/.local/bin"
     state: directory
+    mode: 0700
+    owner: "{{ ansible_env.USER }}"
+
+- name: create ~/.local/bin directory
+  file:
+    path: "{{ ansible_env.HOME }}/.local/bin"
+    state: directory
+    mode: 0700
+    owner: "{{ ansible_env.USER }}"
 
 - name: create symlink for fdfind
   become: true

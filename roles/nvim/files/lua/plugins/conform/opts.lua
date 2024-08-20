@@ -24,6 +24,7 @@ local Opts = {
 		proto = { "buf" },
 		cpp = { "clang_format" },
 		sql = { "sqlfmt" },
+		terraform = { "hclfmt" },
 		["*"] = { "trim_whitespace" },
 	},
 	format_on_save = {

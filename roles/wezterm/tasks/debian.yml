@@ -1,0 +1,17 @@
+---
+- name: install wezterm
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  flatpak:
+    name:
+      - org.wezfurlong.wezterm
+    method: user
+    state: present
+
+- name: create .wezterm.lua symlink
+  file:
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/wezterm/files/.wezterm.lua"
+    dest: "{{ ansible_env.HOME }}/.wezterm.lua"
+    owner: "{{ ansible_env.USER }}"
+    state: link
+    force: true

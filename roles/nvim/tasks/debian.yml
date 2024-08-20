@@ -29,6 +29,7 @@
     depth: 1
     clone: true
     update: true
+    force: true
 
 - name: build and install nvim
   become: true

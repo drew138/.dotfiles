@@ -109,16 +109,12 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: check folder permissions
-        run: ls -la ~/.local
-
       - name: uninstall various programs
         run: |
           rm -rf /usr/local/go
           rm -rf ~/go
           rm -rf ~/.cargo
           rm -rf ~/.nvm
-          rm /usr/local/bin/docker-compose
           rm -rf ~/go
           rm -rf ~/.go
 

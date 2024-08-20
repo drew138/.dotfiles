@@ -54,6 +54,7 @@ local Opts = {
 		"buf",
 		"clang-format",
 		"sqlfmt",
+		"hclfmt",
 	},
 	auto_update = false,
 	run_on_start = true,

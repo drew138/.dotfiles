@@ -3,13 +3,15 @@
   file:
     path: "{{ ansible_env.HOME }}/.ssh"
     state: directory
+    owner: "{{ ansible_env.USER }}"
+    mode: 0700
 
 - name: save decrypted variable to id_ed25519
   copy:
     content: "{{ ssh_github_private_key }}"
     dest: "{{ ansible_env.HOME }}/.ssh/id_ed25519"
     owner: "{{ ansible_env.USER }}"
-    mode: "0600"
+    mode: 0600
 
 - name: capture gitHub rsa key
   shell: ssh-keyscan -t rsa github.com

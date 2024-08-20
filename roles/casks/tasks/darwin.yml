@@ -1,22 +1,21 @@
 ---
-- name: installs homebrew cask packages
-  become: true
-  become_user: "{{ ansible_env.USER }}"
-  homebrew_cask:
-    name:
-      - brave-browser
-      - dbeaver-community
-      - slack
-      - spotify
-      - discord
-      - obsidian
-      - postman
-      - obs
-      - bitwarden
-      - notion
-      - notion-calendar
-      - logitech-g-hub
-      - whatsapp
-      - dropbox
-    state: present
-  ignore_errors: true
+- name: install homebrew casks
+  include_tasks: install_cask.yml
+  loop_control:
+    extended: true
+    extended_allitems: false
+  loop:
+    - brave-browser
+    - dbeaver-community
+    - slack
+    - spotify
+    - discord
+    - obsidian
+    - postman
+    - obs
+    - bitwarden
+    - notion
+    - notion-calendar
+    - logitech-g-hub
+    - whatsapp
+    - dropbox

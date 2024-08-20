@@ -18,6 +18,7 @@
     depth: 1
     clone: true
     update: true
+    force: true
 
 - name: create .tmux.conf symlink
   file:

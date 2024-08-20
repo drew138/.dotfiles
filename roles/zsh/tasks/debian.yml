@@ -8,38 +8,18 @@
 
 - name: create .workrc.zsh file
   copy:
-    content: "#!/bin/sh"
+    content: "#!/bin/bash"
     dest: "{{ ansible_env.HOME }}/.workrc.zsh"
-    backup: true
     force: false
     mode: "u+rwx"
     owner: "{{ ansible_env.USER }}"
+  args:
+    creates: "{{ ansible_env.HOME }}/.workrc.zsh"
 
 - name: change default shell
   become: true
   shell: "sudo chsh {{ ansible_env.USER }} -s $(which zsh)"
   changed_when: false
-
-- name: download zinit repository
-  become: true
-  become_user: "{{ ansible_env.USER }}"
-  git:
-    repo: "https://github.com/zdharma-continuum/zinit.git"
-    dest: "{{ ansible_env.USER }}/.local/share/zinit"
-    depth: 1
-    clone: true
-    update: true
-  loop: "{{ zsh_plugins }}"
-
-- name: download zsh plugins
-  become: true
-  become_user: "{{ ansible_env.USER }}"
-  git:
-    repo: "{{ item.repo }}"
-    dest: "{{ item.dest }}"
-    clone: true
-    update: true
-  loop: "{{ zsh_plugins }}"
 
 - name: create .zshrc symlink
   file:

@@ -14,6 +14,13 @@
     state: link
     force: true
 
+- name: create .gitignore_global symlink
+  file:
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/git/files/.gitignore_global"
+    dest: "{{ ansible_env.HOME }}/.gitignore_global"
+    state: link
+    force: true
+
 - name: create .workrc.gitconfig file
   copy:
     content: ""

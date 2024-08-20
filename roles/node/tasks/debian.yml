@@ -1,14 +1,4 @@
 ---
-# - name: install nodejs prerequisites
-#   become: true
-#   apt:
-#     name:
-#       - apt-transport-https
-#       - gcc
-#       - g++
-#       - make
-#     state: latest
-
 - name: install node
   become: true
   become_user: "{{ ansible_env.USER }}"

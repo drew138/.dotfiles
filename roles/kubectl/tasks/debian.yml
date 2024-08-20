@@ -12,7 +12,9 @@
   file:
     path: /etc/apt/keyrings
     state: directory
-    mode: '0755'
+    mode: 0755
+    owner: root
+    group: wheel
 
 - name: download kubernetes armored GPG key
   become: true
