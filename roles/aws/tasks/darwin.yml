@@ -3,13 +3,16 @@
   get_url:
     url: "https://awscli.amazonaws.com/AWSCLIV2.pkg"
     dest: "/tmp/AWSCLIV2.pkg"
+  changed_when: false
 
 - name: Install AWS CLI package
   become: true
   command:
     cmd: "installer -pkg /tmp/AWSCLIV2.pkg -target /"
+  changed_when: false
 
 - name: Remove AWS CLI package file
   file:
     path: "/tmp/AWSCLIV2.pkg"
     state: absent
+  changed_when: false
