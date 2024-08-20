@@ -2,7 +2,7 @@
 - name: unzip the aws CLI installer
   unarchive:
     src: "{{ aws_cli_zip_url }}"
-    dest: /tmp/aws
+    dest: /tmp
     remote_src: true
   changed_when: false
 
