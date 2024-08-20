@@ -1,15 +1,15 @@
 ---
-- name: unzip the aws CLI installer
+- name: unzip the aws cli installer
   unarchive:
     src: "{{ aws_cli_zip_url }}"
     dest: /tmp
     remote_src: true
   changed_when: false
 
-- name: install the aws CLI
+- name: install the aws cli
   command:
     cmd: ./install --bin-dir /usr/local/bin --install-dir {{ aws_cli_install_dir }} --update
-    chdir: /tmp/aws
+    chdir: /tmp/awscli-exe-linux-x86_64
   become: true
 
 - name: cleanup temporary installation files and zip
@@ -19,4 +19,4 @@
     state: absent
   changed_when: false
   loop:
-    - "/tmp/aws"
+    - "/tmp/awscli-exe-linux-x86_64"
