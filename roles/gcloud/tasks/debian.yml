@@ -1,0 +1,33 @@
+---
+- name: determine system architecture
+  set_fact:
+    gcloud_cli_arch: >-
+      {{
+        {
+          'aarch64': 'arm',
+          'arm64': 'arm',
+          'x86_64': 'x86_64',
+          'amd64': 'x86_64'
+        }.get(ansible_architecture, 'invalid')
+      }}
+
+- name: fail if architecture is not supported
+  fail:
+    msg: "Unsupported architecture: {{ ansible_architecture }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
+  when: gcloud_cli_arch == 'invalid'
+
+- name: unzip the aws cli installer
+  unarchive:
+    src: "{{ gcloud_download_url }}"
+    dest: "{{ ansible_env.HOME }}"
+    remote_src: true
+  changed_when: false
+
+- name: install the gcloud cli
+  become: true
+  command:
+    cmd: ./install.sh
+    chdir: "{{ ansible_env.HOME }}/google-cloud-sdk"
+  changed_when: false
+  notify:
+    - revert changes made to .zshrc
