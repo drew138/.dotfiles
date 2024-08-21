@@ -1,27 +1,24 @@
 ---
-- name: check system architecture
-  command: uname -m
-  register: go_arch_result
-  changed_when: false
+- name: determine system architecture
+  go_arch:
+    docker_compose_cli_arch: >-
+      {{
+        {
+          'aarch64': 'arm64',
+          'arm64': 'arm64',
+          'amd64': 'amd64'
+          'x86_64': 'amd64',
+        }.get(ansible_architecture, 'invalid')
+      }}
 
-- name: set go_arch for amd64
-  set_fact:
-    go_arch: "amd64"
-  when: "'x86_64' in go_arch_result.stdout"
-
-- name: set go_arch for 386
-  set_fact:
-    go_arch: "386"
-  when: "'i386' in go_arch_result.stdout"
-
-- name: run uname command and set a fact
-  command: uname
-  register: go_uname_result
-  changed_when: false
+- name: fail if architecture is not supported
+  fail:
+    msg: "Unsupported architecture: {{ ansible_architecture }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
+  when: go_arch == 'invalid'
 
 - name: set fact with uname output
   set_fact:
-    go_os: "{{ go_uname_result.stdout | lower }}"
+    go_os: "linux"
   changed_when: false
 
 - name: get filename prefix with latest version
