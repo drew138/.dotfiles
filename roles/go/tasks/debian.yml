@@ -16,7 +16,7 @@
     msg: "Unsupported architecture: {{ ansible_architecture }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
   when: go_arch == 'invalid'
 
-- name: set fact with uname output
+- name: set go_os
   set_fact:
     go_os: "linux"
   changed_when: false

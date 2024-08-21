@@ -16,6 +16,11 @@
     msg: "Unsupported architecture: {{ ansible_architecture }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
   when: gcloud_cli_arch == 'invalid'
 
+- name: set gcloud_os
+  set_fact:
+    go_os: "linux"
+  changed_when: false
+
 - name: unzip the aws cli installer
   unarchive:
     src: "{{ gcloud_download_url }}"
