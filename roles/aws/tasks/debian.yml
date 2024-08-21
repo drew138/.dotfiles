@@ -9,7 +9,7 @@
 - name: install the aws cli
   command:
     cmd: ./install --bin-dir /usr/local/bin --install-dir {{ aws_cli_install_dir }} --update
-    chdir: /tmp/awscli-exe-linux-x86_64
+    chdir: /tmp/aws
   become: true
 
 - name: cleanup temporary installation files and zip
@@ -19,4 +19,4 @@
     state: absent
   changed_when: false
   loop:
-    - "/tmp/awscli-exe-linux-x86_64"
+    - "/tmp/aws"
