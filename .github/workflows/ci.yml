@@ -37,9 +37,6 @@ jobs:
       - name: install jq
         run: sudo apt-get install jq
 
-      - name: hello
-        run: echo $(arch)
-
       - name: list ansible roles
         id: roles
         run: |

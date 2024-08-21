@@ -39,6 +39,8 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
     state: latest
 
 - name: make sure docker is active
@@ -54,9 +56,26 @@
     groups: "docker"
     append: true
 
+- name: determine system architecture
+  set_fact:
+    docker_compose_cli_arch: >-
+      {{
+        {
+          'aarch64': 'aarch64',
+          'arm64': 'aarch64',
+          'x86_64': 'x86_64',
+          'amd64': 'x86_64'
+        }.get(ansible_architecture, 'invalid')
+      }}
+
+- name: fail if architecture is not supported
+  fail:
+    msg: "Unsupported architecture: {{ ansible_architecture }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
+  when: docker_compose_cli_arch == 'invalid'
+
 - name: install docker-compose
   get_url:
-    url: "{{ docker_compose_Linux_x86_64 }}"
+    url: "{{ docker_compose_download_url }}"
     dest: /usr/local/bin/docker-compose
     mode: "+x"
   notify:
