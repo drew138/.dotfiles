@@ -36,4 +36,4 @@
     chdir: "{{ ansible_env.HOME }}/google-cloud-sdk"
   changed_when: false
   notify:
-    - revert changes made to zshrc
+    - "revert changes made to zshrc"
