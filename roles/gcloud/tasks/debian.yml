@@ -18,7 +18,7 @@
 
 - name: set gcloud_os
   set_fact:
-    go_os: "linux"
+    gcloud_os: "linux"
   changed_when: false
 
 - name: unzip the aws cli installer
