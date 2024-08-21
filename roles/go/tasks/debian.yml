@@ -1,7 +1,7 @@
 ---
 - name: determine system architecture
-  go_arch:
-    docker_compose_cli_arch: >-
+  set_fact:
+    go_arch: >-
       {{
         {
           'aarch64': 'arm64',
