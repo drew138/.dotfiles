@@ -1,5 +1,5 @@
 ---
-- name: revert changes made to .zshrc
+- name: revert changes made to zshrc
   shell: |
     git checkout .
   # git checkout since lazy gcloud install
