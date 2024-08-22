@@ -15,4 +15,3 @@
     clone: true
     update: true
     force: true
-    submodules: false
