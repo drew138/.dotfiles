@@ -1,0 +1,13 @@
+---
+- name: create fonts directories if they don't exist
+  file:
+    path: "{{ ansible_env.HOME }}/.local/share/fonts"
+    state: directory
+
+- name: create symlink for NerdFonts directory
+  file:
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/nerdfonts/files"
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts/NerdFonts"
+    owner: "{{ ansible_env.USER }}"
+    state: link
+    force: true
