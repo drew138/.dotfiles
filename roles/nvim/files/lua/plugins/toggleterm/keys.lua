@@ -8,7 +8,7 @@ local function git_commit_toggle()
 		direction = "float",
 		float_opts = {
 			border = "curved",
-			height = 10,
+			height = 15,
 			width = 80,
 		},
 	})
