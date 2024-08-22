@@ -61,14 +61,6 @@
     - "tree-sitter-cli"
   changed_when: false
 
-- name: create commitlint.config.js file
-  copy:
-    content: "export default { extends: ['@commitlint/config-conventional'] };"
-    dest: "{{ ansible_env.HOME }}/commitlint.config.js"
-    force: true
-    owner: "{{ ansible_env.USER }}"
-    mode: 0644
-
 - name: create nvim symlink
   file:
     src: "{{ ansible_env.HOME }}/.dotfiles/roles/nvim/files"

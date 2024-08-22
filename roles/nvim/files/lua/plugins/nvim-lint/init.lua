@@ -21,7 +21,6 @@ local Plugin = {
 			lua = { "selene" },
 			yaml = { "yamllint" },
 			sql = { "sqlfluff" },
-			gitcommit = { "commitlint" },
 			proto = { "buf", "protolint" },
 			css = { "stylelint" },
 		}
