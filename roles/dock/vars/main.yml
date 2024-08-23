@@ -1,0 +1,63 @@
+---
+dockitems_remove:
+  - Launchpad
+  - Safari
+  - Messages
+  - Mail
+  - Maps
+  - Photos
+  - FaceTime
+  - Calendar
+  - Contacts
+  - Reminders
+  - Notes
+  - Freeform
+  - TV
+  - Music
+  - Podcasts
+  - "App Store"
+
+dockitems_persist:
+  - name: "System Settings"
+    path: "/Applications/System Settings.app/"
+    pos: 1
+
+  - name: "Postman"
+    path: "/Applications/Postman.app/"
+    pos: 2
+
+  - name: "Bitwarden"
+    path: "/Applications/Bitwarden.app/"
+    pos: 3
+
+  - name: "WezTerm"
+    path: "/Applications/WezTerm.app/"
+    pos: 4
+
+  - name: "Notion"
+    path: "/Applications/Notion.app/"
+    pos: 5
+
+  - name: "Notion Calendar"
+    path: "/Applications/Notion Calendar.app/"
+    pos: 6
+
+  - name: "Slack"
+    path: "/Applications/Slack.app/"
+    pos: 7
+
+  - name: "Google Chrome"
+    path: "/Applications/Google Chrome.app/"
+    pos: 8
+
+  - name: "WhatsApp"
+    path: "/Applications/WhatsApp.app/"
+    pos: 9
+
+  - name: "Discord"
+    path: "/Applications/Discord.app/"
+    pos: 10
+
+  - name: "Spotify"
+    path: "/Applications/Spotify.app/"
+    pos: 11

@@ -15,6 +15,11 @@
       - zoxide
       - curl
       - wget
+
+      # required by python for scikit
+      # learn god knows why
+      - llvm
+      - libomp
     state: latest
 
 - name: install pre-commit
