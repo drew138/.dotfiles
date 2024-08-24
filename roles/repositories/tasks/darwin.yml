@@ -15,7 +15,6 @@
     owner: "{{ ansible_env.USER }}"
 
 - name: download dotfiles repository
-  become: true
   become_user: "{{ ansible_env.USER }}"
   git:
     repo: "git@github.com:drew138/.dotfiles.git"
@@ -24,7 +23,6 @@
     update: true
 
 - name: download repositories
-  become: true
   become_user: "{{ ansible_env.USER }}"
   git:
     repo: "git@github.com:drew138/{{ item }}.git"
