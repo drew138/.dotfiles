@@ -33,3 +33,6 @@ curl -O https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/f
 ```
 
 reminder: system reboot might be required for some software to work as expected.
+
+[badge-gh-actions]: https://github.com/drew138/.dotfiles/workflows/ci/badge.svg?event=push
+[link-gh-actions]: https://github.com/drew138/.dotfiles/actions?query=workflow%3Aci
