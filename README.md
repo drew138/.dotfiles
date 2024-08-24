@@ -1,5 +1,11 @@
 # Dotfiles
 
+A repository to automatically set up my workstation
+
+<img src="https://raw.githubusercontent.com/drew138/.dotfiles/main/assets/Mac-Dev-Playbook-Logo.png" width="250" height="156" alt="Mac Dev Playbook Logo" />
+
+[![CI][badge-gh-actions]][link-gh-actions]
+
 ## Installation
 
 Install ansible and molecule.
