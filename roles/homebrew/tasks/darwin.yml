@@ -1,6 +1,5 @@
 ---
 - name: ensure homebrew is installed
-  become: true
   become_user: "{{ ansible_env.USER }}"
   changed_when: false
   shell: "curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
