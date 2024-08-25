@@ -37,7 +37,8 @@
 #     state: absent
 
 - name: install rust toolchain
-  shell: rustup toolchain remove stable && rustup toolchain install stable
+  shell: ./rustup toolchain remove stable && ./rustup toolchain install stable
   changed_when: false
   args:
+    chdir: "{{ ansible_env.HOME }}/.cargo/bin"
     executable: /bin/bash
