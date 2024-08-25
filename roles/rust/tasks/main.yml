@@ -10,7 +10,7 @@
 - name: ensure rustup is installed
   become_user: "{{ ansible_env.USER }}"
   changed_when: false
-  shell: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+  shell: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -- -y"
   args:
     executable: /bin/bash
 
