@@ -1,4 +1,5 @@
 ---
+# DO NOT CHANGE ELEVATION OF PERMISSIONS
 - name: ensure homebrew is installed
   become_user: "{{ ansible_env.USER }}"
   changed_when: false
