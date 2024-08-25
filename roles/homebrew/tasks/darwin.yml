@@ -5,5 +5,7 @@
   become_user: "{{ ansible_env.USER }}"
   changed_when: false
   shell: '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+  environment:
+    NONINTERACTIVE: "1"
   args:
     executable: /bin/bash
