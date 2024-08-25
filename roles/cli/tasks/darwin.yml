@@ -15,6 +15,7 @@
       - zoxide
       - curl
       - wget
+      - gnu-tar
 
       # required by python for scikit
       # learn god knows why
