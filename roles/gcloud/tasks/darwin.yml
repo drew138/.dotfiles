@@ -21,19 +21,19 @@
     gcloud_os: "darwin"
   changed_when: false
 
-- name: unzip the aws cli installer
-  unarchive:
-    src: "{{ gcloud_download_url }}"
-    dest: "{{ ansible_env.HOME }}"
-    remote_src: true
-  changed_when: false
-
 - name: install gnu-tar
   become_user: "{{ ansible_env.USER }}"
   homebrew:
     name:
       - gnu-tar
     state: latest
+
+- name: unzip the gcloud cli installer
+  unarchive:
+    src: "{{ gcloud_download_url }}"
+    dest: "{{ ansible_env.HOME }}"
+    remote_src: true
+  changed_when: false
 
 - name: install the gcloud cli
   become: true
