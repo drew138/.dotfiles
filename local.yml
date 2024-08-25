@@ -1,6 +1,5 @@
 ---
 - hosts: "{{ selected_hosts }}"
-  stdout_callback: yaml
   tasks:
     - name: Include roles
       include_role:
@@ -8,3 +7,4 @@
       loop: "{{ selected_roles }}"
   environment:
     OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "YES"
+  stdout_callback: yaml
