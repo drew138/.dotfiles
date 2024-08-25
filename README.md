@@ -38,6 +38,6 @@ reminder: system reboot might be required for some software to work as expected.
 [link-gh-actions]: https://github.com/drew138/.dotfiles/actions?query=workflow%3Aci
 
 ```
-python3 -m ansible pull -U https://github.com/Drew138/.dotfiles.git local.yml --vault-password-file /Users/drew/.ansible_vault --extra-vars {"selected_hosts":"localhost","selected_roles":["zsh"]}
+python3 -m ansible-pull -U https://github.com/Drew138/.dotfiles.git local.yml --vault-password-file /Users/drew/.ansible_vault --extra-vars {"selected_hosts":"localhost","selected_roles":["zsh"]}
 
 ```
