@@ -7,4 +7,3 @@
       loop: "{{ selected_roles }}"
   environment:
     OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "YES"
-  stdout_callback: yaml
