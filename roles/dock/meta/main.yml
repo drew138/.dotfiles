@@ -12,4 +12,5 @@ galaxy_info:
         - all
 dependencies:
   - role: homebrew
+  - role: casks
   - role: wezterm

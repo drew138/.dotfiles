@@ -6,6 +6,7 @@
     name:
       - wezterm
     state: present
+  ignore_errors: true
 
 - name: create .wezterm.lua symlink
   file:
