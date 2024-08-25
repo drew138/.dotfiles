@@ -3,6 +3,6 @@
   become: true
   become_user: "{{ ansible_env.USER }}"
   changed_when: false
-  shell: 'sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+  shell: '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
   args:
     executable: /bin/bash
