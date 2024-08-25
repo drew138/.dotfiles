@@ -16,3 +16,7 @@ galaxy_info:
 dependencies:
   - role: repositories
   - role: cli
+  - role: starship
+  - role: fzf
+  - role: terraform
+  - role: kubectl
