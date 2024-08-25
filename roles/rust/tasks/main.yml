@@ -7,26 +7,33 @@
   ignore_errors: true
   changed_when: false
 
-- name: download rust installer
+- name: ensure rustup is installed
   become_user: "{{ ansible_env.USER }}"
-  when: not cargo_path.stat.exists
-  get_url:
-    url: https://sh.rustup.rs
-    dest: /tmp/sh.rustup.rs
-    mode: 0700
-    owner: "{{ ansible_env.USER }}"
-    force: true
+  changed_when: false
+  shell: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+  args:
+    executable: /bin/bash
 
-- name: install rust/cargo
-  become: true
-  become_user: "{{ ansible_env.USER }}"
-  when: not cargo_path.stat.exists
-  shell: /tmp/sh.rustup.rs -y
-
-- name: remove rust installer
-  file:
-    path: "/tmp/sh.rustup.rs"
-    state: absent
+# - name: download rust installer
+#   become_user: "{{ ansible_env.USER }}"
+#   when: not cargo_path.stat.exists
+#   get_url:
+#     url: https://sh.rustup.rs
+#     dest: /tmp/sh.rustup.rs
+#     mode: 0700
+#     owner: "{{ ansible_env.USER }}"
+#     force: true
+#
+# - name: install rust/cargo
+#   become: true
+#   become_user: "{{ ansible_env.USER }}"
+#   when: not cargo_path.stat.exists
+#   shell: /tmp/sh.rustup.rs -y
+#
+# - name: remove rust installer
+#   file:
+#     path: "/tmp/sh.rustup.rs"
+#     state: absent
 
 - name: install rust toolchain
   shell: rustup toolchain remove stable && rustup toolchain install stable
