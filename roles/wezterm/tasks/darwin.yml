@@ -1,6 +1,5 @@
 ---
 - name: install wezterm
-  become: true
   become_user: "{{ ansible_env.USER }}"
   homebrew_cask:
     name:
