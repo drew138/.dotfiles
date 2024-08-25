@@ -24,6 +24,8 @@
 - name: get filename prefix with latest version
   set_fact:
     go_filename_prefix: "{{ lookup('url', go_latest_version_url, split_lines=False) }}"
+  environment:
+    OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "YES"
   when: go_version == "latest"
 
 - name: parse go_filename_prefix
