@@ -21,14 +21,21 @@
     go_os: "darwin"
   changed_when: false
 
-- name: get filename prefix with latest version
-  set_fact:
-    go_filename_prefix: "{{ lookup('url', go_latest_version_url, split_lines=False) }}"
+# - name: get filename prefix with latest version
+#   set_fact:
+#     go_filename_prefix: "{{ lookup('url', go_latest_version_url, split_lines=False) }}"
+#   when: go_version == "latest"
+
+- name: Get filename prefix with latest version
+  uri:
+    url: "{{ go_latest_version_url }}"
+    return_content: yes
+  register: go_latest_version_response
   when: go_version == "latest"
 
 - name: parse go_filename_prefix
   set_fact:
-    go_filename_prefix: "{{ go_filename_prefix.split('\n')[0] }}"
+    go_filename_prefix: "{{ go_latest_version_response.content.split('\n')[0] }}"
   when: go_version == "latest"
 
 - name: get filename prefix with fixed version
