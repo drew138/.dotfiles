@@ -1,5 +1,6 @@
 ---
 - hosts: "{{ selected_hosts }}"
+  stdout_callback: yaml
   tasks:
     - name: Include roles
       include_role:
