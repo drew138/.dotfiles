@@ -42,5 +42,5 @@
     cmd: ./install.sh
     chdir: "{{ ansible_env.HOME }}/google-cloud-sdk"
   changed_when: false
-  notify:
-    - revert changes made to zshrc
+  # notify:
+  #   - revert changes made to zshrc
