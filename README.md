@@ -8,10 +8,10 @@ Automate workstation setup with ansible
 
 ## Installation
 
-Install ansible and molecule.
+Setup ansible for installation.
 
 ```bash
-pip3 install ansible
+source <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/setup_ansible.sh)
 ```
 
 ### Set ansible vault password
