@@ -1,7 +1,14 @@
 ---
 # DO NOT CHANGE ELEVATION OF PERMISSIONS
+
+# - name: Check if Homebrew is installed
+#   command: brew --version
+#   register: brew_check
+#   ignore_errors: yes
+
 - name: ensure homebrew is installed
   become: true
+  become_method: sudo
   become_user: "{{ ansible_env.USER }}"
   changed_when: false
   shell: '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
