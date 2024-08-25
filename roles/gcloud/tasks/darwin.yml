@@ -28,6 +28,13 @@
     remote_src: true
   changed_when: false
 
+- name: install gnu-tar
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name:
+      - gnu-tar
+    state: latest
+
 - name: install the gcloud cli
   become: true
   become_user: "{{ ansible_env.USER }}"
