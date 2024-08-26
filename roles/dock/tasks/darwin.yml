@@ -17,7 +17,7 @@
       - dockutil
     state: latest
 
-- name: remove unwanted dock apps
+- name: clean up dock
   include_tasks: remove.yml
   loop: "{{ dockitems_remove }}"
   loop_control:
