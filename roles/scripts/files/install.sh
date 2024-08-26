@@ -18,9 +18,11 @@ function fetch_roles() {
 }
 
 function read_credentials() {
-    read -p "Please enter your password: " -r -s password
+    printf "Please enter your password: "
+    read -r -s password
     printf "\n"
-    read -p "Please enter your ansible vault password: " -r -s ansible_vault_password
+    printf "Please enter your ansible vault password: "
+    read -r -s ansible_vault_password
     printf "\n"
 }
 
