@@ -9,6 +9,7 @@
   become: true
   command:
     cmd: softwareupdate --install-rosetta
+  when: ansible_architecture in ['arm64','aarch64']
   changed_when: false
 
 - name: install aws cli package
