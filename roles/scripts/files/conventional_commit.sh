@@ -1,18 +1,18 @@
 #!/bin/bash
 
-IS_INSIDE_GIT_REPO="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
-if [ ! "$IS_INSIDE_GIT_REPO" ]; then
+is_inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+if [ ! "$is_inside_git_repo" ]; then
     echo "fatal: not a git repository (or any of the parent directories): .git"
     exit 1
 fi
 
-CONTAINS_CHANGES=$(git status)
-if [[ ! "$CONTAINS_CHANGES" == *"Changes to be committed:"* ]]; then
-    echo "$CONTAINS_CHANGES"
+contains_changes=$(git status)
+if [[ ! "$contains_changes" == *"Changes to be committed:"* ]]; then
+    echo "$contains_changes"
     exit 1
 fi
 
-TYPE=$(
+type=$(
     gum choose --header="Commit Type" \
         "feat:      A new feature" \
         "fix:       A bug fix" \
@@ -26,13 +26,13 @@ TYPE=$(
         --cursor.foreground="#f4a261"
 )
 
-if [ -z "$TYPE" ]; then
+if [ -z "$type" ]; then
     exit 1
 fi
 
-TYPE="${TYPE%%:*}"
+type="${type%%:*}"
 
-SCOPE=$(
+scope=$(
     gum input --placeholder "commit scope" \
         --header="Scope" \
         --header.foreground="#9d79d6" \
@@ -40,21 +40,21 @@ SCOPE=$(
         --cursor.foreground=""
 )
 
-test -n "$SCOPE" && SCOPE="($SCOPE)"
+test -n "$scope" && scope="($scope)"
 
-IS_BREAKING_CHANGE=$(
+is_breaking_change=$(
     gum choose No Yes \
         --header="Is it a breaking change?" \
         --header.foreground="#9d79d6" \
         --cursor.foreground="#f4a261"
 )
 
-if [ "$IS_BREAKING_CHANGE" = "Yes" ]; then
-    SCOPE="$SCOPE!"
+if [ "$is_breaking_change" = "Yes" ]; then
+    scope="$scope!"
 fi
 
-SUMMARY=$(
-    gum input --prompt "$TYPE$SCOPE: " \
+summary=$(
+    gum input --prompt "$type$scope: " \
         --header="Description" \
         --placeholder "summary of this change" \
         --header.foreground="#9d79d6" \
@@ -62,4 +62,4 @@ SUMMARY=$(
         --cursor.foreground=""
 )
 
-test -n "$SUMMARY" && git commit -m "$TYPE$SCOPE: $SUMMARY"
+test -n "$summary" && git commit -m "$type$scope: $summary"

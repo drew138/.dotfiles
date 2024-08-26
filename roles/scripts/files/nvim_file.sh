@@ -1,7 +1,7 @@
 #!/bin/bash
-FILE=$(fd --type f --hidden --exclude .git | fzf-tmux -p --reverse)
+file=$(fd --type f --hidden --exclude .git | fzf-tmux -p --reverse)
 
-if [ -n "$FILE" ]; then
-    cd "$(dirname "$FOLDER")" || exit;
-    nvim "$FILE"
+if [ -n "$file" ]; then
+    cd "$(dirname "$file")" || exit;
+    nvim "$file"
 fi
