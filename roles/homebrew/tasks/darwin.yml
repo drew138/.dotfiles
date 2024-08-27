@@ -34,6 +34,16 @@
   ansible.builtin.set_fact:
     pkg_url: "{{ release_data.json['assets'] | selectattr('name', 'equalto', 'Homebrew-4.3.18.pkg') | map(attribute='url') | first }}"
 
-- name: Display the extracted URL
-  ansible.builtin.debug:
-    msg: "URL for Homebrew-4.3.18.pkg: {{ pkg_url }}"
+- name: Download Homebrew-4.3.18.pkg
+  ansible.builtin.get_url:
+    url: "{{ pkg_url }}"
+    dest: "/tmp/Homebrew-4.3.18.pkg"
+
+- name: Install Homebrew-4.3.18.pkg
+  ansible.builtin.command:
+    cmd: "sudo installer -pkg /tmp/Homebrew-4.3.18.pkg -target /"
+
+- name: Clean up .pkg file
+  ansible.builtin.file:
+    path: "/tmp/Homebrew-4.3.18.pkg"
+    state: absent
