@@ -1,50 +1,30 @@
 ---
-# # Elevate permissions in this task because
-# # Homebrew requires elevated permissions to install packages
-# # within their script. Elevating them during installation results
-# # in errors. In other words, this is done to use sudo without needing
-# # to enter a password in the following task.
-# - name: Check if Homebrew is installed
-#   become: true
-#   become_user: "{{ ansible_env.USER }}"
-#   command: brew --version
-#   register: brew_check
-#   ignore_errors: true
-
-# - name: ensure homebrew is installed
-#   become_user: "{{ ansible_env.USER }}"
-#   changed_when: false
-#   shell: '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-#   environment:
-#     NONINTERACTIVE: "1"
-#   args:
-#     executable: /bin/bash
-#   when: brew_check.rc != 0
-
-- name: Fetch latest release data
-  ansible.builtin.uri:
+- name: fetch latest release data
+  uri:
     url: "https://api.github.com/repos/Homebrew/brew/releases/latest"
     method: GET
-    return_content: yes
+    return_content: true
     headers:
       Accept: "application/vnd.github.v3+json"
   register: release_data
 
-- name: Extract URL for Homebrew-4.3.18.pkg
-  ansible.builtin.set_fact:
+- name: extract url for Homebrew.pkg
+  set_fact:
     pkg_url: "{{ release_data.json['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='browser_download_url') | first }}"
 
-- name: Download Homebrew-4.3.18.pkg
+- name: download Homebrew.pkg
   ansible.builtin.get_url:
     url: "{{ pkg_url }}"
     dest: /tmp/Homebrew.pkg
+  changed_when: false
 
-- name: Install Homebrew-4.3.18.pkg
+- name: install Homebrew.pkg
   become: true
-  ansible.builtin.command:
+  command:
     cmd: "installer -pkg /tmp/Homebrew.pkg -target /"
 
 - name: Clean up .pkg file
-  ansible.builtin.file:
+  file:
     path: /tmp/Homebrew.pkg
     state: absent
+  changed_when: false
