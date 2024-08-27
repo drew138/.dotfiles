@@ -37,7 +37,7 @@
 - name: Download Homebrew-4.3.18.pkg
   ansible.builtin.get_url:
     url: "{{ pkg_url }}"
-    dest: "/tmp/Homebrew.pkg"
+    dest: /tmp/Homebrew.pkg
 
 - name: Install Homebrew-4.3.18.pkg
   become: true
@@ -46,5 +46,5 @@
 
 - name: Clean up .pkg file
   ansible.builtin.file:
-    path: "/tmp/Homebrew.pkg"
+    path: /tmp/Homebrew.pkg
     state: absent
