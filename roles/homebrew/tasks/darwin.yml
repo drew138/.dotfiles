@@ -24,6 +24,7 @@
   become: true
   command:
     cmd: "installer -pkg /tmp/Homebrew.pkg -target /"
+  changed_when: false
 
 - name: Clean up .pkg file
   file:
