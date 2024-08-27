@@ -6,7 +6,8 @@
     return_content: true
     headers:
       Accept: "application/vnd.github.v3+json"
-      Authorization: "token {{ lookup('env','GHUB_ACCESS_TOKEN') }}"
+      # include the GitHub token if it's set
+      Authorization: "token {{ lookup('env','GHUB_ACCESS_TOKEN') if lookup('env','GHUB_ACCESS_TOKEN') else omit }}"
   register: release_data
 
 - name: extract url for Homebrew.pkg
