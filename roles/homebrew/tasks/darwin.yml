@@ -32,7 +32,7 @@
 
 - name: Extract URL for Homebrew-4.3.18.pkg
   ansible.builtin.set_fact:
-    pkg_url: "{{ release_data.json['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='url') | first }}"
+    pkg_url: "{{ release_data.json['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='browser_download_url') | first }}"
 
 - name: Download Homebrew-4.3.18.pkg
   ansible.builtin.get_url:
