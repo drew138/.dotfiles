@@ -16,3 +16,4 @@
       dockutil --move '{{ item.name | default(item) }}' --position '{{ item.pos }}'
       {% if not ansible_loop.last %}--no-restart{% endif %}
   when: current_position|int != item.pos|int
+  changed_false: false

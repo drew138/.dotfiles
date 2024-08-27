@@ -1,22 +1,30 @@
 ---
-# Elevate permissions in this task because
-# Homebrew requires elevated permissions to install packages
-# within their script. Elevating them during installation results
-# in errors. In other words, this is done to use sudo without needing
-# to enter a password in the following task.
-- name: Check if Homebrew is installed
-  become: true
-  become_user: "{{ ansible_env.USER }}"
-  command: brew --version
-  register: brew_check
-  ignore_errors: true
+# # Elevate permissions in this task because
+# # Homebrew requires elevated permissions to install packages
+# # within their script. Elevating them during installation results
+# # in errors. In other words, this is done to use sudo without needing
+# # to enter a password in the following task.
+# - name: Check if Homebrew is installed
+#   become: true
+#   become_user: "{{ ansible_env.USER }}"
+#   command: brew --version
+#   register: brew_check
+#   ignore_errors: true
 
-- name: ensure homebrew is installed
-  become_user: "{{ ansible_env.USER }}"
-  changed_when: false
-  shell: '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-  environment:
-    NONINTERACTIVE: "1"
-  args:
-    executable: /bin/bash
-  when: brew_check.rc != 0
+# - name: ensure homebrew is installed
+#   become_user: "{{ ansible_env.USER }}"
+#   changed_when: false
+#   shell: '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+#   environment:
+#     NONINTERACTIVE: "1"
+#   args:
+#     executable: /bin/bash
+#   when: brew_check.rc != 0
+
+- name: Extract URL for Homebrew-4.3.18.pkg
+  ansible.builtin.set_fact:
+    pkg_url: "{{ release_data | json_query('assets[?name==`Homebrew-4.3.18.pkg`].url') | first }}"
+
+- name: Display the extracted URL
+  ansible.builtin.debug:
+    msg: "URL for Homebrew-4.3.18.pkg: {{ pkg_url }}"

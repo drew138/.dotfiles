@@ -8,7 +8,7 @@
 - name: install rosetta 2
   become: true
   command:
-    cmd: softwareupdate --install-rosetta
+    cmd: softwareupdate --install-rosetta --agree-to-license
   when: ansible_architecture in ['arm64','aarch64']
   changed_when: false
 

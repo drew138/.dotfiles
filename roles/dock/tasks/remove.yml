@@ -14,6 +14,7 @@
       dockutil --remove '{{ item }}'
       {% if not ansible_loop.last %}--no-restart{% endif %}
   when: dockitem_exists.rc  == 0
+  changed_when: false
 
 - name: Pause for 7 seconds between dock changes.
   pause:

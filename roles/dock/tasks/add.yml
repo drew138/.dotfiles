@@ -18,6 +18,7 @@
     {% if not ansible_loop.last %}--no-restart{% endif %}
   when: dockitem_exists.rc > 0 or
     dockitem_exists.rc == 0 and current_section == 'recent-apps'
+  changed_when: false
 
 - name: pause for 7 seconds between dock changes
   pause:
