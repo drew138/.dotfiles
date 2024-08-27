@@ -137,3 +137,6 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
     . "$HOME/google-cloud-sdk/completion.zsh.inc";
 fi
 
+
+## The following line is added by pre-commit 
+export PATH="/Users/asalazargale/Library/Python/3.9/bin:$PATH" 

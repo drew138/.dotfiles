@@ -5,6 +5,7 @@
 	editor = nvim
 	symlinks = false
 	excludesfile = ~/.gitignore_global
+	hooksPath = /Users/asalazargale/.config/git/hooks/
 [push]
 	default = current
 [pull]
