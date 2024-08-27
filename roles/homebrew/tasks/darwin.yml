@@ -21,9 +21,18 @@
 #     executable: /bin/bash
 #   when: brew_check.rc != 0
 
+- name: Fetch latest release data
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/Homebrew/brew/releases/latest"
+    method: GET
+    return_content: yes
+    headers:
+      Accept: "application/vnd.github.v3+json"
+  register: release_data
+
 - name: Extract URL for Homebrew-4.3.18.pkg
   ansible.builtin.set_fact:
-    pkg_url: "{{ release_data | json_query('assets[?name==`Homebrew-4.3.18.pkg`].url') | first }}"
+    pkg_url: "{{ release_data.json['assets'] | selectattr('name', 'equalto', 'Homebrew-4.3.18.pkg') | map(attribute='url') | first }}"
 
 - name: Display the extracted URL
   ansible.builtin.debug:
