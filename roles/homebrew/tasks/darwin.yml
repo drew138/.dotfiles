@@ -40,8 +40,9 @@
     dest: "/tmp/Homebrew-4.3.18.pkg"
 
 - name: Install Homebrew-4.3.18.pkg
+  become: true
   ansible.builtin.command:
-    cmd: "sudo installer -pkg /tmp/Homebrew-4.3.18.pkg -target /"
+    cmd: "installer -pkg /tmp/Homebrew-4.3.18.pkg -target /"
 
 - name: Clean up .pkg file
   ansible.builtin.file:
