@@ -42,8 +42,6 @@
 - name: cleanup temporary installation files and zip
   become: true
   file:
-    path: "{{ item }}"
+    path: "/tmp/aws"
     state: absent
   changed_when: false
-  loop:
-    - "/tmp/aws"

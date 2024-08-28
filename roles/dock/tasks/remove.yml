@@ -1,17 +1,17 @@
 ---
-- name: "see if {{ item }} is in the dock"
+- name: "see if {{ dock_item_clean }} is in the dock"
   command:
-    cmd: dockutil --find '{{ item }}'
+    cmd: dockutil --find '{{ dock_item_clean }}'
   register: dockitem_exists
   changed_when: false
   failed_when: >
     "No such file or directory" in dockitem_exists.stdout
     or "command not found" in dockitem_exists.stdout
 
-- name: Ensure Dock item {{ item }} is removed.
+- name: Ensure Dock item {{ dock_item_clean }} is removed.
   command:
     cmd: |
-      dockutil --remove '{{ item }}'
+      dockutil --remove '{{ dock_item_clean }}'
       {% if not ansible_loop.last %}--no-restart{% endif %}
   when: dockitem_exists.rc  == 0
   changed_when: false

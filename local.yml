@@ -3,7 +3,9 @@
   tasks:
     - name: Include roles
       include_role:
-        name: "{{ item }}"
+        name: "{{ role }}"
       loop: "{{ selected_roles }}"
+      loop_control:
+        loop_var: role
   environment:
     OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "YES"

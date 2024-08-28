@@ -47,11 +47,13 @@
     state: latest
 
 - name: install global npm packages required by neovim
-  shell: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && npm install -g {{ item }}"
+  shell: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && npm install -g {{ npm_package }}"
   args:
     executable: /bin/bash
   loop:
     - "tree-sitter-cli"
+  loop_control:
+    loop_var: npm_package
   changed_when: false
 
 - name: create nvim symlink

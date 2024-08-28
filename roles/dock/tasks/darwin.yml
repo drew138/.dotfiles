@@ -1,6 +1,6 @@
 ---
 - name: change dock preferences
-  shell: "{{ item }}"
+  shell: "{{ dock_preference }}"
   args:
     executable: /bin/bash
   changed_when: false
@@ -8,6 +8,8 @@
     - defaults write com.apple.dock autohide 1
     - defaults write com.apple.dock launchanim 0
     - defaults write com.apple.dock tilesize 36
+  loop_control:
+    loop_var: dock_preference
 
 - name: install dockutil
   become_user: "{{ ansible_env.USER }}"
@@ -20,6 +22,7 @@
   include_tasks: remove.yml
   loop: "{{ dockitems_remove }}"
   loop_control:
+    loop_var: dock_item_clean
     extended: true
     extended_allitems: false
 
@@ -27,15 +30,17 @@
   include_tasks: add.yml
   loop: "{{ dockitems_persist }}"
   loop_control:
+    loop_var: dock_item_add
     extended: true
     extended_allitems: false
 
 - name: ensure dock items are in correct position.
   include_tasks: position.yml
   when:
-    - item.pos is defined
-    - item.pos > 0
+    - dock_item_position.pos is defined
+    - dock_item_position.pos > 0
   loop: "{{ dockitems_persist }}"
   loop_control:
+    loop_var: dock_item_position
     extended: true
     extended_allitems: false

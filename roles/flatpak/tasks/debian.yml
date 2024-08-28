@@ -17,7 +17,7 @@
   become: true
   become_user: "{{ ansible_env.USER }}"
   flatpak:
-    name: "{{ item }}"
+    name: "{{ flatpak_package }}"
     method: user
     state: present
   loop:
@@ -32,6 +32,8 @@
     - com.dropbox.Client
     - io.dbeaver.DBeaverCommunity
     - com.google.Chrome
+  loop_control:
+    loop_var: flatpak_package
 
 - name: update flatpaks
   command: flatpak update

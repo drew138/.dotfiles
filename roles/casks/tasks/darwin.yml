@@ -2,6 +2,7 @@
 - name: install homebrew casks
   include_tasks: install_cask.yml
   loop_control:
+    loop_var: cask
     extended: true
     extended_allitems: false
   loop:

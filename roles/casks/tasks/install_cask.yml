@@ -1,7 +1,7 @@
 ---
-- name: "installs homebrew {{ item }} cask"
+- name: "installs homebrew {{ cask }} cask"
   become_user: "{{ ansible_env.USER }}"
   homebrew_cask:
-    name: "{{ item }}"
+    name: "{{ cask }}"
     state: present
   ignore_errors: true

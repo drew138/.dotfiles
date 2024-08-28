@@ -2,9 +2,11 @@
 - name: create symlinks
   become: true
   file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: "{{ script.src }}"
+    dest: "{{ script.dest }}"
     owner: "{{ ansible_env.USER }}"
     state: link
     force: true
   loop: "{{ scripts_symlinks }}"
+  loop_control:
+    loop_var: script
