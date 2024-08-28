@@ -10,15 +10,15 @@
   register: release_data
   when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0
 
-- name: fetch latest release data when GHUB_ACCESS_TOKEN is not set
-  uri:
-    url: "https://api.github.com/repos/Homebrew/brew/releases/latest"
-    method: GET
-    return_content: true
-    headers:
-      Accept: "application/vnd.github.v3+json"
-  register: release_data
-  when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) == 0
+# - name: fetch latest release data when GHUB_ACCESS_TOKEN is not set
+#   uri:
+#     url: "https://api.github.com/repos/Homebrew/brew/releases/latest"
+#     method: GET
+#     return_content: true
+#     headers:
+#       Accept: "application/vnd.github.v3+json"
+#   register: release_data
+#   when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) == 0
 
 - name: Debug release_data
   debug:
