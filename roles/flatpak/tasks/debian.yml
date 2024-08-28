@@ -31,6 +31,7 @@
     - com.bitwarden.desktop
     - com.dropbox.Client
     - io.dbeaver.DBeaverCommunity
+    - com.google.Chrome
 
 - name: update flatpaks
   command: flatpak update

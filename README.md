@@ -10,6 +10,14 @@ Automate workstation setup with ansible
 
 Setup ansible for installation.
 
+### Ubuntu Only
+
+```bash
+sudo apt update && sudo apt install -y curl python3-pip
+```
+
+### Macos and Ubuntu
+
 ```bash
 source <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/setup_ansible.sh)
 ```
