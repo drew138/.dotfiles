@@ -22,6 +22,6 @@
 - name: add gitHub rsa key to known_hosts file
   lineinfile:
     path: "{{ ansible_env.HOME }}/.ssh/known_hosts"
-    line: "{{ github_rsa_key.stdout_lines }}"
+    line: "{{ item }}"
     create: true
   loop: "{{ github_rsa_key.stdout_lines }}"
