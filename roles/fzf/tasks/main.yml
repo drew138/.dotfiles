@@ -14,3 +14,5 @@
   become_user: "{{ ansible_env.USER }}"
   command: "{{ ansible_env.HOME }}/.fzf/install"
   changed_when: false
+  notify:
+    - revert changes made to zhrc

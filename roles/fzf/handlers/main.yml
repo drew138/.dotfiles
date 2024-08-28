@@ -1,0 +1,6 @@
+---
+- name: revert changes made to zhrc
+  shell: |
+    git checkout .
+  args:
+    chdir: "{{ ansible_env.HOME }}/.dotfiles"
