@@ -34,13 +34,13 @@
     extended: true
     extended_allitems: false
 
-- name: ensure dock items are in correct position.
+- name: ensure dock items are in correct position
   include_tasks: position.yml
-  when:
-    - dock_item_position.pos is defined
-    - dock_item_position.pos > 0
   loop: "{{ dockitems_persist }}"
   loop_control:
     loop_var: dock_item_position
     extended: true
     extended_allitems: false
+  when:
+    - dock_item_position.pos is defined
+    - dock_item_position.pos > 0
