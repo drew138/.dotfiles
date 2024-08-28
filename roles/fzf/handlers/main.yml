@@ -1,5 +1,5 @@
 ---
-- name: revert changes made to zhrc
+- name: revert path changes
   shell: |
     git checkout .
   args:
