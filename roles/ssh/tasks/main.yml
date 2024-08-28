@@ -24,3 +24,4 @@
     path: "{{ ansible_env.HOME }}/.ssh/known_hosts"
     line: "{{ github_rsa_key.stdout_lines }}"
     create: true
+  loop: "{{ github_rsa_key.stdout_lines }}"
