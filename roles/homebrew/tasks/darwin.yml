@@ -8,7 +8,7 @@
       Accept: "application/vnd.github.v3+json"
       Authorization: "token {{ lookup('env','GHUB_ACCESS_TOKEN') }}"
   register: release_data
-  when: lookup('env', 'GHUB_ACCESS_TOKEN') | length > 0
+  when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0
 
 - name: fetch latest release data when GHUB_ACCESS_TOKEN is not set
   uri:
@@ -18,7 +18,7 @@
     headers:
       Accept: "application/vnd.github.v3+json"
   register: release_data
-  when: lookup('env', 'GHUB_ACCESS_TOKEN') | length == 0
+  when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) == 0
 
 - name: Debug release_data
   debug:
