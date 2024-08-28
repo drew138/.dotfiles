@@ -1,0 +1,2 @@
+---
+gcloud_download_url: "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-{{ gcloud_os }}-{{ gcloud_cli_arch }}.tar.gz"

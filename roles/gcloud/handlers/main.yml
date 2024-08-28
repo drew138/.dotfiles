@@ -1,9 +1,0 @@
----
-- name: "revert changes made to zshrc"
-  shell: |
-    git checkout .
-  # git checkout since lazy gcloud install
-  # modifies .zshrc file
-  args:
-    chdir: "{{ ansible_env.HOME }}/.dotfiles"
-  listen: "revert changes made to zshrc"
