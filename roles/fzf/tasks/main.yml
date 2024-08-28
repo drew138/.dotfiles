@@ -14,5 +14,9 @@
   become_user: "{{ ansible_env.USER }}"
   command: "{{ ansible_env.HOME }}/.fzf/install"
   changed_when: false
-  notify:
-    - revert path changes
+
+- name: revert path changes
+  shell: |
+    git checkout .
+  args:
+    chdir: "{{ ansible_env.HOME }}/.dotfiles"

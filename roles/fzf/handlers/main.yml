@@ -1,6 +1,0 @@
----
-- name: revert path changes
-  shell: |
-    git checkout .
-  args:
-    chdir: "{{ ansible_env.HOME }}/.dotfiles"
