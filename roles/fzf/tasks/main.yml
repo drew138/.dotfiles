@@ -20,3 +20,4 @@
     git checkout .
   args:
     chdir: "{{ ansible_env.HOME }}/.dotfiles"
+  changed_when: false
