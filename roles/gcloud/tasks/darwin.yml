@@ -34,6 +34,8 @@
     dest: "{{ ansible_env.HOME }}"
     remote_src: true
   changed_when: false
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
 
 - name: install the gcloud cli
   become: true
