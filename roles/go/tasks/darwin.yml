@@ -54,6 +54,13 @@
     go_current_version: "none"
   when: result.rc != 0
 
+- name: install gnu-tar
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name:
+      - gnu-tar
+    state: latest
+
 - name: download and extract go tar file
   become: true
   unarchive:

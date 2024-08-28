@@ -39,7 +39,6 @@
 
 - name: install the gcloud cli
   become: true
-  become_user: "{{ ansible_env.USER }}"
   command:
     cmd: ./install.sh
     chdir: "{{ ansible_env.HOME }}/google-cloud-sdk"

@@ -16,12 +16,21 @@
     msg: "Unsupported architecture: {{ ansible_architecture }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
   when: aws_cli_arch == 'invalid'
 
+- name: install gnu-tar
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name:
+      - gnu-tar
+    state: latest
+
 - name: unzip the aws cli installer
   unarchive:
     src: "{{ aws_cli_zip_url }}"
     dest: /tmp
     remote_src: true
   changed_when: false
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
 
 - name: install the aws cli
   become: true

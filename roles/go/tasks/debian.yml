@@ -54,6 +54,13 @@
     go_current_version: "none"
   when: result.rc != 0
 
+- name: install gnu-tar
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name:
+      - gnu-tar
+    state: latest
+
 - name: download and extract go tar file
   become: true
   unarchive:
@@ -62,5 +69,7 @@
     remote_src: true
     creates: "/usr/local/go"
   when: go_current_version not in go_filename_prefix
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
   notify:
     - install go binaries
