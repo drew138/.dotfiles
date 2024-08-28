@@ -47,6 +47,8 @@
       sudo make install
     chdir: "{{ ansible_env.HOME }}/dev/neovim"
   changed_when: false
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
 
 - name: install pynvim
   pip:
