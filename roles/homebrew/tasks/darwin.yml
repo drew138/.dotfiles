@@ -1,29 +1,25 @@
 ---
+- name: set request headers
+  set_fact:
+    request_headers: >-
+      {{
+        {
+          'Accept': 'application/vnd.github.v3+json'
+        } | combine(
+          {
+            'Authorization': 'token ' + lookup('env','GHUB_ACCESS_TOKEN')
+          } if (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0 else {}
+        )
+      }}
+
 - name: fetch latest release data when GHUB_ACCESS_TOKEN is set
   uri:
     url: "https://api.github.com/repos/Homebrew/brew/releases/latest"
     method: GET
     return_content: true
-    headers:
-      Accept: "application/vnd.github.v3+json"
-      Authorization: "token {{ lookup('env','GHUB_ACCESS_TOKEN') }}"
-  register: release_data_token_set
+    headers: "{{ request_headers }}"
+  register: release_data
   when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0
-
-- name: fetch latest release data when GHUB_ACCESS_TOKEN is not set
-  uri:
-    url: "https://api.github.com/repos/Homebrew/brew/releases/latest"
-    method: GET
-    return_content: true
-    headers:
-      Accept: "application/vnd.github.v3+json"
-  register: release_data_token_not_set
-  when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) == 0
-
-- name: set release_data if token set
-  set_fact:
-    release_data: "{{ release_data_token_set.content if release_data_token_set is defined else release_data_token_not_set.content }}"
-  when: release_data_token_set is defined
 
 - name: extract url for Homebrew.pkg
   set_fact:
