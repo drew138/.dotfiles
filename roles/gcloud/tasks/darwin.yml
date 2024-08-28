@@ -28,7 +28,7 @@
       - gnu-tar
     state: latest
 
-- name: unzip the gcloud cli installer
+- name: unzip the gcloud cli directory
   unarchive:
     src: "{{ gcloud_download_url }}"
     dest: "{{ ansible_env.HOME }}"
@@ -36,11 +36,3 @@
   changed_when: false
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
-# - name: install the gcloud cli
-#   become: true
-#   command:
-#     cmd: ./install.sh
-#     chdir: "{{ ansible_env.HOME }}/google-cloud-sdk"
-#   changed_when: false
-#   notify:
-#     - revert changes made to zshrc
