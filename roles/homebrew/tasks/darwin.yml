@@ -22,17 +22,8 @@
 
 - name: set release_data if token set
   set_fact:
-    release_data: "{{ release_data_token_set }}"
+    release_data: "{{ release_data_token_set.content if release_data_token_set is defined else release_data_token_not_set.content }}"
   when: release_data_token_set is defined
-
-- name: set release_data if token not set
-  set_fact:
-    release_data: "{{ release_data_token_not_set }}"
-  when: release_data_token_not_set is defined
-
-- name: Debug release_data
-  debug:
-    var: release_data
 
 - name: extract url for Homebrew.pkg
   set_fact:
