@@ -8,7 +8,7 @@
     "No such file or directory" in dockitem_exists.stdout
     or "command not found" in dockitem_exists.stdout
 
-- name: Ensure Dock item {{ dock_item_clean }} is removed.
+- name: ensure dock item {{ dock_item_clean }} is removed.
   command:
     cmd: |
       dockutil --remove '{{ dock_item_clean }}'
@@ -16,7 +16,7 @@
   when: dockitem_exists.rc  == 0
   changed_when: false
 
-- name: Pause for 7 seconds between dock changes.
+- name: pause for 7 seconds between dock changes.
   pause:
     seconds: 7
   when:

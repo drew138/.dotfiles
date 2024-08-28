@@ -26,7 +26,7 @@
     extended: true
     extended_allitems: false
 
-- name: ensure required dock items exist.
+- name: ensure required dock items exist
   include_tasks: add.yml
   loop: "{{ dockitems_persist }}"
   loop_control:
