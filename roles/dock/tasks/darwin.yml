@@ -10,7 +10,6 @@
     - defaults write com.apple.dock tilesize 36
 
 - name: install dockutil
-  become: true
   become_user: "{{ ansible_env.USER }}"
   homebrew:
     name:
@@ -24,14 +23,14 @@
     extended: true
     extended_allitems: false
 
-- name: Ensure required dock items exist.
+- name: ensure required dock items exist.
   include_tasks: add.yml
   loop: "{{ dockitems_persist }}"
   loop_control:
     extended: true
     extended_allitems: false
 
-- name: Ensure dock items are in correct position.
+- name: ensure dock items are in correct position.
   include_tasks: position.yml
   when:
     - item.pos is defined

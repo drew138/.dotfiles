@@ -7,7 +7,7 @@
     or "command not found" in dockitem_exists.stdout
   changed_when: false
 
-- name: Get current dock section from output
+- name: get current dock section from output
   set_fact:
     current_section: "{{ dockitem_exists.stdout | regex_replace('^.*was found in (.*) at slot.*$', '\\1') }}"
   when: dockitem_exists.rc == 0
