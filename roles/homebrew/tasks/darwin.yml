@@ -20,15 +20,15 @@
   register: release_data_token_not_set
   when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) == 0
 
-- name: set release_data if not token set
-  set_fact:
-    release_data: "{{ release_data_token_not_set }}"
-  when: release_data_token_not_set is defined
-
-- name: set release_data if token not set
+- name: set release_data if token set
   set_fact:
     release_data: "{{ release_data_token_set }}"
   when: release_data_token_set is defined
+
+- name: set release_data if token not set
+  set_fact:
+    release_data: "{{ release_data_token_not_set }}"
+  when: release_data_token_not_set is defined
 
 - name: Debug release_data
   debug:
