@@ -25,3 +25,4 @@
     line: "{{ item }}"
     create: true
   loop: "{{ github_rsa_key.stdout_lines }}"
+  no_log: true
