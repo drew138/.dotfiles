@@ -19,10 +19,6 @@
     return_content: true
     headers: "{{ request_headers }}"
   register: release_data
-  when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0
-
-- debug:
-    var: release_data
 
 - name: extract url for Homebrew.pkg
   set_fact:
