@@ -21,6 +21,9 @@
   register: release_data
   when: (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0
 
+- debug:
+    var: release_data
+
 - name: extract url for Homebrew.pkg
   set_fact:
     pkg_url: "{{ release_data['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='browser_download_url') | first }}"
