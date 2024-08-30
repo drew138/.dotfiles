@@ -30,6 +30,7 @@ dockitems_remove:
   - "WhatsApp"
   - "Discord"
   - "Spotify"
+  - "OBS"
 
 dockitems_persist:
   - name: "System Settings"
@@ -75,3 +76,7 @@ dockitems_persist:
   - name: "Spotify"
     path: "/Applications/Spotify.app/"
     pos: 11
+
+  - name: "OBS"
+    path: "/Applications/OBS.app/"
+    pos: 12
