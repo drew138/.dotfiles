@@ -1,5 +1,4 @@
 <img src="https://raw.githubusercontent.com/drew138/.dotfiles/main/assets/Mac-Dev-Playbook-Logo.png" width="250" height="156" alt="Dotfiles Logo" />
-![Dotfiles Logo](assets/Dotfiles-Logo.png)
 
 # Dotfiles Installer
 
