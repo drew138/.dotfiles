@@ -17,20 +17,6 @@ dockitems_remove:
   - Music
   - Podcasts
   - "App Store"
-  # Wanted apps that may not
-  # in the right position
-  - "System Settings"
-  - "Postman"
-  - "Bitwarden"
-  - "WezTerm"
-  - "Notion"
-  - "Notion Calendar"
-  - "Slack"
-  - "Google Chrome"
-  - "WhatsApp"
-  - "Discord"
-  - "Spotify"
-  - "OBS"
 
 dockitems_persist:
   - name: "System Settings"
