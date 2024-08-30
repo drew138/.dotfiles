@@ -1,6 +1,4 @@
-<!-- <img src="https://raw.githubusercontent.com/drew138/.dotfiles/main/assets/Mac-Dev-Playbook-Logo.png" width="250" height="156" alt="Dotfiles Logo" /> -->
-
-![Dotfiles Logo][dotfiles-logo]
+[![Dotfiles Logo][dotfiles-logo]][dotfiles-url]
 
 # Dotfiles Installer
 
@@ -37,3 +35,4 @@ reminder: system reboot might be required for some programs to work as expected.
 [badge-gh-actions]: https://github.com/drew138/.dotfiles/actions/workflows/ci.yml/badge.svg?event=push
 [link-gh-actions]: https://github.com/drew138/.dotfiles/actions?query=workflow%3Aci
 [dotfiles-logo]: https://raw.githubusercontent.com/drew138/.dotfiles/main/assets/Dotfiles-Logo.png
+[dotfiles-url]: https://github.com/drew138/.dotfiles
