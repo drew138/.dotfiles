@@ -14,5 +14,5 @@
 - name: copy stdc++.h to /usr/local/include/bits
   become: true
   copy:
-    src: /Users/asalazargale/.dotfiles/roles/cpp/files/stdc++.h
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/cpp/files/stdc++.h"
     dest: /usr/local/include/bits/stdc++.h
