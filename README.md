@@ -1,6 +1,6 @@
-[![Dotfiles Logo][dotfiles-logo]][dotfiles-url]
-
 # Dotfiles Installer
+
+[![Dotfiles Logo][dotfiles-logo]][dotfiles-url]
 
 [![ci][badge-gh-actions]][link-gh-actions]
 
