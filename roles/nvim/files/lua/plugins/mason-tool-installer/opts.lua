@@ -37,7 +37,6 @@ local Opts = {
 		"shellcheck",
 		"yamllint",
 		"sqlfluff",
-		"commitlint",
 		"buf",
 		"protolint",
 		"stylelint",
