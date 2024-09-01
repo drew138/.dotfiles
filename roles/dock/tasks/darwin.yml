@@ -1,5 +1,6 @@
 ---
 - name: change dock preferences
+  become_user: "{{ ansible_env.USER }}"
   shell: |
     defaults write com.apple.dock autohide 1
     defaults write com.apple.dock launchanim 0
