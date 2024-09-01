@@ -26,7 +26,7 @@ function create_vault_password_file() {
 }
 
 function remove_vault_password_file() {
-    rm ~/.vault_pass
+    rm ~/.vault_pass ~/extra_vars.yml
 }
 
 function run_ansible() {
@@ -34,11 +34,19 @@ function run_ansible() {
     local ansible_vault_password
     password="$1"
     ansible_vault_password="$2"
+    {
+        echo ---
+        ansible-vault encrypt_string "$password" --name 'ansible_become_password' \
+        --vault-password-file ~/.vault_pass
+        echo "selected_hosts: localhost"
+        echo "selected_roles:"
+        echo -e "$selected_roles"
+    } >> ~/extra_vars.yml
 
     repository_url="https://github.com/Drew138/.dotfiles.git"
     ansible-pull -U $repository_url local.yml \
     --vault-password-file ~/.vault_pass  \
-    -e "{\"ansible_become_password\":\"$password\",\"selected_hosts\":\"localhost\",\"selected_roles\":[$selected_roles]}"
+    -e @~/extra_vars.yml
 }
 
 function run() {
@@ -342,11 +350,9 @@ function display_menu() {
 
     for (( i = 0; i <len; i++)); do
         if [ "${is_selected[$i]}" -eq 1 ]; then
-            selected_roles+="\"${roles[$i]}\","
+            selected_roles+="  - ${roles[$i]}\n"
         fi
     done
-
-    selected_roles="${selected_roles%,}"  # remove the trailing comma
 }
 
 run
