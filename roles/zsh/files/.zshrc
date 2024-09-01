@@ -3,6 +3,10 @@ bindkey -v
 
 # poetry
 fpath+=~/.zfunc
+alias poetry="$HOME/.clitools/bin/poetry"
+
+# pre-commit
+alias poetry="$HOME/.clitools/bin/pre-commit"
 
 # initialize completion system
 autoload -Uz compinit && compinit
@@ -136,5 +140,3 @@ fi
 if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
     . "$HOME/google-cloud-sdk/completion.zsh.inc";
 fi
-
-export PATH="$HOME/.precommitvenv/bin:$PATH"
