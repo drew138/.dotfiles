@@ -41,17 +41,24 @@
     chdir: "{{ ansible_env.HOME }}/dev/neovim"
   changed_when: false
 
-- name: install pynvim
+- name: ensure virtual environment is created
+  command: python3 -m venv "{{ ansible_env.HOME }}/.nvimvenv"
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvimvenv/bin/activate"
+
+- name: install pynvim in virtual environment
   pip:
     name: pynvim
     state: latest
+    virtualenv: "{{ ansible_env.HOME }}/.nvimvenv"
 
 - name: install global npm packages required by neovim
-  shell: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && npm install -g {{ npm_package }}"
+  shell: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && npm install -g {{ npm_package }}@latest"
   args:
     executable: /bin/bash
   loop:
     - "tree-sitter-cli"
+    - "neovim"
   loop_control:
     loop_var: npm_package
   changed_when: false

@@ -51,9 +51,9 @@
     PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
 
 - name: ensure virtual environment is created
-  command: python3 -m venv "{{ ansible_env.HOME }}/.nvim"
+  command: python3 -m venv "{{ ansible_env.HOME }}/.nvimvenv"
   args:
-    creates: "{{ ansible_env.HOME }}/.nvim/bin/activate"
+    creates: "{{ ansible_env.HOME }}/.nvimvenv/bin/activate"
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
 
@@ -61,7 +61,7 @@
   pip:
     name: pynvim
     state: latest
-    virtualenv: "{{ ansible_env.HOME }}/.nvim"
+    virtualenv: "{{ ansible_env.HOME }}/.nvimvenv"
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
 

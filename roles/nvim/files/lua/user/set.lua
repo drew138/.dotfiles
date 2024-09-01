@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 
-vim.g.python3_host_prog = "~/.nvim/bin/python"
+vim.g.python3_host_prog = vim.fn.expand("~/.nvimvenv/bin/python")
 
 local set = vim.keymap.set
 set("n", "<up>", "<nop>")
