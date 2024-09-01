@@ -26,7 +26,8 @@ function create_vault_password_file() {
 }
 
 function remove_vault_password_file() {
-    rm ~/.vault_pass ~/extra_vars.yml
+    rm ~/.vault_pass
+    # ~/extra_vars.yml
 }
 
 function run_ansible() {
