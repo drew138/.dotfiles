@@ -6,7 +6,7 @@ fpath+=~/.zfunc
 alias poetry="$HOME/.clitools/bin/poetry"
 
 # pre-commit
-alias poetry="$HOME/.clitools/bin/pre-commit"
+alias pre-commit="$HOME/.clitools/bin/pre-commit"
 
 # initialize completion system
 autoload -Uz compinit && compinit
