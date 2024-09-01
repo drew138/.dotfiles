@@ -26,8 +26,7 @@ function create_vault_password_file() {
 }
 
 function remove_vault_password_file() {
-    rm ~/.vault_pass
-    # ~/extra_vars.yml
+    rm ~/.vault_pass ~/extra_vars.yml
 }
 
 function run_ansible() {
@@ -37,6 +36,7 @@ function run_ansible() {
     ansible_vault_password="$2"
     cat ~/.vault_pass
     {
+        echo ---
         ansible-vault encrypt_string "$password" --name 'ansible_become_password' \
         --vault-password-file ~/.vault_pass
         echo "selected_hosts: localhost"
@@ -46,8 +46,8 @@ function run_ansible() {
 
     repository_url="https://github.com/Drew138/.dotfiles.git"
     ansible-pull -U $repository_url local.yml \
-    --vault-password-file ~/.vault_pass  \
-    -e @~/extra_vars.yml
+    --vault-password-file ~/.vault_pass
+    # -e @~/extra_vars.yml
 }
 
 function run() {

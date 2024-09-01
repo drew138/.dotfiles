@@ -1,5 +1,7 @@
 ---
 - hosts: "{{ selected_hosts }}"
+  vars_files:
+    - ~/extra_vars.yml
   tasks:
     - name: Include roles
       include_role:
