@@ -15,7 +15,7 @@ Setup ansible for installation.
 ```bash
 sudo apt update && sudo apt upgrade
 sudo add-apt-repository universe
-sudo apt install -y curl python3-pip git
+sudo apt install -y curl python3-pip python3-venv git
 ```
 
 ### Macos and Ubuntu
