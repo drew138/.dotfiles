@@ -34,7 +34,6 @@ function run_ansible() {
     local ansible_vault_password
     password="$1"
     ansible_vault_password="$2"
-    cat ~/.vault_pass
     {
         echo ---
         ansible-vault encrypt_string "$password" --name 'ansible_become_password' \
