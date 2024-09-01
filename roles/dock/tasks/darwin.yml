@@ -1,15 +1,12 @@
 ---
 - name: change dock preferences
-  shell: "{{ dock_preference }}"
+  shell: |
+    defaults write com.apple.dock autohide 1
+    defaults write com.apple.dock launchanim 0
+    defaults write com.apple.dock tilesize 36
   args:
     executable: /bin/bash
   changed_when: false
-  loop:
-    - defaults write com.apple.dock autohide 1
-    - defaults write com.apple.dock launchanim 0
-    - defaults write com.apple.dock tilesize 36
-  loop_control:
-    loop_var: dock_preference
 
 - name: install dockutil
   become_user: "{{ ansible_env.USER }}"
