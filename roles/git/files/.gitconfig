@@ -1,7 +1,7 @@
 [user]
 	email = 58788781+drew138@users.noreply.github.com
 	name = Andres Salazar Galeano
-    signingkey = ~/.ssh/id_ed25519
+    signingkey = ~/.ssh/id_ed25519.pub
 [core]
 	editor = nvim
 	symlinks = false
