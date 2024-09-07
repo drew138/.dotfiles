@@ -28,3 +28,11 @@
     force: false
     mode: "u+rwx"
     owner: "{{ ansible_env.USER }}"
+
+- name: create work directory
+  become: true
+  file:
+    path: "{{ ansible_env.HOME }}/work/"
+    state: directory
+    mode: 0755
+    owner: "{{ ansible_env.USER }}"
