@@ -1,6 +1,7 @@
 [user]
 	email = 58788781+drew138@users.noreply.github.com
 	name = drew
+    signingkey = 34687ADF55394490
 [core]
 	editor = nvim
 	symlinks = false
@@ -15,5 +16,7 @@
 	tool = nvimdiff
 [mergetool]
 	keepBackup = false
+[init]
+    defaultBranch = main
 [include]
     path = ~/.workrc.gitconfig

@@ -1,0 +1,24 @@
+---
+- name: install gpg
+  become: true
+  apt:
+    name:
+      - gnupg
+    state: latest
+
+- name: ensure gpg directory exists
+  become: true
+  file:
+    path: "{{ ansible_env.HOME }}/.gnupg"
+    state: directory
+    mode: 0700
+
+- name: import gpg private key
+  shell: |
+    echo "{{ gpg_private_key }}" | gpg --import
+  args:
+    executable: /bin/bash
+  environment:
+    GNUPGHOME: "{{ ansible_env.HOME }}/.gnupg"
+  no_log: true
+  changed_when: false
