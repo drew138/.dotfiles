@@ -24,7 +24,7 @@
 
 - name: de-armor kubernetes GPG key
   become: true
-  command: "gpg --dearmor < {{ kubernetes_keyring_path }}_armored > {{ kubernetes_keyring_path }}"
+  command: "gpg --dearmor {{ kubernetes_keyring_path }}_armored -o {{ kubernetes_keyring_path }}"
   # no_log: true
   args:
     creates: "{{ kubernetes_keyring_path }}"
@@ -34,6 +34,13 @@
   apt_repository:
     repo: "deb [signed-by={{ kubernetes_keyring_path }}] {{ kubernetes_key_url }}/ /"
     filename: /etc/apt/sources.list.d/kubernetes.list
+
+- name: Set permissions on Kubernetes sources list
+  file:
+    path: /etc/apt/sources.list.d/kubernetes.list
+    mode: 0644
+    owner: root
+    group: root
 
 - name: install kubectl
   become: true
