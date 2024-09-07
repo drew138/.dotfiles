@@ -74,9 +74,10 @@
   when: docker_compose_cli_arch == 'invalid'
 
 - name: install docker-compose
+  become: true
   get_url:
     url: "{{ docker_compose_download_url }}"
     dest: /usr/local/bin/docker-compose
-    mode: "+x"
+    mode: 0755
   notify:
     - restart docker
