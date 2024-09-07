@@ -1,5 +1,6 @@
 ---
 - name: install required packages
+  become: true
   apt:
     name:
       - gnupg
