@@ -51,25 +51,6 @@ For example, they may only available for `x86_64` systems.
 To avoid errors, the `flatpak` role will not fail if a package can not be installed.
 They can be installed manually through other means.
 
-#### Fzf
-
-If installed without running the `zsh` role, the `fzf` binary will not
-be initialized correctly. To fix this, run the following command:
-
-```bash
-source $HOME/.fzf.zsh
-eval "$(fzf --zsh)"
-```
-
-#### Pyenv
-
-If installed without running the `zsh` role, the `pyenv` binary will not
-be initialized correctly. To fix this, run the following command:
-
-```bash
-eval "$(pyenv init -)"
-```
-
 [badge-gh-actions]: https://github.com/drew138/.dotfiles/actions/workflows/ci.yml/badge.svg?event=push
 [link-gh-actions]: https://github.com/drew138/.dotfiles/actions?query=workflow%3Aci
 [dotfiles-logo]: https://raw.githubusercontent.com/drew138/.dotfiles/main/assets/Dotfiles-Logo.png
