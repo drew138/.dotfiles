@@ -25,7 +25,7 @@
 - name: de-armor kubernetes GPG key
   become: true
   shell: "gpg --dearmor < {{ kubernetes_keyring_path }}_armored > {{ kubernetes_keyring_path }}"
-  # no_log: true
+  no_log: true
   args:
     executable: /bin/bash
     creates: "{{ kubernetes_keyring_path }}"
