@@ -36,16 +36,16 @@
     repo: "deb [signed-by={{ kubernetes_keyring_path }}] {{ kubernetes_key_url }}/ /"
     filename: /etc/apt/sources.list.d/kubernetes.list
 
-- name: Set permissions on Kubernetes sources list
-  file:
-    path: /etc/apt/sources.list.d/kubernetes.list
-    mode: 0644
-    owner: root
-    group: root
-
 - name: install kubectl
   become: true
   apt:
     update_cache: true
     name: kubectl
     state: latest
+
+- name: set permissions on kubernetes sources list
+  file:
+    path: /etc/apt/sources.list.d/kubernetes.list
+    mode: 0644
+    owner: root
+    group: root
