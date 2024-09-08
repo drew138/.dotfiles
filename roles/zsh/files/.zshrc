@@ -11,6 +11,7 @@ alias pre-commit="$HOME/.clitools/bin/pre-commit"
 # ansible
 alias ansible="$HOME/.clitools/bin/ansible"
 alias ansible-pull="$HOME/.clitools/bin/ansible-pull"
+alias ansible-vault="$HOME/.clitools/bin/ansible-vault"
 
 # initialize completion system
 autoload -Uz compinit && compinit
