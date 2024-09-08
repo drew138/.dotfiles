@@ -17,3 +17,4 @@ dependencies:
   - role: node
   - role: repositories
   - role: zsh
+  - role: nerdfonts
