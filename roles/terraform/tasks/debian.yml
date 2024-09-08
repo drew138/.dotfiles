@@ -38,7 +38,7 @@
   become: true
   apt_repository:
     repo: "deb [signed-by={{ hashicorp_keyring_path }}] {{ hashicorp_repo_url }} {{ codename.stdout }} main"
-    filename: /etc/apt/sources.list.d/hashicorp.list
+    filename: /etc/apt/sources.list.d/hashicorp
 
 - name: update package cache and install terraform
   become: true
