@@ -14,10 +14,6 @@ galaxy_info:
       versions:
         - all
 dependencies:
-  - role: cli
   - role: starship
-  - role: fzf
-  - role: fd
-  - role: kubectl
-  - role: terraform
+  - role: repositories
   - role: nerdfonts

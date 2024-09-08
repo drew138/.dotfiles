@@ -32,6 +32,44 @@ bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/sc
 
 reminder: system reboot might be required for some programs to work as expected.
 
+### Caveats
+
+#### Homebrew Casks
+
+Some packages like `google-drive` and `logitech-g-hub` impede automatic installation
+without password prompting. For that reason, they are not included in the role.
+They can be installed manually using the following command:
+
+```bash
+brew install --cask google-drive logitech-g-hub
+```
+
+#### Flatpak
+
+Some flatpak packages are not available for all system architectures.
+For example, they may only available for `x86_64` systems.
+To avoid errors, the `flatpak` role will not fail if a package can not be installed.
+They can be installed manually through other means.
+
+#### Fzf
+
+If installed without running the `zsh` role, the `fzf` binary will not
+be initialized correctly. To fix this, run the following command:
+
+```bash
+source $HOME/.fzf.zsh
+eval "$(fzf --zsh)"
+```
+
+#### Pyenv
+
+If installed without running the `zsh` role, the `pyenv` binary will not
+be initialized correctly. To fix this, run the following command:
+
+```bash
+eval "$(pyenv init -)"
+```
+
 [badge-gh-actions]: https://github.com/drew138/.dotfiles/actions/workflows/ci.yml/badge.svg?event=push
 [link-gh-actions]: https://github.com/drew138/.dotfiles/actions?query=workflow%3Aci
 [dotfiles-logo]: https://raw.githubusercontent.com/drew138/.dotfiles/main/assets/Dotfiles-Logo.png

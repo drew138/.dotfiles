@@ -77,8 +77,12 @@ alias l='ls -F --color'
 alias ls='ls -F --color'
 alias la='ls -la'
 alias ll='ls -l'
-alias cat='bat'
-alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+
+# bat
+if command -v bat 1>/dev/null 2>&1; then
+    alias cat='bat'
+    alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+fi
 
 # workrc configs
 [ -f $HOME/.workrc.zsh ] && \. $HOME/.workrc.zsh
@@ -98,10 +102,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # fzf configs
-[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-eval "$(fzf --zsh)"
+if [ -f $HOME/.fzf.zsh ] ;then
+    source $HOME/.fzf.zsh
+    export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    eval "$(fzf --zsh)"
+fi
 
 # rust configs
 [ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
@@ -128,10 +134,14 @@ fi
 eval "$(zoxide init --cmd cd zsh)"
 
 # kubectl
-source <(kubectl completion zsh)
+if command -v kubectl 1>/dev/null 2>&1; then
+    source <(kubectl completion zsh)
+fi
 
 # terraform
-complete -o nospace -C /usr/local/bin/terraform terraform
+if command -v terraform 1>/dev/null 2>&1; then
+    complete -o nospace -C /usr/local/bin/terraform terraform
+fi
 
 # wezterm
 [[ "$(uname -s)" == "Linux" ]] && alias wezterm='flatpak run org.wezfurlong.wezterm'

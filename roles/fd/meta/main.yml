@@ -16,3 +16,4 @@ galaxy_info:
 dependencies:
   - role: repositories
   - role: homebrew
+  - role: zsh

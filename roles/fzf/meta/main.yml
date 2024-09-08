@@ -16,3 +16,4 @@ galaxy_info:
 dependencies:
   - role: git
   - role: repositories
+  - role: zsh
