@@ -14,9 +14,13 @@
     mode: "u+rwx"
     owner: "{{ ansible_env.USER }}"
 
+- name: set user to change shell
+  set_fact:
+    zsh_user: "{{ ansible_env.USER }}"
+
 - name: change default shell
   become: true
-  shell: "sudo chsh {{ ansible_env.USER }} -s $(which zsh)"
+  shell: "sudo chsh {{ zsh_user }} -s $(which zsh)"
   changed_when: false
 
 - name: create .zshrc symlink
