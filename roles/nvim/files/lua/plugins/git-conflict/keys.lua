@@ -1,18 +1,18 @@
 local Keys = {
 	{
 		"<leader>co",
-		"<Plug>(git-conflict-ours)",
-		desc = "open files picker",
+		"<Plug>GitConflictChooseOurs",
+		desc = "choose ours",
 	},
 	{
 		"<leader>ct",
-		"<Plug>(git-conflict-theirs)",
-		desc = "open grep picker",
+		"<Plug>GitConflictChooseTheirs",
+		desc = "choose theirs",
 	},
 	{
 		"<leader>cb",
-		"<Plug>(git-conflict-both)",
-		desc = "open active buffers picker",
+		"<Plug>GitConflictChooseBoth",
+		desc = "choose both",
 	},
 }
 
