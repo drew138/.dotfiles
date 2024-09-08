@@ -24,7 +24,7 @@
 
 - name: de-armor kubernetes GPG key
   become: true
-  command: "gpg --dearmor < {{ kubernetes_keyring_path }}_armored > {{ kubernetes_keyring_path }}"
+  command: "gpg --dearmor < {{ kubernetes_keyring_path }}_armored -o {{ kubernetes_keyring_path }}"
   # no_log: true
   args:
     creates: "{{ kubernetes_keyring_path }}"
