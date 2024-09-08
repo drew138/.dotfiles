@@ -14,13 +14,10 @@ galaxy_info:
       versions:
         - all
 dependencies:
-  - role: repositories
   - role: cli
   - role: starship
   - role: fzf
-  - role: terraform
+  - role: fd
   - role: kubectl
-  - role: go
-  - role: gcloud
-  - role: pyenv
+  - role: terraform
   - role: nerdfonts

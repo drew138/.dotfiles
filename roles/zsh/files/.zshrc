@@ -124,20 +124,13 @@ source <(kubectl completion zsh)
 complete -o nospace -C /usr/local/bin/terraform terraform
 
 # wezterm
-if [[ "$(uname -s)" == "Linux" ]]; then
-    alias wezterm='flatpak run org.wezfurlong.wezterm'
-elif [[ "$(uname -s)" == "Darwin" ]]; then
-    export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
-fi
+[[ "$(uname -s)" == "Linux" ]] && alias wezterm='flatpak run org.wezfurlong.wezterm'
+
+[[ "$(uname -s)" == "Darwin" ]] && export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
 
 # gcloud
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
-    . "$HOME/google-cloud-sdk/path.zsh.inc";
-fi
+[ -f "$HOME/google-cloud-sdk/path.zsh.inc" ] && \. "$HOME/google-cloud-sdk/path.zsh.inc"
 
 # The next line enables shell command completion for gcloud.
-if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
-    . "$HOME/google-cloud-sdk/completion.zsh.inc";
-fi
-
+[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ] && \. "$HOME/google-cloud-sdk/completion.zsh.inc"

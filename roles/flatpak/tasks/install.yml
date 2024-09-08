@@ -1,0 +1,9 @@
+---
+- name: "install {{ flatpak_package }}"
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  flatpak:
+    name: "{{ flatpak_package }}"
+    method: user
+    state: present
+  failed_when: false
