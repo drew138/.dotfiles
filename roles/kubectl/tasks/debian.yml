@@ -46,6 +46,7 @@
 - name: set permissions on kubernetes sources list
   file:
     path: /etc/apt/sources.list.d/kubernetes.list
+    state: directory
     mode: 0644
     owner: root
     group: root
