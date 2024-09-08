@@ -15,9 +15,13 @@
     mode: 0700
     owner: "{{ ansible_env.USER }}"
 
+- name: set user to change shell
+  set_fact:
+    zsh_user: "{{ ansible_env.USER }}"
+
 - name: change default shell
   become: true
-  shell: "chsh -s $(which zsh) {{ ansible_env.USER }}"
+  shell: "chsh -s $(which zsh) {{ zsh_user }}"
   changed_when: false
 
 - name: create .zshrc symlink
