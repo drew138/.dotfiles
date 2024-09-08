@@ -34,7 +34,7 @@
   become: true
   apt_repository:
     repo: "deb [signed-by={{ kubernetes_keyring_path }}] {{ kubernetes_key_url }}/ /"
-    filename: /etc/apt/sources.list.d/kubernetes.list
+    filename: /etc/apt/sources.list.d/kubernetes
 
 - name: install kubectl
   become: true
