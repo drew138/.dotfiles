@@ -22,3 +22,4 @@ dependencies:
   - role: kubectl
   - role: go
   - role: gcloud
+  - role: pyenv
