@@ -8,6 +8,10 @@ alias poetry="$HOME/.clitools/bin/poetry"
 # pre-commit
 alias pre-commit="$HOME/.clitools/bin/pre-commit"
 
+# ansible
+alias ansible="$HOME/.clitools/bin/ansible"
+alias ansible-pull="$HOME/.clitools/bin/ansible-pull"
+
 # initialize completion system
 autoload -Uz compinit && compinit
 
@@ -115,6 +119,11 @@ zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
 # zoxide
+export PATH="$HOME/.local/bin:$PATH"
+if command -v zoxide 1>/dev/null 2>&1; then
+    curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+fi
+
 eval "$(zoxide init --cmd cd zsh)"
 
 # kubectl

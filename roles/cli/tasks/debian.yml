@@ -13,7 +13,6 @@
       - git
       - jq
       - bat
-      - zoxide
       - curl
       - wget
     state: latest
