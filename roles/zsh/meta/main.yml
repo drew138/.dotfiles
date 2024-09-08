@@ -20,4 +20,3 @@ dependencies:
   - role: fd
   - role: kubectl
   - role: terraform
-  - role: nerdfonts
