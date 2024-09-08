@@ -120,7 +120,7 @@ bindkey '^x^e' edit-command-line
 
 # zoxide
 export PATH="$HOME/.local/bin:$PATH"
-if command -v zoxide 1>/dev/null 2>&1; then
+if ! command -v zoxide 1>/dev/null 2>&1; then
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 fi
 
