@@ -1,17 +1,17 @@
 local Keys = {
 	{
 		"<leader>co",
-		"<Plug>GitConflictChooseOurs",
+		"<cmd>GitConflictChooseOurs<cr>",
 		desc = "choose ours",
 	},
 	{
 		"<leader>ct",
-		"<Plug>GitConflictChooseTheirs",
+		"<cmd>GitConflictChooseTheirs<cr>",
 		desc = "choose theirs",
 	},
 	{
 		"<leader>cb",
-		"<Plug>GitConflictChooseBoth",
+		"<cmd>GitConflictChooseBoth<cr>",
 		desc = "choose both",
 	},
 }

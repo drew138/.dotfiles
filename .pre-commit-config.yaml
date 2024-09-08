@@ -4,3 +4,4 @@ repos:
     rev: v1.5.0
     hooks:
       - id: detect-secrets
+        exclude: roles/nvim/files/lazy-lock.json

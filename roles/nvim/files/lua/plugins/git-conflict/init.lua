@@ -1,6 +1,7 @@
 local Plugin = {
 	"akinsho/git-conflict.nvim",
 	version = "*",
+	lazy = false,
 	opts = function()
 		return require("plugins.git-conflict.opts")
 	end,
