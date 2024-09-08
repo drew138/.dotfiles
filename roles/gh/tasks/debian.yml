@@ -21,7 +21,7 @@
   apt_repository:
     repo: "deb [arch={{ system_architecture.stdout }} signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
     state: present
-    filename: "github-cli.list"
+    filename: github-cli
 
 - name: update apt repositories
   become: true
