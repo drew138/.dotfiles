@@ -6,7 +6,7 @@
     name: org.wezfurlong.wezterm
     method: user
     state: present
-  failted_when: false
+  failed_when: false
 
 - name: create .wezterm.lua symlink
   file:
