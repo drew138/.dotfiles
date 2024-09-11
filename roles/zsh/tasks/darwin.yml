@@ -28,6 +28,5 @@
   file:
     src: "{{ ansible_env.HOME }}/.dotfiles/roles/zsh/files/.zshrc"
     dest: "{{ ansible_env.HOME }}/.zshrc"
-    owner: "{{ ansible_env.USER }}"
     state: link
     force: true
