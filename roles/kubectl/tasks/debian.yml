@@ -39,7 +39,6 @@
 - name: install kubectl
   become: true
   apt:
-    update_cache: true
     name: kubectl
     state: latest
 
