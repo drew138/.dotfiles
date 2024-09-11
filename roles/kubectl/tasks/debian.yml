@@ -7,6 +7,7 @@
       - ca-certificates
       - gnupg
     state: latest
+  changed_when: false
 
 - name: create /etc/apt/keyrings directory if it doesn't exist
   become: true
@@ -41,7 +42,6 @@
   apt:
     name: kubectl
     state: latest
-  changed_when: false
 
 - name: set permissions on kubernetes sources list
   file:
