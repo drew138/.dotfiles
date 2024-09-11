@@ -30,3 +30,4 @@
     owner: "{{ ansible_env.USER }}"
     state: link
     force: true
+    follow: false

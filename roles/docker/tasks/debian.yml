@@ -9,6 +9,7 @@
       - gnupg-agent
       - software-properties-common
     state: latest
+  changed_when: false
 
 - name: download docker armored GPG key
   become: true

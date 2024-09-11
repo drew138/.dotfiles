@@ -7,6 +7,7 @@
     owner: "{{ ansible_env.USER }}"
     state: link
     force: true
+    follow: false
   loop: "{{ scripts_symlinks }}"
   loop_control:
     loop_var: script

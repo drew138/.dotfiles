@@ -30,3 +30,4 @@
     dest: "{{ ansible_env.HOME }}/.zshrc"
     state: link
     force: true
+    follow: false

@@ -12,6 +12,7 @@
     dest: "{{ ansible_env.HOME }}/.gitconfig"
     state: link
     force: true
+    follow: false
 
 - name: create .gitignore_global symlink
   file:
@@ -19,6 +20,7 @@
     dest: "{{ ansible_env.HOME }}/.gitignore_global"
     state: link
     force: true
+    follow: false
 
 - name: create .workrc.gitconfig file
   copy:

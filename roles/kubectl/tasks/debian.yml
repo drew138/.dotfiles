@@ -41,6 +41,7 @@
   apt:
     name: kubectl
     state: latest
+  changed_when: false
 
 - name: set permissions on kubernetes sources list
   file:
