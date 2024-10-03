@@ -1,10 +1,15 @@
 # Dotfiles Installer
 
-[![Dotfiles Logo][dotfiles-logo]][dotfiles-url]
+<p align="center">
+  <img src="https://raw.githubusercontent.com/drew138/.dotfiles/main/assets/Dotfiles-Logo.png" alt="Dotfiles Logo" />
+</p>
 
-[![ci][badge-gh-actions]][link-gh-actions]
 
-Automate workstation setup with ansible
+<div align="center">
+  <img src="https://github.com/drew138/.dotfiles/actions/workflows/ci.yml/badge.svg?event=push" alt="CI Badge">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+  <img src="https://img.shields.io/github/stars/drew138/.dotfiles?style=social" alt="GitHub Repo stars">
+</div>
 
 ## Installation
 
@@ -50,8 +55,3 @@ Some flatpak packages are not available for all system architectures.
 For example, they may only available for `x86_64` systems.
 To avoid errors, the `flatpak` role will not fail if a package can not be installed.
 They can be installed manually through other means.
-
-[badge-gh-actions]: https://github.com/drew138/.dotfiles/actions/workflows/ci.yml/badge.svg?event=push
-[link-gh-actions]: https://github.com/drew138/.dotfiles/actions?query=workflow%3Aci
-[dotfiles-logo]: https://raw.githubusercontent.com/drew138/.dotfiles/main/assets/Dotfiles-Logo.png
-[dotfiles-url]: https://github.com/drew138/.dotfiles
