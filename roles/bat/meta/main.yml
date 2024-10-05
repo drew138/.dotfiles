@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: drew138
+  description: installs the bat cli
+  license: MIT
+  min_ansible_version: 2.16.1
+  role_name: bat
+  namespace: drew138
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: MacOSX
+      versions:
+        - all
+dependencies:
+  - role: homebrew
+  - role: zsh

@@ -10,7 +10,6 @@
       - git
       - python
       - jq
-      - bat
       - curl
       - wget
       - gnu-tar

@@ -12,7 +12,6 @@
       - libstdc++-12-dev
       - git
       - jq
-      - bat
       - curl
       - wget
     state: latest
