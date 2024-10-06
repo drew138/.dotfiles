@@ -1,17 +1,17 @@
 ---
-- name: install flatpak
-  become: true
-  apt:
-    name:
-      - flatpak
-    state: latest
-
 - name: add flathub repository
   flatpak_remote:
     name: flathub
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     method: user
+
+- name: install flatpak
+  become: true
+  apt:
+    name:
+      - flatpak
+    state: latest
 
 - name: install flatpak packages
   include_tasks: install.yml
