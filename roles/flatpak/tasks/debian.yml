@@ -1,8 +1,6 @@
 ---
 - name: install flatpak
   become: true
-  upgrade: dist
-  update_cache: true
   apt:
     name:
       - flatpak
