@@ -31,6 +31,7 @@ local Opts = {
 		"make",
 		"terraform",
 		"toml",
+		"hcl",
 	},
 	sync_install = false,
 	auto_install = true,

@@ -13,4 +13,5 @@
     src: "{{ item }}"
     dest: "{{ destination_file }}"
     owner: "{{ ansible_env.USER }}"
+    remote_src: true
     force: true

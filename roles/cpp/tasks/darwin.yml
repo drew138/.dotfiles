@@ -16,3 +16,4 @@
   copy:
     src: "{{ ansible_env.HOME }}/.dotfiles/roles/cpp/files/stdc++.h"
     dest: /usr/local/include/bits/stdc++.h
+    remote_src: true
