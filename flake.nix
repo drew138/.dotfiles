@@ -136,7 +136,7 @@
 
         system.defaults = {
           dock = {
-            autoHide = true;
+            autohide = true;
             launchanim = false;
             show-recents = false;
             tilesize = 36;
