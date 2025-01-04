@@ -155,7 +155,7 @@
             ];
           };
           finder.FXPreferredViewStyle = "Nlsv";
-          loginWindow.GuestEnabled = false;
+          loginwindow.GuestEnabled = false;
           NSGlobalDomain = {
             AppleICUForce24HourTime = true;
             AppleInterfaceStyle = "Dark";
