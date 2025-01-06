@@ -130,6 +130,7 @@
       # darwinConfigurations."CO000KDGTHHKWXK" = nix-darwin.lib.darwinSystem {
       darwinConfigurations."drews-Virtual-Machine" = nix-darwin.lib.darwinSystem {
         # specialArgs = { user };
+        specialArgs = inputs;
         modules = [
           configuration
           nix-homebrew.darwinModules.nix-homebrew
