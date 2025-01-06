@@ -1,8 +1,8 @@
-{ user, ... }:
+{ ... }:
 let
   config = {
     text = "";
-    owner = user;
+    owner = "drew";
     permissions = "0755";
   };
 in

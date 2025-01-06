@@ -1,4 +1,4 @@
-{ ... }: {
+{ config, pkgs, ... }: {
   imports = [
     ../../modules/nixos/desktop.nix
     ../../modules/shared/file.nix

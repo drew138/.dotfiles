@@ -1,4 +1,4 @@
-{ ... }: {
+{ config, pkgs, ... }: {
   imports = [
     ../../modules/darwin/homebrew.nix
     ../../modules/darwin/desktop.nix
