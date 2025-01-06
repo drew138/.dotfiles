@@ -98,6 +98,7 @@
           # (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
           (pkgs.nerd-fonts.jetbrains-mono) # uncomment after version 2.25
         ];
+        nixpkgs.hostPlatform = "aarch64-darwin";
 
         system.activationScripts.applications.text =
           let
@@ -128,7 +129,7 @@
       # $ darwin-rebuild build --flake .#simple
       # darwinConfigurations."CO000KDGTHHKWXK" = nix-darwin.lib.darwinSystem {
       darwinConfigurations."drews-Virtual-Machine" = nix-darwin.lib.darwinSystem {
-        specialArgs = [ user ];
+        # specialArgs = { user };
         modules = [
           configuration
           nix-homebrew.darwinModules.nix-homebrew
