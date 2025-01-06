@@ -19,38 +19,42 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager }:
     let
+      user = builtins.getEnv "USER";
+      linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
+      darwinSystems = [ "aarch64-darwin" "x86_64-darwin" ];
       configuration = { pkgs, config, ... }: {
         # List packages installed in system profile. To search by name, run:
 
+        nixpkgs.config.allowUnfree = true;
         # $ nix-env -qaP | grep wget
         environment.systemPackages =
           [
             # still missing python and node
-            pkgs.neovim
-            pkgs.mkalias
-            pkgs.bat
-            pkgs.fd
-            pkgs.fzf
-            pkgs.gh
-            pkgs.git
-            pkgs.go
-            pkgs.kubectl
-            pkgs.pyenv
-            pkgs.fnm # node version manager
-            pkgs.uv
-            pkgs.htop
-            pkgs.jq
-            pkgs.curl
-            pkgs.wget
-            pkgs.awscli2
+            pkgs.neovim # working
+            pkgs.mkalias # working
+            pkgs.bat # working
+            pkgs.fd # working
+            pkgs.fzf # working
+            pkgs.gh # working
+            pkgs.git # working
+            pkgs.go # working
+            pkgs.kubectl # working
+            pkgs.pyenv # working
+            pkgs.fnm # working (node version manager)
+            pkgs.uv # working
+            pkgs.htop # working
+            pkgs.jqa # working
+            pkgs.curl # working
+            pkgs.wget # working
+            pkgs.awscli2 # working
             pkgs.google-cloud-sdk-gce
 
-            pkgs.rustup
-            pkgs.wezterm
-            pkgs.terraform
-            pkgs.tmux
-            pkgs.docker-compose
-            pkgs.docker
+            pkgs.rustup # requires activation script
+            pkgs.wezterm # working, cant test in vm
+            pkgs.terraform # working
+            pkgs.tmux # working
+            pkgs.docker-compose # working
+            pkgs.docker # working
 
             pkgs.slack
             pkgs.brave
@@ -66,33 +70,23 @@
             pkgs.google-chrome
             pkgs.utm
 
-            pkgs.ripgrep
-            pkgs.virtualenv
-            pkgs.protobuf
-            pkgs.gnutar
-            pkgs.pre-commit
-            pkgs.poetry
-            pkgs.colima
-
-            pkgs.libgcc
+            pkgs.ripgrep # not working
+            pkgs.virtualenv # not working
+            pkgs.protobuf # not working
+            pkgs.gnutar # not working
+            pkgs.pre-commit # not working
+            pkgs.poetry # not working
+            pkgs.colima # not working
+            pkgs.libgcc # not working
 
           ];
 
-        homebrew = {
-          enable = true;
-          # required by python for scikit
-          # learn god knows why
-          brews = [ "llvm" "libomp" ];
+        # Set Git commit hash for darwin-version.
+        system.configurationRevision = self.rev or self.dirtyRev or null;
 
-          casks = [ "notion" "notion-calendar" "dropbox" "background-music" ];
-          onActivation = {
-            cleanup = "zap";
-            autoUpdate = true;
-            upgrade = true;
-          };
-        };
-
-        nixpkgs.config.allowUnfree = true;
+        # Used for backwards compatibility, please read the changelog before changing.
+        # $ darwin-rebuild changelog
+        system.stateVersion = 5;
 
         # Necessary for using flakes on this system.
         nix.settings.experimental-features = "nix-command flakes";
@@ -101,8 +95,8 @@
         programs.zsh.enable = true;
 
         fonts.packages = [
-          (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-          # (pkgs.nerd-fonts.jetbrains-mono) # uncomment after version 2.25
+          # (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+          (pkgs.nerd-fonts.jetbrains-mono) # uncomment after version 2.25
         ];
 
         system.activationScripts.applications.text =
@@ -127,79 +121,14 @@
           '';
 
 
-        # Set Git commit hash for darwin-version.
-        system.configurationRevision = self.rev or self.dirtyRev or null;
-
-        # Used for backwards compatibility, please read the changelog before changing.
-        # $ darwin-rebuild changelog
-        system.stateVersion = 5;
-
-        system.defaults = {
-          dock = {
-            autohide = true;
-            launchanim = false;
-            show-recents = false;
-            tilesize = 36;
-            persistent-apps = [
-              "/Applications/System Settings.app"
-              "${pkgs.postman}/Applications/Postman.app"
-              "${pkgs.bitwarden-desktop}/Applications/Bitwarden.app"
-              "${pkgs.wezterm}/Applications/WezTerm.app"
-              "${pkgs.slack}/Applications/Slack.app"
-              "${pkgs.google-chrome}/Applications/Google Chrome.app"
-              "${pkgs.whatsapp-for-mac}/Applications/WhatsApp.app"
-              "${pkgs.spotify}/Applications/Spotify.app"
-              "${pkgs.discord}/Applications/Discord.app"
-              "${pkgs.utm}/Applications/UTM.app"
-
-            ];
-          };
-          finder.FXPreferredViewStyle = "Nlsv";
-          loginwindow.GuestEnabled = false;
-          NSGlobalDomain = {
-            AppleICUForce24HourTime = true;
-            AppleInterfaceStyle = "Dark";
-            KeyRepeat = 2;
-            InitialKeyRepeat = 15;
-
-          };
-          screencapture.location = "~/Pictures/Screenshots";
-          screencapture.type = "png";
-          trackpad.Clicking = true;
-        };
-
-        # The platform the configuration will be used on.
-        nixpkgs.hostPlatform = "aarch64-darwin";
-
-
-
-        # programs.hyprland = {
-        #   enable = true;
-        #   nvidiaPatches = true;
-        #   xwayland.enable = true;
-        # };
-        #
-        # environment.sessionVariables = {
-        #   # If your cursor becomes invisible
-        #   WLR_NO_HARDWARE_CURSORS = "1";
-        #   # Hint electron apps to use wayland
-        #   NIXOS_OZONE_WL = "1";
-        # };
-        #
-        # hardware = {
-        #   # Opengl
-        #   opengl.enable = true;
-        #
-        #   # Most wayland compositors need this
-        #   nvidia.modesetting.enable = true;
-        # };
-
       };
     in
     {
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#simple
-      darwinConfigurations."CO000KDGTHHKWXK" = nix-darwin.lib.darwinSystem {
+      # darwinConfigurations."CO000KDGTHHKWXK" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."drews-Virtual-Machine" = nix-darwin.lib.darwinSystem {
+        specialArgs = [ user ];
         modules = [
           configuration
           nix-homebrew.darwinModules.nix-homebrew
@@ -207,18 +136,26 @@
             nix-homebrew = {
               enable = true;
               enableRosetta = true;
-              user = "drew";
+              inherit user;
               autoMigrate = true;
             };
           }
+          ./hosts/darwin
         ];
       };
 
-      darwinPackages = self.darwinConfigurations."CO000KDGTHHKWXK".pkgs;
+      darwinPackages = self.darwinConfigurations."drews-Virtual-Machine".pkgs;
 
-      nixosConfigurations = { };
+      # nixosConfigurations = {
+      #   specialArgs = [ user ];
+      #   modules = [
+      #     ./hosts/nixos
+      #   ];
+      # };
     };
 }
 
 # nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake ~/.dotfiles#CO000KDGTHHKWXK
 # darwin-rebuild switch --flake ~/.dotfiles#CO000KDGTHHKWXK
+# how to set default browser
+# add home to finder

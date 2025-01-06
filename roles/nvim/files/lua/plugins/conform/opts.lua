@@ -25,6 +25,7 @@ local Opts = {
 		cpp = { "clang_format" },
 		sql = { "sqlfmt" },
 		terraform = { "hclfmt" },
+		nix = { "nixpkgs_fmt" },
 		["*"] = { "trim_whitespace" },
 	},
 	format_on_save = {

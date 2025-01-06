@@ -19,6 +19,7 @@ local Opts = {
 		"terraform-ls",
 		"typescript-language-server",
 		"yaml-language-server",
+		"nil",
 
 		-- debuggers used by nvim dap
 		"delve",
@@ -54,6 +55,7 @@ local Opts = {
 		"clang-format",
 		"sqlfmt",
 		"hclfmt",
+		"nixpkgs-fmt",
 	},
 	auto_update = false,
 	run_on_start = true,
