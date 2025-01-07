@@ -43,7 +43,7 @@
             pkgs.fnm # working (node version manager)
             pkgs.uv # working
             pkgs.htop # working
-            pkgs.jqa # working
+            pkgs.jq # working
             pkgs.curl # working
             pkgs.wget # working
             pkgs.awscli2 # working
