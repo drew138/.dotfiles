@@ -148,7 +148,7 @@
             users.users.drew = {
               isNormalUser = true;
               home = "/Users/drew";
-              extraGroups = [ "wheel" ];
+              # extraGroups = [ "wheel" ];
 
             };
           }
