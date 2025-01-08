@@ -144,7 +144,6 @@
           }
           home-manager.darwinModules.home-manager
           {
-            user = "drew";
             home-manager.users.drew.home.stateVersion = "23.05";
           }
           ./hosts/darwin
