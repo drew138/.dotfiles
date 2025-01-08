@@ -144,8 +144,8 @@
           }
           home-manager.darwinModules.home-manager
           {
-            home-manager.users.drew.home.stateVersion = "23.05";
             home-manager.users.drew = {
+              home.stateVersion = "23.05";
               home.username = "drew";
               home.homeDirectory = "/Users/drew";
               programs.home-manager.enable = true;
