@@ -17,7 +17,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager, ... }:
     let
       user = builtins.getEnv "USER";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
@@ -60,15 +60,15 @@
             pkgs.brave
             pkgs.telegram-desktop
 
-            pkgs.spotify
-            pkgs.discord
-            pkgs.postman
-            pkgs.obs-studio
+            # pkgs.spotify
+            # pkgs.discord
+            # pkgs.postman
+            # pkgs.obs-studio
 
-            pkgs.bitwarden-desktop
-            pkgs.whatsapp-for-mac
-            pkgs.google-chrome
-            pkgs.utm
+            # pkgs.bitwarden-desktop
+            # pkgs.whatsapp-for-mac
+            # pkgs.google-chrome
+            # pkgs.utm
 
             pkgs.ripgrep # not working
             pkgs.virtualenv # not working
@@ -77,7 +77,7 @@
             pkgs.pre-commit # not working
             pkgs.poetry # not working
             pkgs.colima # not working
-            pkgs.libgcc # not working
+            # pkgs.libgcc # not working
 
           ];
 
@@ -130,7 +130,7 @@
       # darwinConfigurations."CO000KDGTHHKWXK" = nix-darwin.lib.darwinSystem {
       darwinConfigurations."drews-Virtual-Machine" = nix-darwin.lib.darwinSystem {
         # specialArgs = { user };
-        specialArgs = inputs;
+        # specialArgs = inputs;
         modules = [
           configuration
           nix-homebrew.darwinModules.nix-homebrew
@@ -142,6 +142,7 @@
               autoMigrate = true;
             };
           }
+          home-manager.darwinModules.home-manager
           ./hosts/darwin
         ];
       };

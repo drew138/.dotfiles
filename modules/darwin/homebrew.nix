@@ -12,6 +12,7 @@
       "notion-calendar"
       "dropbox"
       "background-music" # requires fixing
+      "nikitabobko/tap/aerospace"
     ];
     onActivation = {
       cleanup = "zap";
