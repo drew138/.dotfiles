@@ -143,6 +143,9 @@
             };
           }
           home-manager.darwinModules.home-manager
+          {
+            users.drew.stateVersion = "23.05";
+          }
           ./hosts/darwin
         ];
       };
