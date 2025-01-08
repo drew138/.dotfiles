@@ -47,7 +47,7 @@
             pkgs.curl # working
             pkgs.wget # working
             pkgs.awscli2 # working
-            pkgs.google-cloud-sdk-gce
+            # pkgs.google-cloud-sdk-gce
 
             pkgs.rustup # requires activation script
             pkgs.wezterm # working, cant test in vm
