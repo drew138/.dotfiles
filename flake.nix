@@ -143,9 +143,9 @@
             };
           }
           home-manager.darwinModules.home-manager
-          # {
-          #   home-manager.users.drew.home.stateVersion = "23.05";
-          # }
+          {
+            home-manager.users.drew.home.stateVersion = "23.05";
+          }
           ./hosts/darwin
         ];
       };
