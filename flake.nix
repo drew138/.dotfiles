@@ -151,12 +151,12 @@
               programs.home-manager.enable = true;
 
             };
-            # users.users.drew = {
-            #   # isNormalUser = true;
-            #   home = "/Users/drew";
-            #   # extraGroups = [ "wheel" ];
-            #
-            # };
+            users.users.drew = {
+              # isNormalUser = true;
+              home = "/Users/drew";
+              # extraGroups = [ "wheel" ];
+
+            };
           }
           ./hosts/darwin
         ];
