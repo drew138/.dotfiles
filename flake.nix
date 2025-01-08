@@ -145,12 +145,18 @@
           home-manager.darwinModules.home-manager
           {
             home-manager.users.drew.home.stateVersion = "23.05";
-            users.users.drew = {
-              # isNormalUser = true;
-              home = "/Users/drew";
-              # extraGroups = [ "wheel" ];
+            home-manager.users.drew = {
+              home.username = "drew";
+              home.homeDirectory = "/Users/drew";
+              programs.home-manager.enable = true;
 
             };
+            # users.users.drew = {
+            #   # isNormalUser = true;
+            #   home = "/Users/drew";
+            #   # extraGroups = [ "wheel" ];
+            #
+            # };
           }
           ./hosts/darwin
         ];
