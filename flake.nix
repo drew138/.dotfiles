@@ -142,16 +142,16 @@
               autoMigrate = true;
             };
           }
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.users.drew.home.stateVersion = "23.05";
-            users.users.drew = {
-              # isNormalUser = true;
-              home = "/Users/drew";
-              # extraGroups = [ "wheel" ];
-
-            };
-          }
+          # home-manager.darwinModules.home-manager
+          # {
+          #   home-manager.users.drew.home.stateVersion = "23.05";
+          #   users.users.drew = {
+          #     # isNormalUser = true;
+          #     home = "/Users/drew";
+          #     # extraGroups = [ "wheel" ];
+          #
+          #   };
+          # }
           ./hosts/darwin
         ];
       };
