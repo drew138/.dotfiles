@@ -17,21 +17,34 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager, ... }:
+  outputs =
+    inputs@{ self
+    , nix-darwin
+    , nixpkgs
+    , nix-homebrew
+    , home-manager
+    , ...
+    }:
     let
       user = builtins.getEnv "USER";
-      linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
-      darwinSystems = [ "aarch64-darwin" "x86_64-darwin" ];
+      linuxSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      darwinSystems = [
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
       configuration = { pkgs, config, ... }: {
         # List packages installed in system profile. To search by name, run:
 
         nixpkgs.config.allowUnfree = true;
         # $ nix-env -qaP | grep wget
+
         environment.systemPackages =
           [
             # still missing python and node
             pkgs.neovim # working
-            pkgs.mkalias # working
             pkgs.bat # working
             pkgs.fd # working
             pkgs.fzf # working
@@ -69,6 +82,7 @@
             # pkgs.whatsapp-for-mac
             # pkgs.google-chrome
             # pkgs.utm
+            pkgs.mkalias # working
 
             pkgs.ripgrep # not working
             pkgs.virtualenv # not working
@@ -100,28 +114,6 @@
         ];
         nixpkgs.hostPlatform = "aarch64-darwin";
 
-        system.activationScripts.applications.text =
-          let
-            env = pkgs.buildEnv {
-              name = "system-applications";
-              paths = config.environment.systemPackages;
-              pathsToLink = "/Applications";
-            };
-          in
-          pkgs.lib.mkForce ''
-            # Set up applications.
-            echo "setting up /Applications..." >&2
-            rm -rf /Applications/Nix\ Apps
-            mkdir -p /Applications/Nix\ Apps
-            find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-            while read -r src; do
-              app_name=$(basename "$src")
-              echo "copying $src" >&2
-              ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-            done
-          '';
-
-
       };
     in
     {
@@ -138,7 +130,7 @@
             nix-homebrew = {
               enable = true;
               enableRosetta = true;
-              inherit user;
+              user = "drew";
               autoMigrate = true;
             };
           }
