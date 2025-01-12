@@ -11,7 +11,7 @@
       "notion"
       "notion-calendar"
       "dropbox"
-      "background-music" # requires fixing
+      # "background-music" # requires fixing
       "nikitabobko/tap/aerospace"
     ];
     onActivation = {
