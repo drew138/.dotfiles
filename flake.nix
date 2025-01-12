@@ -92,7 +92,7 @@
             pkgs.colima #  working darwin only
             pkgs.pre-commit # not working
             pkgs.poetry # not working
-            pkgs.libgcc # not working
+            # pkgs.libgcc # not working
 
           ];
 
