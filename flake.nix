@@ -60,7 +60,7 @@
             pkgs.curl # working
             pkgs.wget # working
             pkgs.awscli2 # working
-            # pkgs.google-cloud-sdk-gce
+            pkgs.google-cloud-sdk
 
             pkgs.rustup # requires activation script
             pkgs.wezterm # working, cant test in vm
@@ -73,25 +73,25 @@
             pkgs.brave
             pkgs.telegram-desktop
 
-            # pkgs.spotify
-            # pkgs.discord
-            # pkgs.postman
-            # pkgs.obs-studio
+            pkgs.spotify
+            pkgs.discord
+            pkgs.postman
+            # pkgs.obs-studio # linux only
 
-            # pkgs.bitwarden-desktop
-            # pkgs.whatsapp-for-mac
-            # pkgs.google-chrome
-            # pkgs.utm
-            pkgs.mkalias # working
+            # pkgs.bitwarden-desktop # linux only
+            # pkgs.whatsapp-for-mac # macos only
+            pkgs.google-chrome # all but aarch64 linux
+            pkgs.utm # darwin only
+            pkgs.mkalias # darwin only
 
-            pkgs.ripgrep # not working
-            pkgs.virtualenv # not working
+            pkgs.ripgrep #  working
+            pkgs.virtualenv # working
             pkgs.protobuf # not working
-            pkgs.gnutar # not working
+            pkgs.gnutar #  working
+            pkgs.colima #  working darwin only
             pkgs.pre-commit # not working
             pkgs.poetry # not working
-            pkgs.colima # not working
-            # pkgs.libgcc # not working
+            pkgs.libgcc # not working
 
           ];
 

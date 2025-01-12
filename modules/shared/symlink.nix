@@ -2,7 +2,6 @@
 {
   home-manager.users.drew = { config, pkgs, ... }:
     let
-
       symlink = config.lib.file.mkOutOfStoreSymlink;
       homeDirectory = config.home.homeDirectory;
     in
