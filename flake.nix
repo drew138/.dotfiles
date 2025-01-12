@@ -124,7 +124,7 @@
 
 
 
-      darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system:
+      darwinConfigurations."drews-Virtual-Machine" = nixpkgs.lib.genAttrs darwinSystems (system:
         nix-darwin.lib.darwinSystem {
           inherit system;
           # specialArgs = inputs;
