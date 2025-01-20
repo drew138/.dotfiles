@@ -149,6 +149,7 @@ fi
 
 [[ "$(uname -s)" == "Darwin" ]] && export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
 
+
 # gcloud
 # The next line updates PATH for the Google Cloud SDK.
 [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ] && \. "$HOME/google-cloud-sdk/path.zsh.inc"
