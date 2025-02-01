@@ -11,6 +11,8 @@
       "notion"
       "notion-calendar"
       "dropbox"
+      "bitwarden"
+      "obs"
       # "background-music" # requires fixing
       "nikitabobko/tap/aerospace"
     ];
