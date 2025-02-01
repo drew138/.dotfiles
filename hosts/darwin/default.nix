@@ -15,7 +15,7 @@
 
   nix.settings.experimental-features = "nix-command flakes";
 
-  nixpkgs.hostPlatform = builtins.currentSystem;
+  # nixpkgs.hostPlatform = builtins.currentSystem;
 
   programs.zsh.enable = true;
 
