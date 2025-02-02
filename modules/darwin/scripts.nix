@@ -21,5 +21,14 @@
           ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
         done
       '';
+
+
+    setup-python.text = pkgs.lib.mkForce ''
+      version=$(${pkgs.mkalias}/bin/pyenv install --list | grep " 3\.[0-9]\+.[0-9]\+$" | tail -1)
+      ${pkgs.mkalias}/bin/pyenv install $version
+      ${pkgs.mkalias}/bin/pyenv global $version
+    '';
+
   };
 }
+
