@@ -28,7 +28,7 @@
     let
       # user = builtins.getEnv "USER";
       user = "drew";
-      system = "aarch64-darwin";
+      # system = "aarch64-darwin";
 
       configuration = { pkgs, config, ... }: {
 
