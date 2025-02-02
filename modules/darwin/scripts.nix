@@ -23,7 +23,7 @@
       '';
 
 
-    python.text = pkgs.lib.mkForce ''
+    setupPythonProgrammingLanguage.text = pkgs.lib.mkForce ''
       echo "settings up python..." >&2
       export PYENV_ROOT="$HOME/.pyenv"
       export PATH="$PYENV_ROOT/bin:$PATH"
