@@ -105,7 +105,7 @@
         #   # (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
         #   (pkgs.nerd-fonts.jetbrains-mono) # uncomment after version 2.25
         # ];
-        nixpkgs.hostPlatform = system;
+        # nixpkgs.hostPlatform = system;
         # nixpkgs.hostPlatform = builtins.currentSystem;
 
       };
