@@ -2,7 +2,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = import ./packages/${system}.nix {
+  environment.systemPackages = import ./packages/${pkgs.system}.nix {
     inherit pkgs;
   };
 
