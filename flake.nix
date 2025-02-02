@@ -28,6 +28,7 @@
     let
       # user = builtins.getEnv "USER";
       user = "drew";
+      system = "aarch64-darwin";
 
       configuration = { pkgs, config, ... }: {
 
@@ -104,11 +105,10 @@
         #   # (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
         #   (pkgs.nerd-fonts.jetbrains-mono) # uncomment after version 2.25
         # ];
-        nixpkgs.hostPlatform = "aarch64-darwin";
+        nixpkgs.hostPlatform = system;
         # nixpkgs.hostPlatform = builtins.currentSystem;
 
       };
-      system = "aarch64-darwin";
     in
     {
       # Build darwin flake using:

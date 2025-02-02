@@ -13,6 +13,7 @@
         ".gitignore_global".source = symlink "${homeDirectory}/.dotfiles/.gitignore_global";
         ".wezterm.lua".source = symlink "${homeDirectory}/.dotfiles/.wezterm.lua";
         ".config/starship.toml".source = symlink "${homeDirectory}/.dotfiles/starship.toml";
+        ".dotfiles/roles/nvim/files".source = symlink "${homeDirectory}/.config/nvim";
       };
     };
 }
