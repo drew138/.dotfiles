@@ -24,7 +24,7 @@
 
 
     setup-python.text = pkgs.lib.mkForce ''
-      echo settings up python...
+      echo settings up python... >&2
       version=$(${pkgs.mkalias}/bin/pyenv install --list | grep " 3\.[0-9]\+.[0-9]\+$" | tail -1)
       ${pkgs.mkalias}/bin/pyenv install $version
       ${pkgs.mkalias}/bin/pyenv global $version
