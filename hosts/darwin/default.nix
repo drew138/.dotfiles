@@ -1,4 +1,4 @@
-{ self, pkgs, ... }: {
+{ self, pkgs, system, ... }: {
   imports = [
     ../../modules/darwin/homebrew.nix
     ../../modules/darwin/desktop.nix
@@ -15,7 +15,7 @@
 
   nix.settings.experimental-features = "nix-command flakes";
 
-  nixpkgs.hostPlatform = pkgs.system;
+  nixpkgs.hostPlatform = system;
 
   programs.zsh.enable = true;
 
