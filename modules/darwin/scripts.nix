@@ -23,10 +23,13 @@
       '';
 
 
-    setup-python.text = pkgs.lib.mkForce ''
+    python.text = pkgs.lib.mkForce ''
       echo "settings up python..." >&2
+      export PYENV_ROOT="$HOME/.pyenv"
+      export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(${pkgs.pyenv}/bin/pyenv init --path)"
       version=$(${pkgs.mkalias}/bin/pyenv install --list | grep " 3\.[0-9]\+.[0-9]\+$" | tail -1)
-      ${pkgs.mkalias}/bin/pyenv install $version
+      ${pkgs.mkalias}/bin/pyenv install --skip-existing $version
       ${pkgs.mkalias}/bin/pyenv global $version
     '';
 
