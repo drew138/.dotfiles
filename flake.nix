@@ -108,6 +108,7 @@
         # nixpkgs.hostPlatform = builtins.currentSystem;
 
       };
+      system = "aarch64-darwin";
     in
     {
       # Build darwin flake using:
@@ -116,37 +117,40 @@
 
 
 
-      darwinConfigurations."drews-Virtual-Machine" = nix-darwin.lib.darwinSystem {
-        # specialArgs = { user };
-        # specialArgs = inputs;
-        modules = [
-          configuration
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              inherit user;
-              enable = true;
-              enableRosetta = true;
-              autoMigrate = true;
-            };
-          }
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.users.${user} = {
-              home.stateVersion = "23.05";
-              home.username = user;
-              home.homeDirectory = "/Users/${user}";
-              programs.home-manager.enable = true;
-            };
-            users.users.${user} = {
-              # isNormalUser = true;
-              home = "/Users/${user}";
-              # extraGroups = [ "wheel" ];
-            };
-          }
-          ./hosts/darwin
-        ];
-      };
+      darwinConfigurations."drews-Virtual-Machine" = nix-darwin.lib.darwinSystem
+        {
+          specialArgs = {
+            inherit system;
+          };
+          # specialArgs = inputs;
+          modules = [
+            configuration
+            nix-homebrew.darwinModules.nix-homebrew
+            {
+              nix-homebrew = {
+                inherit user;
+                enable = true;
+                enableRosetta = true;
+                autoMigrate = true;
+              };
+            }
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.users.${user} = {
+                home.stateVersion = "23.05";
+                home.username = user;
+                home.homeDirectory = "/Users/${user}";
+                programs.home-manager.enable = true;
+              };
+              users.users.${user} = {
+                # isNormalUser = true;
+                home = "/Users/${user}";
+                # extraGroups = [ "wheel" ];
+              };
+            }
+            ./hosts/darwin
+          ];
+        };
 
       darwinPackages = self.darwinConfigurations."drews-Virtual-Machine".pkgs;
 
