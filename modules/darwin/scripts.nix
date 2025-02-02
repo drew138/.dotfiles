@@ -28,9 +28,9 @@
       export PYENV_ROOT="$HOME/.pyenv"
       export PATH="$PYENV_ROOT/bin:$PATH"
       eval "$(${pkgs.pyenv}/bin/pyenv init --path)"
-      version=$(${pkgs.mkalias}/bin/pyenv install --list | grep " 3\.[0-9]\+.[0-9]\+$" | tail -1)
-      ${pkgs.mkalias}/bin/pyenv install --skip-existing $version
-      ${pkgs.mkalias}/bin/pyenv global $version
+      version=$(${pkgs.pyenv}/bin/pyenv install --list | grep " 3\.[0-9]\+.[0-9]\+$" | tail -1)
+      ${pkgs.pyenv}/bin/pyenv install --skip-existing $version
+      ${pkgs.pyenv}/bin/pyenv global $version
     '';
 
   };
