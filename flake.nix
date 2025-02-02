@@ -121,6 +121,7 @@
         {
           specialArgs = {
             inherit system;
+            inherit self;
           };
           # specialArgs = inputs;
           modules = [
