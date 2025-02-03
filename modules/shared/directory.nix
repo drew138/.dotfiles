@@ -9,7 +9,7 @@
       };
     in
     {
-      home.file."dev".directory = config;
-      home.file."work".directory = config;
+      home.file."dev".recursive = true;
+      home.file."work".recursive = true;
     };
 }
