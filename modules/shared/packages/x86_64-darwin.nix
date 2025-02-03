@@ -24,7 +24,7 @@ let
     pkgs.protobuf # not working
     pkgs.mkalias # darwin only
     pkgs.neovim # working
-    pkgs.pre-commit # not working
+    pkgs.pre-commit # working
     # pkgs.libgcc # not working
   ];
 

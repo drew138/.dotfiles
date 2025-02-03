@@ -22,14 +22,14 @@ let
     pkgs.docker-compose # working
     pkgs.protobuf # not working
     pkgs.neovim # working
-    pkgs.pre-commit # not working
+    pkgs.pre-commit # working
     # pkgs.libgcc # not working
   ];
 
   packageManagers = [
     pkgs.uv # working
     pkgs.virtualenv # working
-    pkgs.poetry # not working
+    pkgs.poetry # working
   ];
 
   languages = [

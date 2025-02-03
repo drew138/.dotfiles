@@ -31,7 +31,7 @@ let
   packageManagers = [
     pkgs.uv # working
     pkgs.virtualenv # working
-    pkgs.poetry # not working
+    pkgs.poetry #  working
   ];
 
   languages = [

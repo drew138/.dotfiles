@@ -3,15 +3,15 @@ bindkey -v
 
 # poetry
 fpath+=~/.zfunc
-alias poetry="$HOME/.clitools/bin/poetry"
+# alias poetry="$HOME/.clitools/bin/poetry"
 
 # pre-commit
-alias pre-commit="$HOME/.clitools/bin/pre-commit"
+# alias pre-commit="$HOME/.clitools/bin/pre-commit"
 
 # ansible
-alias ansible="$HOME/.clitools/bin/ansible"
-alias ansible-pull="$HOME/.clitools/bin/ansible-pull"
-alias ansible-vault="$HOME/.clitools/bin/ansible-vault"
+# alias ansible="$HOME/.clitools/bin/ansible"
+# alias ansible-pull="$HOME/.clitools/bin/ansible-pull"
+# alias ansible-vault="$HOME/.clitools/bin/ansible-vault"
 
 # initialize completion system
 autoload -Uz compinit && compinit
