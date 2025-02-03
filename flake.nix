@@ -148,6 +148,10 @@
                 home = "/Users/${user}";
                 # extraGroups = [ "wheel" ];
               };
+              home.activation.files = ''
+                touch ~/.workrc.zsh
+                touch ~/.workrc.gitconfig
+              '';
             }
             ./hosts/darwin
           ];
