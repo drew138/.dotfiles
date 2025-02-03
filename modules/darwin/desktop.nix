@@ -12,7 +12,7 @@
       persistent-apps = [
         "/Applications/System Settings.app"
         "${pkgs.postman}/Applications/Postman.app"
-        "${pkgs.bitwarden-desktop}/Applications/Bitwarden.app"
+        # "${pkgs.bitwarden-desktop}/Applications/Bitwarden.app"
         "${pkgs.wezterm}/Applications/WezTerm.app"
         "${pkgs.slack}/Applications/Slack.app"
         "${pkgs.google-chrome}/Applications/Google Chrome.app"
