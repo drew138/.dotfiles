@@ -10,10 +10,7 @@
       show-recents = false;
       tilesize = 36;
       persistent-apps = [
-        {
-          path = "/Applications/System Settings.app";
-          pos = 1;
-        }
+        "/Applications/System_Settings.app"
         "${pkgs.postman}/Applications/Postman.app"
         # "${pkgs.bitwarden-desktop}/Applications/Bitwarden.app"
         "${pkgs.wezterm}/Applications/WezTerm.app"
