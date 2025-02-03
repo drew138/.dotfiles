@@ -142,16 +142,16 @@
                 home.username = user;
                 home.homeDirectory = "/Users/${user}";
                 programs.home-manager.enable = true;
+                home.activation.files = ''
+                  touch ~/.workrc.zsh
+                  touch ~/.workrc.gitconfig
+                '';
               };
               users.users.${user} = {
                 # isNormalUser = true;
                 home = "/Users/${user}";
                 # extraGroups = [ "wheel" ];
               };
-              home.activation.files = ''
-                touch ~/.workrc.zsh
-                touch ~/.workrc.gitconfig
-              '';
             }
             ./hosts/darwin
           ];
