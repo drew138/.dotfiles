@@ -23,7 +23,7 @@
     #   echo "Python $(python --version) is now active."
     # '';
 
-    mycustomapps.text = ''
+    applications.text = ''
       echo "Setting up Python with pyenv..." >&2
 
       export PYENV_ROOT="$HOME/.pyenv"
