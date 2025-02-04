@@ -23,7 +23,7 @@
     #   echo "Python $(python --version) is now active."
     # '';
 
-    applications.text = ''
+    python.text = pkgs.lib.mkForce ''
       echo "Setting up Python with pyenv..." >&2
 
       export PYENV_ROOT="$HOME/.pyenv"
