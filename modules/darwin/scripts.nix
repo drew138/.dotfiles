@@ -25,6 +25,7 @@
 
     idk.text = ''
       echo "Setting up Python with pyenv..." >&2
+      touch ~/.dotfiles/idk
 
     '';
 
