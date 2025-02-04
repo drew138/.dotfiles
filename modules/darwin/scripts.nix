@@ -23,6 +23,11 @@
     #   echo "Python $(python --version) is now active."
     # '';
 
+    idk.text = ''
+      echo "Setting up Python with pyenv..." >&2
+
+    '';
+
     applications.text =
       let
         env = pkgs.buildEnv {
