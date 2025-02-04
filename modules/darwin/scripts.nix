@@ -25,8 +25,8 @@
 
     script.text = ''
       # Set up idk.
-      echo "Setting up Python with pyenv..." >&2
       touch ~/.dotfiles/idk
+      echo "Setting up Python with pyenv..." >&2
 
     '';
 
