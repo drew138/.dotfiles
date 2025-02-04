@@ -38,7 +38,8 @@
           pathsToLink = "/Applications";
         };
       in
-      pkgs.lib.mkForce ''
+      # pkgs.lib.mkForce ''
+      ''
         # Set up applications.
         echo "setting up /Applications..." >&2
         rm -rf /Applications/Nix\ Apps
