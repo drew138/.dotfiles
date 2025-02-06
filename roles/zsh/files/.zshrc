@@ -155,3 +155,10 @@ fi
 
 # The next line enables shell command completion for gcloud.
 [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ] && \. "$HOME/google-cloud-sdk/completion.zsh.inc"
+
+# fnm
+FNM_PATH="/Users/asalazargale/Library/Application Support/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/Users/asalazargale/Library/Application Support/fnm:$PATH"
+  eval "`fnm env`"
+fi

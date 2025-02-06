@@ -46,7 +46,7 @@ let
     pkgs.spotify # all but aarch64 linux
     pkgs.discord # all but aarch64 linux
     pkgs.postman
-    pkgs.whatsapp-for-mac # macos only
+    pkgs.whatsapp-for-mac # macos only - change since it has an old version
     pkgs.google-chrome # all but aarch64 linux
     pkgs.utm # darwin only
     pkgs.brave
