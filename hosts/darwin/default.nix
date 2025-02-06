@@ -7,6 +7,7 @@
     # ../../modules/shared/directory.nix
     ../../modules/shared/symlink.nix
     ../../modules/shared/packages.nix
+    ../../modules/shared/scripts.nix
   ];
 
   system.configurationRevision = self.rev or self.dirtyRev or null;

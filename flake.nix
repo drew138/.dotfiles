@@ -142,16 +142,6 @@
                 home.username = user;
                 home.homeDirectory = "/Users/${user}";
                 programs.home-manager.enable = true;
-                home.activation = {
-                  files = ''
-                    touch ~/.workrc.zsh
-                    touch ~/.workrc.gitconfig
-                  '';
-                  directories = ''
-                    mkdir -p ~/dev
-                    mkdir -p ~/work
-                  '';
-                };
               };
               users.users.${user} = {
                 # isNormalUser = true;

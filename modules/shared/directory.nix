@@ -10,6 +10,6 @@
     in
     {
       home.file."dev".recursive = true;
-      home.file."work".recursive = true;
+      home.file."work".directory = config;
     };
 }

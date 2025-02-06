@@ -5,6 +5,7 @@
     ../../modules/shared/directory.nix
     ../../modules/shared/symlink.nix
     ../../modules/shared/packages.nix
+    ../../modules/shared/scripts.nix
   ];
 
   system.stateVersion = 5;
