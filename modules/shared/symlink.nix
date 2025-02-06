@@ -1,4 +1,4 @@
-{ config }:
+{ config, ... }:
 let
   symlink = config.lib.file.mkOutOfStoreSymlink;
   homeDirectory = config.home.homeDirectory;

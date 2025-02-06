@@ -1,4 +1,4 @@
-{ pkgs }: {
+{ pkgs, ... }: {
   createFiles = ''
     echo "Creating .workrc.zsh" >&2
     touch ~/.workrc.zsh
