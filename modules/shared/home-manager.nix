@@ -1,12 +1,8 @@
 { ... }:
 {
-  home-manager.users.drew = { config, pkgs, ... }:
+  home-manager.users.drew = { config, pkgs, ... }@args:
     {
-      home.file = import ./symlink.nix {
-        config = config;
-      };
-      home.activation = import ./scripts.nix {
-        pkgs = pkgs;
-      };
+      home.file = import ./symlink.nix { config = args.config; };
+      home.activation = import ./scripts.nix { pkgs = args.pkgs; };
     };
 }
