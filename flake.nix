@@ -137,12 +137,12 @@
             }
             home-manager.darwinModules.home-manager
             {
-              home-manager.users.${user} = {
-                home.stateVersion = "23.05";
-                home.username = user;
-                home.homeDirectory = "/Users/${user}";
-                programs.home-manager.enable = true;
-              };
+              # home-manager.users.${user} = {
+              #   home.stateVersion = "23.05";
+              #   home.username = user;
+              #   home.homeDirectory = "/Users/${user}";
+              #   programs.home-manager.enable = true;
+              # };
               users.users.${user} = {
                 # isNormalUser = true;
                 home = "/Users/${user}";
