@@ -3,10 +3,11 @@ bindkey -v
 
 # poetry
 fpath+=~/.zfunc
-alias poetry="$HOME/.clitools/bin/poetry"
+# alias poetry="$HOME/.clitools/bin/poetry"
 
 # pre-commit
-alias pre-commit="$HOME/.clitools/bin/pre-commit"
+# alias pre-commit="$HOME/.clitools/bin/pre-commit"
+
 
 # ansible
 alias ansible="$HOME/.clitools/bin/ansible"
@@ -162,3 +163,14 @@ if [ -d "$FNM_PATH" ]; then
   export PATH="/Users/asalazargale/Library/Application Support/fnm:$PATH"
   eval "`fnm env`"
 fi
+
+# Added by furycli:
+export PATH="$HOME/.fury/fury_venv/bin:$PATH" # Added by furycli
+
+export RANGER_FURY_LOCATION=/Users/asalazargale/.fury #Added by Fury CLI
+export RANGER_FURY_VENV_LOCATION=/Users/asalazargale/.fury/fury_venv #Added by Fury CLI
+
+# Added by Fury CLI installation process
+declare FURY_BIN_LOCATION="/Users/asalazargale/.fury/fury_venv/bin" # Added by Fury CLI installation process
+export PATH="$PATH:$FURY_BIN_LOCATION" # Added by Fury CLI installation process
+# Added by Fury CLI installation process
