@@ -39,8 +39,8 @@
   installNode = ''
     echo "Setting up Node with fnm..." >&2
 
-    ${pkgs.fnm}/bin/fnm install --latest
-    ${pkgs.fnm}/bin/fnm use --latest
+    ${pkgs.fnm}/bin/fnm install -- --latest
+    ${pkgs.fnm}/bin/fnm use -- --latest
     ${pkgs.fnm}/bin/fnm default $(${pkgs.fnm}/bin/fnm current)
   '';
 }
