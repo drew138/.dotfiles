@@ -40,7 +40,7 @@
     echo "Setting up Node with fnm..." >&2
 
 
-    version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | awk '{print $1}')
+    version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | /usr/bin/awk '{print $1}')
 
     ${pkgs.fnm}/bin/fnm install $version
     ${pkgs.fnm}/bin/fnm use $version
