@@ -47,4 +47,9 @@
   #   ${pkgs.fnm}/bin/fnm use $version
   #   ${pkgs.fnm}/bin/fnm default $(${pkgs.fnm}/bin/fnm current)
   # '';
+
+  installRust = ''
+    echo "Setting up Rust with rustup..." >&2
+    ${pkgs.rustup}/bin/rustup update stable
+  '';
 }
