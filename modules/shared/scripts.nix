@@ -19,7 +19,7 @@
 
     # export PYENV_ROOT="$HOME/.pyenv"
     # export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(${pkgs.pyenv}/bin/pyenv init --path)"
+    # eval "$(${pkgs.pyenv}/bin/pyenv init --path)"
 
     # Get latest Python 3 version
     version=$(${pkgs.pyenv}/bin/pyenv install --list | grep " 3\.[0-9]\+.[0-9]\+$" | tail -1 | tr -d ' ')
