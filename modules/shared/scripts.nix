@@ -33,7 +33,7 @@
     ${pkgs.pyenv}/bin/pyenv install --skip-existing "$version"
     ${pkgs.pyenv}/bin/pyenv global "$version"
 
-    echo "Python $(python --version) is now active."
+    echo "Python $(python --version) is now active." >&2
   '';
 
   # installNode = ''
