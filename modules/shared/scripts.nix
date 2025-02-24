@@ -17,8 +17,8 @@
   installPython = ''
     echo "Setting up Python with pyenv..." >&2
 
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
+    # export PYENV_ROOT="$HOME/.pyenv"
+    # export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(${pkgs.pyenv}/bin/pyenv init --path)"
 
     # Get latest Python 3 version
