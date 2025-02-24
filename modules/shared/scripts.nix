@@ -36,15 +36,15 @@
     echo "Python $(python --version) is now active."
   '';
 
-  installNode = ''
-    echo "Setting up Node with fnm..." >&2
-
-    eval "$(${pkgs.fnm}/bin/fnm env)"
-
-    version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | awk '{print $1}')
-
-    ${pkgs.fnm}/bin/fnm install $version
-    ${pkgs.fnm}/bin/fnm use $version
-    ${pkgs.fnm}/bin/fnm default $(${pkgs.fnm}/bin/fnm current)
-  '';
+  # installNode = ''
+  #   echo "Setting up Node with fnm..." >&2
+  #
+  #   eval "$(${pkgs.fnm}/bin/fnm env)"
+  #
+  #   version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | awk '{print $1}')
+  #
+  #   ${pkgs.fnm}/bin/fnm install $version
+  #   ${pkgs.fnm}/bin/fnm use $version
+  #   ${pkgs.fnm}/bin/fnm default $(${pkgs.fnm}/bin/fnm current)
+  # '';
 }
