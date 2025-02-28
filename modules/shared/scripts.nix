@@ -40,6 +40,7 @@
     eval "$(${pkgs.fnm}/bin/fnm env --shell bash)"
 
     # version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | /usr/bin/awk '{print $1}')
+    version=18.20.7
 
     ${pkgs.fnm}/bin/fnm install $version
     ${pkgs.fnm}/bin/fnm use $version
