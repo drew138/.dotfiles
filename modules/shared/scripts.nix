@@ -18,12 +18,14 @@
     echo "Setting up Python with pyenv..." >&2
 
     # Get latest Python 3 version
-    version=$(${pkgs.pyenv}/bin/pyenv install --list | grep " 3\.[0-9]\+.[0-9]\+$" | tail -1 | tr -d ' ')
+    # version=$(${pkgs.pyenv}/bin/pyenv install --list | grep " 3\.[0-9]\+.[0-9]\+$" | tail -1 | tr -d ' ')
 
-    if [[ -z "$version" ]]; then
-      echo "Failed to determine the latest Python version." >&2
-      exit 1
-    fi
+    # if [[ -z "$version" ]]; then
+    #   echo "Failed to determine the latest Python version." >&2
+    #   exit 1
+    # fi
+
+    version=3.10.14
 
     echo "Installing Python $version..." >&2
     ${pkgs.pyenv}/bin/pyenv install --skip-existing "$version"
