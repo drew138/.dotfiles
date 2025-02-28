@@ -36,6 +36,7 @@
   installNode = ''
     echo "Setting up Node with fnm..." >&2
 
+    export PATH="/usr/bin:$PATH"
     eval "$(${pkgs.fnm}/bin/fnm env --shell zsh)"
     echo "$(${pkgs.fnm}/bin/fnm env --shell zsh)" >&2
 
