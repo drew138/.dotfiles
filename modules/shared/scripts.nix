@@ -33,11 +33,6 @@
     echo "Python $(${pkgs.pyenv}/bin/pyenv version) is now active." >&2
   '';
 
-  # export PYENV_ROOT="$HOME/.pyenv"
-  # export PATH="$PYENV_ROOT/bin:$PATH"
-  # eval "$(${pkgs.pyenv}/bin/pyenv init --path)"
-
-
   installNode = ''
     echo "Setting up Node with fnm..." >&2
 
@@ -49,7 +44,6 @@
     ${pkgs.fnm}/bin/fnm install $version
     ${pkgs.fnm}/bin/fnm use $version
   '';
-  # ${pkgs.fnm}/bin/fnm default $(${pkgs.fnm}/bin/fnm current)
 
   installRust = ''
     echo "Setting up Rust with rustup..." >&2
