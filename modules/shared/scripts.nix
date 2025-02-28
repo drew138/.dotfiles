@@ -33,19 +33,19 @@
     echo "Python $(${pkgs.pyenv}/bin/pyenv version) is now active." >&2
   '';
 
-  installNode = ''
-    echo "Setting up Node with fnm..." >&2
-
-    eval "$(${pkgs.fnm}/bin/fnm env --use-on-cd --shell zsh)"
-
-    # version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | /usr/bin/awk '{print $1}')
-    version=18.20.7
-
-    ${pkgs.fnm}/bin/fnm install $version
-    ${pkgs.fnm}/bin/fnm use $version
-    ${pkgs.fnm}/bin/fnm default $version
-    echo $(${pkgs.fnm}/bin/fnm list) >&2
-  '';
+  # installNode = ''
+  #   echo "Setting up Node with fnm..." >&2
+  #
+  #   eval "$(${pkgs.fnm}/bin/fnm env --use-on-cd --shell zsh)"
+  #
+  #   # version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | /usr/bin/awk '{print $1}')
+  #   version=18.20.7
+  #
+  #   ${pkgs.fnm}/bin/fnm install $version
+  #   ${pkgs.fnm}/bin/fnm use $version
+  #   ${pkgs.fnm}/bin/fnm default $version
+  #   echo $(${pkgs.fnm}/bin/fnm list) >&2
+  # '';
 
   installRust = ''
     echo "Setting up Rust with rustup..." >&2
