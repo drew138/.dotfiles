@@ -30,6 +30,7 @@
     ${pkgs.pyenv}/bin/pyenv install --skip-existing "$version"
     ${pkgs.pyenv}/bin/pyenv global "$version"
 
+    sleep 2
     echo "Python $(python3 --version) is now active." >&2
   '';
 
