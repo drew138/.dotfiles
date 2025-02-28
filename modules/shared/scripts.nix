@@ -34,7 +34,6 @@
   '';
 
   installNode = ''
-    zsh
     echo "Setting up Node with fnm..." >&2
 
     eval "$(${pkgs.fnm}/bin/fnm env --use-on-cd --shell zsh)"

@@ -25,6 +25,7 @@ let
     pkgs.mkalias # darwin only
     pkgs.neovim # working
     pkgs.pre-commit # not working
+    pkgs.tree-sitter
     # pkgs.libgcc # not working
   ];
 

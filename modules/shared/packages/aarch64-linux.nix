@@ -23,6 +23,7 @@ let
     pkgs.protobuf # not working
     pkgs.neovim # working
     pkgs.pre-commit # working
+    pkgs.tree-sitter
     # pkgs.libgcc # not working
   ];
 
