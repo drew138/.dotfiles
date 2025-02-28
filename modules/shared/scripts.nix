@@ -36,8 +36,7 @@
   installNode = ''
     echo "Setting up Node with fnm..." >&2
 
-    echo $SHELL >&2
-    eval "$(${pkgs.fnm}/bin/fnm env)"
+    eval "$(${pkgs.fnm}/bin/fnm env --shell bash)"
 
     version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | /usr/bin/awk '{print $1}')
 
