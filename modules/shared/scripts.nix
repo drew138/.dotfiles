@@ -56,16 +56,16 @@
     echo "Installing Tmux plugins..." >&2
     # Define the TPM directory
     export PATH="/run/current-system/sw/bin:$PATH"
-    TPM_DIR="$HOME/.tmux/plugins/tpm"
+    export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins/tpm"
 
     # Ensure the parent directory exists
     mkdir -p "$HOME/.tmux/plugins"
 
     # Clone the TPM repository if it doesn't exist, otherwise update it
-    if [ -d "$TPM_DIR/.git" ]; then
-        git -C "$TPM_DIR" pull
+    if [ -d "$TMUX_PLUGIN_MANAGER_PATH/.git" ]; then
+        git -C "$TMUX_PLUGIN_MANAGER_PATH" pull
     else
-        git clone --depth=1 https://github.com/tmux-plugins/tpm.git "$TPM_DIR"
+        git clone --depth=1 https://github.com/tmux-plugins/tpm.git "$TMUX_PLUGIN_MANAGER_PATH"
     fi
     $HOME/.tmux/plugins/tpm/scripts/install_plugins.sh
   '';
