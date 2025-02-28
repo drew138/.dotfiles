@@ -37,8 +37,7 @@
     echo "Setting up Node with fnm..." >&2
 
     echo $SHELL >&2
-    eval "$(${pkgs.fnm}/bin/fnm env --shell zsh)"
-    echo "$(${pkgs.fnm}/bin/fnm env --shell zsh)" >&2
+    eval "$(${pkgs.fnm}/bin/fnm env)"
 
     version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | /usr/bin/awk '{print $1}')
 
