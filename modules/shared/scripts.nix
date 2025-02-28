@@ -45,6 +45,7 @@
     ${pkgs.fnm}/bin/fnm install $version
     ${pkgs.fnm}/bin/fnm use $version
     ${pkgs.fnm}/bin/fnm default $version
+    echo $(${pkgs.fnm}/bin/fnm list) >&2
   '';
 
   installRust = ''
