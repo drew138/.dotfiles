@@ -6,6 +6,7 @@
     brews = [
       "llvm" # required by python for scikit learn
       "libomp" # required by python for scikit learn
+      "xz"
     ];
     casks = [
       "notion"
