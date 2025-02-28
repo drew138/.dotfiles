@@ -4,7 +4,6 @@
   <img src="https://raw.githubusercontent.com/drew138/.dotfiles/main/assets/Dotfiles-Logo.png" alt="Dotfiles Logo" />
 </p>
 
-
 <div align="center">
   <img src="https://github.com/drew138/.dotfiles/actions/workflows/ci.yml/badge.svg?event=push" alt="CI Badge">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
