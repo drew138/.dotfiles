@@ -18,7 +18,7 @@
     echo "Setting up Python with pyenv..." >&2
 
     # Get latest Python 3 version
-    export PATH="/usr/bin:$PATH"
+    export PATH="/usr/bin:/opt/homebrew/bin:$PATH"
     version=$(${pkgs.pyenv}/bin/pyenv install --list | grep " 3\.[0-9]\+.[0-9]\+$" | tail -1 | tr -d ' ')
 
     if [[ -z "$version" ]]; then
