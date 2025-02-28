@@ -51,4 +51,21 @@
     echo "Setting up Rust with rustup..." >&2
     ${pkgs.rustup}/bin/rustup update stable
   '';
+
+  installTmuxPlugins = ''
+    echo "Installing Tmux plugins..." >&2
+    # Define the TPM directory
+    TPM_DIR="$HOME/.tmux/plugins/tpm"
+
+    # Ensure the parent directory exists
+    mkdir -p "$HOME/.tmux/plugins"
+
+    # Clone the TPM repository if it doesn't exist, otherwise update it
+    if [ -d "$TPM_DIR/.git" ]; then
+        git -C "$TPM_DIR" pull
+    else
+        git clone --depth=1 https://github.com/tmux-plugins/tpm.git "$TPM_DIR"
+    fi
+    $HOME/.tmux/plugins/tpm/scripts/install_plugins.sh
+  '';
 }
