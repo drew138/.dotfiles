@@ -34,10 +34,10 @@
   '';
 
   installNode = ''
-    #!/usr/bin/bash
+    zmodload zsh/rehash
     echo "Setting up Node with fnm..." >&2
 
-    eval "$(${pkgs.fnm}/bin/fnm env --shell bash)"
+    eval "$(${pkgs.fnm}/bin/fnm env --shell zsh)"
 
     # version=$(${pkgs.fnm}/bin/fnm ls-remote --lts | tail -n 1 | /usr/bin/awk '{print $1}')
     version=18.20.7
@@ -45,7 +45,7 @@
     ${pkgs.fnm}/bin/fnm install $version
     ${pkgs.fnm}/bin/fnm use $version
     ${pkgs.fnm}/bin/fnm default $version
-    echo $(${pkgs.fnm}/bin/fnm list) >&2
+    # echo $(${pkgs.fnm}/bin/fnm list) >&2
   '';
 
   installRust = ''
