@@ -31,7 +31,7 @@
     ${pkgs.pyenv}/bin/pyenv global "$version"
 
     sleep 2
-    echo "Python $(python3 --version) is now active." >&2
+    echo "Python $(${pkgs.pyenv}/bin/pyenv version) is now active." >&2
   '';
 
   # export PYENV_ROOT="$HOME/.pyenv"
