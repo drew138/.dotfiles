@@ -55,6 +55,7 @@
   installTmuxPlugins = ''
     echo "Installing Tmux plugins..." >&2
     # Define the TPM directory
+    export PATH="/run/current-system/sw/bin:$PATH"
     TPM_DIR="$HOME/.tmux/plugins/tpm"
 
     # Ensure the parent directory exists
