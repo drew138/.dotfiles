@@ -1,4 +1,10 @@
 ---
+- name: update and upgrade packages
+  become: true
+  apt:
+    update_cache: true
+    upgrade: dist
+
 - name: install dependencies
   become: true
   apt:
