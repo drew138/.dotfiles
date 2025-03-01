@@ -3,15 +3,6 @@ bindkey -v
 
 # poetry
 fpath+=~/.zfunc
-alias poetry="$HOME/.clitools/bin/poetry"
-
-# pre-commit
-alias pre-commit="$HOME/.clitools/bin/pre-commit"
-
-# ansible
-alias ansible="$HOME/.clitools/bin/ansible"
-alias ansible-pull="$HOME/.clitools/bin/ansible-pull"
-alias ansible-vault="$HOME/.clitools/bin/ansible-vault"
 
 # initialize completion system
 autoload -Uz compinit && compinit
@@ -147,6 +138,9 @@ fi
 [[ "$(uname -s)" == "Linux" ]] && alias wezterm='flatpak run org.wezfurlong.wezterm'
 
 [[ "$(uname -s)" == "Darwin" ]] && export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
+
+# clitools
+export PATH="$HOME/.clitools/bin:$PATH"
 
 # gcloud
 # The next line updates PATH for the Google Cloud SDK.
