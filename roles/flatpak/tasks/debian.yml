@@ -1,4 +1,10 @@
 ---
+- name: update and upgrade packages
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: dist
+
 - name: install flatpak
   become: true
   apt:
