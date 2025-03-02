@@ -19,7 +19,6 @@ local Plugin = {
 			json = { "jsonlint" },
 			sh = { "shellcheck" },
 			lua = { "selene" },
-			yaml = { "yamllint" },
 			sql = { "sqlfluff" },
 			proto = { "buf", "protolint" },
 			css = { "stylelint" },
