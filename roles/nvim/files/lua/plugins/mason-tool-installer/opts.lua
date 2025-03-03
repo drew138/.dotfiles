@@ -19,6 +19,7 @@ local Opts = {
 		"terraform-ls",
 		"typescript-language-server",
 		"yaml-language-server",
+		"ruff",
 
 		-- debuggers used by nvim dap
 		"delve",
@@ -35,7 +36,6 @@ local Opts = {
 		"jsonlint",
 		"selene",
 		"shellcheck",
-		"yamllint",
 		"sqlfluff",
 		"buf",
 		"protolint",
