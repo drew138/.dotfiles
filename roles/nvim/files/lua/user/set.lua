@@ -13,4 +13,4 @@ set("n", "<leader>x", "<cmd>wqa<cr>")
 set("n", "<c-u>", "<c-u>zz")
 set("n", "<c-d>", "<c-d>zz")
 -- DO NOT EDIT
-vim.api.nvim_set_keymap("v", "p", '"_dP', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "p", "pgvy", { noremap = true, silent = true })
