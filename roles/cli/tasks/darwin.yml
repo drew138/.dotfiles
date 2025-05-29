@@ -32,6 +32,7 @@
     name:
       - pre-commit
       - poetry
+      - ansible
     state: latest
     virtualenv: "{{ ansible_env.HOME }}/.clitools"
   environment:
