@@ -15,7 +15,7 @@
   become: true
   become_user: "{{ ansible_env.USER }}"
   git:
-    repo: "{{ zinit_repo }}/zinit.git"
+    repo: "{{ zinit_repo }}"
     dest: "{{ zinit_home }}"
     clone: true
     update: true
