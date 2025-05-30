@@ -1,14 +1,21 @@
 ---
-- name: Ensure parent directory of ZINIT_HOME exists
+- name: ensure .local folder exists
   file:
-    path: "{{ zinit_home | dirname }}"
+    path: "{{ ansible_env.HOME }}/.local"
     state: directory
     mode: 0755
 
-- name: Clone zinit if it hasn't been cloned yet
+- name: ensure share folder exists
+  file:
+    path: "{{ ansible_env.HOME }}/.local/share"
+    state: directory
+    mode: 0755
+
+- name: clone zinit repository
+  become: true
+  become_user: "{{ ansible_env.USER }}"
   git:
-    repo: "{{ zinit_repo }}"
+    repo: "{{ zinit_repo }}/zinit.git"
     dest: "{{ zinit_home }}"
-    version: master
-    update: no
-  when: not (zinit_home + '/.git') | path_exists
+    clone: true
+    update: true
