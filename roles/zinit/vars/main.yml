@@ -1,0 +1,3 @@
+---
+zinit_home: "{{ ansible_env.HOME }}/.local/share/zinit/zinit.git"
+zinit_repo: "https://github.com/zdharma-continuum/zinit.git"

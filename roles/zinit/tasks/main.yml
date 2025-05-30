@@ -1,0 +1,14 @@
+---
+- name: Ensure parent directory of ZINIT_HOME exists
+  file:
+    path: "{{ zinit_home | dirname }}"
+    state: directory
+    mode: 0755
+
+- name: Clone zinit if it hasn't been cloned yet
+  git:
+    repo: "{{ zinit_repo }}"
+    dest: "{{ zinit_home }}"
+    version: master
+    update: no
+  when: not (zinit_home + '/.git') | path_exists
