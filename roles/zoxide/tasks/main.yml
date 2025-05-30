@@ -1,0 +1,8 @@
+---
+- name: install zoxide
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  changed_when: false
+  shell: "curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh"
+  args:
+    executable: /bin/bash
