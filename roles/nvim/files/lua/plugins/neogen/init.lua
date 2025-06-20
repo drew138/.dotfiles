@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"danymat/neogen",
 	dependencies = {
 		{ "nvim-treesitter/nvim-treesitter" },
@@ -12,4 +12,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

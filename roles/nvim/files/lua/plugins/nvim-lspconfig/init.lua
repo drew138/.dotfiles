@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"neovim/nvim-lspconfig",
 	dependencies = { { "filipdutescu/renamer.nvim" } },
 	init = function()
@@ -25,4 +25,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

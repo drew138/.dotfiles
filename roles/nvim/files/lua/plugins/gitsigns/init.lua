@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"lewis6991/gitsigns.nvim",
 	dependencies = { { "EdenEast/nightfox.nvim" } },
 	opts = function()
@@ -7,4 +7,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

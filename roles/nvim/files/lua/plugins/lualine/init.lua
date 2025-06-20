@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
 		{ "EdenEast/nightfox.nvim" },
@@ -10,4 +10,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

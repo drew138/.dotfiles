@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"folke/trouble.nvim",
 	init = function()
 		local diagnostic = vim.diagnostic
@@ -37,4 +37,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

@@ -1,4 +1,4 @@
-local Opts = {
+local M = {
 	ui = {
 		icons = {
 			package_installed = "✓",
@@ -9,4 +9,4 @@ local Opts = {
 	},
 }
 
-return Opts
+return M

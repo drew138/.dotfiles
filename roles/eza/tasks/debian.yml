@@ -1,0 +1,52 @@
+---
+- name: determine system architecture
+  set_fact:
+    eza_arch: >-
+      {{
+        {
+          'aarch64': 'aarch64',
+          'arm64': 'arm64',
+          'amd64': 'x86_64',
+          'x86_64': 'x86_64',
+        }.get(ansible_architecture, 'invalid')
+      }}
+
+- name: fail if architecture is not supported
+  fail:
+    msg: "Unsupported architecture: {{ ansible_architecture }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
+  when: eza_arch == 'invalid'
+
+- name: download and extract eza tar file
+  become: true
+  unarchive:
+    src: "{{ eza_download_url }}"
+    dest: /usr/local/bin/
+    remote_src: true
+    creates: "/usr/local/bin/eza"
+
+- name: Set permissions on /usr/local/bin/eza
+  become: true
+  file:
+    path: /usr/local/bin/eza
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: create dev directory
+  become: true
+  file:
+    path: "{{ ansible_env.HOME }}/dev/"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_env.USER }}"
+
+- name: clone eza repository
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  git:
+    repo: "{{ eza_repo }}"
+    dest: "{{ eza_home }}"
+    clone: true
+    force: true
+    update: true
+    depth: 1

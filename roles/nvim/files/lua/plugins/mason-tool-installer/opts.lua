@@ -1,4 +1,4 @@
-local Opts = {
+local M = {
 	ensure_installed = {
 		-- lsps required by lspconfig
 		"ansible-language-server",
@@ -61,4 +61,4 @@ local Opts = {
 	debounce_hours = 5,
 }
 
-return Opts
+return M

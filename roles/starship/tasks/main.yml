@@ -5,7 +5,7 @@
     path: "{{ ansible_env.HOME }}/.config"
     state: directory
     owner: "{{ ansible_env.USER }}"
-    mode: 0700
+    mode: "0700"
 
 - name: create starship symlink
   file:

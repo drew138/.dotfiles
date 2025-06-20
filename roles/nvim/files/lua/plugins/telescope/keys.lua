@@ -1,4 +1,4 @@
-local Keys = {
+local M = {
 	{
 		"<leader>ff",
 		"<cmd>lua require'telescope.builtin'.find_files()<cr>",
@@ -15,9 +15,9 @@ local Keys = {
 		desc = "open active buffers picker",
 	},
 	{
-		"<leader>fh",
-		"<cmd>lua require'telescope.builtin'.help_tags()<cr>",
-		desc = "open help tags picker",
+		"<leader>fk",
+		"<cmd>lua require'telescope.builtin'.keymaps()<cr>",
+		desc = "open available keymaps finder",
 	},
 	{
 		"<leader>fd",
@@ -36,4 +36,4 @@ local Keys = {
 	},
 }
 
-return Keys
+return M

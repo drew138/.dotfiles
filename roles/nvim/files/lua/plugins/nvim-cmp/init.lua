@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"hrsh7th/nvim-cmp",
 	dependencies = {
 		{ "neovim/nvim-lspconfig" },
@@ -26,4 +26,4 @@ local Plugin = {
 	event = "InsertEnter",
 }
 
-return Plugin
+return M

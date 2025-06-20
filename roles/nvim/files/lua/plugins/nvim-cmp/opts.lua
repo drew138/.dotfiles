@@ -1,7 +1,7 @@
 local lspkind = require("lspkind")
 local cmp = require("cmp")
 
-local Opts = {
+local M = {
 	snippet = {
 		expand = function(args)
 			require("luasnip").lsp_expand(args.body)
@@ -46,4 +46,4 @@ local Opts = {
 	},
 }
 
-return Opts
+return M

@@ -1,4 +1,4 @@
-local Keys = {
+local M = {
 	{
 		"<leader>mp",
 		"<cmd>MarkdownPreview<cr>",
@@ -6,4 +6,4 @@ local Keys = {
 	},
 }
 
-return Keys
+return M

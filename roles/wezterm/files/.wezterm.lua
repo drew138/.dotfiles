@@ -1,11 +1,11 @@
 local wezterm = require("wezterm")
 
-local config = {
-	color_scheme = "nightfox",
-	font_size = 15.0,
-	enable_tab_bar = true,
-	hide_tab_bar_if_only_one_tab = true,
-	window_close_confirmation = "NeverPrompt",
-}
+-- Extend Lua module path to your dotfiles folder
+package.path = package.path .. ";" .. os.getenv("HOME") .. "/.dotfiles/roles/wezterm/files/?.lua"
+
+local config = {}
+
+require("style")(config)
+require("keybinds")(config, wezterm)
 
 return config

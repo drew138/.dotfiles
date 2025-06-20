@@ -13,7 +13,7 @@ local function prev()
 end
 
 -- TODO change these keybinds
-local Keys = {
+local M = {
 	{
 		"<c-h>",
 		prev,
@@ -30,4 +30,4 @@ local Keys = {
 	},
 }
 
-return Keys
+return M

@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"nvim-telescope/telescope.nvim",
 	branch = "0.1.x",
 	dependencies = {
@@ -22,4 +22,4 @@ local Plugin = {
 		telescope.load_extension("fzf")
 	end,
 }
-return Plugin
+return M

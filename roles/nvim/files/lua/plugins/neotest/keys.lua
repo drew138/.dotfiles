@@ -1,4 +1,4 @@
-local Keys = {
+local M = {
 	{
 		"<c-b>",
 		"<cmd>lua require'neotest'.summary.toggle()<cr>",
@@ -8,4 +8,4 @@ local Keys = {
 	},
 }
 
-return Keys
+return M

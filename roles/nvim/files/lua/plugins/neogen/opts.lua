@@ -1,5 +1,5 @@
-local Opts = {
+local M = {
 	snippet_engine = "luasnip",
 }
 
-return Opts
+return M

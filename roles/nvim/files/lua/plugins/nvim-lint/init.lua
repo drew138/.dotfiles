@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"mfussenegger/nvim-lint",
 	event = {
 		"BufReadPre",
@@ -35,4 +35,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

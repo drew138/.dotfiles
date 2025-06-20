@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"stevearc/conform.nvim",
 	event = { "BufReadPre", "BufNewFile" },
 	opts = function()
@@ -7,4 +7,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

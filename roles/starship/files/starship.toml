@@ -1,9 +1,11 @@
-format = """$username\
-$hostname\
+format="""\
+$username\
+$localip\
 $directory\
 $python\
 $golang\
 $nodejs\
+$lua\
 $git_branch
 $character\
 """
@@ -11,24 +13,34 @@ $character\
 add_newline = true
 
 [character]
-success_symbol = "[➜](bold green)"
-error_symbol = "[➜](bold red)"
+success_symbol='[➜](bold green)'
+error_symbol='[➜](bold red)'
 
 [username]
-format = "[$user]($style)"
+format='[$user]($style) '
+show_always=true
 
-[hostname]
-format = ":[$hostname]($style) "
+[lua]
+format='[$symbol($version )]($style)'
+symbol=' '
+detect_extensions=[]
 
 [python]
-symbol = " "
-pyenv_version_name = true
-detect_extensions = []
+format='[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+symbol=' '
+pyenv_version_name=true
+detect_extensions=[]
 
 [golang]
-format = '[ $version](bold cyan) '
-detect_extensions = []
+format='[ $version](bold cyan) '
+detect_extensions=[]
 
 [nodejs]
-detect_extensions = []
-symbol = " "
+format='[$symbol($version )]($style)'
+detect_extensions=[]
+symbol=" "
+
+[localip]
+ssh_only=false
+format='[$localipv4](#bb9af7) '
+disabled=false

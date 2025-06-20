@@ -11,7 +11,7 @@
   file:
     path: "{{ ansible_env.HOME }}/.local/bin"
     state: directory
-    mode: 0700
+    mode: "0700"
     owner: "{{ ansible_env.USER }}"
 
 - name: create bat symlink

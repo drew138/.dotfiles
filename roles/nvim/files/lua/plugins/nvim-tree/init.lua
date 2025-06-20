@@ -1,7 +1,7 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-local Plugin = {
+local M = {
 	"nvim-tree/nvim-tree.lua",
 	dependencies = {
 		{ "EdenEast/nightfox.nvim" },
@@ -17,4 +17,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

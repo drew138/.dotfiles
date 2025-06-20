@@ -1,8 +1,8 @@
-local Plugin = {
+local M = {
 	"kylechui/nvim-surround",
 	version = "*",
 	event = "VeryLazy",
 	config = true,
 }
 
-return Plugin
+return M

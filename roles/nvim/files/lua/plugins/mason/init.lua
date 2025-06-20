@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"williamboman/mason.nvim",
 	opts = function()
 		return require("plugins.mason.opts")
@@ -7,4 +7,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

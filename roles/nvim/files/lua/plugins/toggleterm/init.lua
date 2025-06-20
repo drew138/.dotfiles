@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"akinsho/toggleterm.nvim",
 	version = "*",
 	keys = function()
@@ -7,4 +7,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

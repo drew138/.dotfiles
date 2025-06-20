@@ -1,4 +1,4 @@
-local Opts = {
+local M = {
 	adapters = {
 		require("neotest-python")({
 			dap = { justMyCode = false },
@@ -21,4 +21,4 @@ local Opts = {
 	},
 }
 
-return Opts
+return M

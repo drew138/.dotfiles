@@ -1,4 +1,4 @@
-local Opts = {
+local M = {
 	override_by_filename = {
 		[".gitignore_global"] = {
 			icon = "",
@@ -14,4 +14,4 @@ local Opts = {
 	},
 }
 
-return Opts
+return M

@@ -1,6 +1,6 @@
-local Plugin = {
+local M = {
 	"RubixDev/mason-update-all",
 	config = true,
 }
 
-return Plugin
+return M

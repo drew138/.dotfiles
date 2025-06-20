@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"nvim-tree/nvim-web-devicons",
 	opts = function()
 		return require("plugins.nvim-web-devicons.opts")
@@ -6,4 +6,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

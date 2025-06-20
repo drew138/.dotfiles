@@ -1,4 +1,4 @@
-local Opts = {
+local M = {
 	ensure_installed = {
 		"bash",
 		"c",
@@ -38,4 +38,4 @@ local Opts = {
 	highlight = { enable = true },
 }
 
-return Opts
+return M

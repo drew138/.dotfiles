@@ -15,13 +15,13 @@ local function git_commit_toggle()
 	git_commit:toggle()
 end
 
-local Keys = {
+local M = {
 	{
-		"<leader>c",
+		"<leader>cc",
 		git_commit_toggle,
 		noremap = true,
 		desc = "commit to git",
 	},
 }
 
-return Keys
+return M

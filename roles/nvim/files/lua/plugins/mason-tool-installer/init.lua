@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"WhoIsSethDaniel/mason-tool-installer.nvim",
 	dependencies = {
 		{ "williamboman/mason.nvim" },
@@ -13,4 +13,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"iamcco/markdown-preview.nvim",
 	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
 	ft = { "markdown" },
@@ -8,4 +8,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

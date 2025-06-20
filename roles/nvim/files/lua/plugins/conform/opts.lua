@@ -1,4 +1,4 @@
-local Opts = {
+local M = {
 	formatters_by_ft = {
 		javascript = { "prettier" },
 		typescript = { "prettier" },
@@ -13,12 +13,12 @@ local Opts = {
 		graphql = { "prettier" },
 		lua = { "stylua" },
 		python = { "black" },
-		go = {
-			"gofumpt",
-			"goimports",
-			"goimports-reviser",
-			"golines",
-		},
+		-- go = {
+		-- 	"gofumpt",
+		-- 	"goimports",
+		-- 	"goimports-reviser",
+		-- 	"golines",
+		-- },
 		sh = { "beautysh" },
 		rust = { "rustfmt" },
 		proto = { "buf" },
@@ -34,4 +34,4 @@ local Opts = {
 	},
 }
 
-return Opts
+return M

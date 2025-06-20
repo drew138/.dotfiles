@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"tpope/vim-fugitive",
 	dependencies = {
 		{ "EdenEast/nightfox.nvim" },
@@ -8,4 +8,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

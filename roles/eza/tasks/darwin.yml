@@ -1,0 +1,26 @@
+---
+- name: install eza
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name:
+      - eza
+    state: latest
+
+- name: create dev directory
+  become: true
+  file:
+    path: "{{ ansible_env.HOME }}/dev/"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_env.USER }}"
+
+- name: clone eza repository
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  git:
+    repo: "{{ eza_repo }}"
+    dest: "{{ eza_home }}"
+    clone: true
+    force: true
+    update: true
+    depth: 1

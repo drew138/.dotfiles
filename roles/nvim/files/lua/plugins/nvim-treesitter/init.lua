@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"nvim-treesitter/nvim-treesitter",
 	dependencies = {
 		{ "EdenEast/nightfox.nvim" },
@@ -18,4 +18,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

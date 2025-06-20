@@ -1,4 +1,4 @@
-local Keys = {
+local M = {
 	{
 		"<leader>co",
 		"<cmd>GitConflictChooseOurs<cr>",
@@ -16,4 +16,4 @@ local Keys = {
 	},
 }
 
-return Keys
+return M

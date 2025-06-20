@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"lukas-reineke/indent-blankline.nvim",
 	dependencies = { { "EdenEast/nightfox.nvim" } },
 	main = "ibl",
@@ -9,4 +9,4 @@ local Plugin = {
 	end,
 	config = true,
 }
-return Plugin
+return M

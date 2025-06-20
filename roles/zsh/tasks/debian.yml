@@ -11,7 +11,7 @@
     content: "#!/bin/bash"
     dest: "{{ ansible_env.HOME }}/.workrc.zsh"
     force: false
-    mode: "u+rwx"
+    mode: "0700"
     owner: "{{ ansible_env.USER }}"
 
 - name: set user to change shell

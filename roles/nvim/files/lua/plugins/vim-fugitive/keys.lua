@@ -1,4 +1,4 @@
-local Keys = {
+local M = {
 	{
 		"<leader>p",
 		"<cmd>G push<cr>",
@@ -6,4 +6,4 @@ local Keys = {
 		desc = "push to remote repository",
 	},
 }
-return Keys
+return M

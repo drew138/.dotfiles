@@ -7,7 +7,7 @@ local function debug_test()
 	end
 end
 
-local Keys = {
+local M = {
 	{
 		"<leader>dt",
 		debug_test,
@@ -17,11 +17,6 @@ local Keys = {
 		"<leader>di",
 		"<cmd>lua require'dap.ui.widgets'.hover()<cr>",
 		desc = "see object current value",
-	},
-	{
-		"<leader>dr",
-		"<cmd>lua require'dap'.repl.open()<cr>",
-		desc = "open repl window",
 	},
 	{
 		"<leader>5",
@@ -50,4 +45,4 @@ local Keys = {
 	},
 }
 
-return Keys
+return M

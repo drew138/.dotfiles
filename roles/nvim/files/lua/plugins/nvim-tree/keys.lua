@@ -1,4 +1,4 @@
-local Keys = {
+local M = {
 	{
 		"<c-n>",
 		"<cmd>NvimTreeToggle<cr>",
@@ -6,4 +6,4 @@ local Keys = {
 		desc = "toggle nvim tree view",
 	},
 }
-return Keys
+return M

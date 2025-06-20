@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"filipdutescu/renamer.nvim",
 	dependencies = {
 		{ "nvim-lua/plenary.nvim" },
@@ -7,4 +7,4 @@ local Plugin = {
 	config = true,
 }
 
-return Plugin
+return M

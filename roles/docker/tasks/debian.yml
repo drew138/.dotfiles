@@ -79,6 +79,6 @@
   get_url:
     url: "{{ docker_compose_download_url }}"
     dest: /usr/local/bin/docker-compose
-    mode: 0755
+    mode: "0755"
   notify:
     - restart docker

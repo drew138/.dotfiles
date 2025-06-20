@@ -1,4 +1,4 @@
-local Keys = {
+local M = {
 	{
 		"<leader>a",
 		":lua require('neogen').generate()<cr>",
@@ -7,4 +7,4 @@ local Keys = {
 	},
 }
 
-return Keys
+return M

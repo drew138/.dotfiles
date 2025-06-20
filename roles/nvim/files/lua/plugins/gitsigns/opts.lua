@@ -1,4 +1,4 @@
-local Opts = {
+local M = {
 	on_attach = function(bufnr)
 		-- KEYS NEED TO BE SET HERE
 		local gs = package.loaded.gitsigns
@@ -51,4 +51,4 @@ local Opts = {
 	end,
 }
 
-return Opts
+return M

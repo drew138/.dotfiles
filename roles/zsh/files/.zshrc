@@ -62,10 +62,13 @@ alias checkout='git checkout'
 alias push='git push'
 alias gdiff='git diff --name-only --relative --diff-filter=d | xargs bat --diff'
 alias ..='cd ..'
-alias l='ls -F --color'
-alias ls='ls -F --color'
-alias la='ls -la'
-alias ll='ls -l'
+
+# eza
+export FPATH="$HOME/dev/eza/completions/zsh:$FPATH"
+alias l='eza'
+alias ls='eza'
+alias ll='eza -lah'
+alias lt='eza --tree'
 
 # bat
 if command -v bat 1>/dev/null 2>&1; then
@@ -104,12 +107,15 @@ fi
 # rust configs
 [ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
 
-## pyenv configs
+# pyenv configs
 if command -v pyenv 1>/dev/null 2>&1; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
 fi
+
+export PYTHONDONTWRITEBYTECODE=1
+export PYTHONUNBUFFERED=1
 
 # open editor to write long commands
 autoload edit-command-line

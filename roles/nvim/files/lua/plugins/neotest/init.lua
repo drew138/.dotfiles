@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"nvim-neotest/neotest",
 	dependencies = {
 		{ "nvim-neotest/nvim-nio" },
@@ -51,4 +51,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

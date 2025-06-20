@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"akinsho/git-conflict.nvim",
 	version = "*",
 	lazy = false,
@@ -11,4 +11,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

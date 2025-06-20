@@ -18,7 +18,7 @@ local picker_config = {
 	file_ignore_patterns = ignore_patterns,
 }
 
-local Opts = {
+local M = {
 	pickers = {
 		find_files = picker_config,
 		live_grep = picker_config,
@@ -35,4 +35,4 @@ local Opts = {
 	},
 }
 
-return Opts
+return M

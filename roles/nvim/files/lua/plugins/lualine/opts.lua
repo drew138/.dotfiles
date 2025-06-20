@@ -10,7 +10,7 @@ local function get_icon()
 	end
 end
 
-local Opts = {
+local M = {
 	sections = {
 		lualine_c = {
 			{
@@ -36,4 +36,4 @@ local Opts = {
 	},
 }
 
-return Opts
+return M

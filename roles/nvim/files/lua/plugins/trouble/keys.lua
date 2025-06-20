@@ -1,6 +1,6 @@
 local diagnostic = vim.diagnostic
 
-local Keys = {
+local M = {
 	{
 		"<c-s>",
 		diagnostic.open_float,
@@ -18,4 +18,4 @@ local Keys = {
 	},
 }
 
-return Keys
+return M

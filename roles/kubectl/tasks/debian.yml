@@ -14,7 +14,7 @@
   file:
     path: /etc/apt/keyrings
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: root
 
 - name: download kubernetes armored GPG key
@@ -46,6 +46,6 @@
 - name: set permissions on kubernetes sources list
   file:
     path: /etc/apt/sources.list.d/kubernetes.list
-    mode: 0644
+    mode: "0644"
     owner: root
     group: root

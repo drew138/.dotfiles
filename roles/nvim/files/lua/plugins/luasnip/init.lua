@@ -1,4 +1,4 @@
-local Plugin = {
+local M = {
 	"L3MON4D3/LuaSnip",
 	build = "make install_jsregexp",
 	version = "1.*",
@@ -17,4 +17,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

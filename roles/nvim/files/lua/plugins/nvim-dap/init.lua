@@ -1,10 +1,10 @@
-local Plugin = {
+local M = {
 	"mfussenegger/nvim-dap",
 	dependencies = {
 		{ "nvim-telescope/telescope-dap.nvim" },
 		{ "theHamsta/nvim-dap-virtual-text" },
 		{ "EdenEast/nightfox.nvim" },
-        {"nvim-neotest/nvim-nio"},
+		{ "nvim-neotest/nvim-nio" },
 		{ "rcarriga/nvim-dap-ui" },
 		{
 			"leoluz/nvim-dap-go",
@@ -46,4 +46,4 @@ local Plugin = {
 	end,
 }
 
-return Plugin
+return M

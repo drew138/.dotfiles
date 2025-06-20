@@ -1,7 +1,7 @@
 local HEIGHT_RATIO = 0.8
 local WIDTH_RATIO = 0.5
 
-local Opts = {
+local M = {
 	disable_netrw = true,
 	hijack_netrw = true,
 	respect_buf_cwd = true,
@@ -36,4 +36,4 @@ local Opts = {
 	},
 }
 
-return Opts
+return M
