@@ -4,5 +4,5 @@
   become_user: "{{ ansible_env.USER }}"
   homebrew:
     name:
-      - terraform
+      - hashicorp/tap/terraform
     state: latest
