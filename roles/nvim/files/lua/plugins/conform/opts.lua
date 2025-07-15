@@ -27,11 +27,12 @@ local M = {
 		terraform = { "hclfmt" },
 		["*"] = { "trim_whitespace" },
 	},
-	format_on_save = {
-		lsp_fallback = true,
-		async = false,
-		timeout_ms = 500,
-	},
+	format_on_save = false,
+	-- format_on_save = {
+	-- 	lsp_format = "fallback",
+	-- 	async = false,
+	-- 	timeout_ms = 500,
+	-- },
 }
 
 return M
