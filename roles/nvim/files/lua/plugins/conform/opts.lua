@@ -13,12 +13,12 @@ local M = {
 		graphql = { "prettier" },
 		lua = { "stylua" },
 		python = { "black" },
-		-- go = {
-		-- 	"gofumpt",
-		-- 	"goimports",
-		-- 	"goimports-reviser",
-		-- 	"golines",
-		-- },
+		go = {
+			"gofumpt",
+			"goimports",
+			"goimports-reviser",
+			"golines",
+		},
 		sh = { "beautysh" },
 		rust = { "rustfmt" },
 		proto = { "buf" },
