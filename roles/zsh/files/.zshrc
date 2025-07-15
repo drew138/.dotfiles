@@ -116,6 +116,7 @@ fi
 
 export PYTHONDONTWRITEBYTECODE=1
 export PYTHONUNBUFFERED=1
+export PYTEST_ADDOPTS="-p no:cacheprovider"
 
 # open editor to write long commands
 autoload edit-command-line
