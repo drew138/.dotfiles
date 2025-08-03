@@ -69,6 +69,21 @@
     loop_var: npm_package
   changed_when: false
 
+- name: install luajit
+  become: true
+  apt:
+    name:
+      - luajit
+    state: latest
+
+- name: create ~/.config directory
+  become: true
+  file:
+    path: "{{ ansible_env.HOME }}/.config"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_env.USER }}"
+
 - name: create nvim symlink
   file:
     src: "{{ ansible_env.HOME }}/.dotfiles/roles/nvim/files"
