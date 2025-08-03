@@ -76,6 +76,14 @@
     loop_var: npm_package
   changed_when: false
 
+- name: install luajit
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name:
+      - luajit
+    state: latest
+
 - name: create ~/.config directory
   become: true
   file:
