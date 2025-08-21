@@ -31,7 +31,7 @@
   pip:
     name:
       - pre-commit
-      - poetry
+      - poetry==1.8.3
       - ansible
     state: latest
     virtualenv: "{{ ansible_env.HOME }}/.clitools"
