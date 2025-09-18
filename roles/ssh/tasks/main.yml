@@ -35,3 +35,4 @@
   loop_control:
     loop_var: rsa_key_line
   no_log: true
+  changed_when: false
