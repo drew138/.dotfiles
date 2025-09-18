@@ -13,5 +13,5 @@ galaxy_info:
     - name: MacOSX
       versions:
         - all
-dependencies:
-  - role: ssh
+dependencies: []
+  
