@@ -17,6 +17,10 @@ dockitems_remove:
   - Music
   - Podcasts
   - "App Store"
+  - "News"
+  - "Keynote"
+  - "Numbers"
+  - "Pages"
 
 dockitems_persist:
   - name: "System Settings"
