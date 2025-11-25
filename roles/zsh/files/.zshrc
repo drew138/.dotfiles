@@ -11,7 +11,7 @@ autoload -Uz compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
 # zinit
-export ZINIT_HOME="$HOME/.local/share/zinit/zinit.git"
+export ZINIT_HOME="$HOME/.local/share/zinit"
 source "$ZINIT_HOME/zinit.zsh"
 
 autoload -Uz _zinit
