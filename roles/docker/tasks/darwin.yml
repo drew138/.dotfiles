@@ -1,6 +1,7 @@
 ---
 - name: install docker-compose and colima
-  become_user: "{{ ansible_env.USER }}"
+  # become_user: "{{ ansible_env.USER }}"
+  become: false
   homebrew:
     name:
       - colima
@@ -8,7 +9,8 @@
     state: latest
 
 - name: installs docker
-  become_user: "{{ ansible_env.USER }}"
+  # become_user: "{{ ansible_env.USER }}"
+  become: false
   homebrew_cask:
     name:
       - docker
