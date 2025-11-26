@@ -32,6 +32,7 @@
 
 - name: install Homebrew.pkg
   become: true
+  become_user: "{{ ansible_env.USER }}"
   command:
     cmd: "installer -pkg /tmp/Homebrew.pkg -target /"
   changed_when: false
