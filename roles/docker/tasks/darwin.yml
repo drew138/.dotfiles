@@ -1,12 +1,4 @@
 ---
-- name: installs docker
-  become_user: "{{ ansible_env.USER }}"
-  homebrew_cask:
-    name:
-      - docker
-    state: present
-  ignore_errors: true
-
 - name: install docker-compose and colima
   become_user: "{{ ansible_env.USER }}"
   homebrew:
@@ -14,3 +6,11 @@
       - colima
       - docker-compose
     state: latest
+
+- name: installs docker
+  become_user: "{{ ansible_env.USER }}"
+  homebrew_cask:
+    name:
+      - docker
+    state: present
+  # ignore_errors: true
