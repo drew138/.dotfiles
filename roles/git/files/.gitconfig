@@ -26,5 +26,5 @@
 	gpgsign = true
 [gpg]
     format = ssh
-[includeIf "gitdir:~/work/**"]
+[includeIf "gitdir:~/work/**/"]
     path = ~/.workrc.gitconfig
