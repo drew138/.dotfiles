@@ -2,7 +2,7 @@
 - hosts: localhost
   gather_facts: true
   vars_files:
-    - "{{ ansible_facts.env.HOME }}/extra_vars.yml"
+    - ~/extra_vars.yml
   tasks:
     - name: Include roles
       include_role:
