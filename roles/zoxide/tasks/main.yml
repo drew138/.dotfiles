@@ -13,7 +13,7 @@
       }}
 
 - name: install zoxide
-  # become: true
+  become: true
   become_user: "{{ ansible_facts.env.USER }}"
   # changed_when: false
   shell: |
