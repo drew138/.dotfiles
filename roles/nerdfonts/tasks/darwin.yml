@@ -6,7 +6,7 @@
     state: directory
 
 - name: copy NerdFonts files
-  with_fileglob: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/nerdfonts/files/"
+  with_fileglob: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/nerdfonts/files/*"
   vars:
     destination_file: "{{ ansible_facts.env.HOME }}/Library/Fonts/{{ item | regex_replace('.*/', '') }}"
   copy:
