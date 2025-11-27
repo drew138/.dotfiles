@@ -15,8 +15,7 @@
 - name: install zoxide
   # become: true
   become_user: "{{ ansible_facts.env.USER }}"
-  changed_when: false
-  register: out
+  # changed_when: false
   shell: |
     curl -sSfL \
     {%- for k,v in request_headers.items() %}
@@ -26,6 +25,3 @@
     | sh
   args:
     executable: /bin/bash
-
-- debug:
-    msg: "{{ out.stdout }}"
