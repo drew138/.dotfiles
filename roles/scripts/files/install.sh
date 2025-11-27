@@ -44,7 +44,7 @@ function run_ansible() {
     } >> ~/extra_vars.yml
 
     repository_url="https://github.com/Drew138/.dotfiles.git"
-    ansible-pull -U $repository_url --limit=all local.yml \
+    ansible-pull -U $repository_url --limit=localhost local.yml \
     --vault-password-file ~/.vault_pass 
 }
 
