@@ -25,7 +25,7 @@
   args:
     creates: "{{ ansible_facts.env.HOME }}/.clitools/bin/activate"
   environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"
 
 - name: install pre-commit and poetry in virtual environment
   pip:
@@ -36,4 +36,4 @@
     state: latest
     virtualenv: "{{ ansible_facts.env.HOME }}/.clitools"
   environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"

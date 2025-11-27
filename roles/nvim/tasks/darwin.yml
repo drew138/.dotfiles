@@ -48,14 +48,14 @@
     chdir: "{{ ansible_facts.env.HOME }}/dev/neovim"
   changed_when: false
   environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"
 
 - name: ensure virtual environment is created
   command: python3 -m venv "{{ ansible_facts.env.HOME }}/.nvimvenv"
   args:
     creates: "{{ ansible_facts.env.HOME }}/.nvimvenv/bin/activate"
   environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"
 
 - name: install pynvim in virtual environment
   pip:
@@ -63,7 +63,7 @@
     state: latest
     virtualenv: "{{ ansible_facts.env.HOME }}/.nvimvenv"
   environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"
 
 - name: install global npm packages required by neovim
   shell: "source {{ ansible_facts.env.HOME }}/.nvm/nvm.sh && npm install -g {{ npm_package }}"

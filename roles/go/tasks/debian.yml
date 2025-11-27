@@ -63,6 +63,6 @@
     creates: "/usr/local/go"
   when: go_current_version not in go_filename_prefix
   environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"
   notify:
     - install go binaries
