@@ -28,4 +28,4 @@
     executable: /bin/bash
 
 - debug:
-  msg: "{{ out.stdout }}"
+    msg: "{{ out.stdout }}"
