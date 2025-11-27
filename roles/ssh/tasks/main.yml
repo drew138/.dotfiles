@@ -2,23 +2,23 @@
 - name: ensure .ssh directory exists
   become: true
   file:
-    path: "{{ ansible_env.HOME }}/.ssh"
+    path: "{{ ansible_facts.env.HOME }}/.ssh"
     state: directory
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_facts.env.USER }}"
     mode: "0700"
 
 - name: save decrypted private key variable to id_ed25519
   copy:
     content: "{{ ssh_github_private_key }}"
-    dest: "{{ ansible_env.HOME }}/.ssh/id_ed25519"
-    owner: "{{ ansible_env.USER }}"
+    dest: "{{ ansible_facts.env.HOME }}/.ssh/id_ed25519"
+    owner: "{{ ansible_facts.env.USER }}"
     mode: "0600"
 
 - name: save decrypted public key variable to id_ed25519.pub
   copy:
     content: "{{ ssh_github_public_key }}"
-    dest: "{{ ansible_env.HOME }}/.ssh/id_ed25519.pub"
-    owner: "{{ ansible_env.USER }}"
+    dest: "{{ ansible_facts.env.HOME }}/.ssh/id_ed25519.pub"
+    owner: "{{ ansible_facts.env.USER }}"
     mode: "0600"
 
 - name: capture gitHub rsa key
@@ -28,7 +28,7 @@
 
 - name: add gitHub rsa key to known_hosts file
   lineinfile:
-    path: "{{ ansible_env.HOME }}/.ssh/known_hosts"
+    path: "{{ ansible_facts.env.HOME }}/.ssh/known_hosts"
     line: "{{ rsa_key_line }}"
     create: true
   loop: "{{ github_rsa_key.stdout_lines }}"

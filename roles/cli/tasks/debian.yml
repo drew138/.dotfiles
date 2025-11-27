@@ -17,9 +17,9 @@
     state: latest
 
 - name: ensure virtual environment is created
-  command: python3 -m venv "{{ ansible_env.HOME }}/.clitools"
+  command: python3 -m venv "{{ ansible_facts.env.HOME }}/.clitools"
   args:
-    creates: "{{ ansible_env.HOME }}/.clitools/bin/activate"
+    creates: "{{ ansible_facts.env.HOME }}/.clitools/bin/activate"
 
 - name: install pre-commit and poetry in virtual environment
   pip:
@@ -28,4 +28,4 @@
       - poetry==1.8.3
       - ansible
     state: latest
-    virtualenv: "{{ ansible_env.HOME }}/.clitools"
+    virtualenv: "{{ ansible_facts.env.HOME }}/.clitools"

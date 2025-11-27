@@ -1,6 +1,6 @@
 ---
 - name: install go binaries
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   shell: "/usr/local/go/bin/go install {{ go_package }}"
   loop:
     - github.com/charmbracelet/gum@latest

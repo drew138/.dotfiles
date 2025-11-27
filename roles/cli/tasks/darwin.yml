@@ -1,6 +1,6 @@
 ---
 - name: install various clis
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   homebrew:
     name:
       - htop
@@ -21,9 +21,9 @@
     state: latest
 
 - name: ensure virtual environment is created
-  command: python3 -m venv "{{ ansible_env.HOME }}/.clitools"
+  command: python3 -m venv "{{ ansible_facts.env.HOME }}/.clitools"
   args:
-    creates: "{{ ansible_env.HOME }}/.clitools/bin/activate"
+    creates: "{{ ansible_facts.env.HOME }}/.clitools/bin/activate"
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
 
@@ -34,6 +34,6 @@
       - poetry==1.8.3
       - ansible
     state: latest
-    virtualenv: "{{ ansible_env.HOME }}/.clitools"
+    virtualenv: "{{ ansible_facts.env.HOME }}/.clitools"
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"

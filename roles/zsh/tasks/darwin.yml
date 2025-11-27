@@ -1,7 +1,7 @@
 ---
 - name: install zsh
   become: true
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   homebrew:
     name:
       - zsh
@@ -10,14 +10,14 @@
 - name: create .workrc.zsh file
   copy:
     content: "#!/bin/bash"
-    dest: "{{ ansible_env.HOME }}/.workrc.zsh"
+    dest: "{{ ansible_facts.env.HOME }}/.workrc.zsh"
     force: false
     mode: "0700"
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_facts.env.USER }}"
 
 - name: set user to change shell
   set_fact:
-    zsh_user: "{{ ansible_env.USER }}"
+    zsh_user: "{{ ansible_facts.env.USER }}"
 
 - name: change default shell
   become: true
@@ -26,8 +26,8 @@
 
 - name: create .zshrc symlink
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/roles/zsh/files/.zshrc"
-    dest: "{{ ansible_env.HOME }}/.zshrc"
+    src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/zsh/files/.zshrc"
+    dest: "{{ ansible_facts.env.HOME }}/.zshrc"
     state: link
     force: true
     follow: false

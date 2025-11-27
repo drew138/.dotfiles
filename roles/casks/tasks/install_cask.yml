@@ -1,6 +1,6 @@
 ---
 - name: "installs homebrew {{ cask }} cask"
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   homebrew_cask:
     name: "{{ cask }}"
     state: present

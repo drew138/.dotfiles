@@ -27,10 +27,10 @@
 
 - name: clone nvim repository
   become: true
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   git:
     repo: "https://github.com/neovim/neovim.git"
-    dest: "{{ ansible_env.HOME }}/dev/neovim"
+    dest: "{{ ansible_facts.env.HOME }}/dev/neovim"
     version: "{{ nvim_release_branch }}"
     depth: 1
     clone: true
@@ -44,22 +44,22 @@
       sudo make distclean
       sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
       sudo make install
-    chdir: "{{ ansible_env.HOME }}/dev/neovim"
+    chdir: "{{ ansible_facts.env.HOME }}/dev/neovim"
   changed_when: false
 
 - name: ensure virtual environment is created
-  command: python3 -m venv "{{ ansible_env.HOME }}/.nvimvenv"
+  command: python3 -m venv "{{ ansible_facts.env.HOME }}/.nvimvenv"
   args:
-    creates: "{{ ansible_env.HOME }}/.nvimvenv/bin/activate"
+    creates: "{{ ansible_facts.env.HOME }}/.nvimvenv/bin/activate"
 
 - name: install pynvim in virtual environment
   pip:
     name: pynvim
     state: latest
-    virtualenv: "{{ ansible_env.HOME }}/.nvimvenv"
+    virtualenv: "{{ ansible_facts.env.HOME }}/.nvimvenv"
 
 - name: install global npm packages required by neovim
-  shell: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && npm install -g {{ npm_package }}@latest"
+  shell: "source {{ ansible_facts.env.HOME }}/.nvm/nvm.sh && npm install -g {{ npm_package }}@latest"
   args:
     executable: /bin/bash
   loop:
@@ -79,16 +79,16 @@
 - name: create ~/.config directory
   become: true
   file:
-    path: "{{ ansible_env.HOME }}/.config"
+    path: "{{ ansible_facts.env.HOME }}/.config"
     state: directory
     mode: "0755"
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_facts.env.USER }}"
 
 - name: create nvim symlink
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/roles/nvim/files"
-    dest: "{{ ansible_env.HOME }}/.config/nvim"
-    owner: "{{ ansible_env.USER }}"
+    src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/nvim/files"
+    dest: "{{ ansible_facts.env.HOME }}/.config/nvim"
+    owner: "{{ ansible_facts.env.USER }}"
     state: link
     force: true
     follow: false

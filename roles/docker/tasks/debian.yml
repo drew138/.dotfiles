@@ -53,7 +53,7 @@
 - name: add remote user to "docker" group
   become: true
   user:
-    name: "{{ ansible_env.USER }}"
+    name: "{{ ansible_facts.env.USER }}"
     groups: "docker"
     append: true
 

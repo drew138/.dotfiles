@@ -11,10 +11,10 @@
 
 - name: tmux package manager
   become: true
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   git:
     repo: "https://github.com/tmux-plugins/tpm.git"
-    dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+    dest: "{{ ansible_facts.env.HOME }}/.tmux/plugins/tpm"
     depth: 1
     clone: true
     update: true
@@ -22,9 +22,9 @@
 
 - name: create .tmux.conf symlink
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/roles/tmux/files/.tmux.conf"
-    dest: "{{ ansible_env.HOME }}/.tmux.conf"
-    owner: "{{ ansible_env.USER }}"
+    src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/tmux/files/.tmux.conf"
+    dest: "{{ ansible_facts.env.HOME }}/.tmux.conf"
+    owner: "{{ ansible_facts.env.USER }}"
     state: link
     force: true
     follow: false

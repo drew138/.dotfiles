@@ -18,10 +18,10 @@
 
 - name: clone pyenv repository
   become: true
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   git:
     repo: "https://github.com/pyenv/pyenv.git"
-    dest: "{{ ansible_env.HOME }}/.pyenv"
+    dest: "{{ ansible_facts.env.HOME }}/.pyenv"
     depth: 1
     clone: true
     update: true

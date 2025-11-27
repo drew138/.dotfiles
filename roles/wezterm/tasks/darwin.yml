@@ -1,6 +1,6 @@
 ---
 - name: install wezterm
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   homebrew_cask:
     name:
       - wezterm
@@ -9,9 +9,9 @@
 
 - name: create .wezterm.lua symlink
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/roles/wezterm/files/.wezterm.lua"
-    dest: "{{ ansible_env.HOME }}/.wezterm.lua"
-    owner: "{{ ansible_env.USER }}"
+    src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/wezterm/files/.wezterm.lua"
+    dest: "{{ ansible_facts.env.HOME }}/.wezterm.lua"
+    owner: "{{ ansible_facts.env.USER }}"
     state: link
     force: true
     follow: false

@@ -9,16 +9,16 @@
 - name: create ~/.local/bin directory
   become: true
   file:
-    path: "{{ ansible_env.HOME }}/.local/bin"
+    path: "{{ ansible_facts.env.HOME }}/.local/bin"
     state: directory
     mode: "0700"
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_facts.env.USER }}"
 
 - name: create bat symlink
   file:
     src: "/usr/bin/bat"
-    dest: "{{ ansible_env.HOME }}/.local/bin/bat"
-    owner: "{{ ansible_env.USER }}"
+    dest: "{{ ansible_facts.env.HOME }}/.local/bin/bat"
+    owner: "{{ ansible_facts.env.USER }}"
     state: link
     force: true
     follow: false

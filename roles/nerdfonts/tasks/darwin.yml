@@ -2,16 +2,16 @@
 - name: create Fonts directory if it doesn't exist
   become: true
   file:
-    path: "{{ ansible_env.HOME }}/Library/Fonts"
+    path: "{{ ansible_facts.env.HOME }}/Library/Fonts"
     state: directory
 
 - name: copy NerdFonts files
-  with_fileglob: "{{ ansible_env.HOME }}/.dotfiles/roles/nerdfonts/files/"
+  with_fileglob: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/nerdfonts/files/"
   vars:
-    destination_file: "{{ ansible_env.HOME }}/Library/Fonts/{{ item | regex_replace('.*/', '') }}"
+    destination_file: "{{ ansible_facts.env.HOME }}/Library/Fonts/{{ item | regex_replace('.*/', '') }}"
   copy:
     src: "{{ item }}"
     dest: "{{ destination_file }}"
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_facts.env.USER }}"
     remote_src: true
     force: true

@@ -9,25 +9,25 @@
 - name: create ~/.local directory
   become: true
   file:
-    path: "{{ ansible_env.HOME }}/.local/bin"
+    path: "{{ ansible_facts.env.HOME }}/.local/bin"
     state: directory
     mode: "0700"
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_facts.env.USER }}"
 
 - name: create ~/.local/bin directory
   become: true
   file:
-    path: "{{ ansible_env.HOME }}/.local/bin"
+    path: "{{ ansible_facts.env.HOME }}/.local/bin"
     state: directory
     mode: "0700"
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_facts.env.USER }}"
 
 - name: create symlink for fdfind
   become: true
   file:
     src: "{{ lookup('pipe', 'which fdfind') }}"
-    dest: "{{ ansible_env.HOME }}/.local/bin/fd"
-    owner: "{{ ansible_env.USER }}"
+    dest: "{{ ansible_facts.env.HOME }}/.local/bin/fd"
+    owner: "{{ ansible_facts.env.USER }}"
     state: link
     force: true
     follow: false

@@ -1,10 +1,10 @@
 ---
 scripts_symlinks:
-  - src: "{{ ansible_env.HOME }}/.dotfiles/roles/scripts/files/conventional_commit.sh"
+  - src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/scripts/files/conventional_commit.sh"
     dest: "/usr/local/bin/commit"
-  # - src: "{{ ansible_env.HOME }}/.dotfiles/roles/scripts/files/nvim_dir.sh"
+  # - src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/scripts/files/nvim_dir.sh"
   #   dest: "/usr/local/bin/nd"
-  # - src: "{{ ansible_env.HOME }}/.dotfiles/roles/scripts/files/nvim_file.sh"
+  # - src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/scripts/files/nvim_file.sh"
   #   dest: "/usr/local/bin/nf"
-  - src: "{{ ansible_env.HOME }}/.dotfiles/roles/scripts/files/repo.sh"
+  - src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/scripts/files/repo.sh"
     dest: "/usr/local/bin/repo"

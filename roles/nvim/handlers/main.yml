@@ -7,4 +7,4 @@
   # lazy lock for some weird reason which messes
   # up with role idempotency
   args:
-    chdir: "{{ ansible_env.HOME }}/.dotfiles"
+    chdir: "{{ ansible_facts.env.HOME }}/.dotfiles"

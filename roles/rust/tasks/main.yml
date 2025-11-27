@@ -1,15 +1,15 @@
 ---
 - name: check if cargo is installed
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   stat:
-    path: "{{ ansible_env.HOME }}/.cargo/bin/cargo"
+    path: "{{ ansible_facts.env.HOME }}/.cargo/bin/cargo"
   register: cargo_path
   ignore_errors: true
   changed_when: false
 
 - name: ensure rustup is installed
   become: true
-  become_user: "{{ ansible_env.USER }}"
+  become_user: "{{ ansible_facts.env.USER }}"
   changed_when: false
   shell: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
   args:
@@ -19,5 +19,5 @@
   shell: ./rustup toolchain remove stable && ./rustup toolchain install stable
   changed_when: false
   args:
-    chdir: "{{ ansible_env.HOME }}/.cargo/bin"
+    chdir: "{{ ansible_facts.env.HOME }}/.cargo/bin"
     executable: /bin/bash
