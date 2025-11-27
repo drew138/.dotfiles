@@ -38,7 +38,7 @@ function run_ansible() {
         echo ---
         ansible-vault encrypt_string "$password" --name 'ansible_become_password' \
         --vault-password-file ~/.vault_pass
-        echo "selected_hosts: localhost"
+        # echo "selected_hosts: localhost"
         echo "selected_roles:"
         echo -e "$selected_roles"
     } >> ~/extra_vars.yml

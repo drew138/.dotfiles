@@ -1,5 +1,5 @@
 ---
-- hosts: "{{ selected_hosts }}"
+- hosts: localhost
   vars_files:
     - ~/extra_vars.yml
   tasks:
