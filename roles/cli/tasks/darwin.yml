@@ -33,6 +33,7 @@
       - pre-commit
       - poetry==1.8.3
       - ansible
+      - cookiecutter
     state: latest
     virtualenv: "{{ ansible_facts.env.HOME }}/.clitools"
   environment:
