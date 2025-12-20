@@ -20,6 +20,13 @@ local M = {
 		local telescope = require("telescope")
 		telescope.setup(opts)
 		telescope.load_extension("fzf")
+
+		local hl = vim.api.nvim_set_hl
+		hl(0, "TelescopeBorder", { link = "FloatBorder" })
+		hl(0, "TelescopePromptBorder", { link = "FloatBorder" })
+		hl(0, "TelescopeResultsBorder", { link = "FloatBorder" })
+		hl(0, "TelescopePreviewBorder", { link = "FloatBorder" })
+		hl(0, "TelescopeNormal", { link = "NormalFloat" })
 	end,
 }
 return M

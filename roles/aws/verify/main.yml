@@ -1,0 +1,21 @@
+---
+- name: check if binary exists
+  ansible.builtin.stat:
+    path: /usr/local/bin/aerospace
+  register: aws_bin
+
+- name: assert binary is present and executable
+  ansible.builtin.assert:
+    that:
+      - aws_bin.stat.exists
+      - aws_bin.stat.executable
+    fail_msg: "Binary not found or not executable at /usr/local/bin/aws"
+
+- name: capture version output
+  ansible.builtin.command: aws --version
+  register: aws_version
+  changed_when: false
+
+- name: display detected version
+  ansible.builtin.debug:
+    msg: "{{ aws_version.stdout }}"
