@@ -1,8 +1,0 @@
----
-- name: install fd
-  become: true
-  become_user: "{{ ansible_facts.env.USER }}"
-  homebrew:
-    name:
-      - fd
-    state: latest

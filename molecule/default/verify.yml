@@ -1,0 +1,4 @@
+---
+- name: "VERIFY | Status Check"
+  ansible.builtin.debug:
+    msg: "Verification is running for the {{ ansible_role_name }} role on an {{ ansible_architecture }} Mac!"

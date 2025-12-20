@@ -1,4 +1,44 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: change dock preferences
+  become_user: "{{ ansible_facts.env.USER }}"
+  shell: |
+    defaults write com.apple.dock autohide 1
+    defaults write com.apple.dock launchanim 0
+    defaults write com.apple.dock tilesize 36
+  args:
+    executable: /bin/bash
+  changed_when: false
+
+- name: install dockutil
+  become_user: "{{ ansible_facts.env.USER }}"
+  homebrew:
+    name:
+      - dockutil
+    state: latest
+
+- name: clean up dock
+  include_tasks: remove.yml
+  loop: "{{ dockitems_remove }}"
+  loop_control:
+    loop_var: dock_item_clean
+    extended: true
+    extended_allitems: false
+
+- name: ensure required dock items exist
+  include_tasks: add.yml
+  loop: "{{ dockitems_persist }}"
+  loop_control:
+    loop_var: dock_item_add
+    extended: true
+    extended_allitems: false
+
+- name: ensure dock items are in correct position
+  include_tasks: position.yml
+  loop: "{{ dockitems_persist }}"
+  loop_control:
+    loop_var: dock_item_position
+    extended: true
+    extended_allitems: false
+  when:
+    - dock_item_position.pos is defined
+    - dock_item_position.pos > 0

@@ -1,8 +1,26 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: install eza
+  become_user: "{{ ansible_facts.env.USER }}"
+  homebrew:
+    name:
+      - eza
+    state: latest
 
-- name: include debian tasks
-  include_tasks: debian.yml
-  when: ansible_facts['os_family'] | lower == "debian"
+- name: create dev directory
+  become: true
+  file:
+    path: "{{ ansible_facts.env.HOME }}/dev/"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_facts.env.USER }}"
+
+- name: clone eza repository
+  become: true
+  become_user: "{{ ansible_facts.env.USER }}"
+  git:
+    repo: "{{ eza_repo }}"
+    dest: "{{ eza_home }}"
+    clone: true
+    force: true
+    update: true
+    depth: 1

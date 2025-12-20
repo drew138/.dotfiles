@@ -1,0 +1,8 @@
+---
+- name: install packer
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name:
+      - hashicorp/tap/packer
+    state: latest

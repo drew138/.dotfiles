@@ -1,4 +1,0 @@
----
-- name: include debian tasks
-  include_tasks: debian.yml
-  when: ansible_facts['os_family'] | lower == "debian"

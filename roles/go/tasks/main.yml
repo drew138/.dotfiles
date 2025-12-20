@@ -1,8 +1,73 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: determine system architecture
+  set_fact:
+    go_arch: >-
+      {{
+        {
+          'aarch64': 'arm64',
+          'arm64': 'arm64',
+          'amd64': 'amd64',
+          'x86_64': 'amd64',
+        }.get(ansible_facts['architecture'], 'invalid')
+      }}
 
-- name: include debian tasks
-  include_tasks: debian.yml
-  when: ansible_facts['os_family'] | lower == "debian"
+- name: fail if architecture is not supported
+  fail:
+    msg: "Unsupported architecture: {{ ansible_facts['architecture'] }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
+  when: go_arch == 'invalid'
+
+- name: set go_os
+  set_fact:
+    go_os: "darwin"
+  changed_when: false
+
+- name: get filename prefix with latest version
+  uri:
+    url: "{{ go_latest_version_url }}"
+    return_content: true
+  register: go_latest_version_response
+  when: go_version == "latest"
+
+- name: parse go_filename_prefix
+  set_fact:
+    go_filename_prefix: "{{ go_latest_version_response.content.split('\n')[0] }}"
+  when: go_version == "latest"
+
+- name: get filename prefix with fixed version
+  set_fact:
+    go_filename_prefix: go{{ ansible_go_version }}
+  when: go_version != "latest"
+
+- name: try to get current go version installed
+  command: go version
+  register: result
+  failed_when: false
+  changed_when: false
+
+- name: set go_current_version var
+  set_fact:
+    go_current_version: "{{ result.stdout.split(' ')[2] }}"
+  when: result.rc == 0
+
+- name: set go_current_version var to none
+  set_fact:
+    go_current_version: "none"
+  when: result.rc != 0
+
+- name: install gnu-tar
+  become_user: "{{ ansible_facts.env.USER }}"
+  homebrew:
+    name:
+      - gnu-tar
+    state: latest
+
+- name: download and extract go tar file
+  become: true
+  unarchive:
+    src: "{{ go_download_url }}"
+    dest: /usr/local
+    remote_src: true
+    creates: "/usr/local/go"
+  when: go_current_version not in go_filename_prefix
+  notify:
+    - install go binaries

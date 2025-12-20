@@ -1,8 +1,41 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: install various clis
+  become_user: "{{ ansible_facts.env.USER }}"
+  homebrew:
+    name:
+      - htop
+      - ripgrep
+      - virtualenv
+      - protobuf
+      - git
+      - python
+      - jq
+      - curl
+      - wget
+      - gnu-tar
+      - xclip
 
-- name: include debian tasks
-  include_tasks: debian.yml
-  when: ansible_facts['os_family'] | lower == "debian"
+      # required by python for scikit
+      # learn god knows why
+      - llvm
+      - libomp
+    state: latest
+
+- name: ensure virtual environment is created
+  command: python3 -m venv "{{ ansible_facts.env.HOME }}/.clitools"
+  args:
+    creates: "{{ ansible_facts.env.HOME }}/.clitools/bin/activate"
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"
+
+- name: install pre-commit and poetry in virtual environment
+  pip:
+    name:
+      - pre-commit
+      - poetry==1.8.3
+      - ansible
+      - cookiecutter
+    state: latest
+    virtualenv: "{{ ansible_facts.env.HOME }}/.clitools"
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"

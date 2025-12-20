@@ -1,13 +1,12 @@
 ---
 galaxy_info:
   author: drew138
-  description: installs the flatpak package manager
+  description: installs the aerospace window manager
   license: MIT
   min_ansible_version: 2.16.1
-  role_name: go
+  role_name: aerospace
   namespace: drew138
   platforms:
-    - name: Ubuntu
+    - name: MacOSX
       versions:
         - all
-dependencies: []

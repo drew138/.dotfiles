@@ -1,4 +1,11 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: change keyboard repeat rates
+  shell: "{{ keyboard_setup_command }}"
+  args:
+    executable: /bin/bash
+  changed_when: false
+  loop:
+    - defaults write -g InitialKeyRepeat -int 15
+    - defaults write -g KeyRepeat -int 2
+  loop_control:
+    loop_var: keyboard_setup_command

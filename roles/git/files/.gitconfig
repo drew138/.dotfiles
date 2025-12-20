@@ -28,3 +28,9 @@
     format = ssh
 [includeIf "gitdir:~/work/**/"]
     path = ~/.workrc.gitconfig
+[user]
+    email = andres.salazar@y.uno
+    name = Andres Salazar Galeano
+# Enforce SSH
+[url "git@github.com:"]
+    insteadOf = https://github.com/

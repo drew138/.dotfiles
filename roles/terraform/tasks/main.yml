@@ -1,8 +1,13 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: ensure hashicorp Homebrew tap is available
+  homebrew_tap:
+    name: hashicorp/tap
+    state: present
 
-- name: include debian tasks
-  include_tasks: debian.yml
-  when: ansible_facts['os_family'] | lower == "debian"
+- name: install terraform
+  become: true
+  become_user: "{{ ansible_facts.env.USER }}"
+  homebrew:
+    name:
+      - hashicorp/tap/terraform
+    state: latest

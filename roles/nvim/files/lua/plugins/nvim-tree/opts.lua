@@ -30,6 +30,11 @@ local M = {
 			end,
 		},
 	},
+	actions = {
+		remove_file = {
+			close_window = false,
+		},
+	},
 	diagnostics = {
 		enable = true,
 		show_on_dirs = true,

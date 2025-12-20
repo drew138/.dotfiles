@@ -7,7 +7,7 @@ galaxy_info:
   role_name: cpp
   namespace: drew138
   platforms:
-    - name: Ubuntu
+    - name: MacOSX
       versions:
         - all
 dependencies:

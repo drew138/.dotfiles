@@ -1,4 +1,7 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: change appearance to darkmode
+  become: true
+  shell: osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to true'
+  args:
+    executable: /bin/bash
+  changed_when: false

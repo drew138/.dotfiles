@@ -1,9 +1,0 @@
----
-- name: install dependencies
-  become: true
-  apt:
-    name:
-      - gcc
-      - g++
-      - libstdc++-12-dev
-    state: latest

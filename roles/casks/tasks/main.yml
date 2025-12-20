@@ -1,4 +1,23 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: install homebrew casks
+  include_tasks: install_cask.yml
+  loop_control:
+    loop_var: cask
+    extended: true
+    extended_allitems: false
+  loop:
+    - brave-browser
+    - dbeaver-community
+    - slack
+    - spotify
+    - discord
+    - obsidian
+    - postman
+    - obs
+    - bitwarden
+    - notion
+    - notion-calendar
+    - whatsapp
+    - dropbox
+    - google-chrome
+    - utm

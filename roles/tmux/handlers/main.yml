@@ -1,3 +1,0 @@
----
-- name: install tmux plugins
-  shell: "{{ ansible_facts.env.HOME }}/.tmux/plugins/tpm/scripts/install_plugins.sh"

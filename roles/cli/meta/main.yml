@@ -7,9 +7,6 @@ galaxy_info:
   role_name: cli
   namespace: drew138
   platforms:
-    - name: Ubuntu
-      versions:
-        - all
     - name: MacOSX
       versions:
         - all

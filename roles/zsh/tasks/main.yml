@@ -1,8 +1,33 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: install zsh
+  become: true
+  become_user: "{{ ansible_facts.env.USER }}"
+  homebrew:
+    name:
+      - zsh
+    state: latest
 
-- name: include debian tasks
-  include_tasks: debian.yml
-  when: ansible_facts['os_family'] | lower == "debian"
+- name: create .workrc.zsh file
+  copy:
+    content: "#!/bin/bash"
+    dest: "{{ ansible_facts.env.HOME }}/.workrc.zsh"
+    force: false
+    mode: "0700"
+    owner: "{{ ansible_facts.env.USER }}"
+
+- name: set user to change shell
+  set_fact:
+    zsh_user: "{{ ansible_facts.env.USER }}"
+
+- name: change default shell
+  become: true
+  shell: "chsh -s $(which zsh) {{ zsh_user }}"
+  changed_when: false
+
+- name: create .zshrc symlink
+  file:
+    src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/zsh/files/.zshrc"
+    dest: "{{ ansible_facts.env.HOME }}/.zshrc"
+    state: link
+    force: true
+    follow: false

@@ -1,8 +1,19 @@
 ---
-- name: include darwin tasks
-  include_tasks: darwin.yml
-  when: ansible_facts['os_family'] | lower == "darwin"
+- name: create /usr/local/include
+  become: true
+  file:
+    path: /usr/local/include
+    state: directory
 
-- name: include debian tasks
-  include_tasks: debian.yml
-  when: ansible_facts['os_family'] | lower == "debian"
+- name: create /usr/local/include/bits
+  become: true
+  file:
+    path: /usr/local/include/bits
+    state: directory
+
+- name: copy stdc++.h to /usr/local/include/bits
+  become: true
+  copy:
+    src: "{{ ansible_facts.env.HOME }}/.dotfiles/roles/cpp/files/stdc++.h"
+    dest: /usr/local/include/bits/stdc++.h
+    remote_src: true

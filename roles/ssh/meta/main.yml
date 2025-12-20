@@ -10,7 +10,4 @@ galaxy_info:
     - name: MacOSX
       versions:
         - all
-    - name: Ubuntu
-      versions:
-        - all
 dependencies: []
