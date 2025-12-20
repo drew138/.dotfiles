@@ -1,0 +1,21 @@
+---
+- name: check if binary exists
+  ansible.builtin.stat:
+    path: /usr/local/bin/aerospace
+  register: aerospace_bin
+
+- name: assert binary is present and executable
+  ansible.builtin.assert:
+    that:
+      - aerospace_bin.stat.exists
+      - aerospace_bin.stat.executable
+    fail_msg: "Binary not found or not executable at /usr/local/bin/aerospace"
+
+- name: capture version output
+  ansible.builtin.command: aerospace --version
+  register: aerospace_version
+  changed_when: false
+
+- name: display detected version
+  ansible.builtin.debug:
+    msg: "{{ aerospace_version.stdout }}"

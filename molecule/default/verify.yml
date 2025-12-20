@@ -1,4 +1,9 @@
 ---
-- name: "VERIFY | Status Check"
-  ansible.builtin.debug:
-    msg: "Verification is running for the {{ ansible_role_name }} role on an {{ ansible_architecture }} Mac!"
+- name: Verify
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: "Include verification tasks for {{ lookup('env', 'MOLECULE_ROLE') }}"
+      include_role:
+        name: "{{ lookup('env', 'MOLECULE_ROLE') }}"
+        tasks_from: "../verify/main.yml"
