@@ -97,55 +97,8 @@ jobs:
           MOLECULE_ROLE: ${{ matrix.role }}
           GHUB_ACCESS_TOKEN: ${{ secrets.GHUB_ACCESS_TOKEN }}
 
-  # test-ubuntu:
-  #   needs: check-roles
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       role: ${{ fromJson(needs.check-roles.outputs.roles) }}
-  #   steps:
-  #     - name: check out the codebase
-  #       uses: actions/checkout@v4
-  #
-  #     - name: set up python 3
-  #       uses: actions/setup-python@v5
-  #       with:
-  #         python-version: "3.x"
-  #
-  #     - name: uninstall various programs
-  #       run: |
-  #         rm -rf /usr/local/go
-  #         rm -rf ~/go
-  #         rm -rf ~/.cargo
-  #         rm -rf ~/.nvm
-  #         rm -rf ~/go
-  #         rm -rf ~/.go
-  #
-  #     - name: install test dependencies
-  #       run: pip3 install \
-  #         ansible \
-  #         molecule
-  #
-  #     - name: create password file
-  #       run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > $HOME/vaultpassword
-  #
-  #     - name: create ~/extra_vars.yml file
-  #       run: >
-  #         echo "selected_hosts: localhost" > ~/extra_vars.yml
-  #
-  #     - name: run molecule tests
-  #       run: molecule test
-  #       env:
-  #         ROOT_DIR: ${{ github.workspace }}
-  #         PY_COLORS: "1"
-  #         ANSIBLE_FORCE_COLOR: "1"
-  #         ANSIBLE_VAULT_PASSWORD_FILE: $HOME/vaultpassword
-  #         MOLECULE_ROLE: ${{ matrix.role }}
-  #         GHUB_ACCESS_TOKEN: ${{ secrets.GHUB_ACCESS_TOKEN }}
-
   notify-errors:
-    needs: [test-macos, test-ubuntu]
+    needs: test-macos
     runs-on: ubuntu-latest
     if: github.event_name == 'schedule' && (needs.test-ubuntu.result == 'failure' || needs.test-macos.result == 'failure')
     steps:
