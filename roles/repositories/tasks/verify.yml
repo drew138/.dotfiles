@@ -1,0 +1,66 @@
+---
+- name: locate git binary
+  command: which git
+  register: git_which
+  changed_when: false
+  failed_when: false
+
+- name: check if git binary exists
+  stat:
+    path: "{{ git_which.stdout }}"
+  register: git_bin
+  when: git_which.rc == 0
+
+- name: assert git binary is present and executable
+  assert:
+    that:
+      - git_bin.stat is defined
+      - git_bin.stat.exists
+      - git_bin.stat.executable
+    fail_msg: git binary was not found in the PATH or is not executable
+
+- name: check base directories and dotfiles
+  stat:
+    path: "{{ item }}"
+  loop:
+    - "{{ ansible_facts.env.HOME }}/dev"
+    - "{{ ansible_facts.env.HOME }}/work"
+    - "{{ ansible_facts.env.HOME }}/.dotfiles"
+  register: base_dir_stats
+
+- name: assert base directories exist
+  assert:
+    that:
+      - item.stat.exists
+      - item.stat.isdir
+    fail_msg: "Required directory missing: {{ item.item }}"
+  loop: "{{ base_dir_stats.results }}"
+
+- name: verify repository directories
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/dev/{{ item }}"
+  loop: "{{ repository_names }}"
+  register: repo_dir_stats
+
+- name: assert repositories were cloned
+  assert:
+    that:
+      - item.stat.exists
+      - item.stat.isdir
+    fail_msg: "Repository directory missing: {{ item.item }}"
+  loop: "{{ repo_dir_stats.results }}"
+
+- name: verify git repository integrity
+  command: "git -C {{ item }} rev-parse --is-inside-work-tree"
+  loop:
+    - "{{ ansible_facts.env.HOME }}/.dotfiles"
+  register: git_integrity_check
+  changed_when: false
+  failed_when: false
+
+- name: assert dotfiles is a valid git repo
+  assert:
+    that:
+      - item.rc == 0
+    fail_msg: "Directory exists but is not a valid git repository: {{ item.item }}"
+  loop: "{{ git_integrity_check.results }}"

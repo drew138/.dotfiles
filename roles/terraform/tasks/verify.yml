@@ -1,0 +1,31 @@
+---
+- name: verify hashicorp tap is present
+  command: brew tap
+  register: brew_taps
+  changed_when: false
+
+- name: assert hashicorp tap is registered
+  assert:
+    that:
+      - "'hashicorp/tap' in brew_taps.stdout"
+    fail_msg: "The hashicorp/tap Homebrew tap is not available."
+
+- name: locate terraform binary
+  command: which terraform
+  register: terraform_which
+  changed_when: false
+  failed_when: false
+
+- name: check if terraform binary exists
+  stat:
+    path: "{{ terraform_which.stdout }}"
+  register: terraform_bin
+  when: terraform_which.rc == 0
+
+- name: assert terraform binary is present and executable
+  assert:
+    that:
+      - terraform_bin.stat is defined
+      - terraform_bin.stat.exists
+      - terraform_bin.stat.executable
+    fail_msg: "terraform binary was not found in the PATH or is not executable"

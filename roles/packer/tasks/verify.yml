@@ -1,0 +1,20 @@
+---
+- name: locate packer binary
+  command: which packer
+  register: packer_which
+  changed_when: false
+  failed_when: false
+
+- name: check if packer binary exists
+  stat:
+    path: "{{ packer_which.stdout }}"
+  register: packer_bin
+  when: packer_which.rc == 0
+
+- name: assert packer binary is present and executable
+  assert:
+    that:
+      - packer_bin.stat is defined
+      - packer_bin.stat.exists
+      - packer_bin.stat.executable
+    fail_msg: "packer binary was not found in the PATH or is not executable"

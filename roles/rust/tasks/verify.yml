@@ -1,0 +1,40 @@
+---
+- name: locate rust binaries
+  command: "which {{ item }}"
+  loop:
+    - rustup
+    - cargo
+  register: rust_which
+  changed_when: false
+  failed_when: false
+  environment:
+    PATH: "{{ ansible_facts.env.HOME }}/.cargo/bin:{{ ansible_facts.env.PATH }}"
+
+- name: check if rust binaries exist
+  stat:
+    path: "{{ item.stdout }}"
+  loop: "{{ rust_which.results }}"
+  register: rust_bin_stats
+  when: item.rc == 0
+
+- name: assert rust binaries are present and executable
+  assert:
+    that:
+      - item.stat is defined
+      - item.stat.exists
+      - item.stat.executable
+    fail_msg: "Rust binary {{ item.item.item }} was not found or is not executable"
+  loop: "{{ rust_bin_stats.results }}"
+  when: not item.skipped | default(false)
+
+- name: check rust toolchain directory
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/.rustup/toolchains/stable-{{ 'aarch64' if ansible_facts['architecture'] == 'arm64' else 'x86_64' }}-apple-darwin"
+  register: rust_toolchain_stat
+
+- name: assert stable toolchain is installed
+  assert:
+    that:
+      - rust_toolchain_stat.stat.exists
+      - rust_toolchain_stat.stat.isdir
+    fail_msg: "The stable Rust toolchain directory is missing."

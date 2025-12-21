@@ -1,0 +1,37 @@
+---
+- name: check .nvm directory stats
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/.nvm"
+  register: nvm_dir_stat
+
+- name: assert nvm directory exists
+  assert:
+    that:
+      - nvm_dir_stat.stat.exists
+      - nvm_dir_stat.stat.isdir
+    fail_msg: "nvm directory was not found at {{ ansible_facts.env.HOME }}/.nvm"
+
+- name: verify nvm git repository integrity
+  command: git -C "{{ ansible_facts.env.HOME }}/.nvm" rev-parse --is-inside-work-tree
+  register: nvm_git_check
+  changed_when: false
+  failed_when: false
+
+- name: assert nvm path is a valid git repo
+  assert:
+    that:
+      - nvm_git_check.rc == 0
+    fail_msg: "The destination ~/.nvm exists but is not a valid git repository"
+
+- name: check nvm shell script existence
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/.nvm/nvm.sh"
+  register: nvm_sh_stat
+
+- name: assert nvm.sh is present and executable
+  assert:
+    that:
+      - nvm_sh_stat.stat.exists
+      # nvm.sh is intended to be sourced, but should be readable
+      - nvm_sh_stat.stat.readable
+    fail_msg: "nvm.sh script is missing or not readable"

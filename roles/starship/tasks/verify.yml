@@ -1,0 +1,27 @@
+---
+- name: check starship config and directory stats
+  stat:
+    path: "{{ item.path }}"
+  loop:
+    - { path: "{{ ansible_facts.env.HOME }}/.config", mode: "0700" }
+    - {
+        path: "{{ ansible_facts.env.HOME }}/.config/starship.toml",
+        mode: "0644",
+      }
+  register: starship_stats
+
+- name: assert .config directory exists with correct mode
+  assert:
+    that:
+      - starship_stats.results[0].stat.exists
+      - starship_stats.results[0].stat.isdir
+      - starship_stats.results[0].stat.mode == "0700"
+    fail_msg: "~/.config directory check failed"
+
+- name: assert starship.toml symlink is valid
+  assert:
+    that:
+      - starship_stats.results[1].stat.exists
+      - starship_stats.results[1].stat.islnk
+      - starship_stats.results[1].stat.lnk_source == ansible_facts.env.HOME + "/.dotfiles/roles/starship/files/starship.toml"
+    fail_msg: "Starship symlink is missing or pointing to the wrong source"
