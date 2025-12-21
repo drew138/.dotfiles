@@ -1,21 +1,20 @@
 ---
+- name: locate aerospace binary
+  ansible.builtin.command: which aerospace
+  register: aerospace_which
+  changed_when: false
+  failed_when: false
+
 - name: check if binary exists
   ansible.builtin.stat:
-    path: /usr/local/bin/aerospace
+    path: "{{ aerospace_which.stdout }}"
   register: aerospace_bin
+  when: aerospace_which.rc == 0
 
 - name: assert binary is present and executable
   ansible.builtin.assert:
     that:
+      - aerospace_bin.stat is defined
       - aerospace_bin.stat.exists
       - aerospace_bin.stat.executable
-    fail_msg: "Binary not found or not executable at /usr/local/bin/aerospace"
-
-- name: capture version output
-  ansible.builtin.command: aerospace --version
-  register: aerospace_version
-  changed_when: false
-
-- name: display detected version
-  ansible.builtin.debug:
-    msg: "{{ aerospace_version.stdout }}"
+    fail_msg: aeroSpace binary was not found in the PATH or is not executable
