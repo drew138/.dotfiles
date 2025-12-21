@@ -5,6 +5,9 @@ rules:
   line-length:
     max: 200
     level: warning
+  braces:
+    min-spaces-inside: 1
+    max-spaces-inside: 1
 
 ignore: |
   .github/workflows/ci.yml
