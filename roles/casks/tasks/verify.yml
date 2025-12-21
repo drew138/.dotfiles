@@ -1,0 +1,28 @@
+---
+- name: verify homebrew casks installation
+  stat:
+    path: "/Applications/{{ item.name | default(item) }}.app"
+  loop:
+    - { name: "Brave Browser", cask: "brave-browser" }
+    - { name: "DBeaver", cask: "dbeaver-community" }
+    - { name: "Slack", cask: "slack" }
+    - { name: "Spotify", cask: "spotify" }
+    - { name: "Discord", cask: "discord" }
+    - { name: "Obsidian", cask: "obsididan" }
+    - { name: "Postman", cask: "postman" }
+    - { name: "OBS", cask: "obs" }
+    - { name: "Bitwarden", cask: "bitwarden" }
+    - { name: "Notion", cask: "notion" }
+    - { name: "Notion Calendar", cask: "notion-calendar" }
+    - { name: "WhatsApp", cask: "whatsapp" }
+    - { name: "Dropbox", cask: "dropbox" }
+    - { name: "Google Chrome", cask: "google-chrome" }
+    - { name: "UTM", cask: "utm" }
+  register: cask_stats
+
+- name: assert casks are present in Applications
+  assert:
+    that:
+      - item.stat.exists
+    fail_msg: "Cask application not found at {{ item.item.name }}.app"
+  loop: "{{ cask_stats.results }}"

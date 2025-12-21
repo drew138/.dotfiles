@@ -8,3 +8,4 @@
   # up with role idempotency
   args:
     chdir: "{{ ansible_facts.env.HOME }}/.dotfiles"
+  listen: install_neovim_development_tools

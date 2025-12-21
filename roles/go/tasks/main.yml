@@ -70,4 +70,4 @@
     creates: "/usr/local/go"
   when: go_current_version not in go_filename_prefix
   notify:
-    - install go binaries
+    - install_go_binaries

@@ -24,7 +24,7 @@
   register: nvim_is_installed
   changed_when: not nvim_is_installed.stat.exists
   notify:
-    - install nvim packages, lsps, debuggers, linters and formatters
+    - install_neovim_development_tools
 
 - name: clone nvim repository
   become: true

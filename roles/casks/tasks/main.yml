@@ -21,3 +21,4 @@
     - dropbox
     - google-chrome
     - utm
+  notify: open_screen_recording_settings

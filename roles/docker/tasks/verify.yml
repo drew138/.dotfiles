@@ -1,0 +1,27 @@
+---
+- name: locate docker related binaries
+  command: "which {{ item }}"
+  loop:
+    - colima
+    - docker
+    - docker-compose
+  register: docker_tools_which
+  changed_when: false
+  failed_when: false
+
+- name: check if docker binaries exist
+  stat:
+    path: "{{ item.stdout }}"
+  loop: "{{ docker_tools_which.results }}"
+  register: docker_tools_bin
+  when: item.rc == 0
+
+- name: assert docker binaries are present and executable
+  assert:
+    that:
+      - item.stat is defined
+      - item.stat.exists
+      - item.stat.executable
+    fail_msg: "Binary {{ item.item.item }} was not found in the PATH or is not executable"
+  loop: "{{ docker_tools_bin.results }}"
+  when: not item.skipped | default(false)

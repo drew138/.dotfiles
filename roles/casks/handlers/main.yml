@@ -1,0 +1,4 @@
+- name: open "Screen & System Audio Recording" settings
+  command: >
+    open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"
+  listen: open_screen_recording_settings

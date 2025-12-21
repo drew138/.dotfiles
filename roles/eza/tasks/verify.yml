@@ -1,0 +1,48 @@
+---
+- name: locate eza binary
+  command: which eza
+  register: eza_which
+  changed_when: false
+  failed_when: false
+
+- name: check if eza binary exists
+  stat:
+    path: "{{ eza_which.stdout }}"
+  register: eza_bin
+  when: eza_which.rc == 0
+
+- name: assert eza binary is present and executable
+  assert:
+    that:
+      - eza_bin.stat is defined
+      - eza_bin.stat.exists
+      - eza_bin.stat.executable
+    fail_msg: "eza binary was not found in the PATH or is not executable"
+
+- name: check dev directory and eza repo stats
+  stat:
+    path: "{{ item }}"
+  loop:
+    - "{{ ansible_facts.env.HOME }}/dev/"
+    - "{{ eza_home }}"
+  register: dir_stats
+
+- name: assert directories and repo exist
+  assert:
+    that:
+      - item.stat.exists
+      - item.stat.isdir
+    fail_msg: "Required directory or repo missing: {{ item.item }}"
+  loop: "{{ dir_stats.results }}"
+
+- name: verify eza git repository integrity
+  command: git -C "{{ eza_home }}" rev-parse --is-inside-work-tree
+  register: eza_git_check
+  changed_when: false
+  failed_when: false
+
+- name: assert eza path is a valid git repo
+  assert:
+    that:
+      - eza_git_check.rc == 0
+    fail_msg: "The destination {{ eza_home }} exists but is not a valid git repository"

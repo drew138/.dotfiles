@@ -10,3 +10,4 @@
     - github.com/mikefarah/yq/v4@latest
   loop_control:
     loop_var: go_package
+  listen: intall_go_binaries

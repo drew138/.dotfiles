@@ -13,12 +13,12 @@ return function(config, wezterm)
 		{ key = "d", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false }) },
 
 		-- Navigation
-		{ key = "h", mods = "ALT|SHIFT", action = wezterm.action.ActivatePaneDirection("Left") },
-		{ key = "j", mods = "ALT|SHIFT", action = wezterm.action.ActivatePaneDirection("Down") },
-		{ key = "k", mods = "ALT|SHIFT", action = wezterm.action.ActivatePaneDirection("Up") },
-		{ key = "l", mods = "ALT|SHIFT", action = wezterm.action.ActivatePaneDirection("Right") },
-		{ key = "m", mods = "ALT|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
-		{ key = "n", mods = "ALT|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
+		{ key = "h", mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Left") },
+		{ key = "j", mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Down") },
+		{ key = "k", mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Up") },
+		{ key = "l", mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Right") },
+		{ key = "m", mods = "CMD|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
+		{ key = "n", mods = "CMD|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
 
 		-- Select mode
 		{ key = "]", mods = "LEADER", action = wezterm.action.ActivateCopyMode },

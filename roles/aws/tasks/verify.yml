@@ -1,0 +1,46 @@
+---
+- name: verify rosetta 2 installation
+  shell: /usr/bin/pgrep -q oahd
+  register: rosetta_check
+  failed_when: false
+  changed_when: false
+  when: ansible_facts['architecture'] in ['arm64', 'aarch64']
+
+- name: assert rosetta 2 is running
+  assert:
+    that:
+      - rosetta_check.rc == 0
+    fail_msg: "Rosetta 2 (oahd process) is not running on this ARM Mac."
+  when: ansible_facts['architecture'] in ['arm64', 'aarch64']
+
+- name: locate aws cli binary
+  command: which aws
+  register: aws_path
+  changed_when: false
+  failed_when: false
+
+- name: assert aws cli is installed and in path
+  assert:
+    that:
+      - aws_path.rc == 0
+    fail_msg: "AWS CLI binary was not found in the executable path."
+
+- name: verify aws cli version
+  command: aws --version
+  register: aws_v_output
+  changed_when: false
+
+- name: display aws cli version
+  debug:
+    msg: "Installed: {{ aws_v_output.stdout }}"
+
+- name: verify installer cleanup
+  stat:
+    path: "/tmp/AWSCLIV2.pkg"
+  register: aws_pkg_stat
+
+- name: assert installer package was removed
+  assert:
+    that:
+      - not aws_pkg_stat.stat.exists
+    fail_msg: "The installer package at /tmp/AWSCLIV2.pkg was not cleaned up."
