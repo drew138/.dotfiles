@@ -9,13 +9,13 @@
   stat:
     path: "{{ item.path }}"
   loop:
-    - { path: "{{ zsh_which.stdout }}", type: "bin" }
-    - {
-        path: "{{ ansible_facts.env.HOME }}/.workrc.zsh",
-        type: "file",
-        mode: "0700",
-      }
-    - { path: "{{ ansible_facts.env.HOME }}/.zshrc", type: "link" }
+    - path: "{{ zsh_which.stdout }}"
+      type: "bin"
+    - path: "{{ ansible_facts.env.HOME }}/.workrc.zsh"
+      type: "file"
+      mode: "0700"
+    - path: "{{ ansible_facts.env.HOME }}/.zshrc"
+      type: "link"
   register: zsh_stats
   when: zsh_which.rc == 0
 

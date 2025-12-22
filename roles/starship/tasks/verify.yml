@@ -3,11 +3,10 @@
   stat:
     path: "{{ item.path }}"
   loop:
-    - { path: "{{ ansible_facts.env.HOME }}/.config", mode: "0700" }
-    - {
-        path: "{{ ansible_facts.env.HOME }}/.config/starship.toml",
-        mode: "0644",
-      }
+    - path: "{{ ansible_facts.env.HOME }}/.config"
+      mode: "0700"
+    - path: "{{ ansible_facts.env.HOME }}/.config/starship.toml"
+      mode: "0644"
   register: starship_stats
 
 - name: assert .config directory exists with correct mode
