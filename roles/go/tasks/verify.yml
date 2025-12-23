@@ -1,0 +1,68 @@
+- name: verify architecture is supported by the role
+  assert:
+    that:
+      - ansible_facts.architecture in ['aarch64', 'arm64', 'x86_64', 'amd64']
+    fail_msg: >
+      Unsupported architecture detected: {{ ansible_facts.architecture }}
+
+- name: verify /usr/local/go directory exists
+  stat:
+    path: /usr/local/go
+  register: verify_go_dir
+
+- name: assert Go directory exists
+  assert:
+    that:
+      - verify_go_dir.stat.exists
+      - verify_go_dir.stat.isdir
+    fail_msg: "/usr/local/go directory is missing"
+
+- name: verify go binary exists
+  stat:
+    path: /usr/local/go/bin/go
+  register: verify_go_bin
+
+- name: assert go binary exists and is executable
+  assert:
+    that:
+      - verify_go_bin.stat.exists
+      - verify_go_bin.stat.mode is match(".*x.*")
+    fail_msg: "Go binary is missing or not executable"
+
+- name: get installed go version
+  command: /usr/local/go/bin/go version
+  register: verify_go_version
+  changed_when: false
+
+- name: verify go version output format
+  assert:
+    that:
+      - verify_go_version.rc == 0
+      - "'go version go' in verify_go_version.stdout"
+    fail_msg: >
+      Unexpected go version output:
+      {{ verify_go_version.stdout }}
+
+- name: verify go installation path is correct
+  command: /usr/local/go/bin/go env GOROOT
+  register: verify_goroot
+  changed_when: false
+
+- name: assert GOROOT is /usr/local/go
+  assert:
+    that:
+      - verify_goroot.stdout == "/usr/local/go"
+    fail_msg: >
+      GOROOT mismatch: expected /usr/local/go,
+      got {{ verify_goroot.stdout }}
+
+- name: verify go runs without error
+  command: /usr/local/go/bin/go env
+  register: verify_go_env
+  changed_when: false
+
+- name: assert go env executes successfully
+  assert:
+    that:
+      - verify_go_env.rc == 0
+    fail_msg: "go env failed to execute"
