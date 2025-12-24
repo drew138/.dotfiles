@@ -1,0 +1,71 @@
+- name: locate git binary
+  command: which git
+  register: verify_git_which
+  changed_when: false
+  failed_when: false
+
+- name: check if git binary exists
+  stat:
+    path: "{{ verify_git_which.stdout }}"
+  register: verify_git_bin
+  when: verify_git_which.rc == 0
+
+- name: assert git binary is present and executable
+  assert:
+    that:
+      - verify_git_bin.stat is defined
+      - verify_git_bin.stat.exists
+      - verify_git_bin.stat.executable
+    fail_msg: git binary was not found in the PATH or is not executable
+
+- name: verify .gitconfig symlink exists
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/.gitconfig"
+    follow: false
+  register: verify_gitconfig
+
+- name: assert .gitconfig is a symlink
+  assert:
+    that:
+      - verify_gitconfig.stat.exists
+      - verify_gitconfig.stat.islnk
+    fail_msg: "~/.gitconfig is missing or is not a symlink"
+
+- name: verify .gitignore_global symlink exists
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/.gitignore_global"
+    follow: false
+  register: verify_gitignore_global
+
+- name: assert .gitignore_global is a symlink
+  assert:
+    that:
+      - verify_gitignore_global.stat.exists
+      - verify_gitignore_global.stat.islnk
+    fail_msg: "~/.gitignore_global is missing or is not a symlink"
+
+- name: verify .workrc.gitconfig file exists
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/.workrc.gitconfig"
+  register: verify_workrc_gitconfig
+
+- name: assert .workrc.gitconfig exists with correct permissions
+  assert:
+    that:
+      - verify_workrc_gitconfig.stat.exists
+      - verify_workrc_gitconfig.stat.isreg
+      - verify_workrc_gitconfig.stat.mode == "0700"
+    fail_msg: "~/.workrc.gitconfig is missing or has incorrect permissions"
+
+- name: verify work directory exists
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/work"
+  register: verify_work_dir
+
+- name: assert work directory exists
+  assert:
+    that:
+      - verify_work_dir.stat.exists
+      - verify_work_dir.stat.isdir
+    fail_msg: "~/work directory does not exist"
+

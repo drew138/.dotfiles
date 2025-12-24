@@ -1,3 +1,4 @@
+---
 - name: verify architecture is supported by the role
   assert:
     that:

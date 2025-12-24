@@ -1,0 +1,19 @@
+- name: locate kubectl binary
+  command: which kubectl
+  register: verify_kubectl_which
+  changed_when: false
+  failed_when: false
+
+- name: check if kubectl binary exists
+  stat:
+    path: "{{ verify_kubectl_which.stdout }}"
+  register: verify_kubectl_bin
+  when: verify_kubectl_which.rc == 0
+
+- name: assert kubectl binary is present and executable
+  assert:
+    that:
+      - verify_kubectl_bin.stat is defined
+      - verify_kubectl_bin.stat.exists
+      - verify_kubectl_bin.stat.executable
+    fail_msg: kubectl binary was not found in the PATH or is not executable

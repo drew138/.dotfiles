@@ -1,0 +1,53 @@
+- name: verify architecture is supported
+  assert:
+    that:
+      - ansible_facts.architecture in ['aarch64', 'arm64', 'x86_64', 'amd64']
+    fail_msg: >
+      Unsupported architecture detected: {{ ansible_facts.architecture }}
+
+- name: locate gcloud binary
+  command: which gcloud
+  register: verify_gcloud_which
+  changed_when: false
+  failed_when: false
+
+- name: check if gcloud binary exists
+  stat:
+    path: "{{ verify_gcloud_which.stdout }}"
+  register: verify_gcloud_bin
+  when: verify_gcloud_which.rc == 0
+
+- name: assert gcloud binary is present and executable
+  assert:
+    that:
+      - verify_gcloud_bin.stat is defined
+      - verify_gcloud_bin.stat.exists
+      - verify_gcloud_bin.stat.executable
+    fail_msg: gcloud binary was not found in the PATH or is not executable
+
+- name: verify gcloud runs successfully
+  command: gcloud --version
+  register: verify_gcloud_version
+  changed_when: false
+
+- name: assert gcloud version command succeeds
+  assert:
+    that:
+      - verify_gcloud_version.rc == 0
+      - "'Google Cloud SDK' in verify_gcloud_version.stdout"
+    fail_msg: >
+      gcloud did not run correctly.
+      Output: {{ verify_gcloud_version.stdout }}
+
+- name: verify google-cloud-sdk directory exists
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/google-cloud-sdk"
+  register: verify_gcloud_dir
+
+- name: assert google-cloud-sdk directory exists
+  assert:
+    that:
+      - verify_gcloud_dir.stat.exists
+      - verify_gcloud_dir.stat.isdir
+    fail_msg: "~/google-cloud-sdk directory does not exist"
+

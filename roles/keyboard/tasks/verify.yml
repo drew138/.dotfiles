@@ -1,0 +1,29 @@
+- name: read InitialKeyRepeat value
+  command: defaults read -g InitialKeyRepeat
+  register: verify_initial_key_repeat
+  changed_when: false
+  failed_when: false
+
+- name: read KeyRepeat value
+  command: defaults read -g KeyRepeat
+  register: verify_key_repeat
+  changed_when: false
+  failed_when: false
+
+- name: assert InitialKeyRepeat is set correctly
+  assert:
+    that:
+      - verify_initial_key_repeat.rc == 0
+      - verify_initial_key_repeat.stdout | int == 15
+    fail_msg: >
+      InitialKeyRepeat is not set correctly.
+      Expected 15, got {{ verify_initial_key_repeat.stdout }}
+
+- name: assert KeyRepeat is set correctly
+  assert:
+    that:
+      - verify_key_repeat.rc == 0
+      - verify_key_repeat.stdout | int == 2
+    fail_msg: >
+      KeyRepeat is not set correctly.
+      Expected 2, got {{ verify_key_repeat.stdout }}
