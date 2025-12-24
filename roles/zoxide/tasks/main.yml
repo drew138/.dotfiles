@@ -1,16 +1,16 @@
 ---
-- name: set request headers
-  set_fact:
-    request_headers: >-
-      {{
-        {
-          'Accept': 'application/vnd.github.v3+json'
-        } | combine(
-          {
-            'Authorization': 'token ' + lookup('env','GHUB_ACCESS_TOKEN')
-          } if (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0 else {}
-        )
-      }}
+# - name: set request headers
+#   set_fact:
+#     request_headers: >-
+#       {{
+#         {
+#           'Accept': 'application/vnd.github.v3+json'
+#         } | combine(
+#           {
+#             'Authorization': 'token ' + lookup('env','GHUB_ACCESS_TOKEN')
+#           } if (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0 else {}
+#         )
+#       }}
 
 - name: install zoxide
   become: true
