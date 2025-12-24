@@ -11,6 +11,5 @@ galaxy_info:
       versions:
         - all
 dependencies:
-  - role: flatpak
   - role: homebrew
   - role: zsh
