@@ -1,0 +1,84 @@
+---
+- name: verify dock autohide is enabled
+  command: defaults read com.apple.dock autohide
+  register: verify_dock_autohide
+  changed_when: false
+
+- name: assert dock autohide is enabled
+  assert:
+    that:
+      - verify_dock_autohide.stdout | int == 1
+    fail_msg: "Dock autohide is not enabled"
+
+- name: verify dock launch animation is disabled
+  command: defaults read com.apple.dock launchanim
+  register: verify_dock_launchanim
+  changed_when: false
+
+- name: assert dock launch animation is disabled
+  assert:
+    that:
+      - verify_dock_launchanim.stdout | int == 0
+    fail_msg: "Dock launch animation is not disabled"
+
+- name: verify dock tile size
+  command: defaults read com.apple.dock tilesize
+  register: verify_dock_tilesize
+  changed_when: false
+
+- name: assert dock tile size is correct
+  assert:
+    that:
+      - verify_dock_tilesize.stdout | int == 36
+    fail_msg: "Dock tile size is not set to 36"
+
+- name: locate dockutil binary
+  command: which dockutil
+  register: verify_dockutil_which
+  changed_when: false
+  failed_when: false
+
+- name: assert dockutil is available
+  assert:
+    that:
+      - verify_dockutil_which.rc == 0
+    fail_msg: "dockutil was not found in PATH"
+
+- name: list current dock items
+  command: dockutil --list
+  register: verify_dock_items
+  changed_when: false
+
+- name: normalize dock list (remove numbering)
+  set_fact:
+    verify_dock_list_clean: >-
+      {{
+        verify_dock_items.stdout_lines
+        | map('regex_replace', '^[0-9]+:\\s+', '')
+        | list
+      }}
+
+- name: assert unwanted dock items are removed
+  assert:
+    that:
+      - item not in verify_dock_items.stdout
+    fail_msg: "Dock item '{{ item }}' was not removed"
+  loop: "{{ dockitems_remove }}"
+
+- name: assert required dock items exist
+  assert:
+    that:
+      - item.name in verify_dock_items.stdout
+    fail_msg: "Dock item '{{ item.name }}' is missing"
+  loop: "{{ dockitems_persist }}"
+
+- name: assert dock item positions
+  when:
+    - item.pos is defined
+    - item.pos > 0
+  assert:
+    that:
+      - verify_dock_list_clean[item.pos - 1] is search(item.name)
+    fail_msg: "Dock item '{{ item.name }}' is not in position {{ item.pos }}"
+  loop: "{{ dockitems_persist }}"
+
