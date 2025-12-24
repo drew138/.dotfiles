@@ -27,7 +27,7 @@
   assert:
     that:
       - verify_go_bin.stat.exists
-      - verify_go_bin.stat.mode is match(".*x.*")
+      - verify_go_bin.stat.executable
     fail_msg: "Go binary is missing or not executable"
 
 - name: get installed go version
