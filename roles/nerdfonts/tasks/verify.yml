@@ -1,3 +1,4 @@
+---
 - name: verify Fonts directory exists
   stat:
     path: "{{ ansible_facts.env.HOME }}/Library/Fonts"

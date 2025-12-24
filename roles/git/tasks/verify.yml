@@ -1,3 +1,4 @@
+---
 - name: locate git binary
   command: which git
   register: verify_git_which
@@ -68,4 +69,3 @@
       - verify_work_dir.stat.exists
       - verify_work_dir.stat.isdir
     fail_msg: "~/work directory does not exist"
-

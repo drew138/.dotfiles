@@ -1,3 +1,4 @@
+---
 - name: read InitialKeyRepeat value
   command: defaults read -g InitialKeyRepeat
   register: verify_initial_key_repeat

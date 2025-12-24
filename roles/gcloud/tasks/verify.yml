@@ -1,3 +1,4 @@
+---
 - name: verify architecture is supported
   assert:
     that:
@@ -50,4 +51,3 @@
       - verify_gcloud_dir.stat.exists
       - verify_gcloud_dir.stat.isdir
     fail_msg: "~/google-cloud-sdk directory does not exist"
-

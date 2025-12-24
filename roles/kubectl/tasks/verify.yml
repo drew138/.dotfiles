@@ -1,3 +1,4 @@
+---
 - name: locate kubectl binary
   command: which kubectl
   register: verify_kubectl_which
