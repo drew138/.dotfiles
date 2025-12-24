@@ -19,7 +19,7 @@
       - item.stat.exists
       - item.stat.mode == item.item.mode
     fail_msg: >
-      SSH file check failed for {{ item.item.path }}. 
+      SSH file check failed for {{ item.item.path }}.
       Ensure it exists and mode is {{ item.item.mode }}.
   loop: "{{ ssh_file_stats.results }}"
 

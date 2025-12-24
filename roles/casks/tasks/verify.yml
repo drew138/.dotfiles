@@ -42,4 +42,3 @@
     fail_msg: >
       Cask {{ item.item.cask }} was not found at /Applications/{{ item.item.name }}.app
   loop: "{{ verify_cask_stats.results }}"
-

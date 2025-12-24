@@ -1,0 +1,54 @@
+---
+- name: locate nvim binary
+  command: which nvim
+  register: verify_nvim_which
+  changed_when: false
+  failed_when: false
+
+- name: assert nvim is in PATH
+  assert:
+    that:
+      - verify_nvim_which.rc == 0
+      - verify_nvim_which.stdout | length > 0
+    fail_msg: "nvim was not found in PATH"
+
+- name: verify nvim binary exists and is executable
+  stat:
+    path: "{{ verify_nvim_which.stdout }}"
+  register: verify_nvim_bin
+
+- name: assert nvim binary is executable
+  assert:
+    that:
+      - verify_nvim_bin.stat.exists
+      - verify_nvim_bin.stat.executable
+    fail_msg: "nvim binary exists but is not executable"
+
+- name: verify nvim config symlink exists
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/.config/nvim"
+  register: verify_nvim_config
+
+- name: assert nvim config is a symlink
+  assert:
+    that:
+      - verify_nvim_config.stat.exists
+      - verify_nvim_config.stat.islnk
+    fail_msg: "~/.config/nvim is missing or not a symlink"
+
+- name: verify nvim python virtualenv exists
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/.nvimvenv/bin/activate"
+  register: verify_nvim_venv
+
+- name: assert nvim python virtualenv exists
+  assert:
+    that:
+      - verify_nvim_venv.stat.exists
+    fail_msg: "~/.nvimvenv was not created"
+
+- name: verify pynvim can be imported
+  command: "{{ ansible_facts.env.HOME }}/.nvimvenv/bin/python -c 'import pynvim'"
+  register: verify_pynvim
+  changed_when: false
+  failed_when: verify_pynvim.rc != 0
