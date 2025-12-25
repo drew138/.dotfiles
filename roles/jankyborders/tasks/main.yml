@@ -1,0 +1,29 @@
+---
+- name: ensure FelixKratz Homebrew tap is available
+  homebrew_tap:
+    name: FelixKratz/formulae
+    state: present
+
+- name: install jankyborders
+  become: true
+  become_user: "{{ ansible_facts.env.USER }}"
+  homebrew:
+    name:
+      - borders
+    state: latest
+  notify: start_borders_service
+
+- name: ensure sketchybar config directory exists
+  file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/borders"
+    state: directory
+    mode: "0755"
+
+- name: create sketchybar symlink
+  file:
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/borders/files/bordersrc"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/borders/bordersrc"
+    owner: "{{ ansible_facts['user_id'] }}"
+    state: link
+    force: true
+    follow: false

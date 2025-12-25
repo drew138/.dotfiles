@@ -17,27 +17,38 @@ local M = {
 			cterm_color = "113",
 			name = "sketchybarrc",
 		},
+		["bordersrc"] = {
+			icon = "",
+			color = "#89e051",
+			cterm_color = "113",
+			name = "bordersrc",
+		},
 		["work.zsh"] = {
-            icon = "",
-            color = "#89E051",
-            name = "ZshWork",
+			icon = "",
+			color = "#89E051",
+			name = "ZshWork",
 		},
 		["work.gitconfig"] = {
-            icon = "",
-            color = "#F14C28",
-            name = "WorkGitConfig",
+			icon = "",
+			color = "#F14C28",
+			name = "WorkGitConfig",
 		},
-        sh = {
-            icon = "",
-            color = "#89e051",
-            cterm_color = "113",
-            name = "Shell",
-        },
-        [".yamllint"] = {
-            icon = "",
-            color = "#6d8086",
-            name = "Yaml",
-        },
+		[".gitconfig"] = {
+			icon = "",
+			color = "#F14C28",
+			name = "GitConfig",
+		},
+		sh = {
+			icon = "",
+			color = "#89e051",
+			cterm_color = "113",
+			name = "Shell",
+		},
+		[".yamllint"] = {
+			icon = "",
+			color = "#6d8086",
+			name = "Yaml",
+		},
 	},
 }
 

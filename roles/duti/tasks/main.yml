@@ -1,0 +1,23 @@
+---
+- name: install duti
+  become_user: "{{ ansible_facts.env.USER }}"
+  homebrew:
+    name:
+      - duti
+    state: latest
+
+- name: set chrome as default browser for http
+  command: duti -s com.google.Chrome http
+  changed_when: false
+
+- name: set chrome as default browser for https
+  command: duti -s com.google.Chrome https
+  changed_when: false
+
+- name: set chrome as default browser for ftp
+  command: duti -s com.google.Chrome ftp
+  changed_when: false
+
+- name: set chrome as default app for pdf files
+  command: duti -s com.google.Chrome .pdf all
+  changed_when: false

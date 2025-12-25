@@ -2,5 +2,5 @@
 - name: start sketchybar service
   community.general.homebrew_services:
     name: sketchybar
-    state: started
+    state: restarted
   listen: start_sketchybar_service

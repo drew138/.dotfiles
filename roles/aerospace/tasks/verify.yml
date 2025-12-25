@@ -18,4 +18,3 @@
       - verify_aerospace_bin.stat.exists
       - verify_aerospace_bin.stat.executable
     fail_msg: aerospace binary was not found in the PATH or is not executable
-
