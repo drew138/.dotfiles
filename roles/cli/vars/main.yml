@@ -5,7 +5,6 @@ clitools_brew_packages:
   - virtualenv
   - protobuf
   - git
-  - python3
   - jq
   - yq
   - curl
