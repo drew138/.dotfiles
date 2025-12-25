@@ -1,5 +1,4 @@
 ---
----
 - name: verify FelixKratz tap is present
   command: brew tap
   register: brew_taps
