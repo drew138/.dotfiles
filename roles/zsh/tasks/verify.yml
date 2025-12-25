@@ -1,7 +1,7 @@
 ---
 - name: locate zsh binary
   command: which zsh
-  register: zsh_which
+  register: verify_zsh_which
   changed_when: false
   failed_when: false
 
@@ -9,44 +9,44 @@
   stat:
     path: "{{ item.path }}"
   loop:
-    - path: "{{ zsh_which.stdout }}"
+    - path: "{{ verify_zsh_which.stdout }}"
       type: "bin"
     - path: "{{ ansible_facts.env.HOME }}/.work.zsh"
       type: "file"
       mode: "0700"
     - path: "{{ ansible_facts.env.HOME }}/.zshrc"
       type: "link"
-  register: zsh_stats
-  when: zsh_which.rc == 0
+  register: verify_zsh_stats
+  when: verify_zsh_which.rc == 0
 
 - name: assert zsh binary is present
   assert:
     that:
-      - zsh_stats.results[0].stat.exists
-      - zsh_stats.results[0].stat.executable
-    fail_msg: "zsh binary was not found or is not executable"
+      - verify_zsh_stats.results[0].stat.exists
+      - verify_zsh_stats.results[0].stat.executable
+    fail_msg: "Zsh binary was not found or is not executable"
 
 - name: assert .work.zsh exists with correct mode
   assert:
     that:
-      - zsh_stats.results[1].stat.exists
-      - zsh_stats.results[1].stat.mode == "0700"
+      - verify_zsh_stats.results[1].stat.exists
+      - verify_zsh_stats.results[1].stat.mode == "0700"
     fail_msg: ".work.zsh is missing or has incorrect permissions"
 
 - name: assert .zshrc symlink is valid
   assert:
     that:
-      - zsh_stats.results[2].stat.islnk
-      - zsh_stats.results[2].stat.lnk_source == ansible_facts.env.HOME + "/.dotfiles/roles/zsh/files/.zshrc"
+      - verify_zsh_stats.results[2].stat.islnk
+      - verify_zsh_stats.results[2].stat.lnk_source == ansible_facts.env.HOME + "/.dotfiles/roles/zsh/files/.zshrc"
     fail_msg: ".zshrc symlink is broken or pointing to the wrong source"
 
 - name: verify default shell for user
   shell: "dscl . -read /Users/{{ ansible_facts.env.USER }} UserShell | awk '{print $2}'"
-  register: current_shell
+  register: verify_current_shell
   changed_when: false
 
 - name: assert zsh is the default shell
   assert:
     that:
-      - current_shell.stdout == zsh_which.stdout
-    fail_msg: "Default shell is {{ current_shell.stdout }} but expected {{ zsh_which.stdout }}"
+      - verify_current_shell.stdout == verify_zsh_which.stdout
+    fail_msg: "Default shell is {{ verify_current_shell.stdout }} but expected {{ verify_zsh_which.stdout }}"

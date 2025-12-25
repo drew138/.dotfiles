@@ -1,20 +1,20 @@
 ---
 - name: locate bat binary
   command: which bat
-  register: bat_which
+  register: verify_bat_which
   changed_when: false
   failed_when: false
 
 - name: check if bat binary exists
   stat:
-    path: "{{ bat_which.stdout }}"
-  register: bat_bin
-  when: bat_which.rc == 0
+    path: "{{ verify_bat_which.stdout }}"
+  register: verify_bat_bin
+  when: verify_bat_which.rc == 0
 
 - name: assert bat binary is present and executable
   assert:
     that:
-      - bat_bin.stat is defined
-      - bat_bin.stat.exists
-      - bat_bin.stat.executable
+      - verify_bat_bin.stat is defined
+      - verify_bat_bin.stat.exists
+      - verify_bat_bin.stat.executable
     fail_msg: "bat binary was not found in the PATH or is not executable."

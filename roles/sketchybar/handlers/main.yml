@@ -1,3 +1,4 @@
+---
 - name: start sketchybar service
   community.general.homebrew_services:
     name: sketchybar

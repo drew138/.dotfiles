@@ -1,11 +1,11 @@
 ---
 - name: check current appearance mode
   command: osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode'
-  register: dark_mode_check
+  register: verify_dark_mode_check
   changed_when: false
 
 - name: assert dark mode is active
   assert:
     that:
-      - dark_mode_check.stdout == "true"
-    fail_msg: "Dark mode verification failed. Expected 'true' but got '{{ dark_mode_check.stdout }}'"
+      - verify_dark_mode_check.stdout == "true"
+    fail_msg: "Dark mode verification failed. Expected 'true' but got '{{ verify_dark_mode_check.stdout }}'"

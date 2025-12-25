@@ -5,7 +5,7 @@
   loop:
     - /usr/local/include
     - /usr/local/include/bits
-  register: cpp_dir_stats
+  register: verify_cpp_dir_stats
 
 - name: assert include directories exist
   assert:
@@ -13,16 +13,16 @@
       - item.stat.exists
       - item.stat.isdir
     fail_msg: "Directory missing: {{ item.item }}"
-  loop: "{{ cpp_dir_stats.results }}"
+  loop: "{{ verify_cpp_dir_stats.results }}"
 
 - name: check stdc++.h file stats
   stat:
     path: /usr/local/include/bits/stdc++.h
-  register: stdc_header_stat
+  register: verify_stdc_header_stat
 
 - name: assert stdc++.h is present
   assert:
     that:
-      - stdc_header_stat.stat.exists
-      - stdc_header_stat.stat.isreg
-    fail_msg: The C++ header stdc++.h was not found in /usr/local/include/bits/
+      - verify_stdc_header_stat.stat.exists
+      - verify_stdc_header_stat.stat.isreg
+    fail_msg: "The C++ header stdc++.h was not found in /usr/local/include/bits/"

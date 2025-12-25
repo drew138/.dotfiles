@@ -23,7 +23,7 @@ local M = {
             name = "ZshWork",
 		},
 		["work.gitconfig"] = {
-            icon = "",
+            icon = "",
             color = "#F14C28",
             name = "WorkGitConfig",
 		},

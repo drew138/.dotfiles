@@ -4,15 +4,15 @@
   loop:
     - pyenv
     - xz
-  register: deps_which
+  register: verify_deps_which
   changed_when: false
   failed_when: false
 
 - name: check if dependency binaries exist
   stat:
     path: "{{ item.stdout }}"
-  loop: "{{ deps_which.results }}"
-  register: deps_bin
+  loop: "{{ verify_deps_which.results }}"
+  register: verify_deps_bin
   when: item.rc == 0
 
 - name: assert dependency binaries are present and executable
@@ -22,5 +22,5 @@
       - item.stat.exists
       - item.stat.executable
     fail_msg: "Binary {{ item.item.item }} was not found in the PATH or is not executable"
-  loop: "{{ deps_bin.results }}"
+  loop: "{{ verify_deps_bin.results }}"
   when: not item.skipped | default(false)

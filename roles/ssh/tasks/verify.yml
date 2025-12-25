@@ -11,7 +11,7 @@
       mode: "0600"
     - path: "{{ ansible_facts.env.HOME }}/.ssh/known_hosts"
       mode: "0644"
-  register: ssh_file_stats
+  register: verify_ssh_file_stats
 
 - name: assert ssh files exist and have correct permissions
   assert:
@@ -21,16 +21,16 @@
     fail_msg: >
       SSH file check failed for {{ item.item.path }}.
       Ensure it exists and mode is {{ item.item.mode }}.
-  loop: "{{ ssh_file_stats.results }}"
+  loop: "{{ verify_ssh_file_stats.results }}"
 
 - name: verify github is in known_hosts
   command: "ssh-keygen -F github.com -f {{ ansible_facts.env.HOME }}/.ssh/known_hosts"
-  register: github_known_hosts_check
+  register: verify_github_known_hosts_check
   changed_when: false
   failed_when: false
 
 - name: assert github.com is recognized
   assert:
     that:
-      - github_known_hosts_check.rc == 0
+      - verify_github_known_hosts_check.rc == 0
     fail_msg: "github.com was not found in the known_hosts file."
