@@ -81,4 +81,3 @@
       - verify_dock_list_clean[item.pos - 1] is search(item.name)
     fail_msg: "Dock item '{{ item.name }}' is not in position {{ item.pos }}"
   loop: "{{ dockitems_persist }}"
-

@@ -10,3 +10,8 @@
       loop: "{{ selected_roles }}"
       loop_control:
         loop_var: role
+
+  handlers:
+    - name: open security settings
+      command: >
+        open "x-apple.systempreferences:com.apple.preference.security"
