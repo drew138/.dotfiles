@@ -77,7 +77,7 @@ if command -v bat 1>/dev/null 2>&1; then
 fi
 
 # workrc configs
-[ -f $HOME/.workrc.zsh ] && \. $HOME/.workrc.zsh
+[ -f $HOME/.work.zsh ] && \. $HOME/.work.zsh
 
 # scripts configs
 export PATH="$HOME/.dotfiles/roles/scripts/files:$PATH"

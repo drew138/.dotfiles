@@ -11,7 +11,7 @@
   loop:
     - path: "{{ zsh_which.stdout }}"
       type: "bin"
-    - path: "{{ ansible_facts.env.HOME }}/.workrc.zsh"
+    - path: "{{ ansible_facts.env.HOME }}/.work.zsh"
       type: "file"
       mode: "0700"
     - path: "{{ ansible_facts.env.HOME }}/.zshrc"
@@ -26,12 +26,12 @@
       - zsh_stats.results[0].stat.executable
     fail_msg: "zsh binary was not found or is not executable"
 
-- name: assert .workrc.zsh exists with correct mode
+- name: assert .work.zsh exists with correct mode
   assert:
     that:
       - zsh_stats.results[1].stat.exists
       - zsh_stats.results[1].stat.mode == "0700"
-    fail_msg: ".workrc.zsh is missing or has incorrect permissions"
+    fail_msg: ".work.zsh is missing or has incorrect permissions"
 
 - name: assert .zshrc symlink is valid
   assert:

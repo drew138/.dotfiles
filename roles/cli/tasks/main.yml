@@ -2,23 +2,7 @@
 - name: install various clis
   become_user: "{{ ansible_facts.env.USER }}"
   homebrew:
-    name:
-      - htop
-      - ripgrep
-      - virtualenv
-      - protobuf
-      - git
-      - python
-      - jq
-      - curl
-      - wget
-      - gnu-tar
-      - xclip
-
-      # required by python for scikit
-      # learn god knows why
-      - llvm
-      - libomp
+    name: "{{ clitools_brew_packages }}"
     state: latest
 
 - name: ensure virtual environment is created
@@ -26,16 +10,12 @@
   args:
     creates: "{{ ansible_facts.env.HOME }}/.clitools/bin/activate"
   environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts.env.PATH }}"
 
-- name: install pre-commit and poetry in virtual environment
+- name: install python tooling in virtual environment
   pip:
-    name:
-      - pre-commit
-      - poetry==1.8.3
-      - ansible
-      - cookiecutter
+    name: "{{ clitools_python_packages }}"
     state: latest
     virtualenv: "{{ ansible_facts.env.HOME }}/.clitools"
   environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts.env.PATH }}"

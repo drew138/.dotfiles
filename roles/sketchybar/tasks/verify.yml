@@ -1,0 +1,49 @@
+---
+---
+- name: verify FelixKratz tap is present
+  command: brew tap
+  register: brew_taps
+  changed_when: false
+
+- name: assert FelixKratz tap is registered
+  assert:
+    that:
+      - "'FelixKratz/formulae' in brew_taps.stdout"
+    fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
+
+- name: locate sketchybar binary
+  command: which sketchybar
+  register: sketchybar_which
+  changed_when: false
+  failed_when: false
+
+- name: check if sketchybar binary exists
+  stat:
+    path: "{{ sketchybar_which.stdout }}"
+  register: sketchybar_bin
+  when: sketchybar_which.rc == 0
+
+- name: assert sketchybar binary is present and executable
+  assert:
+    that:
+      - sketchybar_bin.stat is defined
+      - sketchybar_bin.stat.exists
+      - sketchybar_bin.stat.executable
+    fail_msg: "sketchybar binary was not found in the PATH or is not executable"
+
+- name: stat sketchybar config symlink
+  stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
+    follow: false
+  register: sketchybar_symlink
+
+- name: assert sketchybar config symlink is present and correct
+  assert:
+    that:
+      - sketchybar_symlink.stat.exists
+      - sketchybar_symlink.stat.islnk
+      - sketchybar_symlink.stat.lnk_source ==
+        ansible_facts['env']['HOME'] + '/.dotfiles/roles/sketchybar/files/sketchybarrc'
+    fail_msg: >-
+      SketchyBar config symlink is missing, not a symlink,
+      or does not point to the expected source.

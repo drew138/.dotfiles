@@ -45,18 +45,18 @@
       - verify_gitignore_global.stat.islnk
     fail_msg: "~/.gitignore_global is missing or is not a symlink"
 
-- name: verify .workrc.gitconfig file exists
+- name: verify .work.gitconfig file exists
   stat:
-    path: "{{ ansible_facts.env.HOME }}/.workrc.gitconfig"
-  register: verify_workrc_gitconfig
+    path: "{{ ansible_facts.env.HOME }}/.work.gitconfig"
+  register: verify_work_gitconfig
 
-- name: assert .workrc.gitconfig exists with correct permissions
+- name: assert .work.gitconfig exists with correct permissions
   assert:
     that:
-      - verify_workrc_gitconfig.stat.exists
-      - verify_workrc_gitconfig.stat.isreg
-      - verify_workrc_gitconfig.stat.mode == "0700"
-    fail_msg: "~/.workrc.gitconfig is missing or has incorrect permissions"
+      - verify_work_gitconfig.stat.exists
+      - verify_work_gitconfig.stat.isreg
+      - verify_work_gitconfig.stat.mode == "0700"
+    fail_msg: "~/.work.gitconfig is missing or has incorrect permissions"
 
 - name: verify work directory exists
   stat:

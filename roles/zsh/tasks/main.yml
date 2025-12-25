@@ -7,10 +7,10 @@
       - zsh
     state: latest
 
-- name: create .workrc.zsh file
+- name: create .work.zsh file
   copy:
     content: "#!/bin/bash"
-    dest: "{{ ansible_facts.env.HOME }}/.workrc.zsh"
+    dest: "{{ ansible_facts.env.HOME }}/.work.zsh"
     force: false
     mode: "0700"
     owner: "{{ ansible_facts.env.USER }}"

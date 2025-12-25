@@ -1,0 +1,29 @@
+---
+- name: ensure FelixKratz Homebrew tap is available
+  homebrew_tap:
+    name: FelixKratz/formulae
+    state: present
+
+- name: install sketchybar
+  become: true
+  become_user: "{{ ansible_facts.env.USER }}"
+  homebrew:
+    name:
+      - sketchybar
+    state: latest
+  notify: start_sketchybar_service
+
+- name: ensure sketchybar config directory exists
+  file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar"
+    state: directory
+    mode: "0755"
+
+- name: create sketchybar symlink
+  file:
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/sketchybarrc"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
+    owner: "{{ ansible_facts['user_id'] }}"
+    state: link
+    force: true
+    follow: false

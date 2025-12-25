@@ -27,7 +27,7 @@
 [gpg]
     format = ssh
 [includeIf "gitdir:~/work/**/"]
-    path = ~/.workrc.gitconfig
+    path = ~/.work.gitconfig
 ; [user]
 ;     email = andres.salazar@y.uno
 ;     name = Andres Salazar Galeano

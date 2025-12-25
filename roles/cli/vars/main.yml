@@ -1,0 +1,25 @@
+---
+clitools_brew_packages:
+  - htop
+  - ripgrep
+  - virtualenv
+  - protobuf
+  - git
+  - python
+  - jq
+  - yq
+  - curl
+  - wget
+  - gnu-tar
+  - xclip
+
+  # required by python for scikit
+  # learn god knows why
+  - llvm
+  - libomp
+
+clitools_python_packages:
+  - pre-commit
+  - poetry==1.8.3
+  - ansible
+  - cookiecutter

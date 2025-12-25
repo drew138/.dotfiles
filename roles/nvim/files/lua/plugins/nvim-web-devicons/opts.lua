@@ -17,6 +17,16 @@ local M = {
 			cterm_color = "113",
 			name = "sketchybarrc",
 		},
+		["work.zsh"] = {
+            icon = "",
+            color = "#89E051",
+            name = "ZshWork",
+		},
+		["work.gitconfig"] = {
+            icon = "",
+            color = "#F14C28",
+            name = "WorkGitConfig",
+		},
         sh = {
             icon = "",
             color = "#89e051",

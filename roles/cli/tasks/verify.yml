@@ -1,0 +1,36 @@
+---
+- name: list installed homebrew packages
+  command: brew list --formula
+  register: verify_brew_list
+  changed_when: false
+
+- name: assert all configured brew packages are installed
+  assert:
+    that:
+      - item in verify_brew_list.stdout_lines
+    fail_msg: "homebrew package '{{ item }}' is not installed"
+  loop: "{{ clitools_brew_packages }}"
+
+- name: verify virtualenv directory exists
+  stat:
+    path: "{{ ansible_facts.env.HOME }}/.clitools"
+  register: verify_clitools_dir
+
+- name: assert virtualenv directory exists
+  assert:
+    that:
+      - verify_clitools_dir.stat.exists
+      - verify_clitools_dir.stat.isdir
+    fail_msg: "virtualenv ~/.clitools does not exist"
+
+- name: list installed python packages in virtualenv
+  command: "{{ ansible_facts.env.HOME }}/.clitools/bin/pip list --format=freeze"
+  register: verify_clitools_pip
+  changed_when: false
+
+- name: assert required python packages are installed
+  assert:
+    that:
+      - item in verify_clitools_pip.stdout
+    fail_msg: "python package '{{ item }}' is missing from the virtualenv"
+  loop: "{{ clitools_python_packages }}"

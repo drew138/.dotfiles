@@ -23,10 +23,10 @@
     force: true
     follow: false
 
-- name: create .workrc.gitconfig file
+- name: create .work.gitconfig file
   copy:
     content: ""
-    dest: "{{ ansible_facts.env.HOME }}/.workrc.gitconfig"
+    dest: "{{ ansible_facts.env.HOME }}/.work.gitconfig"
     backup: true
     force: false
     mode: "0700"
