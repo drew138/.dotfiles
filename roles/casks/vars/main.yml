@@ -1,0 +1,32 @@
+---
+casks:
+  - name: brave-browser
+    app: Brave Browser
+  - name: dbeaver-community
+    app: DBeaver
+  - name: slack
+    app: Slack
+  - name: spotify
+    app: Spotify
+  - name: discord
+    app: Discord
+  - name: obsidian
+    app: Obsidian
+  - name: postman
+    app: Postman
+  - name: obs
+    app: OBS
+  - name: bitwarden
+    app: Bitwarden
+  - name: notion
+    app: Notion
+  - name: notion-calendar
+    app: Notion Calendar
+  - name: whatsapp
+    app: WhatsApp
+  - name: dropbox
+    app: Dropbox
+  - name: google-chrome
+    app: Google Chrome
+  - name: utm
+    app: UTM

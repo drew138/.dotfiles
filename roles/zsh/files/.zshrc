@@ -105,7 +105,7 @@ if [ -f "$HOME/.fzf.zsh" ] ;then
 fi
 
 # rust configs
-[ -f "$HOME/.cargo/env" ] && source $HOME/.cargo/env
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 # pyenv configs
 if command -v pyenv 1>/dev/null 2>&1; then

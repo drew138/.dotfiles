@@ -5,19 +5,4 @@
     loop_var: cask
     extended: true
     extended_allitems: false
-  loop:
-    - brave-browser
-    - dbeaver-community
-    - slack
-    - spotify
-    - discord
-    - obsidian
-    - postman
-    - obs
-    - bitwarden
-    - notion
-    - notion-calendar
-    - whatsapp
-    - dropbox
-    - google-chrome
-    - utm
+  loop: "{{ casks }}"

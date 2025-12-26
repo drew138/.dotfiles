@@ -1,44 +1,29 @@
 ---
-- name: verify homebrew casks installation
+- name: verify Homebrew casks installation
   stat:
-    path: "/Applications/{{ item.name }}.app"
-  loop:
-    - name: Brave Browser
-      cask: brave-browser
-    - name: DBeaver
-      cask: dbeaver-community
-    - name: Slack
-      cask: slack
-    - name: Spotify
-      cask: spotify
-    - name: Discord
-      cask: discord
-    - name: Obsidian
-      cask: obsidian
-    - name: Postman
-      cask: postman
-    - name: OBS
-      cask: obs
-    - name: Bitwarden
-      cask: bitwarden
-    - name: Notion
-      cask: notion
-    - name: Notion Calendar
-      cask: notion-calendar
-    - name: WhatsApp
-      cask: whatsapp
-    - name: Dropbox
-      cask: dropbox
-    - name: Google Chrome
-      cask: google-chrome
-    - name: UTM
-      cask: utm
+    path: "/Applications/{{ item.app }}.app"
+  loop: "{{ casks }}"
   register: verify_cask_stats
 
-- name: assert casks are present in Applications
+- name: assert casks are present in /Applications
   assert:
     that:
       - item.stat.exists
     fail_msg: >
-      Cask {{ item.item.cask }} was not found at /Applications/{{ item.item.name }}.app
+      cask {{ item.item.name }} was not found at /Applications/{{ item.item.app }}.app
   loop: "{{ verify_cask_stats.results }}"
+
+- name: Check quarantine attribute on installed apps
+  command: xattr -p com.apple.quarantine "/Applications/{{ item.app }}.app"
+  loop: "{{ casks }}"
+  register: quarantine_verify
+  failed_when: false
+  changed_when: false
+
+- name: assert casks are not quarantined
+  assert:
+    that:
+      - item.rc != 0
+    fail_msg: >
+      Cask {{ item.item.name }} ({{ item.item.app }}) is still quarantined
+  loop: "{{ quarantine_verify.results }}"

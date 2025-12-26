@@ -1,5 +1,6 @@
 ---
 - name: install aerospace
+  become: true
   become_user: "{{ ansible_facts.env.USER }}"
   homebrew_cask:
     name: nikitabobko/tap/aerospace

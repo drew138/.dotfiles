@@ -25,20 +25,3 @@
     force: true
     update: true
     depth: 1
-
-    # TODO: remove
-- name: check fzf repo status
-  become: true
-  become_user: "{{ ansible_facts.env.USER }}"
-  command: git status --porcelain
-  args:
-    chdir: "{{ ansible_facts.env.HOME }}/.fzf"
-  register: fzf_git_status
-  changed_when: false
-  failed_when: false
-
-- name: debug fzf git status
-  debug:
-    msg: |
-      fzf git status:
-      {{ fzf_git_status.stdout | default('(clean)') }}

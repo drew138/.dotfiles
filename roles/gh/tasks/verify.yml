@@ -19,7 +19,6 @@
       - verify_gh_bin.stat.executable
     fail_msg: gh binary was not found in the PATH or is not executable
 
-
 - name: verify gh runs successfully
   command: gh --version
   register: verify_gh_version
