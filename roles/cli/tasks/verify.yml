@@ -28,9 +28,29 @@
   register: verify_clitools_pip
   changed_when: false
 
+- name: normalize installed python package names
+  set_fact:
+    verify_clitools_installed_packages: >-
+      {{
+        verify_clitools_pip.stdout_lines
+        | map('regex_replace', '==.*$', '')
+        | map('lower')
+        | map('regex_replace', '[-_.]+', '-')
+        | list
+      }}
+
 - name: assert required python packages are installed
   assert:
     that:
-      - item in verify_clitools_pip.stdout
+      - >-
+        {{
+          (
+            item
+            | regex_replace('==.*$', '')
+            | lower
+            | regex_replace('[-_.]+', '-')
+          )
+          in verify_clitools_installed_packages
+        }}
     fail_msg: "python package '{{ item }}' is missing from the virtualenv"
   loop: "{{ clitools_python_packages }}"
