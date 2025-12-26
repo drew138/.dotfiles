@@ -1,48 +1,48 @@
 ---
 - name: verify FelixKratz tap is present
   command: brew tap
-  register: brew_taps
+  register: verify_borders_brew_taps
   changed_when: false
 
 - name: assert FelixKratz tap is registered
   assert:
     that:
-      - "'felixkratz/formulae' in brew_taps.stdout"
+      - "'felixkratz/formulae' in verify_borders_brew_taps.stdout"
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
 
-- name: locate sketchybar binary
-  command: which sketchybar
-  register: sketchybar_which
+- name: locate borders binary
+  command: which borders
+  register: verify_borders_which
   changed_when: false
   failed_when: false
 
-- name: check if sketchybar binary exists
+- name: check if borders binary exists
   stat:
-    path: "{{ sketchybar_which.stdout }}"
-  register: sketchybar_bin
-  when: sketchybar_which.rc == 0
+    path: "{{ verify_borders_which.stdout }}"
+  register: verify_borders_bin
+  when: verify_borders_which.rc == 0
 
-- name: assert sketchybar binary is present and executable
+- name: assert borders binary is present and executable
   assert:
     that:
-      - sketchybar_bin.stat is defined
-      - sketchybar_bin.stat.exists
-      - sketchybar_bin.stat.executable
-    fail_msg: "sketchybar binary was not found in the PATH or is not executable"
+      - verify_borders_bin.stat is defined
+      - verify_borders_bin.stat.exists
+      - verify_borders_bin.stat.executable
+    fail_msg: "borders binary was not found in the PATH or is not executable"
 
-- name: stat sketchybar config symlink
+- name: stat borders config symlink
   stat:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/borders/bordersrc"
     follow: false
-  register: sketchybar_symlink
+  register: verify_borders_symlink
 
-- name: assert sketchybar config symlink is present and correct
+- name: assert borders config symlink is present and correct
   assert:
     that:
-      - sketchybar_symlink.stat.exists
-      - sketchybar_symlink.stat.islnk
-      - sketchybar_symlink.stat.lnk_source ==
-        ansible_facts['env']['HOME'] + '/.dotfiles/roles/sketchybar/files/sketchybarrc'
+      - verify_borders_symlink.stat.exists
+      - verify_borders_symlink.stat.islnk
+      - verify_borders_symlink.stat.lnk_source ==
+        ansible_facts['env']['HOME'] + '/.dotfiles/roles/borders/files/bordersrc'
     fail_msg: >-
-      SketchyBar config symlink is missing, not a symlink,
+      Borders config symlink is missing, not a symlink,
       or does not point to the expected source.
