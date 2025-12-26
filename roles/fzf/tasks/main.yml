@@ -6,7 +6,7 @@
     repo: "https://github.com/junegunn/fzf.git"
     dest: "{{ ansible_facts.env.HOME }}/.fzf"
     depth: 1
-    version: latest
+    version: HEAD
     clone: true
     update: true
 
