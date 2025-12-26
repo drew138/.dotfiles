@@ -29,6 +29,7 @@
     dest: "{{ ansible_facts.env.HOME }}/.dotfiles"
     clone: true
     update: true
+  changed_when: false
 
 - name: download repositories
   become_user: "{{ ansible_facts.env.USER }}"
