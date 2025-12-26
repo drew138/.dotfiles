@@ -32,6 +32,17 @@
       - verify_dock_tilesize.stdout | int == 36
     fail_msg: "Dock tile size is not set to 36"
 
+- name: verify dock show recent apps is disabled
+  command: defaults read com.apple.dock show-recents
+  register: verify_dock_show_recents
+  changed_when: false
+
+- name: assert dock show recent apps is disabled
+  assert:
+    that:
+      - verify_dock_show_recents.stdout | bool == false
+    fail_msg: "Dock recent applications are not disabled"
+
 - name: locate dockutil binary
   command: which dockutil
   register: verify_dockutil_which
