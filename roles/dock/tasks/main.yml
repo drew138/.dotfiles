@@ -42,3 +42,7 @@
   when:
     - dock_item_position.pos is defined
     - dock_item_position.pos > 0
+
+- name: force dock restart and flush cache
+  command: killall Dock
+  changed_when: false
