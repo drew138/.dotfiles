@@ -2,7 +2,6 @@
 - name: clone fzf repo
   become: true
   become_user: "{{ ansible_facts.env.USER }}"
-  changed_when: false
   git:
     repo: "https://github.com/junegunn/fzf.git"
     dest: "{{ ansible_facts.env.HOME }}/.fzf"
@@ -13,12 +12,5 @@
 - name: install fzf
   become: true
   become_user: "{{ ansible_facts.env.USER }}"
-  command: "{{ ansible_facts.env.HOME }}/.fzf/install"
-  changed_when: false
-
-- name: revert path changes
-  shell: |
-    git checkout .
-  args:
-    chdir: "{{ ansible_facts.env.HOME }}/.dotfiles"
+  command: "{{ ansible_facts.env.HOME }}/.fzf/install --no-bash --no-fish --key-bindings --completion --no-update-rc"
   changed_when: false
