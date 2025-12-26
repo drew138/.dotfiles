@@ -9,7 +9,7 @@ dockitems_remove:
   - Photos
   - FaceTime
   # Calendar
-  - iCal
+  - com.apple.iCal
   - Contacts
   - Reminders
   - Notes
