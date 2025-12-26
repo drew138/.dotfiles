@@ -9,10 +9,10 @@
 
 - name: set default applications
   shell: |
-    duti -s com.google.Chrome http
-    duti -s com.google.Chrome https
     duti -s com.google.Chrome ftp
     duti -s com.google.Chrome .pdf all
+    duti -s com.google.Chrome http all
+    duti -s com.google.Chrome https all
   environment:
     HOME: "{{ ansible_facts.env.HOME }}"
   changed_when: false
