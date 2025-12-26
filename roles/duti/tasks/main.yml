@@ -7,34 +7,12 @@
       - duti
     state: latest
 
-- name: set chrome as default browser for http
-  command: duti -s com.google.Chrome http
-  become: true
-  become_user: "{{ ansible_facts.env.USER }}"
-  environment:
-    HOME: "{{ ansible_facts.env.HOME }}"
-  changed_when: false
-
-- name: set chrome as default browser for https
-  command: duti -s com.google.Chrome https
-  become: true
-  become_user: "{{ ansible_facts.env.USER }}"
-  environment:
-    HOME: "{{ ansible_facts.env.HOME }}"
-  changed_when: false
-
-- name: set chrome as default browser for ftp
-  command: duti -s com.google.Chrome ftp
-  become: true
-  become_user: "{{ ansible_facts.env.USER }}"
-  environment:
-    HOME: "{{ ansible_facts.env.HOME }}"
-  changed_when: false
-
-- name: set chrome as default app for pdf files
-  command: duti -s com.google.Chrome .pdf all
-  become: true
-  become_user: "{{ ansible_facts.env.USER }}"
+- name: set default applications
+  shell: |
+    duti -s com.google.Chrome http
+    duti -s com.google.Chrome https
+    duti -s com.google.Chrome ftp
+    duti -s com.google.Chrome .pdf all
   environment:
     HOME: "{{ ansible_facts.env.HOME }}"
   changed_when: false
