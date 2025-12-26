@@ -1,0 +1,6 @@
+---
+# .ansible-lint configuration
+
+# Completely silence the "Package installs should not use latest" warning
+skip_list:
+  - package-latest

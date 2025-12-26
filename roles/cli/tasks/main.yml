@@ -1,5 +1,6 @@
 ---
 - name: install various clis
+  become: true
   become_user: "{{ ansible_facts.env.USER }}"
   homebrew:
     name: "{{ clitools_brew_packages }}"
