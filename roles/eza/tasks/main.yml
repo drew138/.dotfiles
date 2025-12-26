@@ -17,6 +17,7 @@
 - name: clone eza repository
   become: true
   become_user: "{{ ansible_facts.env.USER }}"
+  changed_when: false
   git:
     repo: "{{ eza_repo }}"
     dest: "{{ eza_home }}"
