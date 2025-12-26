@@ -1,72 +1,8 @@
 ---
-# - name: set request headers
-#   set_fact:
-#     request_headers: >-
-#       {{
-#         {
-#           'Accept': 'application/vnd.github.v3+json'
-#         } | combine(
-#           {
-#             'Authorization': 'token ' + lookup('env','GHUB_ACCESS_TOKEN')
-#           } if (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0 else {}
-#         )
-#       }}
-
-# - name: install zoxide
-#   become: true
-#   become_user: "{{ ansible_facts.env.USER }}"
-#   # changed_when: false
-#   shell: |
-#     curl -sSfL \
-#     https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh \
-#     | sh
-#   args:
-#     executable: /bin/bash
-#     # {%- for k,v in request_headers.items() %}
-#     #   -H '{{ k }}: {{ v }}' \
-#     # {%- endfor %}
-#     #
-
-# - name: install zoxide
-#   become: true
-#   become_user: "{{ ansible_facts.env.USER }}"
-#   shell: |
-#     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-#   args:
-#     executable: /bin/bash
-#   changed_when: false
-
-- name: set request headers
-  set_fact:
-    request_headers: >-
-      {{
-        {
-          'Accept': 'application/vnd.github.v3+json'
-        } | combine(
-          {
-            'Authorization': 'token ' + lookup('env','GHUB_ACCESS_TOKEN')
-          } if (lookup('env', 'GHUB_ACCESS_TOKEN') | length) > 0 else {}
-        )
-      }}
-
-- name: download zoxide install script
-  ansible.builtin.get_url:
-    url: "https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh"
-    dest: /tmp/zoxide_install.sh
-    mode: '0755'
-    headers: "{{ request_headers }}"
-  changed_when: false
-
-- name: run zoxide install script
+- name: install zoxide
   become: true
   become_user: "{{ ansible_facts.env.USER }}"
-  command: /tmp/zoxide_install.sh
-  args:
-    executable: /bin/sh
-  changed_when: false
-
-- name: clean up zoxide install script
-  file:
-    path: /tmp/zoxide_install.sh
-    state: absent
-  changed_when: false
+  homebrew:
+    name:
+      - zoxide
+    state: latest

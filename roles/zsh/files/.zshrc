@@ -77,7 +77,7 @@ if command -v bat 1>/dev/null 2>&1; then
 fi
 
 # workrc configs
-[ -f $HOME/.work.zsh ] && \. $HOME/.work.zsh
+[ -f "$HOME/.work.zsh" ] && \. $HOME/.work.zsh
 
 # scripts configs
 export PATH="$HOME/.dotfiles/roles/scripts/files:$PATH"
@@ -97,15 +97,15 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # fzf configs
-if [ -f $HOME/.fzf.zsh ] ;then
-    source $HOME/.fzf.zsh
+if [ -f "$HOME/.fzf.zsh" ] ;then
+    source "$HOME/.fzf.zsh"
     export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
     eval "$(fzf --zsh)"
 fi
 
 # rust configs
-[ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
+[ -f "$HOME/.cargo/env" ] && source $HOME/.cargo/env
 
 # pyenv configs
 if command -v pyenv 1>/dev/null 2>&1; then

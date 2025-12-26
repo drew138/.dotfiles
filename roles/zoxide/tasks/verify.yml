@@ -1,24 +1,20 @@
 ---
-- name: verify zoxide binary exists
+- name: locate zoxide binary
+  command: which zoxide
+  register: verify_zoxide_which
+  changed_when: false
+  failed_when: false
+
+- name: check if zoxide binary exists
   stat:
-    path: "{{ ansible_facts.env.HOME }}/.local/bin/zoxide"
+    path: "{{ verify_zoxide_which.stdout }}"
   register: verify_zoxide_bin
+  when: verify_zoxide_which.rc == 0
 
 - name: assert zoxide binary is present and executable
   assert:
     that:
+      - verify_zoxide_bin.stat is defined
       - verify_zoxide_bin.stat.exists
       - verify_zoxide_bin.stat.executable
-    fail_msg: "zoxide binary is missing or not executable at ~/.local/bin/zoxide"
-
-- name: verify zoxide install directory exists
-  stat:
-    path: "{{ ansible_facts.env.HOME }}/.local/bin"
-  register: verify_zoxide_dir
-
-- name: assert zoxide install directory exists
-  assert:
-    that:
-      - verify_zoxide_dir.stat.exists
-      - verify_zoxide_dir.stat.isdir
-    fail_msg: "~/.local/bin directory does not exist"
+    fail_msg: zoxide binary was not found in the PATH or is not executable
