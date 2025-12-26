@@ -7,7 +7,7 @@
 - name: assert FelixKratz tap is registered
   assert:
     that:
-      - "'FelixKratz/formulae' in brew_taps.stdout"
+      - "'felixkratz/formulae' in brew_taps.stdout"
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
 
 - name: locate sketchybar binary

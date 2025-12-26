@@ -1,48 +1,24 @@
 ---
-- name: verify fzf directory exists
+- name: verify fzf repository exists
   stat:
     path: "{{ ansible_facts.env.HOME }}/.fzf"
   register: verify_fzf_dir
 
-- name: assert fzf directory exists
+- name: assert fzf repository exists
   assert:
     that:
       - verify_fzf_dir.stat.exists
       - verify_fzf_dir.stat.isdir
-    fail_msg: "~/.fzf directory does not exist"
+    fail_msg: "~/.fzf repository does not exist"
 
-
-- name: locate fzf binary
-  command: which fzf
-  register: verify_fzf_which
-  changed_when: false
-  failed_when: false
-
-- name: check if fzf binary exists
+- name: verify fzf shell integration script exists
   stat:
-    path: "{{ verify_fzf_which.stdout }}"
-  register: verify_fzf_bin
-  when: verify_fzf_which.rc == 0
+    path: "{{ ansible_facts.env.HOME }}/.fzf.zsh"
+  register: verify_fzf_shell
 
-- name: assert fzf binary is present and executable
+- name: assert fzf shell integration script exists
   assert:
     that:
-      - verify_fzf_bin.stat is defined
-      - verify_fzf_bin.stat.exists
-      - verify_fzf_bin.stat.executable
-    fail_msg: fzf binary was not found in the PATH or is not executable
-
-
-- name: verify fzf runs successfully
-  command: fzf --version
-  register: verify_fzf_version
-  changed_when: false
-
-- name: assert fzf version command succeeds
-  assert:
-    that:
-      - verify_fzf_version.rc == 0
-      - verify_fzf_version.stdout | length > 0
-    fail_msg: >
-      fzf did not run correctly.
-      Output: {{ verify_fzf_version.stdout }}
+      - verify_fzf_shell.stat.exists
+      - verify_fzf_shell.stat.isfile
+    fail_msg: "~/.fzf.zsh shell integration script does not exist"

@@ -28,6 +28,7 @@
   ansible.builtin.get_url:
     url: "{{ pkg_url }}"
     dest: /tmp/Homebrew.pkg
+    mode: '0644'
   changed_when: false
 
 - name: install Homebrew.pkg
