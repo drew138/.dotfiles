@@ -20,5 +20,5 @@
   assert:
     that:
       - verify_fzf_shell.stat.exists
-      - verify_fzf_shell.stat.isfile
+      - verify_fzf_shell.stat.isreg
     fail_msg: "~/.fzf.zsh shell integration script does not exist"
