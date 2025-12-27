@@ -6,10 +6,7 @@ local M = {
 		{ "EdenEast/nightfox.nvim" },
 		{ "nvim-neotest/nvim-nio" },
 		{ "rcarriga/nvim-dap-ui" },
-		{
-			"leoluz/nvim-dap-go",
-			ft = "go",
-		},
+		{ "leoluz/nvim-dap-go", ft = "go" },
 		{
 			"mfussenegger/nvim-dap-python",
 			ft = "python",
@@ -21,25 +18,24 @@ local M = {
 			end,
 		},
 	},
-	init = function()
+	config = function()
 		require("dap-go").setup()
 		require("dapui").setup()
 		require("nvim-dap-virtual-text").setup()
 
-		local sign_define = vim.fn.sign_define
-		sign_define("DapBreakpoint", {
-			text = "◉",
-			texthl = "DapUIStop",
-			linehl = "DapUIStop",
-			numhl = "DapUIStop",
-		})
+		local signs = {
+			DapBreakpoint = { text = "◉", color = "DapUIStop" },
+			DapStopped = { text = "➜", color = "DapUIPlayPause" },
+		}
 
-		sign_define("DapStopped", {
-			text = "➜",
-			texthl = "DapUIPlayPause",
-			linehl = "DapUIPlayPause",
-			numhl = "DapUIPlayPause",
-		})
+		for name, opts in pairs(signs) do
+			vim.fn.sign_define(name, {
+				text = opts.text,
+				texthl = opts.color,
+				linehl = opts.color,
+				numhl = opts.color,
+			})
+		end
 	end,
 	keys = function()
 		return require("plugins.nvim-dap.keys")

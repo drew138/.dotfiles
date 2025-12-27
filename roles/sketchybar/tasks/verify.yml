@@ -46,3 +46,14 @@
     fail_msg: >-
       SketchyBar config symlink is missing, not a symlink,
       or does not point to the expected source.
+
+- name: verify menu bar auto-hide is enabled
+  command: defaults read NSGlobalDomain _HIHideMenuBar
+  register: verify_menu_bar_hidden
+  changed_when: false
+
+- name: assert menu bar auto-hide is enabled
+  assert:
+    that:
+      - verify_menu_bar_hidden.stdout | bool
+    fail_msg: "Menu bar auto-hide is not enabled"

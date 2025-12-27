@@ -43,6 +43,17 @@
       - verify_dock_show_recents.stdout | bool == false
     fail_msg: "Dock recent applications are not disabled"
 
+- name: verify dock is on the left
+  command: defaults read com.apple.dock orientation
+  register: verify_dock_orientation
+  changed_when: false
+
+- name: assert dock is on the left
+  assert:
+    that:
+      - verify_dock_orientation.stdout == "left"
+    fail_msg: "Dock orientation is not set to left"
+
 - name: locate dockutil binary
   command: which dockutil
   register: verify_dockutil_which

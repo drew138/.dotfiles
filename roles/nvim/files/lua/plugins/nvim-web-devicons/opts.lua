@@ -1,4 +1,11 @@
 local M = {
+	override_by_extension = {
+		yml = {
+			icon = "",
+			color = "#ff69b4",
+			name = "Yml",
+		},
+	},
 	override_by_filename = {
 		[".gitignore_global"] = {
 			icon = "",
@@ -46,8 +53,8 @@ local M = {
 		},
 		[".yamllint"] = {
 			icon = "",
-			color = "#6d8086",
-			name = "Yaml",
+			color = "#1abc9c",
+			name = "YamlLint",
 		},
 	},
 }

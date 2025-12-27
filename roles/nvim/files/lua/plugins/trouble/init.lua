@@ -1,27 +1,21 @@
 local M = {
 	"folke/trouble.nvim",
 	init = function()
-		local diagnostic = vim.diagnostic
-		local signs = {
-			Error = " ",
-			Warn = " ",
-			Hint = " ",
-			Info = " ",
-		}
-
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-		end
-
-		diagnostic.config({
+		vim.diagnostic.config({
 			underline = {
 				severity = vim.diagnostic.severity.ERROR,
 			},
 			virtual_text = {
 				prefix = "",
 			},
-			signs = true,
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = " ",
+					[vim.diagnostic.severity.WARN] = " ",
+					[vim.diagnostic.severity.HINT] = " ",
+					[vim.diagnostic.severity.INFO] = " ",
+				},
+			},
 			update_in_insert = false,
 			severity_sort = true,
 			float = {

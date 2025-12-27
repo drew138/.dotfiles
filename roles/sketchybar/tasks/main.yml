@@ -27,3 +27,11 @@
     state: link
     force: true
     follow: false
+
+- name: enable auto-hide menu bar
+  shell: |
+    defaults write NSGlobalDomain _HIHideMenuBar -bool true
+    killall SystemUIServer
+  args:
+    executable: /bin/bash
+  changed_when: true

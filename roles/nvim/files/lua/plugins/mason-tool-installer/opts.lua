@@ -2,10 +2,8 @@ local M = {
 	ensure_installed = {
 		-- lsps required by lspconfig
 		"ansible-language-server",
-		"awk-language-server",
 		"bash-language-server",
 		"clangd",
-		"css-lsp",
 		"docker-compose-language-service",
 		"dockerfile-language-server",
 		"gopls",
@@ -15,11 +13,11 @@ local M = {
 		"pyright",
 		"rust-analyzer",
 		"sqlls",
-		"tailwindcss-language-server",
 		"terraform-ls",
 		"typescript-language-server",
 		"yaml-language-server",
 		"ruff",
+		"gh-actions-language-server",
 
 		-- debuggers used by nvim dap
 		"delve",
@@ -29,6 +27,7 @@ local M = {
 		"node-debug2-adapter",
 
 		-- linters used by nvim-lint
+		"ansible-lint",
 		"eslint_d",
 		"flake8",
 		"markdownlint",
