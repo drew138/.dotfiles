@@ -1,7 +1,7 @@
 ---
 - name: verify Fonts directory exists
   stat:
-    path: "{{ ansible_facts.env.HOME }}/Library/Fonts"
+    path: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts"
   register: verify_fonts_dir
 
 - name: assert Fonts directory exists
@@ -13,7 +13,7 @@
 
 - name: list Nerd Font files
   find:
-    paths: "{{ ansible_facts.env.HOME }}/Library/Fonts"
+    paths: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts"
     patterns: "*Nerd Font*"
   register: verify_nerdfonts
 

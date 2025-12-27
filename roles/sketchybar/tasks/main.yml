@@ -6,7 +6,7 @@
 
 - name: install sketchybar
   become: true
-  become_user: "{{ ansible_facts.env.USER }}"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
   homebrew:
     name:
       - sketchybar
@@ -23,7 +23,7 @@
   file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/sketchybarrc"
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
-    owner: "{{ ansible_facts['user_id'] }}"
+    owner: "{{ ansible_facts['env']['USER'] }}"
     state: link
     force: true
     follow: false
@@ -34,4 +34,4 @@
     killall SystemUIServer
   args:
     executable: /bin/bash
-  changed_when: true
+  changed_when: false

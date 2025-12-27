@@ -4,7 +4,7 @@
   file:
     src: "{{ script.src }}"
     dest: "{{ script.dest }}"
-    owner: "{{ ansible_facts.env.USER }}"
+    owner: "{{ ansible_facts['env']['USER'] }}"
     state: link
     force: true
     follow: false

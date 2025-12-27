@@ -1,6 +1,6 @@
 ---
 - name: install git
-  become_user: "{{ ansible_facts.env.USER }}"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
   homebrew:
     name:
       - git
@@ -9,33 +9,33 @@
 - name: create dev directory
   become: true
   file:
-    path: "{{ ansible_facts.env.HOME }}/dev/"
+    path: "{{ ansible_facts['env']['HOME'] }}/dev/"
     state: directory
     mode: "0755"
-    owner: "{{ ansible_facts.env.USER }}"
+    owner: "{{ ansible_facts['env']['USER'] }}"
 
 - name: create work directory
   become: true
   file:
-    path: "{{ ansible_facts.env.HOME }}/work/"
+    path: "{{ ansible_facts['env']['HOME'] }}/work/"
     state: directory
     mode: "0755"
-    owner: "{{ ansible_facts.env.USER }}"
+    owner: "{{ ansible_facts['env']['USER'] }}"
 
 - name: download dotfiles repository
-  become_user: "{{ ansible_facts.env.USER }}"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
   git:
     repo: "git@github.com:drew138/.dotfiles.git"
-    dest: "{{ ansible_facts.env.HOME }}/.dotfiles"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.dotfiles"
     clone: true
     update: true
   changed_when: false
 
 - name: download repositories
-  become_user: "{{ ansible_facts.env.USER }}"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
   git:
     repo: "git@github.com:drew138/{{ item }}.git"
-    dest: "{{ ansible_facts.env.HOME }}/dev/{{ item }}"
+    dest: "{{ ansible_facts['env']['HOME'] }}/dev/{{ item }}"
     clone: true
     update: true
   with_items: "{{ repository_names }}"

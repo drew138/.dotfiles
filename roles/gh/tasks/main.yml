@@ -1,6 +1,6 @@
 ---
 - name: install dependencies
-  become_user: "{{ ansible_facts.env.USER }}"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
   homebrew:
     name:
       - gh

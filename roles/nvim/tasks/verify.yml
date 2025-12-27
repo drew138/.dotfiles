@@ -26,7 +26,7 @@
 
 - name: verify nvim config symlink exists
   stat:
-    path: "{{ ansible_facts.env.HOME }}/.config/nvim"
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/nvim"
   register: verify_nvim_config
 
 - name: assert nvim config is a symlink
@@ -38,7 +38,7 @@
 
 - name: verify nvim python virtualenv exists
   stat:
-    path: "{{ ansible_facts.env.HOME }}/.nvimvenv/bin/activate"
+    path: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/activate"
   register: verify_nvim_venv
 
 - name: assert nvim python virtualenv exists
@@ -48,7 +48,7 @@
     fail_msg: "~/.nvimvenv was not created"
 
 - name: verify pynvim can be imported
-  command: "{{ ansible_facts.env.HOME }}/.nvimvenv/bin/python -c 'import pynvim'"
+  command: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/python -c 'import pynvim'"
   register: verify_pynvim
   changed_when: false
   failed_when: verify_pynvim.rc != 0

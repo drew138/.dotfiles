@@ -6,7 +6,7 @@
 
 - name: install jankyborders
   become: true
-  become_user: "{{ ansible_facts.env.USER }}"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
   homebrew:
     name:
       - borders
@@ -23,7 +23,7 @@
   file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/borders/files/bordersrc"
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/borders/bordersrc"
-    owner: "{{ ansible_facts['user_id'] }}"
+    owner: "{{ ansible_facts['env']['USER'] }}"
     state: link
     force: true
     follow: false

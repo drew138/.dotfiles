@@ -2,9 +2,9 @@
 - name: verify architecture is supported by the role
   assert:
     that:
-      - ansible_facts.architecture in ['aarch64', 'arm64', 'x86_64', 'amd64']
+      - ansible_facts['architecture'] in ['aarch64', 'arm64', 'x86_64', 'amd64']
     fail_msg: >
-      Unsupported architecture detected: {{ ansible_facts.architecture }}
+      Unsupported architecture detected: {{ ansible_facts['architecture'] }}
 
 - name: verify /usr/local/go directory exists
   stat:

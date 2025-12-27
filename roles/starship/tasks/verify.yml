@@ -3,9 +3,9 @@
   stat:
     path: "{{ item.path }}"
   loop:
-    - path: "{{ ansible_facts.env.HOME }}/.config"
+    - path: "{{ ansible_facts['env']['HOME'] }}/.config"
       mode: "0700"
-    - path: "{{ ansible_facts.env.HOME }}/.config/starship.toml"
+    - path: "{{ ansible_facts['env']['HOME'] }}/.config/starship.toml"
       mode: "0644"
   register: verify_starship_stats
 
@@ -22,5 +22,5 @@
     that:
       - verify_starship_stats.results[1].stat.exists
       - verify_starship_stats.results[1].stat.islnk
-      - verify_starship_stats.results[1].stat.lnk_source == ansible_facts.env.HOME + "/.dotfiles/roles/starship/files/starship.toml"
+      - verify_starship_stats.results[1].stat.lnk_source == ansible_facts['env']['HOME'] + "/.dotfiles/roles/starship/files/starship.toml"
     fail_msg: "Starship symlink is missing or pointing to the wrong source"

@@ -1,10 +1,10 @@
 ---
 - name: clone fzf repo
   become: true
-  become_user: "{{ ansible_facts.env.USER }}"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
   git:
     repo: "https://github.com/junegunn/fzf.git"
-    dest: "{{ ansible_facts.env.HOME }}/.fzf"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.fzf"
     depth: 1
     clone: true
     update: true
@@ -12,7 +12,7 @@
 
 - name: install fzf
   become: true
-  become_user: "{{ ansible_facts.env.USER }}"
-  command: "{{ ansible_facts.env.HOME }}/.fzf/install --no-bash --no-fish --key-bindings --completion --no-update-rc"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
+  command: "{{ ansible_facts['env']['HOME'] }}/.fzf/install --no-bash --no-fish --key-bindings --completion --no-update-rc"
   args:
-    creates: "{{ ansible_facts.env.HOME }}/.fzf.zsh"
+    creates: "{{ ansible_facts['env']['HOME'] }}/.fzf.zsh"

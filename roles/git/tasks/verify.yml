@@ -21,7 +21,7 @@
 
 - name: verify .gitconfig symlink exists
   stat:
-    path: "{{ ansible_facts.env.HOME }}/.gitconfig"
+    path: "{{ ansible_facts['env']['HOME'] }}/.gitconfig"
     follow: false
   register: verify_gitconfig
 
@@ -34,7 +34,7 @@
 
 - name: verify .gitignore_global symlink exists
   stat:
-    path: "{{ ansible_facts.env.HOME }}/.gitignore_global"
+    path: "{{ ansible_facts['env']['HOME'] }}/.gitignore_global"
     follow: false
   register: verify_gitignore_global
 
@@ -47,7 +47,7 @@
 
 - name: verify .work.gitconfig file exists
   stat:
-    path: "{{ ansible_facts.env.HOME }}/.work.gitconfig"
+    path: "{{ ansible_facts['env']['HOME'] }}/.work.gitconfig"
   register: verify_work_gitconfig
 
 - name: assert .work.gitconfig exists with correct permissions
@@ -60,7 +60,7 @@
 
 - name: verify work directory exists
   stat:
-    path: "{{ ansible_facts.env.HOME }}/work"
+    path: "{{ ansible_facts['env']['HOME'] }}/work"
   register: verify_work_dir
 
 - name: assert work directory exists

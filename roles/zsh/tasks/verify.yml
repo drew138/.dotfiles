@@ -11,10 +11,10 @@
   loop:
     - path: "{{ verify_zsh_which.stdout }}"
       type: "bin"
-    - path: "{{ ansible_facts.env.HOME }}/.work.zsh"
+    - path: "{{ ansible_facts['env']['HOME'] }}/.work.zsh"
       type: "file"
       mode: "0700"
-    - path: "{{ ansible_facts.env.HOME }}/.zshrc"
+    - path: "{{ ansible_facts['env']['HOME'] }}/.zshrc"
       type: "link"
   register: verify_zsh_stats
   when: verify_zsh_which.rc == 0
@@ -37,11 +37,11 @@
   assert:
     that:
       - verify_zsh_stats.results[2].stat.islnk
-      - verify_zsh_stats.results[2].stat.lnk_source == ansible_facts.env.HOME + "/.dotfiles/roles/zsh/files/.zshrc"
+      - verify_zsh_stats.results[2].stat.lnk_source == ansible_facts['env']['HOME'] + "/.dotfiles/roles/zsh/files/.zshrc"
     fail_msg: ".zshrc symlink is broken or pointing to the wrong source"
 
 - name: verify default shell for user
-  shell: "dscl . -read /Users/{{ ansible_facts.env.USER }} UserShell | awk '{print $2}'"
+  shell: "dscl . -read /Users/{{ ansible_facts['env']['USER'] }} UserShell | awk '{print $2}'"
   register: verify_current_shell
   changed_when: false
 

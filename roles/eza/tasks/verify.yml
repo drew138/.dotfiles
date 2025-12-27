@@ -23,7 +23,7 @@
   stat:
     path: "{{ item }}"
   loop:
-    - "{{ ansible_facts.env.HOME }}/dev/"
+    - "{{ ansible_facts['env']['HOME'] }}/dev/"
     - "{{ eza_home }}"
   register: verify_dir_stats
 

@@ -8,7 +8,7 @@
   changed_when: false
   failed_when: false
   environment:
-    PATH: "{{ ansible_facts.env.HOME }}/.cargo/bin:{{ ansible_facts.env.PATH }}"
+    PATH: "{{ ansible_facts['env']['HOME'] }}/.cargo/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: check if rust binaries exist
   stat:
@@ -29,7 +29,7 @@
 
 - name: check rust toolchain directory
   stat:
-    path: "{{ ansible_facts.env.HOME }}/.rustup/toolchains/stable-{{ 'aarch64' if ansible_facts['architecture'] == 'arm64' else 'x86_64' }}-apple-darwin"
+    path: "{{ ansible_facts['env']['HOME'] }}/.rustup/toolchains/stable-{{ 'aarch64' if ansible_facts['architecture'] == 'arm64' else 'x86_64' }}-apple-darwin"
   register: verify_rust_toolchain_stat
 
 - name: assert stable toolchain is installed

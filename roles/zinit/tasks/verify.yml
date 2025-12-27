@@ -3,8 +3,8 @@
   stat:
     path: "{{ item }}"
   loop:
-    - "{{ ansible_facts.env.HOME }}/.local"
-    - "{{ ansible_facts.env.HOME }}/.local/share"
+    - "{{ ansible_facts['env']['HOME'] }}/.local"
+    - "{{ ansible_facts['env']['HOME'] }}/.local/share"
     - "{{ zinit_home }}"
   register: verify_zinit_dir_stats
 

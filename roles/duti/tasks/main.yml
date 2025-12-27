@@ -1,7 +1,7 @@
 ---
 - name: install duti
   become: true
-  become_user: "{{ ansible_facts.env.USER }}"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
   homebrew:
     name:
       - duti
@@ -14,5 +14,5 @@
     duti -s com.google.Chrome http all
     duti -s com.google.Chrome https all
   environment:
-    HOME: "{{ ansible_facts.env.HOME }}"
+    HOME: "{{ ansible_facts['env']['HOME'] }}"
   changed_when: false

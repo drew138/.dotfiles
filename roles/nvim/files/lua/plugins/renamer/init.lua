@@ -5,6 +5,10 @@ local M = {
 	},
 	branch = "master",
 	config = true,
+	init = function()
+		local set = vim.keymap.set
+		set("n", "<c-e>", require("renamer").rename, { noremap = true, silent = true })
+	end,
 }
 
 return M

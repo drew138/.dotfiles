@@ -1,7 +1,7 @@
 ---
 - name: verify node runs when nvm is sourced
   shell: |
-    source "{{ ansible_facts.env.HOME }}/.nvm/nvm.sh"
+    source "{{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh"
     node --version
   args:
     executable: /bin/bash

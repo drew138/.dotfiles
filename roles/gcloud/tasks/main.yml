@@ -22,7 +22,7 @@
   changed_when: false
 
 - name: install gnu-tar
-  become_user: "{{ ansible_facts.env.USER }}"
+  become_user: "{{ ansible_facts['env']['USER'] }}"
   homebrew:
     name:
       - gnu-tar
@@ -31,8 +31,8 @@
 - name: unzip the gcloud cli directory
   unarchive:
     src: "{{ gcloud_download_url }}"
-    dest: "{{ ansible_facts.env.HOME }}"
+    dest: "{{ ansible_facts['env']['HOME'] }}"
     remote_src: true
   changed_when: false
   environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_facts.env.PATH }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"

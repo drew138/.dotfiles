@@ -13,7 +13,7 @@
 
 - name: check .wezterm.lua symlink stats
   stat:
-    path: "{{ ansible_facts.env.HOME }}/.wezterm.lua"
+    path: "{{ ansible_facts['env']['HOME'] }}/.wezterm.lua"
   register: verify_wezterm_config_stat
 
 - name: assert wezterm config symlink is valid
@@ -21,7 +21,7 @@
     that:
       - verify_wezterm_config_stat.stat.exists
       - verify_wezterm_config_stat.stat.islnk
-      - verify_wezterm_config_stat.stat.lnk_source == ansible_facts.env.HOME + "/.dotfiles/roles/wezterm/files/.wezterm.lua"
+      - verify_wezterm_config_stat.stat.lnk_source == ansible_facts['env']['HOME'] + "/.dotfiles/roles/wezterm/files/.wezterm.lua"
     fail_msg: "WezTerm config symlink is missing, broken, or pointing to the wrong source"
 
 - name: locate wezterm-gui binary

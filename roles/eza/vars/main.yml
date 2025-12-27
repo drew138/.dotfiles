@@ -1,4 +1,4 @@
 ---
 eza_download_url: "https://github.com/eza-community/eza/releases/latest/download/eza_{{ eza_arch }}-unknown-linux-gnu.tar.gz"
-eza_home: "{{ ansible_facts.env.HOME }}/eza/"
+eza_home: "{{ ansible_facts['env']['HOME'] }}/eza/"
 eza_repo: https://github.com/eza-community/eza.git

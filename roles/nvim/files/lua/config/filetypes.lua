@@ -6,7 +6,7 @@ function M.setup_filetypes()
 			[".yamllint"] = "yaml",
 			sketchybarrc = "bash",
 			bordersrc = "bash",
-			["local.yml"] = "ansible",
+			["local.yml"] = "yaml.ansible",
 		},
 		extension = {
 			gitconfig = "gitconfig",
