@@ -1,12 +1,9 @@
 ---
 - name: "installs homebrew {{ cask.name }} cask"
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   homebrew_cask:
     name: "{{ cask.name }}"
     state: present
 
 - name: remove quarantine from installed app
-  command: xattr -dr com.apple.quarantine "/Applications/{{ cask.app }}.app"
+  command: xattr -d com.apple.quarantine "/Applications/{{ cask.app }}.app"
   changed_when: false
-  become: true
