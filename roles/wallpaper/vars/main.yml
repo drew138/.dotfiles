@@ -1,0 +1,2 @@
+---
+macos_wallpaper_path: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/assets/wallpaper.png"

@@ -24,7 +24,6 @@ local M = {
 		"debugpy",
 		"cpptools",
 		"bash-debug-adapter",
-		"node-debug2-adapter",
 
 		-- linters used by nvim-lint
 		"ansible-lint",

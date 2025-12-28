@@ -1,0 +1,33 @@
+---
+- name: read desktop background defaults
+  command: >
+    defaults read com.apple.desktop Background
+  register: verify_wallpaper_desktop_background_defaults
+  changed_when: false
+  failed_when: verify_wallpaper_desktop_background_defaults.rc != 0
+
+- name: extract ImageFilePath from defaults
+  set_fact:
+    verify_wallpaper_current_path: >-
+      {{
+        verify_wallpaper_desktop_background_defaults.stdout
+        | regex_search('ImageFilePath = "([^"]+)"', '\1')
+      }}
+  changed_when: false
+
+- name: fail if ImageFilePath could not be detected
+  fail:
+    msg: "verify_wallpaper: Could not extract ImageFilePath from com.apple.desktop Background"
+  when:
+    - verify_wallpaper_current_path is not defined
+      or verify_wallpaper_current_path == ""
+
+- name: verify wallpaper path matches expected
+  assert:
+    that:
+      - verify_wallpaper_current_path == macos_wallpaper_path
+    fail_msg: >
+      verify_wallpaper failed.
+      Expected: {{ macos_wallpaper_path }}
+      Got: {{ verify_wallpaper_current_path }}
+    success_msg: "verify_wallpaper succeeded: wallpaper matches defaults"

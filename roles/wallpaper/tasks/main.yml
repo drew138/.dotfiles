@@ -1,0 +1,10 @@
+---
+- name: force desktop wallpaper via defaults
+  command: >
+    defaults write com.apple.desktop Background
+    '{default = {ImageFilePath = "{{ macos_wallpaper_path }}"; ImageScaling = 1;};}'
+  changed_when: true
+
+- name: restart Dock to apply wallpaper
+  command: killall Dock
+  changed_when: true

@@ -100,7 +100,7 @@ jobs:
   notify-errors:
     needs: test-macos
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' && (needs.test-ubuntu.result == 'failure' || needs.test-macos.result == 'failure')
+    if: github.event_name == 'schedule' && needs.test-macos.result == 'failure'
     steps:
       - name: send mail
         uses: dawidd6/action-send-mail@v3
