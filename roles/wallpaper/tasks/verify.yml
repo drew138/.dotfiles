@@ -12,6 +12,7 @@
       {{
         verify_wallpaper_desktop_background_defaults.stdout
         | regex_search('ImageFilePath = "([^"]+)"', '\1')
+        | first
       }}
   changed_when: false
 
