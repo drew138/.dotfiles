@@ -7,8 +7,7 @@
 
 - name: configure screenshot location
   command: >
-    defaults write com.apple.screencapture location
-    "{{{ ansible_facts['env']['HOME'] }}}/Pictures/Screenshots"
+    defaults write com.apple.screencapture location "{{{ ansible_facts['env']['HOME'] }}}/Pictures/Screenshots"
   changed_when: false
 
 - name: disable floating screenshot thumbnail preview
