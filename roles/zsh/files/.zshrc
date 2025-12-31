@@ -53,6 +53,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 export EDITOR='nvim'
 
 # aliases
+## prefix
 alias vim='nvim'
 alias unstage='git restore --staged .'
 alias merge='git mergetool'
@@ -63,12 +64,29 @@ alias push='git push'
 alias gdiff='git diff --name-only --relative --diff-filter=d | xargs bat --diff'
 alias ..='cd ..'
 
-# eza
+### eza
 export FPATH="$HOME/dev/eza/completions/zsh:$FPATH"
 alias l='eza'
 alias ls='eza'
 alias ll='eza -lah'
 alias lt='eza --tree'
+
+## sufix
+alias -s md="bat"
+alias -s mov="open"
+alias -s png="open"
+alias -s mp4="open"
+alias -s go="\$EDITOR"
+alias -s sh="\$EDITOR"
+alias -s zsh="\$EDITOR"
+alias -s py="\$EDITOR"
+alias -s gitignore="\$EDITOR"
+alias -s gitconfig="\$EDITOR"
+alias -s js="\$EDITOR"
+alias -s ts="\$EDITOR"
+alias -s tsx="\$EDITOR"
+alias -s yaml="\$EDITOR"
+alias -s json="\$EDITOR"
 
 # bat
 if command -v bat 1>/dev/null 2>&1; then
@@ -77,7 +95,7 @@ if command -v bat 1>/dev/null 2>&1; then
 fi
 
 # workrc configs
-[ -f "$HOME/.work.zsh" ] && \. $HOME/.work.zsh
+[ -f "$HOME/.work.zsh" ] && \. "$HOME/.work.zsh"
 
 # scripts configs
 export PATH="$HOME/.dotfiles/roles/scripts/files:$PATH"
@@ -118,10 +136,28 @@ export PYTHONDONTWRITEBYTECODE=1
 export PYTHONUNBUFFERED=1
 export PYTEST_ADDOPTS="-p no:cacheprovider"
 
-# open editor to write long commands
+# custom commands
+## open editor to write long commands
 autoload edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
+## magic space
+bindkey ' ' magic-space
+
+git-commit-msg() {
+  LBUFFER+='git commit -m ""'
+  zle backward-char
+}
+zle -N git-commit-msg
+bindkey '^xgc' git-commit-msg
+
+copy-command(){
+    echo -n "$BUFFER" | pbcopy
+    zle -M "Copied to clipboard"
+}
+zle -N copy-command
+bindkey '^xcc' copy-command
+
 
 # zoxide
 if  command -v zoxide 1>/dev/null 2>&1; then

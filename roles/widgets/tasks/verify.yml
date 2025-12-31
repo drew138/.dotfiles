@@ -1,0 +1,10 @@
+---
+- name: assert desktop widgets are hidden
+  assert:
+    that:
+      - verify_hide_widgets.stdout | trim == "1"
+    success_msg: "Desktop widgets are hidden"
+    fail_msg: >
+      Desktop widgets are NOT hidden.
+      Expected: 1
+      Got: {{ verify_hide_widgets.stdout }}

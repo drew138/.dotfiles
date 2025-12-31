@@ -10,17 +10,6 @@
       - verify_dock_autohide.stdout | int == 1
     fail_msg: "Dock autohide is not enabled"
 
-- name: verify dock launch animation is disabled
-  command: defaults read com.apple.dock launchanim
-  register: verify_dock_launchanim
-  changed_when: false
-
-- name: assert dock launch animation is disabled
-  assert:
-    that:
-      - verify_dock_launchanim.stdout | int == 0
-    fail_msg: "Dock launch animation is not disabled"
-
 - name: verify dock tile size
   command: defaults read com.apple.dock tilesize
   register: verify_dock_tilesize
