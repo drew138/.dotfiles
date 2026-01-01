@@ -1,0 +1,65 @@
+---
+- name: show all filename extensions
+  command: >
+    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+  changed_when: false
+
+- name: show hidden files
+  command: >
+    defaults write com.apple.finder AppleShowAllFiles -bool true
+  changed_when: false
+
+- name: disable extension change warning
+  command: >
+    defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+  changed_when: false
+
+- name: show path bar
+  command: >
+    defaults write com.apple.finder ShowPathbar -bool true
+  changed_when: false
+
+- name: show status bar
+  command: >
+    defaults write com.apple.finder ShowStatusBar -bool true
+  changed_when: false
+
+- name: set default Finder view to list view
+  command: >
+    defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+  changed_when: false
+
+- name: open new Finder windows in home directory
+  command: >
+    defaults write com.apple.finder NewWindowTarget -string "PfHm"
+  changed_when: false
+
+- name: set Finder home directory path
+  command: >
+    defaults write com.apple.finder NewWindowTargetPath -string "file://{{ ansible_env.HOME }}/"
+  changed_when: false
+
+- name: keep folders on top in list view
+  command: >
+    defaults write com.apple.finder _FXSortFoldersFirst -bool true
+  changed_when: false
+
+- name: set Finder search scope to current folder
+  command: >
+    defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+  changed_when: false
+
+- name: disable .DS_Store on network drives
+  command: >
+    defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+  changed_when: false
+
+- name: disable .DS_Store on USB drives
+  command: >
+    defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+  changed_when: false
+
+- name: restart Finder
+  command: killall Finder
+  failed_when: false
+  changed_when: false

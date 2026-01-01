@@ -1,0 +1,20 @@
+---
+- name: read login settings
+  command: "{{ item.cmd }}"
+  register: verify_login_settings
+  changed_when: false
+  failed_when: false
+  loop:
+    - name: TALLogoutSavesState
+      cmd: defaults read com.apple.loginwindow TALLogoutSavesState
+      expected: "0"
+
+- name: assert login settings
+  assert:
+    that:
+      - item.stdout | trim == item.item.expected
+    fail_msg: >-
+      Login setting {{ item.item.name }} is incorrect
+      (expected={{ item.item.expected }}, got={{ item.stdout | trim | default('unset') }})
+    success_msg: "Login setting {{ item.item.name }} is correct"
+  loop: "{{ verify_login_settings.results }}"

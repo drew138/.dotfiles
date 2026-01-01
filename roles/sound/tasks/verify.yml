@@ -1,0 +1,24 @@
+---
+- name: read sound settings
+  command: "{{ item.cmd }}"
+  register: verify_sound_settings
+  changed_when: false
+  failed_when: false
+  loop:
+    - name: beep_feedback
+      cmd: defaults read NSGlobalDomain com.apple.sound.beep.feedback
+      expected: "0"
+
+    - name: startup_mute
+      cmd: nvram -p | grep -E '^StartupMute'
+      expected: "StartupMute\t%01"
+
+- name: assert sound settings
+  assert:
+    that:
+      - item.stdout | trim == item.item.expected
+    fail_msg: >-
+      Sound setting {{ item.item.name }} is incorrect
+      (expected={{ item.item.expected }}, got={{ item.stdout | trim | default('unset') }})
+    success_msg: "Sound setting {{ item.item.name }} is correct"
+  loop: "{{ verify_sound_settings.results }}"

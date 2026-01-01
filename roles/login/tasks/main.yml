@@ -1,0 +1,5 @@
+---
+- name: do not save state on logout
+  command: >
+    defaults write com.apple.loginwindow TALLogoutSavesState -bool false
+  changed_when: false

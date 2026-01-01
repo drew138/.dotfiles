@@ -1,0 +1,16 @@
+---
+- name: read tap to click (user domain)
+  command: defaults read NSGlobalDomain com.apple.mouse.tapBehavior
+  register: verify_trackpad_tap_user
+  changed_when: false
+
+- name: read tap to click (trackpad driver)
+  command: defaults read com.apple.AppleMultitouchTrackpad Clicking
+  register: verify_trackpad_tap_driver
+  changed_when: false
+
+- name: assert tap to click enabled
+  assert:
+    that:
+      - verify_trackpad_tap_user.stdout == '1'
+      - verify_trackpad_tap_driver.stdout == '1'

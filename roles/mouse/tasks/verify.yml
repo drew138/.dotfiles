@@ -1,0 +1,13 @@
+---
+- name: read scroll direction setting
+  command: defaults read NSGlobalDomain com.apple.swipescrolldirection
+  register: verify_mouse_scroll_direction
+  changed_when: false
+  failed_when: false
+
+- name: assert natural scrolling is disabled
+  assert:
+    that:
+      - verify_mouse_scroll_direction.stdout | trim == "0"
+    fail_msg: "Natural scrolling is ENABLED"
+    success_msg: "Natural scrolling is disabled"

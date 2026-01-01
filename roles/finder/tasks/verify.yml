@@ -1,0 +1,60 @@
+---
+- name: read Finder settings
+  command: "{{ item.cmd }}"
+  register: verify_finder_settings
+  changed_when: false
+  failed_when: false
+  loop:
+    - name: AppleShowAllExtensions
+      cmd: defaults read NSGlobalDomain AppleShowAllExtensions
+      expected: "1"
+
+    - name: AppleShowAllFiles
+      cmd: defaults read com.apple.finder AppleShowAllFiles
+      expected: "1"
+
+    - name: FXEnableExtensionChangeWarning
+      cmd: defaults read com.apple.finder FXEnableExtensionChangeWarning
+      expected: "0"
+
+    - name: ShowPathbar
+      cmd: defaults read com.apple.finder ShowPathbar
+      expected: "1"
+
+    - name: ShowStatusBar
+      cmd: defaults read com.apple.finder ShowStatusBar
+      expected: "1"
+
+    - name: FXPreferredViewStyle
+      cmd: defaults read com.apple.finder FXPreferredViewStyle
+      expected: "Nlsv"
+
+    - name: NewWindowTarget
+      cmd: defaults read com.apple.finder NewWindowTarget
+      expected: "PfHm"
+
+    - name: FXDefaultSearchScope
+      cmd: defaults read com.apple.finder FXDefaultSearchScope
+      expected: "SCcf"
+
+    - name: _FXSortFoldersFirst
+      cmd: defaults read com.apple.finder _FXSortFoldersFirst
+      expected: "1"
+
+    - name: DSDontWriteNetworkStores
+      cmd: defaults read com.apple.desktopservices DSDontWriteNetworkStores
+      expected: "1"
+
+    - name: DSDontWriteUSBStores
+      cmd: defaults read com.apple.desktopservices DSDontWriteUSBStores
+      expected: "1"
+
+- name: assert Finder settings
+  assert:
+    that:
+      - item.stdout | trim == item.item.expected
+    fail_msg: >-
+      Finder setting {{ item.item.name }} is incorrect
+      (expected={{ item.item.expected }}, got={{ item.stdout | trim | default('unset') }})
+    success_msg: "Finder setting {{ item.item.name }} is correct"
+  loop: "{{ verify_finder_settings.results }}"
