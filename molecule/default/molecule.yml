@@ -5,17 +5,25 @@ platforms:
   - name: instance
 provisioner:
   name: ansible
-  ansible_args:
-    - --connection=local
-  env:
-    ANSIBLE_ROLES_PATH: "../../roles"
+  ansible:
+    options:
+      # previously ansible_args
+      connection: local
+    env:
+      # previously env
+      ANSIBLE_ROLES_PATH: "../../roles"
+  # ansible_args:
+  #   - --connection=local
+  # env:
+  #   ANSIBLE_ROLES_PATH: "../../roles"
 dependency:
   name: galaxy
 verifier:
   name: ansible
-# test_sequence:
-#   - dependency
-#   - syntax
-#   - converge
-#   - idempotence
-#   - verify
+scenario:
+  test_sequence:
+    - dependency
+    - syntax
+    - converge
+    - idempotence
+    - verify
