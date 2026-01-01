@@ -29,7 +29,7 @@
 - name: Clone nvim repository
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  git:
+  ansible.builtin.git:
     repo: "https://github.com/neovim/neovim.git"
     dest: "{{ ansible_facts['env']['HOME'] }}/dev/neovim"
     version: "{{ nvim_release_branch }}"

@@ -14,7 +14,7 @@
 - name: Clone zinit repository
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  git:
+  ansible.builtin.git:
     repo: "{{ zinit_repo }}"
     dest: "{{ zinit_home }}"
     clone: true

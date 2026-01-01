@@ -24,7 +24,7 @@
 
 - name: Download dotfiles repository
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  git:
+  ansible.builtin.git:
     repo: "git@github.com:drew138/.dotfiles.git"
     dest: "{{ ansible_facts['env']['HOME'] }}/.dotfiles"
     clone: true
@@ -33,7 +33,7 @@
 
 - name: Download repositories
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  git:
+  ansible.builtin.git:
     repo: "git@github.com:drew138/{{ item }}.git"
     dest: "{{ ansible_facts['env']['HOME'] }}/dev/{{ item }}"
     clone: true

@@ -2,7 +2,7 @@
 - name: Clone fzf repo
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  git:
+  ansible.builtin.git:
     repo: "https://github.com/junegunn/fzf.git"
     dest: "{{ ansible_facts['env']['HOME'] }}/.fzf"
     depth: 1
