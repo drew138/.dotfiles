@@ -13,7 +13,7 @@
       }}
 
 - name: Fetch latest release data
-  uri:
+  ansible.builtin.uri:
     url: "https://api.github.com/repos/Homebrew/brew/releases/latest"
     method: GET
     return_content: true

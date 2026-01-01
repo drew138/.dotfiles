@@ -29,7 +29,7 @@
     state: latest
 
 - name: Unzip the gcloud cli directory
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ gcloud_download_url }}"
     dest: "{{ ansible_facts['env']['HOME'] }}"
     remote_src: true

@@ -27,7 +27,7 @@
   changed_when: false
 
 - name: Add gitHub rsa key to known_hosts file
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
     line: "{{ rsa_key_line }}"
     create: true
