@@ -12,7 +12,7 @@
   changed_when: false
 
 - name: Fail if wallpaper path could not be detected
-  fail:
+  ansible.builtin.fail:
     msg: "verify_wallpaper: Could not detect current wallpaper via System Events"
   when:
     - verify_wallpaper_current_path is not defined
