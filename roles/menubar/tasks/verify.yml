@@ -1,11 +1,11 @@
 ---
-- name: check menu bar auto-hide status
+- name: Check menu bar auto-hide status
   ansible.builtin.command: >
     osascript -e 'tell application "System Events" to get autohide menu bar of dock preferences'
   register: menu_bar_status
   changed_when: false
 
-- name: assert menu bar auto-hide is enabled
+- name: Assert menu bar auto-hide is enabled
   ansible.builtin.assert:
     that:
       - menu_bar_status.stdout == "true"

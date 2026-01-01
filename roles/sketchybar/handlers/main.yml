@@ -1,5 +1,5 @@
 ---
-- name: start sketchybar service
+- name: Start sketchybar service
   community.general.homebrew_services:
     name: sketchybar
     state: restarted

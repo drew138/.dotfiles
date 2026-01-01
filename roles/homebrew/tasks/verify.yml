@@ -1,18 +1,18 @@
 ---
-- name: check if brew is in path
+- name: Check if brew is in path
   ansible.builtin.command: which brew
   register: verify_brew_which
   changed_when: false
   failed_when: false
 
-- name: stat brew binary
+- name: Stat brew binary
   ansible.builtin.stat:
     path: "{{ verify_brew_which.stdout }}"
   register: verify_brew_bin
   when: verify_brew_which.rc == 0
   changed_when: false
 
-- name: assert brew binary exists and is executable
+- name: Assert brew binary exists and is executable
   ansible.builtin.assert:
     that:
       - verify_brew_bin is defined
@@ -20,12 +20,12 @@
       - verify_brew_bin.stat.executable
     fail_msg: "homebrew is not installed or brew is not executable"
 
-- name: get homebrew version
+- name: Get homebrew version
   ansible.builtin.command: brew --version
   register: verify_brew_version
   changed_when: false
 
-- name: assert homebrew responds correctly
+- name: Assert homebrew responds correctly
   ansible.builtin.assert:
     that:
       - verify_brew_version.stdout is search("Homebrew")

@@ -1,5 +1,5 @@
 ---
-- name: determine system architecture
+- name: Determine system architecture
   set_fact:
     gcloud_cli_arch: >-
       {{
@@ -11,24 +11,24 @@
         }.get(ansible_facts['architecture'], 'invalid')
       }}
 
-- name: fail if architecture is not supported
+- name: Fail if architecture is not supported
   fail:
     msg: "Unsupported architecture: {{ ansible_facts['architecture'] }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
   when: gcloud_cli_arch == 'invalid'
 
-- name: set gcloud_os
+- name: Set gcloud_os
   set_fact:
     gcloud_os: "darwin"
   changed_when: false
 
-- name: install gnu-tar
+- name: Install gnu-tar
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - gnu-tar
     state: latest
 
-- name: unzip the gcloud cli directory
+- name: Unzip the gcloud cli directory
   unarchive:
     src: "{{ gcloud_download_url }}"
     dest: "{{ ansible_facts['env']['HOME'] }}"

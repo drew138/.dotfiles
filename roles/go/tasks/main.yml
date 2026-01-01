@@ -1,5 +1,5 @@
 ---
-- name: determine system architecture
+- name: Determine system architecture
   set_fact:
     go_arch: >-
       {{
@@ -11,57 +11,57 @@
         }.get(ansible_facts['architecture'], 'invalid')
       }}
 
-- name: fail if architecture is not supported
+- name: Fail if architecture is not supported
   fail:
     msg: "Unsupported architecture: {{ ansible_facts['architecture'] }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
   when: go_arch == 'invalid'
 
-- name: set go_os
+- name: Set go_os
   set_fact:
     go_os: "darwin"
   changed_when: false
 
-- name: get filename prefix with latest version
+- name: Get filename prefix with latest version
   uri:
     url: "{{ go_latest_version_url }}"
     return_content: true
   register: go_latest_version_response
   when: go_version == "latest"
 
-- name: parse go_filename_prefix
+- name: Parse go_filename_prefix
   set_fact:
     go_filename_prefix: "{{ go_latest_version_response.content.split('\n')[0] }}"
   when: go_version == "latest"
 
-- name: get filename prefix with fixed version
+- name: Get filename prefix with fixed version
   set_fact:
     go_filename_prefix: go{{ ansible_go_version }}
   when: go_version != "latest"
 
-- name: try to get current go version installed
+- name: Try to get current go version installed
   ansible.builtin.command: go version
   register: result
   failed_when: false
   changed_when: false
 
-- name: set go_current_version var
+- name: Set go_current_version var
   set_fact:
     go_current_version: "{{ result.stdout.split(' ')[2] }}"
   when: result.rc == 0
 
-- name: set go_current_version var to none
+- name: Set go_current_version var to none
   set_fact:
     go_current_version: "none"
   when: result.rc != 0
 
-- name: install gnu-tar
+- name: Install gnu-tar
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - gnu-tar
     state: latest
 
-- name: download and extract go tar file
+- name: Download and extract go tar file
   become: true
   unarchive:
     src: "{{ go_download_url }}"

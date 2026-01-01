@@ -1,5 +1,5 @@
 ---
-- name: install go binaries
+- name: Install go binaries
   become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.shell: "/usr/local/go/bin/go install {{ go_package }}"
   loop:

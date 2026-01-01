@@ -1,19 +1,19 @@
 ---
-- name: install various clis
+- name: Install various clis
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name: "{{ clitools_brew_packages }}"
     state: latest
 
-- name: ensure virtual environment is created
+- name: Ensure virtual environment is created
   ansible.builtin.command: python3 -m venv "{{ ansible_facts['env']['HOME'] }}/.clitools"
   args:
     creates: "{{ ansible_facts['env']['HOME'] }}/.clitools/bin/activate"
   environment:
     PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
 
-- name: install python tooling in virtual environment
+- name: Install python tooling in virtual environment
   ansible.builtin.pip:
     name: "{{ clitools_python_packages }}"
     state: latest

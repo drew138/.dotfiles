@@ -1,5 +1,5 @@
 ---
-- name: start borders service
+- name: Start borders service
   community.general.homebrew_services:
     name: borders
     state: restarted

@@ -1,5 +1,5 @@
 ---
-- name: check starship config and directory stats
+- name: Check starship config and directory stats
   ansible.builtin.stat:
     path: "{{ item.path }}"
   loop:
@@ -9,7 +9,7 @@
       mode: "0644"
   register: verify_starship_stats
 
-- name: assert .config directory exists with correct mode
+- name: Assert .config directory exists with correct mode
   ansible.builtin.assert:
     that:
       - verify_starship_stats.results[0].stat.exists
@@ -17,7 +17,7 @@
       - verify_starship_stats.results[0].stat.mode == "0700"
     fail_msg: "~/.config directory check failed"
 
-- name: assert starship.toml symlink is valid
+- name: Assert starship.toml symlink is valid
   ansible.builtin.assert:
     that:
       - verify_starship_stats.results[1].stat.exists

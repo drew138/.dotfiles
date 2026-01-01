@@ -1,41 +1,41 @@
 ---
-- name: verify architecture is supported by the role
+- name: Verify architecture is supported by the role
   ansible.builtin.assert:
     that:
       - ansible_facts['architecture'] in ['aarch64', 'arm64', 'x86_64', 'amd64']
     fail_msg: >
       Unsupported architecture detected: {{ ansible_facts['architecture'] }}
 
-- name: verify /usr/local/go directory exists
+- name: Verify /usr/local/go directory exists
   ansible.builtin.stat:
     path: /usr/local/go
   register: verify_go_dir
 
-- name: assert Go directory exists
+- name: Assert Go directory exists
   ansible.builtin.assert:
     that:
       - verify_go_dir.stat.exists
       - verify_go_dir.stat.isdir
     fail_msg: "/usr/local/go directory is missing"
 
-- name: verify go binary exists
+- name: Verify go binary exists
   ansible.builtin.stat:
     path: /usr/local/go/bin/go
   register: verify_go_bin
 
-- name: assert go binary exists and is executable
+- name: Assert go binary exists and is executable
   ansible.builtin.assert:
     that:
       - verify_go_bin.stat.exists
       - verify_go_bin.stat.executable
     fail_msg: "Go binary is missing or not executable"
 
-- name: get installed go version
+- name: Get installed go version
   ansible.builtin.command: /usr/local/go/bin/go version
   register: verify_go_version
   changed_when: false
 
-- name: verify go version output format
+- name: Verify go version output format
   ansible.builtin.assert:
     that:
       - verify_go_version.rc == 0
@@ -44,12 +44,12 @@
       Unexpected go version output:
       {{ verify_go_version.stdout }}
 
-- name: verify go installation path is correct
+- name: Verify go installation path is correct
   ansible.builtin.command: /usr/local/go/bin/go env GOROOT
   register: verify_goroot
   changed_when: false
 
-- name: assert GOROOT is /usr/local/go
+- name: Assert GOROOT is /usr/local/go
   ansible.builtin.assert:
     that:
       - verify_goroot.stdout == "/usr/local/go"
@@ -57,12 +57,12 @@
       GOROOT mismatch: expected /usr/local/go,
       got {{ verify_goroot.stdout }}
 
-- name: verify go runs without error
+- name: Verify go runs without error
   ansible.builtin.command: /usr/local/go/bin/go env
   register: verify_go_env
   changed_when: false
 
-- name: assert go env executes successfully
+- name: Assert go env executes successfully
   ansible.builtin.assert:
     that:
       - verify_go_env.rc == 0

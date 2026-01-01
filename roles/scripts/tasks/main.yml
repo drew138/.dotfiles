@@ -1,5 +1,5 @@
 ---
-- name: create symlinks
+- name: Create symlinks
   become: true
   ansible.builtin.file:
     src: "{{ script.src }}"

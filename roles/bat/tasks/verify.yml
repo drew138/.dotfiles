@@ -1,17 +1,17 @@
 ---
-- name: locate bat binary
+- name: Locate bat binary
   ansible.builtin.command: which bat
   register: verify_bat_which
   changed_when: false
   failed_when: false
 
-- name: check if bat binary exists
+- name: Check if bat binary exists
   ansible.builtin.stat:
     path: "{{ verify_bat_which.stdout }}"
   register: verify_bat_bin
   when: verify_bat_which.rc == 0
 
-- name: assert bat binary is present and executable
+- name: Assert bat binary is present and executable
   ansible.builtin.assert:
     that:
       - verify_bat_bin.stat is defined

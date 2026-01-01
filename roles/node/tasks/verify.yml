@@ -1,5 +1,5 @@
 ---
-- name: verify node runs when nvm is sourced
+- name: Verify node runs when nvm is sourced
   ansible.builtin.shell: |
     source "{{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh"
     node --version
@@ -9,7 +9,7 @@
   changed_when: false
   failed_when: false
 
-- name: assert node is available via nvm
+- name: Assert node is available via nvm
   ansible.builtin.assert:
     that:
       - verify_node_version.rc == 0

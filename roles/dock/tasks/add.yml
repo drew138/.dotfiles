@@ -7,12 +7,12 @@
     or "command not found" in dockitem_exists.stdout
   changed_when: false
 
-- name: get current dock section from output
+- name: Get current dock section from output
   set_fact:
     current_section: "{{ dockitem_exists.stdout | regex_replace('^.*was found in (.*) at slot.*$', '\\1') }}"
   when: dockitem_exists.rc == 0
 
-- name: ensure dock item {{ dock_item_add.name | default(dock_item_add) }} exists
+- name: Ensure dock item {{ dock_item_add.name | default(dock_item_add) }} exists
   ansible.builtin.command: |
     dockutil --add '{{ dock_item_add.path }}' --label '{{ dock_item_add.name }}'
     {% if not ansible_loop.last %}--no-restart{% endif %}
@@ -20,7 +20,7 @@
     dockitem_exists.rc == 0 and current_section == 'recent-apps'
   changed_when: false
 
-- name: pause for 7 seconds between dock changes
+- name: Pause for 7 seconds between dock changes
   pause:
     seconds: 7
   when:

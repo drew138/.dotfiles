@@ -1,28 +1,28 @@
 ---
-- name: verify hashicorp tap is present
+- name: Verify hashicorp tap is present
   ansible.builtin.command: brew tap
   register: verify_brew_taps
   changed_when: false
 
-- name: assert hashicorp tap is registered
+- name: Assert hashicorp tap is registered
   ansible.builtin.assert:
     that:
       - "'hashicorp/tap' in verify_brew_taps.stdout"
     fail_msg: "The hashicorp/tap Homebrew tap is not available."
 
-- name: locate terraform binary
+- name: Locate terraform binary
   ansible.builtin.command: which terraform
   register: verify_terraform_which
   changed_when: false
   failed_when: false
 
-- name: check if terraform binary exists
+- name: Check if terraform binary exists
   ansible.builtin.stat:
     path: "{{ verify_terraform_which.stdout }}"
   register: verify_terraform_bin
   when: verify_terraform_which.rc == 0
 
-- name: assert terraform binary is present and executable
+- name: Assert terraform binary is present and executable
   ansible.builtin.assert:
     that:
       - verify_terraform_bin.stat is defined

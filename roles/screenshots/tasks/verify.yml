@@ -1,10 +1,10 @@
 ---
-- name: verify screenshot location
+- name: Verify screenshot location
   ansible.builtin.command: defaults read com.apple.screencapture location
   register: verify_screenshot_location
   changed_when: false
 
-- name: assert screenshot location
+- name: Assert screenshot location
   ansible.builtin.assert:
     that:
       - verify_screenshot_location.stdout | trim

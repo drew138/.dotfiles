@@ -1,12 +1,12 @@
 ---
-- name: install eza
+- name: Install eza
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - eza
     state: latest
 
-- name: create dev directory
+- name: Create dev directory
   become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/dev/"
@@ -14,7 +14,7 @@
     mode: "0755"
     owner: "{{ ansible_facts['env']['USER'] }}"
 
-- name: clone eza repository
+- name: Clone eza repository
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   changed_when: false

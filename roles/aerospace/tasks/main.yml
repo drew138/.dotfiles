@@ -1,17 +1,17 @@
 ---
-- name: install aerospace
+- name: Install aerospace
   community.general.homebrew_cask:
     name: nikitabobko/tap/aerospace
     state: present
 
-- name: create ~/.config/aerospace directory
+- name: Create ~/.config/aerospace directory
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/aerospace"
     state: directory
     mode: "0700"
     owner: "{{ ansible_facts['env']['USER'] }}"
 
-- name: create aerospace symlink
+- name: Create aerospace symlink
   ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/aerospace/files/aerospace.toml"
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/aerospace/aerospace.toml"

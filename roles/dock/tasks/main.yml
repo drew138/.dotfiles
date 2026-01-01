@@ -1,5 +1,5 @@
 ---
-- name: change dock preferences
+- name: Change dock preferences
   become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.shell: |
     defaults write com.apple.dock autohide -bool true
@@ -10,14 +10,14 @@
     executable: /bin/bash
   changed_when: false
 
-- name: install dockutil
+- name: Install dockutil
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - dockutil
     state: latest
 
-- name: clean up dock
+- name: Clean up dock
   include_tasks: remove.yml
   # loop: "{{ dockitems_remove }}"
   # loop_control:
@@ -25,7 +25,7 @@
   #   extended: true
   #   extended_allitems: false
 
-- name: ensure required dock items exist
+- name: Ensure required dock items exist
   include_tasks: add.yml
   loop: "{{ dockitems_persist }}"
   loop_control:
@@ -33,7 +33,7 @@
     extended: true
     extended_allitems: false
 
-- name: ensure dock items are in correct position
+- name: Ensure dock items are in correct position
   include_tasks: position.yml
   loop: "{{ dockitems_persist }}"
   loop_control:
@@ -44,6 +44,6 @@
     - dock_item_position.pos is defined
     - dock_item_position.pos > 0
 
-- name: force dock restart and flush cache
+- name: Force dock restart and flush cache
   ansible.builtin.command: killall Dock
   changed_when: false

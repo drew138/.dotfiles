@@ -37,7 +37,7 @@
   loop: "{{ current_dock_items.stdout_lines }}"
   changed_when: false
 
-- name: pause after removing all dock items
+- name: Pause after removing all dock items
   pause:
     seconds: 3
   when: current_dock_items.stdout_lines | length > 0

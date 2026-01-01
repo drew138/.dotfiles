@@ -1,11 +1,11 @@
 ---
-- name: locate zsh binary
+- name: Locate zsh binary
   ansible.builtin.command: which zsh
   register: verify_zsh_which
   changed_when: false
   failed_when: false
 
-- name: check zsh files and symlink stats
+- name: Check zsh files and symlink stats
   ansible.builtin.stat:
     path: "{{ item.path }}"
   loop:
@@ -19,33 +19,33 @@
   register: verify_zsh_stats
   when: verify_zsh_which.rc == 0
 
-- name: assert zsh binary is present
+- name: Assert zsh binary is present
   ansible.builtin.assert:
     that:
       - verify_zsh_stats.results[0].stat.exists
       - verify_zsh_stats.results[0].stat.executable
     fail_msg: "Zsh binary was not found or is not executable"
 
-- name: assert .work.zsh exists with correct mode
+- name: Assert .work.zsh exists with correct mode
   ansible.builtin.assert:
     that:
       - verify_zsh_stats.results[1].stat.exists
       - verify_zsh_stats.results[1].stat.mode == "0700"
     fail_msg: ".work.zsh is missing or has incorrect permissions"
 
-- name: assert .zshrc symlink is valid
+- name: Assert .zshrc symlink is valid
   ansible.builtin.assert:
     that:
       - verify_zsh_stats.results[2].stat.islnk
       - verify_zsh_stats.results[2].stat.lnk_source == ansible_facts['env']['HOME'] + "/.dotfiles/roles/zsh/files/.zshrc"
     fail_msg: ".zshrc symlink is broken or pointing to the wrong source"
 
-- name: verify default shell for user
+- name: Verify default shell for user
   ansible.builtin.shell: "dscl . -read /Users/{{ ansible_facts['env']['USER'] }} UserShell | awk '{print $2}'"
   register: verify_current_shell
   changed_when: false
 
-- name: assert zsh is the default shell
+- name: Assert zsh is the default shell
   ansible.builtin.assert:
     that:
       - verify_current_shell.stdout == verify_zsh_which.stdout

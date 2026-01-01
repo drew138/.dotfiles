@@ -1,11 +1,11 @@
 ---
-- name: verify Homebrew casks installation
+- name: Verify Homebrew casks installation
   ansible.builtin.stat:
     path: "/Applications/{{ item.app }}.app"
   loop: "{{ casks }}"
   register: verify_cask_stats
 
-- name: assert casks are present in /Applications
+- name: Assert casks are present in /Applications
   ansible.builtin.assert:
     that:
       - item.stat.exists
@@ -19,7 +19,7 @@
   register: quarantine_verify
   changed_when: false
 
-- name: assert casks are allowed by Gatekeeper
+- name: Assert casks are allowed by Gatekeeper
   ansible.builtin.assert:
     that:
       - item.rc == 0

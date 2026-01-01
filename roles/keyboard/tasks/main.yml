@@ -1,5 +1,5 @@
 ---
-- name: change keyboard repeat rates
+- name: Change keyboard repeat rates
   ansible.builtin.shell: "{{ keyboard_setup_command }}"
   args:
     executable: /bin/bash

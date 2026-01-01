@@ -1,5 +1,5 @@
 ---
-- name: set request headers
+- name: Set request headers
   set_fact:
     request_headers: >-
       {{
@@ -12,7 +12,7 @@
         )
       }}
 
-- name: fetch latest release data
+- name: Fetch latest release data
   uri:
     url: "https://api.github.com/repos/Homebrew/brew/releases/latest"
     method: GET
@@ -20,18 +20,18 @@
     headers: "{{ request_headers }}"
   register: release_data
 
-- name: extract url for Homebrew.pkg
+- name: Extract url for Homebrew.pkg
   set_fact:
     pkg_url: "{{ release_data.json['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='browser_download_url') | first }}"
 
-- name: download Homebrew.pkg
+- name: Download Homebrew.pkg
   ansible.builtin.get_url:
     url: "{{ pkg_url }}"
     dest: /tmp/Homebrew.pkg
     mode: "0644"
   changed_when: false
 
-- name: install Homebrew.pkg
+- name: Install Homebrew.pkg
   become: true
   ansible.builtin.command:
     cmd: "installer -pkg /tmp/Homebrew.pkg -target /"

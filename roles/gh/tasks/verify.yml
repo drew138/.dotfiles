@@ -1,17 +1,17 @@
 ---
-- name: locate gh binary
+- name: Locate gh binary
   ansible.builtin.command: which gh
   register: verify_gh_which
   changed_when: false
   failed_when: false
 
-- name: check if gh binary exists
+- name: Check if gh binary exists
   ansible.builtin.stat:
     path: "{{ verify_gh_which.stdout }}"
   register: verify_gh_bin
   when: verify_gh_which.rc == 0
 
-- name: assert gh binary is present and executable
+- name: Assert gh binary is present and executable
   ansible.builtin.assert:
     that:
       - verify_gh_bin.stat is defined
@@ -19,12 +19,12 @@
       - verify_gh_bin.stat.executable
     fail_msg: gh binary was not found in the PATH or is not executable
 
-- name: verify gh runs successfully
+- name: Verify gh runs successfully
   ansible.builtin.command: gh --version
   register: verify_gh_version
   changed_when: false
 
-- name: assert gh version command succeeds
+- name: Assert gh version command succeeds
   ansible.builtin.assert:
     that:
       - verify_gh_version.rc == 0

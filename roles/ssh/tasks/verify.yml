@@ -1,5 +1,5 @@
 ---
-- name: check ssh directory and key stats
+- name: Check ssh directory and key stats
   ansible.builtin.stat:
     path: "{{ item.path }}"
   loop:
@@ -13,7 +13,7 @@
       mode: "0644"
   register: verify_ssh_file_stats
 
-- name: assert ssh files exist and have correct permissions
+- name: Assert ssh files exist and have correct permissions
   ansible.builtin.assert:
     that:
       - item.stat.exists
@@ -23,13 +23,13 @@
       Ensure it exists and mode is {{ item.item.mode }}.
   loop: "{{ verify_ssh_file_stats.results }}"
 
-- name: verify github is in known_hosts
+- name: Verify github is in known_hosts
   ansible.builtin.command: "ssh-keygen -F github.com -f {{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
   register: verify_github_known_hosts_check
   changed_when: false
   failed_when: false
 
-- name: assert github.com is recognized
+- name: Assert github.com is recognized
   ansible.builtin.assert:
     that:
       - verify_github_known_hosts_check.rc == 0

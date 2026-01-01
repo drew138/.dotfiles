@@ -1,10 +1,10 @@
 ---
-- name: ensure hashicorp Homebrew tap is available
+- name: Ensure hashicorp Homebrew tap is available
   community.general.homebrew_tap:
     name: hashicorp/tap
     state: present
 
-- name: install terraform
+- name: Install terraform
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:

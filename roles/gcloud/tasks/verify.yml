@@ -1,41 +1,41 @@
 ---
-- name: verify architecture is supported
+- name: Verify architecture is supported
   ansible.builtin.assert:
     that:
       - ansible_facts['architecture'] in ['aarch64', 'arm64', 'x86_64', 'amd64']
     fail_msg: >
       Unsupported architecture detected: {{ ansible_facts['architecture'] }}
 
-- name: verify google-cloud-sdk directory exists
+- name: Verify google-cloud-sdk directory exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/google-cloud-sdk"
   register: verify_gcloud_dir
 
-- name: assert google-cloud-sdk directory exists
+- name: Assert google-cloud-sdk directory exists
   ansible.builtin.assert:
     that:
       - verify_gcloud_dir.stat.exists
       - verify_gcloud_dir.stat.isdir
     fail_msg: "~/google-cloud-sdk directory does not exist"
 
-- name: verify gcloud binary exists at expected path
+- name: Verify gcloud binary exists at expected path
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/google-cloud-sdk/bin/gcloud"
   register: verify_gcloud_bin
 
-- name: assert gcloud binary is present and executable
+- name: Assert gcloud binary is present and executable
   ansible.builtin.assert:
     that:
       - verify_gcloud_bin.stat.exists
       - verify_gcloud_bin.stat.executable
     fail_msg: "gcloud binary is missing or not executable"
 
-- name: verify gcloud PATH hook exists (zsh)
+- name: Verify gcloud PATH hook exists (zsh)
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/google-cloud-sdk/path.zsh.inc"
   register: verify_gcloud_path_hook
 
-- name: assert gcloud PATH hook exists
+- name: Assert gcloud PATH hook exists
   ansible.builtin.assert:
     that:
       - verify_gcloud_path_hook.stat.exists

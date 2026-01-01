@@ -1,17 +1,17 @@
 ---
-- name: read InitialKeyRepeat value
+- name: Read InitialKeyRepeat value
   ansible.builtin.command: defaults read -g InitialKeyRepeat
   register: verify_initial_key_repeat
   changed_when: false
   failed_when: false
 
-- name: read KeyRepeat value
+- name: Read KeyRepeat value
   ansible.builtin.command: defaults read -g KeyRepeat
   register: verify_key_repeat
   changed_when: false
   failed_when: false
 
-- name: assert InitialKeyRepeat is set correctly
+- name: Assert InitialKeyRepeat is set correctly
   ansible.builtin.assert:
     that:
       - verify_initial_key_repeat.rc == 0
@@ -20,7 +20,7 @@
       InitialKeyRepeat is not set correctly.
       Expected 15, got {{ verify_initial_key_repeat.stdout }}
 
-- name: assert KeyRepeat is set correctly
+- name: Assert KeyRepeat is set correctly
   ansible.builtin.assert:
     that:
       - verify_key_repeat.rc == 0

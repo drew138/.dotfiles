@@ -1,5 +1,5 @@
 ---
-- name: check directory stats
+- name: Check directory stats
   ansible.builtin.stat:
     path: "{{ item }}"
   loop:
@@ -7,7 +7,7 @@
     - /usr/local/include/bits
   register: verify_cpp_dir_stats
 
-- name: assert include directories exist
+- name: Assert include directories exist
   ansible.builtin.assert:
     that:
       - item.stat.exists
@@ -15,12 +15,12 @@
     fail_msg: "Directory missing: {{ item.item }}"
   loop: "{{ verify_cpp_dir_stats.results }}"
 
-- name: check stdc++.h file stats
+- name: Check stdc++.h file stats
   ansible.builtin.stat:
     path: /usr/local/include/bits/stdc++.h
   register: verify_stdc_header_stat
 
-- name: assert stdc++.h is present
+- name: Assert stdc++.h is present
   ansible.builtin.assert:
     that:
       - verify_stdc_header_stat.stat.exists

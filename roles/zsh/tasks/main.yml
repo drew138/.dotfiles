@@ -1,5 +1,5 @@
 ---
-- name: install zsh
+- name: Install zsh
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
@@ -7,7 +7,7 @@
       - zsh
     state: latest
 
-- name: create .work.zsh file
+- name: Create .work.zsh file
   copy:
     content: "#!/bin/bash"
     dest: "{{ ansible_facts['env']['HOME'] }}/.work.zsh"
@@ -15,16 +15,16 @@
     mode: "0700"
     owner: "{{ ansible_facts['env']['USER'] }}"
 
-- name: set user to change shell
+- name: Set user to change shell
   set_fact:
     zsh_user: "{{ ansible_facts['env']['USER'] }}"
 
-- name: change default shell
+- name: Change default shell
   become: true
   ansible.builtin.shell: "chsh -s $(which zsh) {{ zsh_user }}"
   changed_when: false
 
-- name: create .zshrc symlink
+- name: Create .zshrc symlink
   ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/zsh/files/.zshrc"
     dest: "{{ ansible_facts['env']['HOME'] }}/.zshrc"

@@ -1,17 +1,17 @@
 ---
-- name: locate git binary
+- name: Locate git binary
   ansible.builtin.command: which git
   register: verify_git_which
   changed_when: false
   failed_when: false
 
-- name: check if git binary exists
+- name: Check if git binary exists
   ansible.builtin.stat:
     path: "{{ verify_git_which.stdout }}"
   register: verify_git_bin
   when: verify_git_which.rc == 0
 
-- name: assert git binary is present and executable
+- name: Assert git binary is present and executable
   ansible.builtin.assert:
     that:
       - verify_git_bin.stat is defined
@@ -19,7 +19,7 @@
       - verify_git_bin.stat.executable
     fail_msg: "git binary was not found in the PATH or is not executable"
 
-- name: check base directories and dotfiles
+- name: Check base directories and dotfiles
   ansible.builtin.stat:
     path: "{{ item }}"
   loop:
@@ -28,7 +28,7 @@
     - "{{ ansible_facts['env']['HOME'] }}/.dotfiles"
   register: verify_base_dir_stats
 
-- name: assert base directories exist
+- name: Assert base directories exist
   ansible.builtin.assert:
     that:
       - item.stat.exists
@@ -36,13 +36,13 @@
     fail_msg: "Required directory missing: {{ item.item }}"
   loop: "{{ verify_base_dir_stats.results }}"
 
-- name: verify repository directories
+- name: Verify repository directories
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/dev/{{ item }}"
   loop: "{{ repository_names }}"
   register: verify_repo_dir_stats
 
-- name: assert repositories were cloned
+- name: Assert repositories were cloned
   ansible.builtin.assert:
     that:
       - item.stat.exists
@@ -50,7 +50,7 @@
     fail_msg: "Repository directory missing: {{ item.item }}"
   loop: "{{ verify_repo_dir_stats.results }}"
 
-- name: verify git repository integrity
+- name: Verify git repository integrity
   ansible.builtin.command: "git -C {{ item }} rev-parse --is-inside-work-tree"
   loop:
     - "{{ ansible_facts['env']['HOME'] }}/.dotfiles"
@@ -58,7 +58,7 @@
   changed_when: false
   failed_when: false
 
-- name: assert dotfiles is a valid git repo
+- name: Assert dotfiles is a valid git repo
   ansible.builtin.assert:
     that:
       - item.rc == 0

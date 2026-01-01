@@ -1,5 +1,5 @@
 ---
-- name: locate dependency binaries
+- name: Locate dependency binaries
   ansible.builtin.command: "which {{ item }}"
   loop:
     - pyenv
@@ -8,14 +8,14 @@
   changed_when: false
   failed_when: false
 
-- name: check if dependency binaries exist
+- name: Check if dependency binaries exist
   ansible.builtin.stat:
     path: "{{ item.stdout }}"
   loop: "{{ verify_deps_which.results }}"
   register: verify_deps_bin
   when: item.rc == 0
 
-- name: assert dependency binaries are present and executable
+- name: Assert dependency binaries are present and executable
   ansible.builtin.assert:
     that:
       - item.stat is defined

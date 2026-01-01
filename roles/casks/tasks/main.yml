@@ -1,5 +1,5 @@
 ---
-- name: install homebrew casks
+- name: Install homebrew casks
   include_tasks: install_cask.yml
   loop_control:
     loop_var: cask

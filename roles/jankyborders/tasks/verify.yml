@@ -1,28 +1,28 @@
 ---
-- name: verify FelixKratz tap is present
+- name: Verify FelixKratz tap is present
   ansible.builtin.command: brew tap
   register: verify_borders_brew_taps
   changed_when: false
 
-- name: assert FelixKratz tap is registered
+- name: Assert FelixKratz tap is registered
   ansible.builtin.assert:
     that:
       - "'felixkratz/formulae' in verify_borders_brew_taps.stdout"
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
 
-- name: locate borders binary
+- name: Locate borders binary
   ansible.builtin.command: which borders
   register: verify_borders_which
   changed_when: false
   failed_when: false
 
-- name: check if borders binary exists
+- name: Check if borders binary exists
   ansible.builtin.stat:
     path: "{{ verify_borders_which.stdout }}"
   register: verify_borders_bin
   when: verify_borders_which.rc == 0
 
-- name: assert borders binary is present and executable
+- name: Assert borders binary is present and executable
   ansible.builtin.assert:
     that:
       - verify_borders_bin.stat is defined
@@ -30,13 +30,13 @@
       - verify_borders_bin.stat.executable
     fail_msg: "borders binary was not found in the PATH or is not executable"
 
-- name: stat borders config symlink
+- name: Stat borders config symlink
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/borders/bordersrc"
     follow: false
   register: verify_borders_symlink
 
-- name: assert borders config symlink is present and correct
+- name: Assert borders config symlink is present and correct
   ansible.builtin.assert:
     that:
       - verify_borders_symlink.stat.exists

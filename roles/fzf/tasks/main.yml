@@ -1,5 +1,5 @@
 ---
-- name: clone fzf repo
+- name: Clone fzf repo
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   git:
@@ -10,7 +10,7 @@
     update: true
   changed_when: false
 
-- name: install fzf
+- name: Install fzf
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.command: "{{ ansible_facts['env']['HOME'] }}/.fzf/install --no-bash --no-fish --key-bindings --completion --no-update-rc"

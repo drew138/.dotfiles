@@ -1,34 +1,34 @@
 ---
-- name: list installed homebrew packages
+- name: List installed homebrew packages
   ansible.builtin.command: brew list --formula
   register: verify_brew_list
   changed_when: false
 
-- name: assert all configured brew packages are installed
+- name: Assert all configured brew packages are installed
   ansible.builtin.assert:
     that:
       - item in verify_brew_list.stdout_lines
     fail_msg: "homebrew package '{{ item }}' is not installed"
   loop: "{{ clitools_brew_packages }}"
 
-- name: verify virtualenv directory exists
+- name: Verify virtualenv directory exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.clitools"
   register: verify_clitools_dir
 
-- name: assert virtualenv directory exists
+- name: Assert virtualenv directory exists
   ansible.builtin.assert:
     that:
       - verify_clitools_dir.stat.exists
       - verify_clitools_dir.stat.isdir
     fail_msg: "virtualenv ~/.clitools does not exist"
 
-- name: list installed python packages in virtualenv
+- name: List installed python packages in virtualenv
   ansible.builtin.command: "{{ ansible_facts['env']['HOME'] }}/.clitools/bin/pip list --format=freeze"
   register: verify_clitools_pip
   changed_when: false
 
-- name: normalize installed python package names
+- name: Normalize installed python package names
   set_fact:
     verify_clitools_installed_packages: >-
       {{
@@ -39,7 +39,7 @@
         | list
       }}
 
-- name: assert required python packages are installed
+- name: Assert required python packages are installed
   ansible.builtin.assert:
     that:
       - >-

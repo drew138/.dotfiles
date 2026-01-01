@@ -1,17 +1,17 @@
 ---
-- name: locate aerospace binary
+- name: Locate aerospace binary
   ansible.builtin.command: which aerospace
   register: verify_aerospace_which
   changed_when: false
   failed_when: false
 
-- name: check if binary exists
+- name: Check if binary exists
   ansible.builtin.stat:
     path: "{{ verify_aerospace_which.stdout }}"
   register: verify_aerospace_bin
   when: verify_aerospace_which.rc == 0
 
-- name: assert binary is present and executable
+- name: Assert binary is present and executable
   ansible.builtin.assert:
     that:
       - verify_aerospace_bin.stat is defined

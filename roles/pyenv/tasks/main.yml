@@ -1,5 +1,5 @@
 ---
-- name: install dependencies
+- name: Install dependencies
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:

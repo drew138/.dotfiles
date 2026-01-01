@@ -1,12 +1,12 @@
 ---
-- name: verify desktop widgets are hidden
+- name: Verify desktop widgets are hidden
   ansible.builtin.command: >
     defaults read com.apple.WindowManager StandardHideWidgets
   register: verify_hide_widgets
   changed_when: false
   failed_when: false
 
-- name: assert desktop widgets are hidden
+- name: Assert desktop widgets are hidden
   ansible.builtin.assert:
     that:
       - verify_hide_widgets.stdout | trim == "1"

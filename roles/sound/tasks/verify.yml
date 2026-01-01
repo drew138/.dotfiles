@@ -1,5 +1,5 @@
 ---
-- name: read sound settings
+- name: Read sound settings
   ansible.builtin.shell: "{{ item.cmd }}"
   register: verify_sound_settings
   changed_when: false
@@ -13,7 +13,7 @@
       cmd: nvram -p | grep -E '^StartupMute'
       expected: "%01"
 
-- name: assert sound settings
+- name: Assert sound settings
   ansible.builtin.assert:
     that:
       - item.stdout is search(item.item.expected)

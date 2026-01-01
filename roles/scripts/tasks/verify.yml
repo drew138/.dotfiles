@@ -1,11 +1,11 @@
 ---
-- name: check scripts symlink stats
+- name: Check scripts symlink stats
   ansible.builtin.stat:
     path: "{{ item.dest }}"
   loop: "{{ scripts_symlinks }}"
   register: verify_script_link_stats
 
-- name: assert symlinks are correct
+- name: Assert symlinks are correct
   ansible.builtin.assert:
     that:
       - item.stat.exists
@@ -14,14 +14,14 @@
     fail_msg: "Symlink {{ item.item.dest }} is missing or points to the wrong source"
   loop: "{{ verify_script_link_stats.results }}"
 
-- name: locate symlinked binaries
+- name: Locate symlinked binaries
   ansible.builtin.command: "which {{ item.dest | basename }}"
   loop: "{{ scripts_symlinks }}"
   register: verify_script_which
   changed_when: false
   failed_when: false
 
-- name: assert script binaries are present and executable
+- name: Assert script binaries are present and executable
   ansible.builtin.assert:
     that:
       - item.rc == 0

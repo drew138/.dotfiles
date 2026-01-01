@@ -1,5 +1,5 @@
 ---
-- name: locate docker related binaries
+- name: Locate docker related binaries
   ansible.builtin.command: "which {{ item }}"
   loop:
     - colima
@@ -9,14 +9,14 @@
   changed_when: false
   failed_when: false
 
-- name: check if docker binaries exist
+- name: Check if docker binaries exist
   ansible.builtin.stat:
     path: "{{ item.stdout }}"
   loop: "{{ verify_docker_tools_which.results }}"
   register: verify_docker_tools_bin
   when: item.rc == 0
 
-- name: assert docker binaries are present and executable
+- name: Assert docker binaries are present and executable
   ansible.builtin.assert:
     that:
       - item.stat is defined

@@ -1,12 +1,12 @@
 ---
-- name: install git
+- name: Install git
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - git
     state: latest
 
-- name: create dev directory
+- name: Create dev directory
   become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/dev/"
@@ -14,7 +14,7 @@
     mode: "0755"
     owner: "{{ ansible_facts['env']['USER'] }}"
 
-- name: create work directory
+- name: Create work directory
   become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/work/"
@@ -22,7 +22,7 @@
     mode: "0755"
     owner: "{{ ansible_facts['env']['USER'] }}"
 
-- name: download dotfiles repository
+- name: Download dotfiles repository
   become_user: "{{ ansible_facts['env']['USER'] }}"
   git:
     repo: "git@github.com:drew138/.dotfiles.git"
@@ -31,7 +31,7 @@
     update: true
   changed_when: false
 
-- name: download repositories
+- name: Download repositories
   become_user: "{{ ansible_facts['env']['USER'] }}"
   git:
     repo: "git@github.com:drew138/{{ item }}.git"

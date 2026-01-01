@@ -1,5 +1,5 @@
 ---
-- name: install wezterm
+- name: Install wezterm
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew_cask:
     name:
@@ -7,7 +7,7 @@
     state: present
   ignore_errors: true
 
-- name: create .wezterm.lua symlink
+- name: Create .wezterm.lua symlink
   ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/wezterm/files/.wezterm.lua"
     dest: "{{ ansible_facts['env']['HOME'] }}/.wezterm.lua"

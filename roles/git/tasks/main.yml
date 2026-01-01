@@ -1,5 +1,5 @@
 ---
-- name: install git
+- name: Install git
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
@@ -7,7 +7,7 @@
       - git
     state: latest
 
-- name: create .gitconfig symlink
+- name: Create .gitconfig symlink
   ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/git/files/.gitconfig"
     dest: "{{ ansible_facts['env']['HOME'] }}/.gitconfig"
@@ -15,7 +15,7 @@
     force: true
     follow: false
 
-- name: create .gitignore_global symlink
+- name: Create .gitignore_global symlink
   ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/git/files/.gitignore_global"
     dest: "{{ ansible_facts['env']['HOME'] }}/.gitignore_global"
@@ -23,7 +23,7 @@
     force: true
     follow: false
 
-- name: create .work.gitconfig file
+- name: Create .work.gitconfig file
   copy:
     content: ""
     dest: "{{ ansible_facts['env']['HOME'] }}/.work.gitconfig"
@@ -32,7 +32,7 @@
     mode: "0700"
     owner: "{{ ansible_facts['env']['USER'] }}"
 
-- name: create work directory
+- name: Create work directory
   become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/work/"

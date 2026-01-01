@@ -1,5 +1,5 @@
 ---
-- name: check if cargo is installed
+- name: Check if cargo is installed
   become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.cargo/bin/cargo"
@@ -7,7 +7,7 @@
   ignore_errors: true
   changed_when: false
 
-- name: ensure rustup is installed
+- name: Ensure rustup is installed
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   changed_when: false
@@ -15,7 +15,7 @@
   args:
     executable: /bin/bash
 
-- name: install rust toolchain
+- name: Install rust toolchain
   ansible.builtin.shell: ./rustup toolchain remove stable && ./rustup toolchain install stable
   changed_when: false
   args:

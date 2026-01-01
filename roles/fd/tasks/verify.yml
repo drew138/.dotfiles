@@ -1,17 +1,17 @@
 ---
-- name: locate fd binary
+- name: Locate fd binary
   ansible.builtin.command: which fd
   register: verify_fd_which
   changed_when: false
   failed_when: false
 
-- name: check if fd binary exists
+- name: Check if fd binary exists
   ansible.builtin.stat:
     path: "{{ verify_fd_which.stdout }}"
   register: verify_fd_bin
   when: verify_fd_which.rc == 0
 
-- name: assert fd binary is present and executable
+- name: Assert fd binary is present and executable
   ansible.builtin.assert:
     that:
       - verify_fd_bin.stat is defined

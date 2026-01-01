@@ -1,66 +1,66 @@
 ---
-- name: verify dock autohide is enabled
+- name: Verify dock autohide is enabled
   ansible.builtin.command: defaults read com.apple.dock autohide
   register: verify_dock_autohide
   changed_when: false
 
-- name: assert dock autohide is enabled
+- name: Assert dock autohide is enabled
   ansible.builtin.assert:
     that:
       - verify_dock_autohide.stdout | int == 1
     fail_msg: "Dock autohide is not enabled"
 
-- name: verify dock tile size
+- name: Verify dock tile size
   ansible.builtin.command: defaults read com.apple.dock tilesize
   register: verify_dock_tilesize
   changed_when: false
 
-- name: assert dock tile size is correct
+- name: Assert dock tile size is correct
   ansible.builtin.assert:
     that:
       - verify_dock_tilesize.stdout | int == 36
     fail_msg: "Dock tile size is not set to 36"
 
-- name: verify dock show recent apps is disabled
+- name: Verify dock show recent apps is disabled
   ansible.builtin.command: defaults read com.apple.dock show-recents
   register: verify_dock_show_recents
   changed_when: false
 
-- name: assert dock show recent apps is disabled
+- name: Assert dock show recent apps is disabled
   ansible.builtin.assert:
     that:
       - verify_dock_show_recents.stdout | bool == false
     fail_msg: "Dock recent applications are not disabled"
 
-- name: verify dock is on the left
+- name: Verify dock is on the left
   ansible.builtin.command: defaults read com.apple.dock orientation
   register: verify_dock_orientation
   changed_when: false
 
-- name: assert dock is on the left
+- name: Assert dock is on the left
   ansible.builtin.assert:
     that:
       - verify_dock_orientation.stdout == "left"
     fail_msg: "Dock orientation is not set to left"
 
-- name: locate dockutil binary
+- name: Locate dockutil binary
   ansible.builtin.command: which dockutil
   register: verify_dockutil_which
   changed_when: false
   failed_when: false
 
-- name: assert dockutil is available
+- name: Assert dockutil is available
   ansible.builtin.assert:
     that:
       - verify_dockutil_which.rc == 0
     fail_msg: "dockutil was not found in PATH"
 
-- name: list current dock items
+- name: List current dock items
   ansible.builtin.command: dockutil --list
   register: verify_dock_items
   changed_when: false
 
-- name: normalize dock list (remove numbering)
+- name: Normalize dock list (remove numbering)
   set_fact:
     verify_dock_list_clean: >-
       {{
@@ -76,14 +76,14 @@
 #     fail_msg: "Dock item '{{ item }}' was not removed"
 #   loop: "{{ dockitems_remove }}"
 
-- name: assert required dock items exist
+- name: Assert required dock items exist
   ansible.builtin.assert:
     that:
       - item.name in verify_dock_items.stdout
     fail_msg: "Dock item '{{ item.name }}' is missing"
   loop: "{{ dockitems_persist }}"
 
-- name: assert dock item positions
+- name: Assert dock item positions
   when:
     - item.pos is defined
     - item.pos > 0

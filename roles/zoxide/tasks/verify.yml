@@ -1,17 +1,17 @@
 ---
-- name: locate zoxide binary
+- name: Locate zoxide binary
   ansible.builtin.command: which zoxide
   register: verify_zoxide_which
   changed_when: false
   failed_when: false
 
-- name: check if zoxide binary exists
+- name: Check if zoxide binary exists
   ansible.builtin.stat:
     path: "{{ verify_zoxide_which.stdout }}"
   register: verify_zoxide_bin
   when: verify_zoxide_which.rc == 0
 
-- name: assert zoxide binary is present and executable
+- name: Assert zoxide binary is present and executable
   ansible.builtin.assert:
     that:
       - verify_zoxide_bin.stat is defined

@@ -1,17 +1,17 @@
 ---
-- name: create /usr/local/include
+- name: Create /usr/local/include
   become: true
   ansible.builtin.file:
     path: /usr/local/include
     state: directory
 
-- name: create /usr/local/include/bits
+- name: Create /usr/local/include/bits
   become: true
   ansible.builtin.file:
     path: /usr/local/include/bits
     state: directory
 
-- name: copy stdc++.h to /usr/local/include/bits
+- name: Copy stdc++.h to /usr/local/include/bits
   become: true
   copy:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/cpp/files/stdc++.h"

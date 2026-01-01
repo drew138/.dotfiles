@@ -1,28 +1,28 @@
 ---
-- name: verify FelixKratz tap is present
+- name: Verify FelixKratz tap is present
   ansible.builtin.command: brew tap
   register: brew_taps
   changed_when: false
 
-- name: assert FelixKratz tap is registered
+- name: Assert FelixKratz tap is registered
   ansible.builtin.assert:
     that:
       - "'felixkratz/formulae' in brew_taps.stdout"
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
 
-- name: locate sketchybar binary
+- name: Locate sketchybar binary
   ansible.builtin.command: which sketchybar
   register: sketchybar_which
   changed_when: false
   failed_when: false
 
-- name: check if sketchybar binary exists
+- name: Check if sketchybar binary exists
   ansible.builtin.stat:
     path: "{{ sketchybar_which.stdout }}"
   register: sketchybar_bin
   when: sketchybar_which.rc == 0
 
-- name: assert sketchybar binary is present and executable
+- name: Assert sketchybar binary is present and executable
   ansible.builtin.assert:
     that:
       - sketchybar_bin.stat is defined
@@ -30,13 +30,13 @@
       - sketchybar_bin.stat.executable
     fail_msg: "sketchybar binary was not found in the PATH or is not executable"
 
-- name: stat sketchybar config symlink
+- name: Stat sketchybar config symlink
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
     follow: false
   register: sketchybar_symlink
 
-- name: assert sketchybar config symlink is present and correct
+- name: Assert sketchybar config symlink is present and correct
   ansible.builtin.assert:
     that:
       - sketchybar_symlink.stat.exists

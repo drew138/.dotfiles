@@ -1,5 +1,5 @@
 ---
-- name: read Finder settings
+- name: Read Finder settings
   ansible.builtin.command: "{{ item.cmd }}"
   register: verify_finder_settings
   changed_when: false
@@ -49,7 +49,7 @@
       cmd: defaults read com.apple.desktopservices DSDontWriteUSBStores
       expected: "1"
 
-- name: assert Finder settings
+- name: Assert Finder settings
   ansible.builtin.assert:
     that:
       - item.stdout | trim == item.item.expected

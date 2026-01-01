@@ -1,5 +1,5 @@
 ---
-- name: read login settings
+- name: Read login settings
   ansible.builtin.command: "{{ item.cmd }}"
   register: verify_login_settings
   changed_when: false
@@ -9,7 +9,7 @@
       cmd: defaults read com.apple.loginwindow TALLogoutSavesState
       expected: "0"
 
-- name: assert login settings
+- name: Assert login settings
   ansible.builtin.assert:
     that:
       - item.stdout | trim == item.item.expected

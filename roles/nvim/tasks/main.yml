@@ -1,5 +1,5 @@
 ---
-- name: installs cmake
+- name: Installs cmake
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew_cask:
@@ -8,7 +8,7 @@
     state: present
   ignore_errors: true
 
-- name: install dependencies
+- name: Install dependencies
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
@@ -18,7 +18,7 @@
       - python
     state: latest
 
-- name: check if nvim is installed
+- name: Check if nvim is installed
   ansible.builtin.stat:
     path: /usr/local/bin/nvim
   register: nvim_is_installed
@@ -26,7 +26,7 @@
   notify:
     - install_neovim_development_tools
 
-- name: clone nvim repository
+- name: Clone nvim repository
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   git:
@@ -38,7 +38,7 @@
     update: true
     force: true
 
-- name: build and install nvim
+- name: Build and install nvim
   become: true
   ansible.builtin.shell:
     cmd: |
@@ -50,14 +50,14 @@
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
-- name: ensure virtual environment is created
+- name: Ensure virtual environment is created
   ansible.builtin.command: python3 -m venv "{{ ansible_facts['env']['HOME'] }}/.nvimvenv"
   args:
     creates: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/activate"
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
-- name: install pynvim in virtual environment
+- name: Install pynvim in virtual environment
   ansible.builtin.pip:
     name: pynvim
     state: latest
@@ -65,7 +65,7 @@
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
-- name: install global npm packages required by neovim
+- name: Install global npm packages required by neovim
   ansible.builtin.shell: "source {{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh && npm install -g {{ npm_package }}"
   args:
     executable: /bin/bash
@@ -76,7 +76,7 @@
     loop_var: npm_package
   changed_when: false
 
-- name: install luajit
+- name: Install luajit
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
@@ -84,7 +84,7 @@
       - luajit
     state: latest
 
-- name: create ~/.config directory
+- name: Create ~/.config directory
   become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config"
@@ -92,7 +92,7 @@
     mode: "0755"
     owner: "{{ ansible_facts['env']['USER'] }}"
 
-- name: create nvim symlink
+- name: Create nvim symlink
   ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/nvim/files"
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/nvim"

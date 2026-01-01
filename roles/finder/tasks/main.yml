@@ -1,65 +1,65 @@
 ---
-- name: show all filename extensions
+- name: Show all filename extensions
   ansible.builtin.command: >
     defaults write NSGlobalDomain AppleShowAllExtensions -bool true
   changed_when: false
 
-- name: show hidden files
+- name: Show hidden files
   ansible.builtin.command: >
     defaults write com.apple.finder AppleShowAllFiles -bool true
   changed_when: false
 
-- name: disable extension change warning
+- name: Disable extension change warning
   ansible.builtin.command: >
     defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
   changed_when: false
 
-- name: show path bar
+- name: Show path bar
   ansible.builtin.command: >
     defaults write com.apple.finder ShowPathbar -bool true
   changed_when: false
 
-- name: show status bar
+- name: Show status bar
   ansible.builtin.command: >
     defaults write com.apple.finder ShowStatusBar -bool true
   changed_when: false
 
-- name: set default Finder view to list view
+- name: Set default Finder view to list view
   ansible.builtin.command: >
     defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
   changed_when: false
 
-- name: open new Finder windows in home directory
+- name: Open new Finder windows in home directory
   ansible.builtin.command: >
     defaults write com.apple.finder NewWindowTarget -string "PfHm"
   changed_when: false
 
-- name: set Finder home directory path
+- name: Set Finder home directory path
   ansible.builtin.command: >
     defaults write com.apple.finder NewWindowTargetPath -string "file://{{ ansible_env.HOME }}/"
   changed_when: false
 
-- name: keep folders on top in list view
+- name: Keep folders on top in list view
   ansible.builtin.command: >
     defaults write com.apple.finder _FXSortFoldersFirst -bool true
   changed_when: false
 
-- name: set Finder search scope to current folder
+- name: Set Finder search scope to current folder
   ansible.builtin.command: >
     defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
   changed_when: false
 
-- name: disable .DS_Store on network drives
+- name: Disable .DS_Store on network drives
   ansible.builtin.command: >
     defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
   changed_when: false
 
-- name: disable .DS_Store on USB drives
+- name: Disable .DS_Store on USB drives
   ansible.builtin.command: >
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
   changed_when: false
 
-- name: restart Finder
+- name: Restart Finder
   ansible.builtin.command: killall Finder
   failed_when: false
   changed_when: false

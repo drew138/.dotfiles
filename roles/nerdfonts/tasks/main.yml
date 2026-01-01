@@ -1,11 +1,11 @@
 ---
-- name: create Fonts directory if it doesn't exist
+- name: Create Fonts directory if it doesn't exist
   become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts"
     state: directory
 
-- name: copy NerdFonts files
+- name: Copy NerdFonts files
   with_fileglob: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/nerdfonts/files/*"
   vars:
     destination_file: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts/{{ item | regex_replace('.*/', '') }}"
