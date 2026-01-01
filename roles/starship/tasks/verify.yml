@@ -1,6 +1,6 @@
 ---
 - name: check starship config and directory stats
-  stat:
+  ansible.builtin.stat:
     path: "{{ item.path }}"
   loop:
     - path: "{{ ansible_facts['env']['HOME'] }}/.config"

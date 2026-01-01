@@ -1,6 +1,6 @@
 ---
 - name: verify fzf repository exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.fzf"
   register: verify_fzf_dir
 
@@ -12,7 +12,7 @@
     fail_msg: "~/.fzf repository does not exist"
 
 - name: verify fzf shell integration script exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.fzf.zsh"
   register: verify_fzf_shell
 

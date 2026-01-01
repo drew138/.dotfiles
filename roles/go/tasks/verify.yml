@@ -7,7 +7,7 @@
       Unsupported architecture detected: {{ ansible_facts['architecture'] }}
 
 - name: verify /usr/local/go directory exists
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/go
   register: verify_go_dir
 
@@ -19,7 +19,7 @@
     fail_msg: "/usr/local/go directory is missing"
 
 - name: verify go binary exists
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/go/bin/go
   register: verify_go_bin
 

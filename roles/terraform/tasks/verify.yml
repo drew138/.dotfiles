@@ -17,7 +17,7 @@
   failed_when: false
 
 - name: check if terraform binary exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ verify_terraform_which.stdout }}"
   register: verify_terraform_bin
   when: verify_terraform_which.rc == 0

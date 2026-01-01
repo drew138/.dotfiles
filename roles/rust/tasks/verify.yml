@@ -11,7 +11,7 @@
     PATH: "{{ ansible_facts['env']['HOME'] }}/.cargo/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: check if rust binaries exist
-  stat:
+  ansible.builtin.stat:
     path: "{{ item.stdout }}"
   loop: "{{ verify_rust_which.results }}"
   register: verify_rust_bin_stats
@@ -28,7 +28,7 @@
   when: not item.skipped | default(false)
 
 - name: check rust toolchain directory
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.rustup/toolchains/stable-{{ 'aarch64' if ansible_facts['architecture'] == 'arm64' else 'x86_64' }}-apple-darwin"
   register: verify_rust_toolchain_stat
 

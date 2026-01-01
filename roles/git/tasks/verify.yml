@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: check if git binary exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ verify_git_which.stdout }}"
   register: verify_git_bin
   when: verify_git_which.rc == 0
@@ -20,7 +20,7 @@
     fail_msg: git binary was not found in the PATH or is not executable
 
 - name: verify .gitconfig symlink exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.gitconfig"
     follow: false
   register: verify_gitconfig
@@ -33,7 +33,7 @@
     fail_msg: "~/.gitconfig is missing or is not a symlink"
 
 - name: verify .gitignore_global symlink exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.gitignore_global"
     follow: false
   register: verify_gitignore_global
@@ -46,7 +46,7 @@
     fail_msg: "~/.gitignore_global is missing or is not a symlink"
 
 - name: verify .work.gitconfig file exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.work.gitconfig"
   register: verify_work_gitconfig
 
@@ -59,7 +59,7 @@
     fail_msg: "~/.work.gitconfig is missing or has incorrect permissions"
 
 - name: verify work directory exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/work"
   register: verify_work_dir
 

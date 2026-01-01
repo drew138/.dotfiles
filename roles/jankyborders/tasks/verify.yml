@@ -17,7 +17,7 @@
   failed_when: false
 
 - name: check if borders binary exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ verify_borders_which.stdout }}"
   register: verify_borders_bin
   when: verify_borders_which.rc == 0
@@ -31,7 +31,7 @@
     fail_msg: "borders binary was not found in the PATH or is not executable"
 
 - name: stat borders config symlink
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/borders/bordersrc"
     follow: false
   register: verify_borders_symlink

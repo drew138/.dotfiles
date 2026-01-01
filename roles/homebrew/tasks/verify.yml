@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: stat brew binary
-  stat:
+  ansible.builtin.stat:
     path: "{{ verify_brew_which.stdout }}"
   register: verify_brew_bin
   when: verify_brew_which.rc == 0

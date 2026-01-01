@@ -1,6 +1,6 @@
 ---
 - name: check .local and share directory stats
-  stat:
+  ansible.builtin.stat:
     path: "{{ item }}"
   loop:
     - "{{ ansible_facts['env']['HOME'] }}/.local"
@@ -29,7 +29,7 @@
     fail_msg: "The destination {{ zinit_home }} exists but is not a valid git repository"
 
 - name: check zinit loader script
-  stat:
+  ansible.builtin.stat:
     path: "{{ zinit_home }}/zinit.zsh"
   register: verify_zinit_script_stat
 

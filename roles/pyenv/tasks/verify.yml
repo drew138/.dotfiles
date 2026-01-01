@@ -9,7 +9,7 @@
   failed_when: false
 
 - name: check if dependency binaries exist
-  stat:
+  ansible.builtin.stat:
     path: "{{ item.stdout }}"
   loop: "{{ verify_deps_which.results }}"
   register: verify_deps_bin

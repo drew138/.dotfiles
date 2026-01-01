@@ -12,7 +12,7 @@
   loop: "{{ clitools_brew_packages }}"
 
 - name: verify virtualenv directory exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.clitools"
   register: verify_clitools_dir
 

@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: check if eza binary exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ verify_eza_which.stdout }}"
   register: verify_eza_bin
   when: verify_eza_which.rc == 0
@@ -20,7 +20,7 @@
     fail_msg: "Eza binary was not found in the PATH or is not executable"
 
 - name: check dev directory and eza repo stats
-  stat:
+  ansible.builtin.stat:
     path: "{{ item }}"
   loop:
     - "{{ ansible_facts['env']['HOME'] }}/dev/"

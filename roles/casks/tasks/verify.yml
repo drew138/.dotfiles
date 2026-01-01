@@ -1,6 +1,6 @@
 ---
 - name: verify Homebrew casks installation
-  stat:
+  ansible.builtin.stat:
     path: "/Applications/{{ item.app }}.app"
   loop: "{{ casks }}"
   register: verify_cask_stats

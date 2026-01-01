@@ -35,7 +35,7 @@
     msg: "Installed: {{ verify_aws_v_output.stdout }}"
 
 - name: verify installer cleanup
-  stat:
+  ansible.builtin.stat:
     path: "/tmp/AWSCLIV2.pkg"
   register: verify_aws_pkg_stat
 

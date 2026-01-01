@@ -1,6 +1,6 @@
 ---
 - name: check directory stats
-  stat:
+  ansible.builtin.stat:
     path: "{{ item }}"
   loop:
     - /usr/local/include
@@ -16,7 +16,7 @@
   loop: "{{ verify_cpp_dir_stats.results }}"
 
 - name: check stdc++.h file stats
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/include/bits/stdc++.h
   register: verify_stdc_header_stat
 

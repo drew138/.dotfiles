@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: check if fd binary exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ verify_fd_which.stdout }}"
   register: verify_fd_bin
   when: verify_fd_which.rc == 0

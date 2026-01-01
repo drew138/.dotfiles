@@ -1,6 +1,6 @@
 ---
 - name: check scripts symlink stats
-  stat:
+  ansible.builtin.stat:
     path: "{{ item.dest }}"
   loop: "{{ scripts_symlinks }}"
   register: verify_script_link_stats

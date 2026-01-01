@@ -1,6 +1,6 @@
 ---
 - name: check .nvm directory stats
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.nvm"
   register: verify_nvm_dir_stat
 
@@ -24,7 +24,7 @@
     fail_msg: "The destination ~/.nvm exists but is not a valid git repository"
 
 - name: check nvm shell script existence
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh"
   register: verify_nvm_sh_stat
 

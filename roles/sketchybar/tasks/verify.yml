@@ -17,7 +17,7 @@
   failed_when: false
 
 - name: check if sketchybar binary exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ sketchybar_which.stdout }}"
   register: sketchybar_bin
   when: sketchybar_which.rc == 0
@@ -31,7 +31,7 @@
     fail_msg: "sketchybar binary was not found in the PATH or is not executable"
 
 - name: stat sketchybar config symlink
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
     follow: false
   register: sketchybar_symlink

@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: check zsh files and symlink stats
-  stat:
+  ansible.builtin.stat:
     path: "{{ item.path }}"
   loop:
     - path: "{{ verify_zsh_which.stdout }}"

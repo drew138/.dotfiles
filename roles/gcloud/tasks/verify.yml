@@ -7,7 +7,7 @@
       Unsupported architecture detected: {{ ansible_facts['architecture'] }}
 
 - name: verify google-cloud-sdk directory exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/google-cloud-sdk"
   register: verify_gcloud_dir
 
@@ -19,7 +19,7 @@
     fail_msg: "~/google-cloud-sdk directory does not exist"
 
 - name: verify gcloud binary exists at expected path
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/google-cloud-sdk/bin/gcloud"
   register: verify_gcloud_bin
 
@@ -31,7 +31,7 @@
     fail_msg: "gcloud binary is missing or not executable"
 
 - name: verify gcloud PATH hook exists (zsh)
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/google-cloud-sdk/path.zsh.inc"
   register: verify_gcloud_path_hook
 

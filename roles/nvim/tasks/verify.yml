@@ -13,7 +13,7 @@
     fail_msg: "nvim was not found in PATH"
 
 - name: verify nvim binary exists and is executable
-  stat:
+  ansible.builtin.stat:
     path: "{{ verify_nvim_which.stdout }}"
   register: verify_nvim_bin
 
@@ -25,7 +25,7 @@
     fail_msg: "nvim binary exists but is not executable"
 
 - name: verify nvim config symlink exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/nvim"
   register: verify_nvim_config
 
@@ -37,7 +37,7 @@
     fail_msg: "~/.config/nvim is missing or not a symlink"
 
 - name: verify nvim python virtualenv exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/activate"
   register: verify_nvim_venv
 

@@ -1,6 +1,6 @@
 ---
 - name: verify Fonts directory exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts"
   register: verify_fonts_dir
 

@@ -1,6 +1,6 @@
 ---
 - name: check wezterm application stats
-  stat:
+  ansible.builtin.stat:
     path: /Applications/WezTerm.app
   register: verify_wezterm_app_stat
 
@@ -12,7 +12,7 @@
     fail_msg: "WezTerm.app was not found in /Applications"
 
 - name: check .wezterm.lua symlink stats
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.wezterm.lua"
   register: verify_wezterm_config_stat
 

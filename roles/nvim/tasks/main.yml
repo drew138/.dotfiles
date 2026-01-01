@@ -19,7 +19,7 @@
     state: latest
 
 - name: check if nvim is installed
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/nvim
   register: nvim_is_installed
   changed_when: not nvim_is_installed.stat.exists

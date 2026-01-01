@@ -1,6 +1,6 @@
 ---
 - name: check ssh directory and key stats
-  stat:
+  ansible.builtin.stat:
     path: "{{ item.path }}"
   loop:
     - path: "{{ ansible_facts['env']['HOME'] }}/.ssh"

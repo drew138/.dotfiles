@@ -1,7 +1,7 @@
 ---
 - name: check if cargo is installed
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.cargo/bin/cargo"
   register: cargo_path
   ignore_errors: true

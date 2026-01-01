@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: check if gh binary exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ verify_gh_which.stdout }}"
   register: verify_gh_bin
   when: verify_gh_which.rc == 0
