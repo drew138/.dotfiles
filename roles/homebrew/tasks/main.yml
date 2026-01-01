@@ -1,7 +1,7 @@
 ---
 - name: Set request headers
   ansible.builtin.set_fact:
-    request_headers: >-
+    homebrew_request_headers: >-
       {{
         {
           'Accept': 'application/vnd.github.v3+json'
@@ -17,12 +17,12 @@
     url: "https://api.github.com/repos/Homebrew/brew/releases/latest"
     method: GET
     return_content: true
-    headers: "{{ request_headers }}"
-  register: release_data
+    headers: "{{ homebrew_request_headers }}"
+  register: homebrew_release_data
 
 - name: Extract url for Homebrew.pkg
   ansible.builtin.set_fact:
-    pkg_url: "{{ release_data.json['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='browser_download_url') | first }}"
+    pkg_url: "{{ homebrew_release_data.json['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='browser_download_url') | first }}"
 
 - name: Download Homebrew.pkg
   ansible.builtin.get_url:

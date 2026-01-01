@@ -4,8 +4,6 @@
   gather_facts: true
   vars_files:
     - ~/extra_vars.yml
-  collections:
-    - community.general
   tasks:
     - name: Include roles
       ansible.builtin.include_role:

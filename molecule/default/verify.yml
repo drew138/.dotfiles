@@ -4,6 +4,6 @@
   gather_facts: true
   tasks:
     - name: "Include verification tasks for {{ lookup('env', 'MOLECULE_ROLE') }}"
-      include_role:
+      ansible.builtin.include_role:
         name: "{{ lookup('env', 'MOLECULE_ROLE') }}"
         tasks_from: "verify.yml"

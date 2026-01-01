@@ -5,15 +5,15 @@
     node --version
   args:
     executable: /bin/bash
-  register: verify_node_version
+  register: node_verify_version
   changed_when: false
   failed_when: false
 
 - name: Assert node is available via nvm
   ansible.builtin.assert:
     that:
-      - verify_node_version.rc == 0
-      - verify_node_version.stdout is match("^v[0-9]+\\.")
+      - node_verify_version.rc == 0
+      - node_verify_version.stdout is match("^v[0-9]+\\.")
     fail_msg: >
       Node is not available after sourcing nvm.
-      Output: {{ verify_node_version.stdout }}
+      Output: {{ node_verify_version.stdout }}

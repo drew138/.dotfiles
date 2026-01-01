@@ -1,20 +1,20 @@
 ---
 - name: Locate zoxide binary
   ansible.builtin.command: which zoxide
-  register: verify_zoxide_which
+  register: zoxide_verify_which
   changed_when: false
   failed_when: false
 
 - name: Check if zoxide binary exists
   ansible.builtin.stat:
-    path: "{{ verify_zoxide_which.stdout }}"
-  register: verify_zoxide_bin
-  when: verify_zoxide_which.rc == 0
+    path: "{{ zoxide_verify_which.stdout }}"
+  register: zoxide_verify_bin
+  when: zoxide_verify_which.rc == 0
 
 - name: Assert zoxide binary is present and executable
   ansible.builtin.assert:
     that:
-      - verify_zoxide_bin.stat is defined
-      - verify_zoxide_bin.stat.exists
-      - verify_zoxide_bin.stat.executable
+      - zoxide_verify_bin.stat is defined
+      - zoxide_verify_bin.stat.exists
+      - zoxide_verify_bin.stat.executable
     fail_msg: zoxide binary was not found in the PATH or is not executable

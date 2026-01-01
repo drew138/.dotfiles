@@ -2,8 +2,8 @@
 - name: Verify Homebrew casks installation
   ansible.builtin.stat:
     path: "/Applications/{{ item.app }}.app"
-  loop: "{{ casks }}"
-  register: verify_cask_stats
+  loop: "{{ casks_applications }}"
+  register: casks_verify_cask_stats
 
 - name: Assert casks are present in /Applications
   ansible.builtin.assert:
@@ -11,12 +11,12 @@
       - item.stat.exists
     fail_msg: >
       cask {{ item.item.name }} was not found at /Applications/{{ item.item.app }}.app
-  loop: "{{ verify_cask_stats.results }}"
+  loop: "{{ casks_verify_cask_stats.results }}"
 
 - name: Check Gatekeeper status on installed apps
   ansible.builtin.command: spctl --assess "/Applications/{{ item.app }}.app"
   loop: "{{ casks }}"
-  register: quarantine_verify
+  register: casks_quarantine_verify
   changed_when: false
 
 - name: Assert casks are allowed by Gatekeeper
@@ -25,4 +25,4 @@
       - item.rc == 0
     fail_msg: >
       Cask {{ item.item.name }} ({{ item.item.app }}) would still trigger a Gatekeeper warning
-  loop: "{{ quarantine_verify.results }}"
+  loop: "{{ casks_quarantine_verify.results }}"

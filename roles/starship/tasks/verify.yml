@@ -7,20 +7,21 @@
       mode: "0700"
     - path: "{{ ansible_facts['env']['HOME'] }}/.config/starship.toml"
       mode: "0644"
-  register: verify_starship_stats
+  register: starship_verify_stats
 
 - name: Assert .config directory exists with correct mode
   ansible.builtin.assert:
     that:
-      - verify_starship_stats.results[0].stat.exists
-      - verify_starship_stats.results[0].stat.isdir
-      - verify_starship_stats.results[0].stat.mode == "0700"
-    fail_msg: "~/.config directory check failed"
+      - starship_verify_stats.results[0].stat.exists
+      - starship_verify_stats.results[0].stat.isdir
+      - starship_verify_stats.results[0].stat.mode == "0700"
+    fail_msg: "~/.config directory is missing or has incorrect permissions"
 
 - name: Assert starship.toml symlink is valid
   ansible.builtin.assert:
     that:
-      - verify_starship_stats.results[1].stat.exists
-      - verify_starship_stats.results[1].stat.islnk
-      - verify_starship_stats.results[1].stat.lnk_source == ansible_facts['env']['HOME'] + "/.dotfiles/roles/starship/files/starship.toml"
-    fail_msg: "Starship symlink is missing or pointing to the wrong source"
+      - starship_verify_stats.results[1].stat.exists
+      - starship_verify_stats.results[1].stat.islnk
+      - starship_verify_stats.results[1].stat.lnk_source ==
+        ansible_facts['env']['HOME'] + "/.dotfiles/roles/starship/files/starship.toml"
+    fail_msg: "Starship config symlink is missing or points to the wrong source"

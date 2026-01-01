@@ -1,16 +1,16 @@
 ---
 - name: Read tap to click (user domain)
   ansible.builtin.command: defaults read NSGlobalDomain com.apple.mouse.tapBehavior
-  register: verify_trackpad_tap_user
+  register: trackpad_verify_tap_user
   changed_when: false
 
 - name: Read tap to click (trackpad driver)
   ansible.builtin.command: defaults read com.apple.AppleMultitouchTrackpad Clicking
-  register: verify_trackpad_tap_driver
+  register: trackpad_verify_tap_driver
   changed_when: false
 
 - name: Assert tap to click enabled
   ansible.builtin.assert:
     that:
-      - verify_trackpad_tap_user.stdout == '1'
-      - verify_trackpad_tap_driver.stdout == '1'
+      - trackpad_verify_tap_user.stdout == '1'
+      - trackpad_verify_tap_driver.stdout == '1'

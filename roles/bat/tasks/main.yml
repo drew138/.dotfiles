@@ -1,6 +1,5 @@
 ---
 - name: Install bat
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - bat

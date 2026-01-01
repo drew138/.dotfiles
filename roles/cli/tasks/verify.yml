@@ -1,38 +1,38 @@
 ---
 - name: List installed homebrew packages
   ansible.builtin.command: brew list --formula
-  register: verify_brew_list
+  register: cli_verify_brew_list
   changed_when: false
 
 - name: Assert all configured brew packages are installed
   ansible.builtin.assert:
     that:
-      - item in verify_brew_list.stdout_lines
+      - item in cli_verify_brew_list.stdout_lines
     fail_msg: "homebrew package '{{ item }}' is not installed"
-  loop: "{{ clitools_brew_packages }}"
+  loop: "{{ cli_brew_packages }}"
 
 - name: Verify virtualenv directory exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.clitools"
-  register: verify_clitools_dir
+  register: cli_verify_clitools_dir
 
 - name: Assert virtualenv directory exists
   ansible.builtin.assert:
     that:
-      - verify_clitools_dir.stat.exists
-      - verify_clitools_dir.stat.isdir
+      - cli_verify_clitools_dir.stat.exists
+      - cli_verify_clitools_dir.stat.isdir
     fail_msg: "virtualenv ~/.clitools does not exist"
 
 - name: List installed python packages in virtualenv
   ansible.builtin.command: "{{ ansible_facts['env']['HOME'] }}/.clitools/bin/pip list --format=freeze"
-  register: verify_clitools_pip
+  register: cli_verify_clitools_pip
   changed_when: false
 
 - name: Normalize installed python package names
   ansible.builtin.set_fact:
-    verify_clitools_installed_packages: >-
+    cli_verify_clitools_installed_packages: >-
       {{
-        verify_clitools_pip.stdout_lines
+        cli_verify_clitools_pip.stdout_lines
         | map('regex_replace', '==.*$', '')
         | map('lower')
         | map('regex_replace', '[-_.]+', '-')
@@ -50,7 +50,7 @@
             | lower
             | regex_replace('[-_.]+', '-')
           )
-          in verify_clitools_installed_packages
+          in cli_verify_clitools_installed_packages
         }}
     fail_msg: "python package '{{ item }}' is missing from the virtualenv"
-  loop: "{{ clitools_python_packages }}"
+  loop: "{{ cli_python_packages }}"

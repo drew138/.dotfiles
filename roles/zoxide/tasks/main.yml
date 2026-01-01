@@ -1,7 +1,5 @@
 ---
 - name: Install zoxide
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - zoxide

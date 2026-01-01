@@ -1,47 +1,47 @@
 ---
 - name: Verify FelixKratz tap is present
   ansible.builtin.command: brew tap
-  register: brew_taps
+  register: sketchybar_verify_brew_taps
   changed_when: false
 
 - name: Assert FelixKratz tap is registered
   ansible.builtin.assert:
     that:
-      - "'felixkratz/formulae' in brew_taps.stdout"
+      - "'felixkratz/formulae' in sketchybar_verify_brew_taps.stdout"
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
 
 - name: Locate sketchybar binary
   ansible.builtin.command: which sketchybar
-  register: sketchybar_which
+  register: sketchybar_verify_which
   changed_when: false
   failed_when: false
 
 - name: Check if sketchybar binary exists
   ansible.builtin.stat:
-    path: "{{ sketchybar_which.stdout }}"
-  register: sketchybar_bin
-  when: sketchybar_which.rc == 0
+    path: "{{ sketchybar_verify_which.stdout }}"
+  register: sketchybar_verify_bin
+  when: sketchybar_verify_which.rc == 0
 
 - name: Assert sketchybar binary is present and executable
   ansible.builtin.assert:
     that:
-      - sketchybar_bin.stat is defined
-      - sketchybar_bin.stat.exists
-      - sketchybar_bin.stat.executable
+      - sketchybar_verify_bin.stat is defined
+      - sketchybar_verify_bin.stat.exists
+      - sketchybar_verify_bin.stat.executable
     fail_msg: "sketchybar binary was not found in the PATH or is not executable"
 
 - name: Stat sketchybar config symlink
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
     follow: false
-  register: sketchybar_symlink
+  register: sketchybar_verify_symlink
 
 - name: Assert sketchybar config symlink is present and correct
   ansible.builtin.assert:
     that:
-      - sketchybar_symlink.stat.exists
-      - sketchybar_symlink.stat.islnk
-      - sketchybar_symlink.stat.lnk_source ==
+      - sketchybar_verify_symlink.stat.exists
+      - sketchybar_verify_symlink.stat.islnk
+      - sketchybar_verify_symlink.stat.lnk_source ==
         ansible_facts['env']['HOME'] + '/.dotfiles/roles/sketchybar/files/sketchybarrc'
     fail_msg: >-
       SketchyBar config symlink is missing, not a symlink,

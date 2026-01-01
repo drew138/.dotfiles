@@ -1,6 +1,5 @@
 ---
 - name: Install git
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - git
@@ -38,4 +37,4 @@
     dest: "{{ ansible_facts['env']['HOME'] }}/dev/{{ item }}"
     clone: true
     update: true
-  with_items: "{{ repository_names }}"
+  with_items: "{{ repositories_names }}"

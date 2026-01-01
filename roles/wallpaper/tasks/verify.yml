@@ -2,28 +2,28 @@
 - name: Read current desktop wallpaper via System Events
   ansible.builtin.command: >
     osascript -e 'tell application "System Events" to get picture of desktop 1'
-  register: verify_wallpaper_system_events
+  register: wallpaper_verify_system_events
   changed_when: false
-  failed_when: verify_wallpaper_system_events.rc != 0
+  failed_when: wallpaper_verify_system_events.rc != 0
 
 - name: Normalize wallpaper path
   ansible.builtin.set_fact:
-    verify_wallpaper_current_path: "{{ verify_wallpaper_system_events.stdout | trim }}"
+    wallpaper_current_path: "{{ wallpaper_verify_system_events.stdout | trim }}"
   changed_when: false
 
 - name: Fail if wallpaper path could not be detected
   ansible.builtin.fail:
-    msg: "verify_wallpaper: Could not detect current wallpaper via System Events"
+    msg: "Could not detect current wallpaper via System Events"
   when:
-    - verify_wallpaper_current_path is not defined
-      or verify_wallpaper_current_path == ""
+    - wallpaper_current_path is not defined
+      or wallpaper_current_path == ""
 
 - name: Verify wallpaper path matches expected
   ansible.builtin.assert:
     that:
-      - verify_wallpaper_current_path == macos_wallpaper_path
+      - wallpaper_current_path == wallpaper_path
     fail_msg: >
-      verify_wallpaper failed.
-      Expected: {{ macos_wallpaper_path }}
-      Got: {{ verify_wallpaper_current_path }}
-    success_msg: "verify_wallpaper succeeded: wallpaper matches System Events"
+      wallpaper_verify failed.
+      Expected: {{ wallpaper_path }}
+      Got: {{ wallpaper_current_path }}
+    success_msg: "wallpaper_verify succeeded: wallpaper matches System Events"

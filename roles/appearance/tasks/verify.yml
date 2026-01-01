@@ -1,11 +1,11 @@
 ---
 - name: Check current appearance mode
   ansible.builtin.command: osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode'
-  register: verify_dark_mode_check
+  register: appearance_verify_dark_mode_check
   changed_when: false
 
 - name: Assert dark mode is active
   ansible.builtin.assert:
     that:
-      - verify_dark_mode_check.stdout == "true"
-    fail_msg: "Dark mode verification failed. Expected 'true' but got '{{ verify_dark_mode_check.stdout }}'"
+      - appearance_verify_dark_mode_check.stdout == "true"
+    fail_msg: "Dark mode verification failed. Expected 'true' but got '{{ appearance_verify_dark_mode_check.stdout }}'"

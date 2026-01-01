@@ -1,22 +1,22 @@
 ---
 - name: Locate git binary
   ansible.builtin.command: which git
-  register: verify_git_which
+  register: repositories_verify_git_which
   changed_when: false
   failed_when: false
 
 - name: Check if git binary exists
   ansible.builtin.stat:
-    path: "{{ verify_git_which.stdout }}"
-  register: verify_git_bin
-  when: verify_git_which.rc == 0
+    path: "{{ repositories_verify_git_which.stdout }}"
+  register: repositories_verify_git_bin
+  when: repositories_verify_git_which.rc == 0
 
 - name: Assert git binary is present and executable
   ansible.builtin.assert:
     that:
-      - verify_git_bin.stat is defined
-      - verify_git_bin.stat.exists
-      - verify_git_bin.stat.executable
+      - repositories_verify_git_bin.stat is defined
+      - repositories_verify_git_bin.stat.exists
+      - repositories_verify_git_bin.stat.executable
     fail_msg: "git binary was not found in the PATH or is not executable"
 
 - name: Check base directories and dotfiles
@@ -26,7 +26,7 @@
     - "{{ ansible_facts['env']['HOME'] }}/dev"
     - "{{ ansible_facts['env']['HOME'] }}/work"
     - "{{ ansible_facts['env']['HOME'] }}/.dotfiles"
-  register: verify_base_dir_stats
+  register: repositories_verify_base_dir_stats
 
 - name: Assert base directories exist
   ansible.builtin.assert:
@@ -34,13 +34,13 @@
       - item.stat.exists
       - item.stat.isdir
     fail_msg: "Required directory missing: {{ item.item }}"
-  loop: "{{ verify_base_dir_stats.results }}"
+  loop: "{{ repositories_verify_base_dir_stats.results }}"
 
 - name: Verify repository directories
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/dev/{{ item }}"
   loop: "{{ repository_names }}"
-  register: verify_repo_dir_stats
+  register: repositories_verify_repo_dir_stats
 
 - name: Assert repositories were cloned
   ansible.builtin.assert:
@@ -48,13 +48,13 @@
       - item.stat.exists
       - item.stat.isdir
     fail_msg: "Repository directory missing: {{ item.item }}"
-  loop: "{{ verify_repo_dir_stats.results }}"
+  loop: "{{ repositories_verify_repo_dir_stats.results }}"
 
 - name: Verify git repository integrity
   ansible.builtin.command: "git -C {{ item }} rev-parse --is-inside-work-tree"
   loop:
     - "{{ ansible_facts['env']['HOME'] }}/.dotfiles"
-  register: verify_git_integrity_check
+  register: repositories_verify_git_integrity_check
   changed_when: false
   failed_when: false
 
@@ -63,4 +63,4 @@
     that:
       - item.rc == 0
     fail_msg: "Directory exists but is not a valid git repository: {{ item.item }}"
-  loop: "{{ verify_git_integrity_check.results }}"
+  loop: "{{ repositories_verify_git_integrity_check.results }}"

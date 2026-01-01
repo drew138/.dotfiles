@@ -22,7 +22,6 @@
   changed_when: false
 
 - name: Install gnu-tar
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - gnu-tar

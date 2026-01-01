@@ -23,7 +23,7 @@
 #   - Numbers
 #   - Pages
 
-dockitems_persist:
+dock_items_persist:
   - name: "System Settings"
     path: "/Applications/System Settings.app/"
     pos: 1

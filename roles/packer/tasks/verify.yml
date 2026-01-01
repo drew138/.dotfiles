@@ -1,20 +1,20 @@
 ---
 - name: Locate packer binary
   ansible.builtin.command: which packer
-  register: verify_packer_which
+  register: packer_verify_which
   changed_when: false
   failed_when: false
 
 - name: Check if packer binary exists
   ansible.builtin.stat:
-    path: "{{ verify_packer_which.stdout }}"
-  register: verify_packer_bin
-  when: verify_packer_which.rc == 0
+    path: "{{ packer_verify_which.stdout }}"
+  register: packer_verify_bin
+  when: packer_verify_which.rc == 0
 
 - name: Assert packer binary is present and executable
   ansible.builtin.assert:
     that:
-      - verify_packer_bin.stat is defined
-      - verify_packer_bin.stat.exists
-      - verify_packer_bin.stat.executable
+      - packer_verify_bin.stat is defined
+      - packer_verify_bin.stat.exists
+      - packer_verify_bin.stat.executable
     fail_msg: "packer binary was not found in the PATH or is not executable"

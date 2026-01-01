@@ -1,7 +1,7 @@
 ---
 - name: Read login settings
   ansible.builtin.command: "{{ item.cmd }}"
-  register: verify_login_settings
+  register: login_verify_settings
   changed_when: false
   failed_when: false
   loop:
@@ -17,4 +17,4 @@
       Login setting {{ item.item.name }} is incorrect
       (expected={{ item.item.expected }}, got={{ item.stdout | trim | default('unset') }})
     success_msg: "Login setting {{ item.item.name }} is correct"
-  loop: "{{ verify_login_settings.results }}"
+  loop: "{{ login_verify_settings.results }}"

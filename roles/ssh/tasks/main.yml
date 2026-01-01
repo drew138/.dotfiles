@@ -23,16 +23,16 @@
 
 - name: Capture gitHub rsa key
   ansible.builtin.shell: ssh-keyscan -t rsa github.com
-  register: github_rsa_key
+  register: ssh_github_rsa_key
   changed_when: false
 
 - name: Add gitHub rsa key to known_hosts file
   ansible.builtin.lineinfile:
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
-    line: "{{ rsa_key_line }}"
+    line: "{{ ssh_rsa_key_line }}"
     create: true
-  loop: "{{ github_rsa_key.stdout_lines }}"
+  loop: "{{ ssh_github_rsa_key.stdout_lines }}"
   loop_control:
-    loop_var: rsa_key_line
+    loop_var: ssh_rsa_key_line
   no_log: true
   changed_when: false

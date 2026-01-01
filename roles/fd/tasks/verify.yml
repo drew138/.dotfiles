@@ -1,20 +1,20 @@
 ---
 - name: Locate fd binary
   ansible.builtin.command: which fd
-  register: verify_fd_which
+  register: fd_verify_which
   changed_when: false
   failed_when: false
 
 - name: Check if fd binary exists
   ansible.builtin.stat:
-    path: "{{ verify_fd_which.stdout }}"
-  register: verify_fd_bin
-  when: verify_fd_which.rc == 0
+    path: "{{ fd_verify_which.stdout }}"
+  register: fd_verify_bin
+  when: fd_verify_which.rc == 0
 
 - name: Assert fd binary is present and executable
   ansible.builtin.assert:
     that:
-      - verify_fd_bin.stat is defined
-      - verify_fd_bin.stat.exists
-      - verify_fd_bin.stat.executable
+      - fd_verify_bin.stat is defined
+      - fd_verify_bin.stat.exists
+      - fd_verify_bin.stat.executable
     fail_msg: "fd binary was not found in the PATH or is not executable"

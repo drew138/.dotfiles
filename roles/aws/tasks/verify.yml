@@ -1,7 +1,7 @@
 ---
 - name: Verify rosetta 2 installation
   ansible.builtin.shell: /usr/bin/pgrep -q oahd
-  register: verify_rosetta_check
+  register: aws_verify_rosetta_check
   failed_when: false
   changed_when: false
   when: ansible_facts['architecture'] in ['arm64', 'aarch64']
@@ -9,38 +9,38 @@
 - name: Assert rosetta 2 is running
   ansible.builtin.assert:
     that:
-      - verify_rosetta_check.rc == 0
+      - aws_verify_rosetta_check.rc == 0
     fail_msg: "Rosetta 2 (oahd process) is not running on this ARM Mac."
   when: ansible_facts['architecture'] in ['arm64', 'aarch64']
 
 - name: Locate aws cli binary
   ansible.builtin.command: which aws
-  register: verify_aws_path
+  register: aws_verify_aws_path
   changed_when: false
   failed_when: false
 
 - name: Assert aws cli is installed and in path
   ansible.builtin.assert:
     that:
-      - verify_aws_path.rc == 0
+      - aws_verify_aws_path.rc == 0
     fail_msg: "AWS CLI binary was not found in the executable path."
 
 - name: Verify aws cli version
   ansible.builtin.command: aws --version
-  register: verify_aws_v_output
+  register: aws_verify_aws_v_output
   changed_when: false
 
 - name: Display aws cli version
   ansible.builtin.debug:
-    msg: "Installed: {{ verify_aws_v_output.stdout }}"
+    msg: "Installed: {{ aws_verify_aws_v_output.stdout }}"
 
 - name: Verify installer cleanup
   ansible.builtin.stat:
     path: "/tmp/AWSCLIV2.pkg"
-  register: verify_aws_pkg_stat
+  register: aws_verify_aws_pkg_stat
 
 - name: Assert installer package was removed
   ansible.builtin.assert:
     that:
-      - not verify_aws_pkg_stat.stat.exists
+      - not aws_verify_aws_pkg_stat.stat.exists
     fail_msg: "The installer package at /tmp/AWSCLIV2.pkg was not cleaned up."

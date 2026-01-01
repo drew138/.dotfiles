@@ -1,5 +1,5 @@
 ---
-casks:
+casks_applications:
   - name: brave-browser
     app: Brave Browser
   - name: dbeaver-community

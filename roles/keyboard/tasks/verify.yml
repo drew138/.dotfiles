@@ -1,30 +1,30 @@
 ---
 - name: Read InitialKeyRepeat value
   ansible.builtin.command: defaults read -g InitialKeyRepeat
-  register: verify_initial_key_repeat
+  register: keyboard_verify_initial_key_repeat
   changed_when: false
   failed_when: false
 
 - name: Read KeyRepeat value
   ansible.builtin.command: defaults read -g KeyRepeat
-  register: verify_key_repeat
+  register: keyboard_verify_key_repeat
   changed_when: false
   failed_when: false
 
 - name: Assert InitialKeyRepeat is set correctly
   ansible.builtin.assert:
     that:
-      - verify_initial_key_repeat.rc == 0
-      - verify_initial_key_repeat.stdout | int == 15
+      - keyboard_verify_initial_key_repeat.rc == 0
+      - keyboard_verify_initial_key_repeat.stdout | int == 15
     fail_msg: >
       InitialKeyRepeat is not set correctly.
-      Expected 15, got {{ verify_initial_key_repeat.stdout }}
+      Expected 15, got {{ keyboard_verify_initial_key_repeat.stdout }}
 
 - name: Assert KeyRepeat is set correctly
   ansible.builtin.assert:
     that:
-      - verify_key_repeat.rc == 0
-      - verify_key_repeat.stdout | int == 2
+      - keyboard_verify_key_repeat.rc == 0
+      - keyboard_verify_key_repeat.stdout | int == 2
     fail_msg: >
       KeyRepeat is not set correctly.
-      Expected 2, got {{ verify_key_repeat.stdout }}
+      Expected 2, got {{ keyboard_verify_key_repeat.stdout }}

@@ -2,23 +2,23 @@
 - name: Verify fzf repository exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.fzf"
-  register: verify_fzf_dir
+  register: fzf_verify_dir
 
 - name: Assert fzf repository exists
   ansible.builtin.assert:
     that:
-      - verify_fzf_dir.stat.exists
-      - verify_fzf_dir.stat.isdir
+      - fzf_verify_dir.stat.exists
+      - fzf_verify_dir.stat.isdir
     fail_msg: "~/.fzf repository does not exist"
 
 - name: Verify fzf shell integration script exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.fzf.zsh"
-  register: verify_fzf_shell
+  register: fzf_verify_shell
 
 - name: Assert fzf shell integration script exists
   ansible.builtin.assert:
     that:
-      - verify_fzf_shell.stat.exists
-      - verify_fzf_shell.stat.isreg
+      - fzf_verify_shell.stat.exists
+      - fzf_verify_shell.stat.isreg
     fail_msg: "~/.fzf.zsh shell integration script does not exist"

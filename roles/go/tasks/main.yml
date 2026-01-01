@@ -40,22 +40,21 @@
 
 - name: Try to get current go version installed
   ansible.builtin.command: go version
-  register: result
+  register: go_version_result
   failed_when: false
   changed_when: false
 
 - name: Set go_current_version var
   ansible.builtin.set_fact:
-    go_current_version: "{{ result.stdout.split(' ')[2] }}"
-  when: result.rc == 0
+    go_current_version: "{{ go_version_result.stdout.split(' ')[2] }}"
+  when: go_version_result.rc == 0
 
 - name: Set go_current_version var to none
   ansible.builtin.set_fact:
     go_current_version: "none"
-  when: result.rc != 0
+  when: go_version_result.rc != 0
 
 - name: Install gnu-tar
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - gnu-tar

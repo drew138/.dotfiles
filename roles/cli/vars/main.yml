@@ -1,5 +1,5 @@
 ---
-clitools_brew_packages:
+cli_brew_packages:
   - htop
   - ripgrep
   - virtualenv
@@ -17,7 +17,7 @@ clitools_brew_packages:
   - llvm
   - libomp
 
-clitools_python_packages:
+cli_python_packages:
   - pre-commit
   - poetry==1.8.3
   - ansible

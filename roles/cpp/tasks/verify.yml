@@ -5,7 +5,7 @@
   loop:
     - /usr/local/include
     - /usr/local/include/bits
-  register: verify_cpp_dir_stats
+  register: cpp_verify_dir_stats
 
 - name: Assert include directories exist
   ansible.builtin.assert:
@@ -13,16 +13,16 @@
       - item.stat.exists
       - item.stat.isdir
     fail_msg: "Directory missing: {{ item.item }}"
-  loop: "{{ verify_cpp_dir_stats.results }}"
+  loop: "{{ cpp_verify_dir_stats.results }}"
 
 - name: Check stdc++.h file stats
   ansible.builtin.stat:
     path: /usr/local/include/bits/stdc++.h
-  register: verify_stdc_header_stat
+  register: cpp_verify_stdc_header_stat
 
 - name: Assert stdc++.h is present
   ansible.builtin.assert:
     that:
-      - verify_stdc_header_stat.stat.exists
-      - verify_stdc_header_stat.stat.isreg
+      - cpp_verify_stdc_header_stat.stat.exists
+      - cpp_verify_stdc_header_stat.stat.isreg
     fail_msg: "The C++ header stdc++.h was not found in /usr/local/include/bits/"

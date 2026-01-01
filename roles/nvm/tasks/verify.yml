@@ -2,36 +2,35 @@
 - name: Check .nvm directory stats
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.nvm"
-  register: verify_nvm_dir_stat
+  register: nvm_verify_dir_stat
 
 - name: Assert nvm directory exists
   ansible.builtin.assert:
     that:
-      - verify_nvm_dir_stat.stat.exists
-      - verify_nvm_dir_stat.stat.isdir
+      - nvm_verify_dir_stat.stat.exists
+      - nvm_verify_dir_stat.stat.isdir
     fail_msg: "nvm directory was not found at {{ ansible_facts['env']['HOME'] }}/.nvm"
 
 - name: Verify nvm git repository integrity
   ansible.builtin.command: git -C "{{ ansible_facts['env']['HOME'] }}/.nvm" rev-parse --is-inside-work-tree
-  register: verify_nvm_git_check
+  register: nvm_verify_git_check
   changed_when: false
   failed_when: false
 
 - name: Assert nvm path is a valid git repo
   ansible.builtin.assert:
     that:
-      - verify_nvm_git_check.rc == 0
+      - nvm_verify_git_check.rc == 0
     fail_msg: "The destination ~/.nvm exists but is not a valid git repository"
 
 - name: Check nvm shell script existence
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh"
-  register: verify_nvm_sh_stat
+  register: nvm_verify_sh_stat
 
 - name: Assert nvm.sh is present and readable
   ansible.builtin.assert:
     that:
-      - verify_nvm_sh_stat.stat.exists
-      # nvm.sh is intended to be sourced, but should be readable
-      - verify_nvm_sh_stat.stat.readable
+      - nvm_verify_sh_stat.stat.exists
+      - nvm_verify_sh_stat.stat.readable
     fail_msg: "The nvm.sh script was not found or is not readable in {{ ansible_facts['env']['HOME'] }}/.nvm/"

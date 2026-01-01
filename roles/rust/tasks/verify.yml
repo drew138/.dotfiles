@@ -4,7 +4,7 @@
   loop:
     - rustup
     - cargo
-  register: verify_rust_which
+  register: rust_verify_which
   changed_when: false
   failed_when: false
   environment:
@@ -13,8 +13,8 @@
 - name: Check if rust binaries exist
   ansible.builtin.stat:
     path: "{{ item.stdout }}"
-  loop: "{{ verify_rust_which.results }}"
-  register: verify_rust_bin_stats
+  loop: "{{ rust_verify_which.results }}"
+  register: rust_verify_bin_stats
   when: item.rc == 0
 
 - name: Assert rust binaries are present and executable
@@ -24,17 +24,17 @@
       - item.stat.exists
       - item.stat.executable
     fail_msg: "Rust binary {{ item.item.item }} was not found or is not executable"
-  loop: "{{ verify_rust_bin_stats.results }}"
+  loop: "{{ rust_verify_bin_stats.results }}"
   when: not item.skipped | default(false)
 
 - name: Check rust toolchain directory
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.rustup/toolchains/stable-{{ 'aarch64' if ansible_facts['architecture'] == 'arm64' else 'x86_64' }}-apple-darwin"
-  register: verify_rust_toolchain_stat
+  register: rust_verify_toolchain_stat
 
 - name: Assert stable toolchain is installed
   ansible.builtin.assert:
     that:
-      - verify_rust_toolchain_stat.stat.exists
-      - verify_rust_toolchain_stat.stat.isdir
+      - rust_verify_toolchain_stat.stat.exists
+      - rust_verify_toolchain_stat.stat.isdir
     fail_msg: "Rust stable toolchain directory was not found"

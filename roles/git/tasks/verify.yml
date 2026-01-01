@@ -1,71 +1,71 @@
 ---
 - name: Locate git binary
   ansible.builtin.command: which git
-  register: verify_git_which
+  register: git_verify_which
   changed_when: false
   failed_when: false
 
 - name: Check if git binary exists
   ansible.builtin.stat:
-    path: "{{ verify_git_which.stdout }}"
-  register: verify_git_bin
-  when: verify_git_which.rc == 0
+    path: "{{ git_verify_which.stdout }}"
+  register: git_verify_bin
+  when: git_verify_which.rc == 0
 
 - name: Assert git binary is present and executable
   ansible.builtin.assert:
     that:
-      - verify_git_bin.stat is defined
-      - verify_git_bin.stat.exists
-      - verify_git_bin.stat.executable
+      - git_verify_bin.stat is defined
+      - git_verify_bin.stat.exists
+      - git_verify_bin.stat.executable
     fail_msg: git binary was not found in the PATH or is not executable
 
 - name: Verify .gitconfig symlink exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.gitconfig"
     follow: false
-  register: verify_gitconfig
+  register: git_verifyconfig
 
 - name: Assert .gitconfig is a symlink
   ansible.builtin.assert:
     that:
-      - verify_gitconfig.stat.exists
-      - verify_gitconfig.stat.islnk
+      - git_verifyconfig.stat.exists
+      - git_verifyconfig.stat.islnk
     fail_msg: "~/.gitconfig is missing or is not a symlink"
 
 - name: Verify .gitignore_global symlink exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.gitignore_global"
     follow: false
-  register: verify_gitignore_global
+  register: git_verify_gitignore_global
 
 - name: Assert .gitignore_global is a symlink
   ansible.builtin.assert:
     that:
-      - verify_gitignore_global.stat.exists
-      - verify_gitignore_global.stat.islnk
+      - git_verify_gitignore_global.stat.exists
+      - git_verify_gitignore_global.stat.islnk
     fail_msg: "~/.gitignore_global is missing or is not a symlink"
 
 - name: Verify .work.gitconfig file exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.work.gitconfig"
-  register: verify_work_gitconfig
+  register: git_verify_work_gitconfig
 
 - name: Assert .work.gitconfig exists with correct permissions
   ansible.builtin.assert:
     that:
-      - verify_work_gitconfig.stat.exists
-      - verify_work_gitconfig.stat.isreg
-      - verify_work_gitconfig.stat.mode == "0700"
+      - git_verify_work_gitconfig.stat.exists
+      - git_verify_work_gitconfig.stat.isreg
+      - git_verify_work_gitconfig.stat.mode == "0700"
     fail_msg: "~/.work.gitconfig is missing or has incorrect permissions"
 
 - name: Verify work directory exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/work"
-  register: verify_work_dir
+  register: git_verify_work_dir
 
 - name: Assert work directory exists
   ansible.builtin.assert:
     that:
-      - verify_work_dir.stat.exists
-      - verify_work_dir.stat.isdir
+      - git_verify_work_dir.stat.exists
+      - git_verify_work_dir.stat.isdir
     fail_msg: "~/work directory does not exist"

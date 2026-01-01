@@ -1,47 +1,47 @@
 ---
 - name: Verify FelixKratz tap is present
   ansible.builtin.command: brew tap
-  register: verify_borders_brew_taps
+  register: jankyborders_verify_brew_taps
   changed_when: false
 
 - name: Assert FelixKratz tap is registered
   ansible.builtin.assert:
     that:
-      - "'felixkratz/formulae' in verify_borders_brew_taps.stdout"
+      - "'felixkratz/formulae' in jankyborders_verify_brew_taps.stdout"
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
 
 - name: Locate borders binary
   ansible.builtin.command: which borders
-  register: verify_borders_which
+  register: jankyborders_verify_which
   changed_when: false
   failed_when: false
 
 - name: Check if borders binary exists
   ansible.builtin.stat:
-    path: "{{ verify_borders_which.stdout }}"
-  register: verify_borders_bin
-  when: verify_borders_which.rc == 0
+    path: "{{ jankyborders_verify_which.stdout }}"
+  register: jankyborders_verify_bin
+  when: jankyborders_verify_which.rc == 0
 
 - name: Assert borders binary is present and executable
   ansible.builtin.assert:
     that:
-      - verify_borders_bin.stat is defined
-      - verify_borders_bin.stat.exists
-      - verify_borders_bin.stat.executable
+      - jankyborders_verify_bin.stat is defined
+      - jankyborders_verify_bin.stat.exists
+      - jankyborders_verify_bin.stat.executable
     fail_msg: "borders binary was not found in the PATH or is not executable"
 
 - name: Stat borders config symlink
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/borders/bordersrc"
     follow: false
-  register: verify_borders_symlink
+  register: jankyborders_verify_symlink
 
 - name: Assert borders config symlink is present and correct
   ansible.builtin.assert:
     that:
-      - verify_borders_symlink.stat.exists
-      - verify_borders_symlink.stat.islnk
-      - verify_borders_symlink.stat.lnk_source ==
+      - jankyborders_verify_symlink.stat.exists
+      - jankyborders_verify_symlink.stat.islnk
+      - jankyborders_verify_symlink.stat.lnk_source ==
         ansible_facts['env']['HOME'] + '/.dotfiles/roles/borders/files/bordersrc'
     fail_msg: >-
       Borders config symlink is missing, not a symlink,

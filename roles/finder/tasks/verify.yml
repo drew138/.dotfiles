@@ -1,7 +1,7 @@
 ---
 - name: Read Finder settings
   ansible.builtin.command: "{{ item.cmd }}"
-  register: verify_finder_settings
+  register: finder_verify_settings
   changed_when: false
   failed_when: false
   loop:
@@ -57,4 +57,4 @@
       Finder setting {{ item.item.name }} is incorrect
       (expected={{ item.item.expected }}, got={{ item.stdout | trim | default('unset') }})
     success_msg: "Finder setting {{ item.item.name }} is correct"
-  loop: "{{ verify_finder_settings.results }}"
+  loop: "{{ finder_verify_settings.results }}"

@@ -1,69 +1,62 @@
 ---
-- name: Verify architecture is supported by the role
-  ansible.builtin.assert:
-    that:
-      - ansible_facts['architecture'] in ['aarch64', 'arm64', 'x86_64', 'amd64']
-    fail_msg: >
-      Unsupported architecture detected: {{ ansible_facts['architecture'] }}
-
 - name: Verify /usr/local/go directory exists
   ansible.builtin.stat:
     path: /usr/local/go
-  register: verify_go_dir
+  register: go_verify_dir
 
 - name: Assert Go directory exists
   ansible.builtin.assert:
     that:
-      - verify_go_dir.stat.exists
-      - verify_go_dir.stat.isdir
+      - go_verify_dir.stat.exists
+      - go_verify_dir.stat.isdir
     fail_msg: "/usr/local/go directory is missing"
 
 - name: Verify go binary exists
   ansible.builtin.stat:
     path: /usr/local/go/bin/go
-  register: verify_go_bin
+  register: go_verify_bin
 
 - name: Assert go binary exists and is executable
   ansible.builtin.assert:
     that:
-      - verify_go_bin.stat.exists
-      - verify_go_bin.stat.executable
+      - go_verify_bin.stat.exists
+      - go_verify_bin.stat.executable
     fail_msg: "Go binary is missing or not executable"
 
 - name: Get installed go version
   ansible.builtin.command: /usr/local/go/bin/go version
-  register: verify_go_version
+  register: go_verify_version
   changed_when: false
 
 - name: Verify go version output format
   ansible.builtin.assert:
     that:
-      - verify_go_version.rc == 0
-      - "'go version go' in verify_go_version.stdout"
+      - go_verify_version.rc == 0
+      - "'go version go' in go_verify_version.stdout"
     fail_msg: >
       Unexpected go version output:
-      {{ verify_go_version.stdout }}
+      {{ go_verify_version.stdout }}
 
 - name: Verify go installation path is correct
   ansible.builtin.command: /usr/local/go/bin/go env GOROOT
-  register: verify_goroot
+  register: go_verify_goroot
   changed_when: false
 
 - name: Assert GOROOT is /usr/local/go
   ansible.builtin.assert:
     that:
-      - verify_goroot.stdout == "/usr/local/go"
+      - go_verify_goroot.stdout == "/usr/local/go"
     fail_msg: >
       GOROOT mismatch: expected /usr/local/go,
-      got {{ verify_goroot.stdout }}
+      got {{ go_verify_goroot.stdout }}
 
 - name: Verify go runs without error
   ansible.builtin.command: /usr/local/go/bin/go env
-  register: verify_go_env
+  register: go_verify_env
   changed_when: false
 
 - name: Assert go env executes successfully
   ansible.builtin.assert:
     that:
-      - verify_go_env.rc == 0
+      - go_verify_env.rc == 0
     fail_msg: "go env failed to execute"

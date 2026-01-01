@@ -5,4 +5,4 @@
     loop_var: cask
     extended: true
     extended_allitems: false
-  loop: "{{ casks }}"
+  loop: "{{ casks_applications }}"

@@ -1,20 +1,20 @@
 ---
 - name: Locate bat binary
   ansible.builtin.command: which bat
-  register: verify_bat_which
+  register: bat_verify_which
   changed_when: false
   failed_when: false
 
 - name: Check if bat binary exists
   ansible.builtin.stat:
-    path: "{{ verify_bat_which.stdout }}"
-  register: verify_bat_bin
-  when: verify_bat_which.rc == 0
+    path: "{{ bat_verify_which.stdout }}"
+  register: bat_verify_bin
+  when: bat_verify_which.rc == 0
 
 - name: Assert bat binary is present and executable
   ansible.builtin.assert:
     that:
-      - verify_bat_bin.stat is defined
-      - verify_bat_bin.stat.exists
-      - verify_bat_bin.stat.executable
+      - bat_verify_bin.stat is defined
+      - bat_verify_bin.stat.exists
+      - bat_verify_bin.stat.executable
     fail_msg: "bat binary was not found in the PATH or is not executable."

@@ -3,7 +3,7 @@
   ansible.builtin.stat:
     path: "{{ item.dest }}"
   loop: "{{ scripts_symlinks }}"
-  register: verify_script_link_stats
+  register: scripts_verify_symlink_stats
 
 - name: Assert symlinks are correct
   ansible.builtin.assert:
@@ -12,12 +12,12 @@
       - item.stat.islnk
       - item.stat.lnk_source == item.item.src
     fail_msg: "Symlink {{ item.item.dest }} is missing or points to the wrong source"
-  loop: "{{ verify_script_link_stats.results }}"
+  loop: "{{ scripts_verify_symlink_stats.results }}"
 
 - name: Locate symlinked binaries
   ansible.builtin.command: "which {{ item.dest | basename }}"
   loop: "{{ scripts_symlinks }}"
-  register: verify_script_which
+  register: scripts_verify_which
   changed_when: false
   failed_when: false
 
@@ -26,4 +26,4 @@
     that:
       - item.rc == 0
     fail_msg: "Script {{ item.item.dest | basename }} was not found in the PATH"
-  loop: "{{ verify_script_which.results }}"
+  loop: "{{ scripts_verify_which.results }}"

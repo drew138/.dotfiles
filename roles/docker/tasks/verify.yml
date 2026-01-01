@@ -5,15 +5,15 @@
     - colima
     - docker
     - docker-compose
-  register: verify_docker_tools_which
+  register: docker_verify_tools_which
   changed_when: false
   failed_when: false
 
 - name: Check if docker binaries exist
   ansible.builtin.stat:
     path: "{{ item.stdout }}"
-  loop: "{{ verify_docker_tools_which.results }}"
-  register: verify_docker_tools_bin
+  loop: "{{ docker_verify_tools_which.results }}"
+  register: docker_verify_tools_bin
   when: item.rc == 0
 
 - name: Assert docker binaries are present and executable
@@ -23,5 +23,5 @@
       - item.stat.exists
       - item.stat.executable
     fail_msg: "Binary {{ item.item.item }} was not found in the PATH or is not executable"
-  loop: "{{ verify_docker_tools_bin.results }}"
+  loop: "{{ docker_verify_tools_bin.results }}"
   when: not item.skipped | default(false)

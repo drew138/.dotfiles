@@ -3,7 +3,7 @@
   become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.cargo/bin/cargo"
-  register: cargo_path
+  register: rust_cargo_path
   ignore_errors: true
   changed_when: false
 
@@ -14,6 +14,7 @@
   ansible.builtin.shell: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
   args:
     executable: /bin/bash
+  when: not rust_cargo_path.stat.exists
 
 - name: Install rust toolchain
   ansible.builtin.shell: ./rustup toolchain remove stable && ./rustup toolchain install stable
@@ -21,3 +22,4 @@
   args:
     chdir: "{{ ansible_facts['env']['HOME'] }}/.cargo/bin"
     executable: /bin/bash
+  when: not rust_cargo_path.stat.exists

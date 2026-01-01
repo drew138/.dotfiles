@@ -2,36 +2,36 @@
 - name: Check wezterm application stats
   ansible.builtin.stat:
     path: /Applications/WezTerm.app
-  register: verify_wezterm_app_stat
+  register: wezterm_verify_app_stat
 
 - name: Assert wezterm application is installed
   ansible.builtin.assert:
     that:
-      - verify_wezterm_app_stat.stat.exists
-      - verify_wezterm_app_stat.stat.isdir
+      - wezterm_verify_app_stat.stat.exists
+      - wezterm_verify_app_stat.stat.isdir
     fail_msg: "WezTerm.app was not found in /Applications"
 
 - name: Check .wezterm.lua symlink stats
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.wezterm.lua"
-  register: verify_wezterm_config_stat
+  register: wezterm_verify_config_stat
 
 - name: Assert wezterm config symlink is valid
   ansible.builtin.assert:
     that:
-      - verify_wezterm_config_stat.stat.exists
-      - verify_wezterm_config_stat.stat.islnk
-      - verify_wezterm_config_stat.stat.lnk_source == ansible_facts['env']['HOME'] + "/.dotfiles/roles/wezterm/files/.wezterm.lua"
+      - wezterm_verify_config_stat.stat.exists
+      - wezterm_verify_config_stat.stat.islnk
+      - wezterm_verify_config_stat.stat.lnk_source == ansible_facts['env']['HOME'] + "/.dotfiles/roles/wezterm/files/.wezterm.lua"
     fail_msg: "WezTerm config symlink is missing, broken, or pointing to the wrong source"
 
 - name: Locate wezterm-gui binary
   ansible.builtin.command: which wezterm
-  register: verify_wezterm_cli_which
+  register: wezterm_verify_cli_which
   changed_when: false
   failed_when: false
 
 - name: Assert wezterm cli is accessible
   ansible.builtin.assert:
     that:
-      - verify_wezterm_cli_which.rc == 0
+      - wezterm_verify_cli_which.rc == 0
     fail_msg: "The 'wezterm' CLI binary is not in the PATH"

@@ -1,22 +1,22 @@
 ---
 - name: Locate eza binary
   ansible.builtin.command: which eza
-  register: verify_eza_which
+  register: eza_verify_which
   changed_when: false
   failed_when: false
 
 - name: Check if eza binary exists
   ansible.builtin.stat:
-    path: "{{ verify_eza_which.stdout }}"
-  register: verify_eza_bin
-  when: verify_eza_which.rc == 0
+    path: "{{ eza_verify_which.stdout }}"
+  register: eza_verify_bin
+  when: eza_verify_which.rc == 0
 
 - name: Assert eza binary is present and executable
   ansible.builtin.assert:
     that:
-      - verify_eza_bin.stat is defined
-      - verify_eza_bin.stat.exists
-      - verify_eza_bin.stat.executable
+      - eza_verify_bin.stat is defined
+      - eza_verify_bin.stat.exists
+      - eza_verify_bin.stat.executable
     fail_msg: "Eza binary was not found in the PATH or is not executable"
 
 - name: Check dev directory and eza repo stats
@@ -25,7 +25,7 @@
   loop:
     - "{{ ansible_facts['env']['HOME'] }}/dev/"
     - "{{ eza_home }}"
-  register: verify_dir_stats
+  register: eza_verify_dir_stats
 
 - name: Assert directories and repo exist
   ansible.builtin.assert:
@@ -33,16 +33,16 @@
       - item.stat.exists
       - item.stat.isdir
     fail_msg: "Required directory or repo missing: {{ item.item }}"
-  loop: "{{ verify_dir_stats.results }}"
+  loop: "{{ eza_verify_dir_stats.results }}"
 
 - name: Verify eza git repository integrity
   ansible.builtin.command: git -C "{{ eza_home }}" rev-parse --is-inside-work-tree
-  register: verify_eza_git_check
+  register: eza_verify_git_check
   changed_when: false
   failed_when: false
 
 - name: Assert eza path is a valid git repo
   ansible.builtin.assert:
     that:
-      - verify_eza_git_check.rc == 0
+      - eza_verify_git_check.rc == 0
     fail_msg: "The destination {{ eza_home }} exists but is not a valid git repository"

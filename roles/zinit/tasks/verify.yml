@@ -6,7 +6,7 @@
     - "{{ ansible_facts['env']['HOME'] }}/.local"
     - "{{ ansible_facts['env']['HOME'] }}/.local/share"
     - "{{ zinit_home }}"
-  register: verify_zinit_dir_stats
+  register: zinit_verify_dir_stats
 
 - name: Assert zinit directories exist
   ansible.builtin.assert:
@@ -14,27 +14,27 @@
       - item.stat.exists
       - item.stat.isdir
     fail_msg: "Required directory missing: {{ item.item }}"
-  loop: "{{ verify_zinit_dir_stats.results }}"
+  loop: "{{ zinit_verify_dir_stats.results }}"
 
 - name: Verify zinit git repository integrity
   ansible.builtin.command: "git -C {{ zinit_home }} rev-parse --is-inside-work-tree"
-  register: verify_zinit_git_check
+  register: zinit_verify_git_check
   changed_when: false
   failed_when: false
 
 - name: Assert zinit path is a valid git repo
   ansible.builtin.assert:
     that:
-      - verify_zinit_git_check.rc == 0
+      - zinit_verify_git_check.rc == 0
     fail_msg: "The destination {{ zinit_home }} exists but is not a valid git repository"
 
 - name: Check zinit loader script
   ansible.builtin.stat:
     path: "{{ zinit_home }}/zinit.zsh"
-  register: verify_zinit_script_stat
+  register: zinit_verify_script_stat
 
 - name: Assert zinit loader is present
   ansible.builtin.assert:
     that:
-      - verify_zinit_script_stat.stat.exists
+      - zinit_verify_script_stat.stat.exists
     fail_msg: "The core zinit.zsh script was not found in {{ zinit_home }}"

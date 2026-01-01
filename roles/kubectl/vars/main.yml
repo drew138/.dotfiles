@@ -1,4 +1,0 @@
----
-kubernetes_keyring_path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-# version can be disregarded as the same signing key is used for all repositories
-kubernetes_key_url: https://pkgs.k8s.io/core:/stable:/v1.31/deb

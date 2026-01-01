@@ -1,16 +1,16 @@
 ---
 - name: Verify screenshot location
   ansible.builtin.command: defaults read com.apple.screencapture location
-  register: verify_screenshot_location
+  register: screenshots_verify_location
   changed_when: false
 
 - name: Assert screenshot location
   ansible.builtin.assert:
     that:
-      - verify_screenshot_location.stdout | trim
+      - screenshots_verify_location.stdout | trim
         == "{{ ansible_facts['env']['HOME'] }}/Pictures/Screenshots"
     success_msg: "Screenshot location correctly configured"
     fail_msg: >
       Screenshot location mismatch.
       Expected: {{ ansible_facts['env']['HOME'] }}/Pictures/Screenshots
-      Got: {{ verify_screenshot_location.stdout }}
+      Got: {{ screenshots_verify_location.stdout }}

@@ -4,15 +4,15 @@
   loop:
     - pyenv
     - xz
-  register: verify_deps_which
+  register: pyenv_verify_deps_which
   changed_when: false
   failed_when: false
 
 - name: Check if dependency binaries exist
   ansible.builtin.stat:
     path: "{{ item.stdout }}"
-  loop: "{{ verify_deps_which.results }}"
-  register: verify_deps_bin
+  loop: "{{ pyenv_verify_deps_which.results }}"
+  register: pyenv_verify_deps_bin
   when: item.rc == 0
 
 - name: Assert dependency binaries are present and executable
@@ -22,5 +22,5 @@
       - item.stat.exists
       - item.stat.executable
     fail_msg: "Binary {{ item.item.item }} was not found in the PATH or is not executable"
-  loop: "{{ verify_deps_bin.results }}"
+  loop: "{{ pyenv_verify_deps_bin.results }}"
   when: not item.skipped | default(false)
