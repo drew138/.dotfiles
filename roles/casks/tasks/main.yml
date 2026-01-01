@@ -1,6 +1,6 @@
 ---
 - name: Install homebrew casks
-  include_tasks: install_cask.yml
+  ansible.builtin.include_tasks: install_cask.yml
   loop_control:
     loop_var: cask
     extended: true

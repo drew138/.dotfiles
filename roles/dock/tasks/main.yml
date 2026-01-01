@@ -18,7 +18,7 @@
     state: latest
 
 - name: Clean up dock
-  include_tasks: remove.yml
+  ansible.builtin.include_tasks: remove.yml
   # loop: "{{ dockitems_remove }}"
   # loop_control:
   #   loop_var: dock_item_clean
@@ -26,7 +26,7 @@
   #   extended_allitems: false
 
 - name: Ensure required dock items exist
-  include_tasks: add.yml
+  ansible.builtin.include_tasks: add.yml
   loop: "{{ dockitems_persist }}"
   loop_control:
     loop_var: dock_item_add
@@ -34,7 +34,7 @@
     extended_allitems: false
 
 - name: Ensure dock items are in correct position
-  include_tasks: position.yml
+  ansible.builtin.include_tasks: position.yml
   loop: "{{ dockitems_persist }}"
   loop_control:
     loop_var: dock_item_position

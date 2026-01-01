@@ -21,7 +21,7 @@
   changed_when: false
 
 - name: Pause for 7 seconds between dock changes
-  pause:
+  ansible.builtin.pause:
     seconds: 7
   when:
     - dockitem_exists.rc > 0 or

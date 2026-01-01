@@ -18,7 +18,7 @@
 #   changed_when: false
 #
 # - name: pause for 7 seconds between dock changes.
-#   pause:
+#   ansible.builtin.pause:
 #     seconds: 7
 #   when:
 #     - dockitem_exists.rc == 0
@@ -38,6 +38,6 @@
   changed_when: false
 
 - name: Pause after removing all dock items
-  pause:
+  ansible.builtin.pause:
     seconds: 3
   when: current_dock_items.stdout_lines | length > 0
