@@ -12,7 +12,7 @@
       }}
 
 - name: Fail if architecture is not supported
-  fail:
+  ansible.builtin.fail:
     msg: "Unsupported architecture: {{ ansible_facts['architecture'] }}. Supported values are ['aarch64', 'arm64', 'x86_64', 'amd64']."
   when: gcloud_cli_arch == 'invalid'
 
