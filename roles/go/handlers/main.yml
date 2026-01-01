@@ -1,7 +1,7 @@
 ---
 - name: install go binaries
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  shell: "/usr/local/go/bin/go install {{ go_package }}"
+  ansible.builtin.shell: "/usr/local/go/bin/go install {{ go_package }}"
   loop:
     - github.com/charmbracelet/gum@latest
     - github.com/go-delve/delve/cmd/dlv@latest

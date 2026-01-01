@@ -22,7 +22,7 @@
     mode: "0600"
 
 - name: capture gitHub rsa key
-  shell: ssh-keyscan -t rsa github.com
+  ansible.builtin.shell: ssh-keyscan -t rsa github.com
   register: github_rsa_key
   changed_when: false
 

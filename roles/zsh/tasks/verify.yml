@@ -41,7 +41,7 @@
     fail_msg: ".zshrc symlink is broken or pointing to the wrong source"
 
 - name: verify default shell for user
-  shell: "dscl . -read /Users/{{ ansible_facts['env']['USER'] }} UserShell | awk '{print $2}'"
+  ansible.builtin.shell: "dscl . -read /Users/{{ ansible_facts['env']['USER'] }} UserShell | awk '{print $2}'"
   register: verify_current_shell
   changed_when: false
 

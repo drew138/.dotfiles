@@ -1,6 +1,6 @@
 ---
 - name: get latest version of nvm
-  shell: "basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/nvm-sh/nvm/releases/latest)"
+  ansible.builtin.shell: "basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/nvm-sh/nvm/releases/latest)"
   register: nvm_latest_version
   changed_when: false
 

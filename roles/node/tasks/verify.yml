@@ -1,6 +1,6 @@
 ---
 - name: verify node runs when nvm is sourced
-  shell: |
+  ansible.builtin.shell: |
     source "{{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh"
     node --version
   args:

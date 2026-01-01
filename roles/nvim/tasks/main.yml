@@ -40,7 +40,7 @@
 
 - name: build and install nvim
   become: true
-  shell:
+  ansible.builtin.shell:
     cmd: |
       sudo make distclean
       sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
@@ -66,7 +66,7 @@
     PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: install global npm packages required by neovim
-  shell: "source {{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh && npm install -g {{ npm_package }}"
+  ansible.builtin.shell: "source {{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh && npm install -g {{ npm_package }}"
   args:
     executable: /bin/bash
   loop:
