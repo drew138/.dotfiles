@@ -1,13 +1,13 @@
 ---
 - name: ensure FelixKratz Homebrew tap is available
-  homebrew_tap:
+  community.general.homebrew_tap:
     name: FelixKratz/formulae
     state: present
 
 - name: install jankyborders
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew:
+  community.general.homebrew:
     name:
       - borders
     state: latest

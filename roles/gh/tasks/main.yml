@@ -1,7 +1,7 @@
 ---
 - name: install dependencies
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew:
+  community.general.homebrew:
     name:
       - gh
     state: latest

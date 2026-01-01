@@ -1,7 +1,7 @@
 ---
 - name: install docker, docker-compose and colima
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew:
+  community.general.homebrew:
     name:
       - colima
       - docker-compose

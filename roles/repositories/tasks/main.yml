@@ -1,7 +1,7 @@
 ---
 - name: install git
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew:
+  community.general.homebrew:
     name:
       - git
     state: latest

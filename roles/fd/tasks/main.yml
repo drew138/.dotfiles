@@ -2,7 +2,7 @@
 - name: install fd
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew:
+  community.general.homebrew:
     name:
       - fd
     state: latest

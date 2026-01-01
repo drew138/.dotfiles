@@ -56,7 +56,7 @@
 
 - name: install gnu-tar
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew:
+  community.general.homebrew:
     name:
       - gnu-tar
     state: latest

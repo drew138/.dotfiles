@@ -2,7 +2,7 @@
 - name: installs cmake
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew_cask:
+  community.general.homebrew_cask:
     name:
       - cmake
     state: present
@@ -11,7 +11,7 @@
 - name: install dependencies
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew:
+  community.general.homebrew:
     name:
       - xclip
       - make
@@ -79,7 +79,7 @@
 - name: install luajit
   become: true
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew:
+  community.general.homebrew:
     name:
       - luajit
     state: latest

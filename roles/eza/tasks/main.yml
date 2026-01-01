@@ -1,7 +1,7 @@
 ---
 - name: install eza
   become_user: "{{ ansible_facts['env']['USER'] }}"
-  homebrew:
+  community.general.homebrew:
     name:
       - eza
     state: latest
