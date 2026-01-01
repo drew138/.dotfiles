@@ -1,6 +1,6 @@
 ---
 - name: verify architecture is supported
-  assert:
+  ansible.builtin.assert:
     that:
       - ansible_facts['architecture'] in ['aarch64', 'arm64', 'x86_64', 'amd64']
     fail_msg: >
@@ -12,7 +12,7 @@
   register: verify_gcloud_dir
 
 - name: assert google-cloud-sdk directory exists
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_gcloud_dir.stat.exists
       - verify_gcloud_dir.stat.isdir
@@ -24,7 +24,7 @@
   register: verify_gcloud_bin
 
 - name: assert gcloud binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_gcloud_bin.stat.exists
       - verify_gcloud_bin.stat.executable
@@ -36,7 +36,7 @@
   register: verify_gcloud_path_hook
 
 - name: assert gcloud PATH hook exists
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_gcloud_path_hook.stat.exists
     fail_msg: "gcloud path.zsh.inc not found"

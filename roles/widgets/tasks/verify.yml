@@ -7,7 +7,7 @@
   failed_when: false
 
 - name: assert desktop widgets are hidden
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_hide_widgets.stdout | trim == "1"
     fail_msg: "Desktop widgets are NOT hidden"

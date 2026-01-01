@@ -12,7 +12,7 @@
   when: verify_fd_which.rc == 0
 
 - name: assert fd binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_fd_bin.stat is defined
       - verify_fd_bin.stat.exists

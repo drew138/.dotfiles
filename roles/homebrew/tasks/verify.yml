@@ -13,7 +13,7 @@
   changed_when: false
 
 - name: assert brew binary exists and is executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_brew_bin is defined
       - verify_brew_bin.stat.exists
@@ -26,7 +26,7 @@
   changed_when: false
 
 - name: assert homebrew responds correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_brew_version.stdout is search("Homebrew")
     fail_msg: "homebrew is installed but did not return a valid homebrew version"

@@ -5,7 +5,7 @@
   register: verify_wezterm_app_stat
 
 - name: assert wezterm application is installed
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_wezterm_app_stat.stat.exists
       - verify_wezterm_app_stat.stat.isdir
@@ -17,7 +17,7 @@
   register: verify_wezterm_config_stat
 
 - name: assert wezterm config symlink is valid
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_wezterm_config_stat.stat.exists
       - verify_wezterm_config_stat.stat.islnk
@@ -31,7 +31,7 @@
   failed_when: false
 
 - name: assert wezterm cli is accessible
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_wezterm_cli_which.rc == 0
     fail_msg: "The 'wezterm' CLI binary is not in the PATH"

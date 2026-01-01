@@ -5,7 +5,7 @@
   register: verify_fonts_dir
 
 - name: assert Fonts directory exists
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_fonts_dir.stat.exists
       - verify_fonts_dir.stat.isdir
@@ -18,7 +18,7 @@
   register: verify_nerdfonts
 
 - name: assert at least one Nerd Font is installed
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_nerdfonts.files | length > 0
     fail_msg: "No Nerd Font files found in ~/Library/Fonts"

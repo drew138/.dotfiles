@@ -12,7 +12,7 @@
   when: verify_gh_which.rc == 0
 
 - name: assert gh binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_gh_bin.stat is defined
       - verify_gh_bin.stat.exists
@@ -25,7 +25,7 @@
   changed_when: false
 
 - name: assert gh version command succeeds
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_gh_version.rc == 0
       - verify_gh_version.stdout | length > 0

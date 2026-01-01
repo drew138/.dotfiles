@@ -6,7 +6,7 @@
   register: verify_script_link_stats
 
 - name: assert symlinks are correct
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat.exists
       - item.stat.islnk
@@ -22,7 +22,7 @@
   failed_when: false
 
 - name: assert script binaries are present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - item.rc == 0
     fail_msg: "Script {{ item.item.dest | basename }} was not found in the PATH"

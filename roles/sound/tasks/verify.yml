@@ -14,7 +14,7 @@
       expected: "%01"
 
 - name: assert sound settings
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stdout is search(item.item.expected)
     success_msg: "Sound setting {{ item.item.name }} is correct"

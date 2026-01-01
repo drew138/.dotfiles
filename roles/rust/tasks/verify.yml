@@ -18,7 +18,7 @@
   when: item.rc == 0
 
 - name: assert rust binaries are present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat is defined
       - item.stat.exists
@@ -33,7 +33,7 @@
   register: verify_rust_toolchain_stat
 
 - name: assert stable toolchain is installed
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_rust_toolchain_stat.stat.exists
       - verify_rust_toolchain_stat.stat.isdir

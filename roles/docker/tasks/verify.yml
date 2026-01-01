@@ -17,7 +17,7 @@
   when: item.rc == 0
 
 - name: assert docker binaries are present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat is defined
       - item.stat.exists

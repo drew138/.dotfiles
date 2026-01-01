@@ -5,7 +5,7 @@
   changed_when: false
 
 - name: assert all configured brew packages are installed
-  assert:
+  ansible.builtin.assert:
     that:
       - item in verify_brew_list.stdout_lines
     fail_msg: "homebrew package '{{ item }}' is not installed"
@@ -17,7 +17,7 @@
   register: verify_clitools_dir
 
 - name: assert virtualenv directory exists
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_clitools_dir.stat.exists
       - verify_clitools_dir.stat.isdir
@@ -40,7 +40,7 @@
       }}
 
 - name: assert required python packages are installed
-  assert:
+  ansible.builtin.assert:
     that:
       - >-
         {{

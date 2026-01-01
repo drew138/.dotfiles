@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: assert natural scrolling is disabled
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_mouse_scroll_direction.stdout | trim == "0"
     fail_msg: "Natural scrolling is ENABLED"

@@ -5,7 +5,7 @@
   register: verify_nvm_dir_stat
 
 - name: assert nvm directory exists
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_nvm_dir_stat.stat.exists
       - verify_nvm_dir_stat.stat.isdir
@@ -18,7 +18,7 @@
   failed_when: false
 
 - name: assert nvm path is a valid git repo
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_nvm_git_check.rc == 0
     fail_msg: "The destination ~/.nvm exists but is not a valid git repository"
@@ -29,7 +29,7 @@
   register: verify_nvm_sh_stat
 
 - name: assert nvm.sh is present and readable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_nvm_sh_stat.stat.exists
       # nvm.sh is intended to be sourced, but should be readable

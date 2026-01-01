@@ -10,7 +10,7 @@
   register: verify_starship_stats
 
 - name: assert .config directory exists with correct mode
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_starship_stats.results[0].stat.exists
       - verify_starship_stats.results[0].stat.isdir
@@ -18,7 +18,7 @@
     fail_msg: "~/.config directory check failed"
 
 - name: assert starship.toml symlink is valid
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_starship_stats.results[1].stat.exists
       - verify_starship_stats.results[1].stat.islnk

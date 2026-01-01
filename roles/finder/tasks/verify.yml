@@ -50,7 +50,7 @@
       expected: "1"
 
 - name: assert Finder settings
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stdout | trim == item.item.expected
     fail_msg: >-

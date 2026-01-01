@@ -10,7 +10,7 @@
       expected: "0"
 
 - name: assert login settings
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stdout | trim == item.item.expected
     fail_msg: >-

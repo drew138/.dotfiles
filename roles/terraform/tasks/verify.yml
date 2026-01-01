@@ -5,7 +5,7 @@
   changed_when: false
 
 - name: assert hashicorp tap is registered
-  assert:
+  ansible.builtin.assert:
     that:
       - "'hashicorp/tap' in verify_brew_taps.stdout"
     fail_msg: "The hashicorp/tap Homebrew tap is not available."
@@ -23,7 +23,7 @@
   when: verify_terraform_which.rc == 0
 
 - name: assert terraform binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_terraform_bin.stat is defined
       - verify_terraform_bin.stat.exists

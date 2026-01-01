@@ -5,7 +5,7 @@
   changed_when: false
 
 - name: assert FelixKratz tap is registered
-  assert:
+  ansible.builtin.assert:
     that:
       - "'felixkratz/formulae' in brew_taps.stdout"
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
@@ -23,7 +23,7 @@
   when: sketchybar_which.rc == 0
 
 - name: assert sketchybar binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - sketchybar_bin.stat is defined
       - sketchybar_bin.stat.exists
@@ -37,7 +37,7 @@
   register: sketchybar_symlink
 
 - name: assert sketchybar config symlink is present and correct
-  assert:
+  ansible.builtin.assert:
     that:
       - sketchybar_symlink.stat.exists
       - sketchybar_symlink.stat.islnk

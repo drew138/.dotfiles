@@ -8,7 +8,7 @@
   register: verify_cpp_dir_stats
 
 - name: assert include directories exist
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat.exists
       - item.stat.isdir
@@ -21,7 +21,7 @@
   register: verify_stdc_header_stat
 
 - name: assert stdc++.h is present
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_stdc_header_stat.stat.exists
       - verify_stdc_header_stat.stat.isreg

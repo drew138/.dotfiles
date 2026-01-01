@@ -16,7 +16,7 @@
   when: item.rc == 0
 
 - name: assert dependency binaries are present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat is defined
       - item.stat.exists

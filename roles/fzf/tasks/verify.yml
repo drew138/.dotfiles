@@ -5,7 +5,7 @@
   register: verify_fzf_dir
 
 - name: assert fzf repository exists
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_fzf_dir.stat.exists
       - verify_fzf_dir.stat.isdir
@@ -17,7 +17,7 @@
   register: verify_fzf_shell
 
 - name: assert fzf shell integration script exists
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_fzf_shell.stat.exists
       - verify_fzf_shell.stat.isreg

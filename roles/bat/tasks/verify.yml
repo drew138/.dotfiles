@@ -12,7 +12,7 @@
   when: verify_bat_which.rc == 0
 
 - name: assert bat binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_bat_bin.stat is defined
       - verify_bat_bin.stat.exists

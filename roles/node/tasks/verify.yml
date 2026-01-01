@@ -10,7 +10,7 @@
   failed_when: false
 
 - name: assert node is available via nvm
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_node_version.rc == 0
       - verify_node_version.stdout is match("^v[0-9]+\\.")

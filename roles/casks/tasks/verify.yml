@@ -6,7 +6,7 @@
   register: verify_cask_stats
 
 - name: assert casks are present in /Applications
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat.exists
     fail_msg: >
@@ -20,7 +20,7 @@
   changed_when: false
 
 - name: assert casks are allowed by Gatekeeper
-  assert:
+  ansible.builtin.assert:
     that:
       - item.rc == 0
     fail_msg: >

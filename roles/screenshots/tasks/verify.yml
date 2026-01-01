@@ -5,7 +5,7 @@
   changed_when: false
 
 - name: assert screenshot location
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_screenshot_location.stdout | trim
         == "{{ ansible_facts['env']['HOME'] }}/Pictures/Screenshots"

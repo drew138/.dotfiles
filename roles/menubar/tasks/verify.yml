@@ -6,7 +6,7 @@
   changed_when: false
 
 - name: assert menu bar auto-hide is enabled
-  assert:
+  ansible.builtin.assert:
     that:
       - menu_bar_status.stdout == "true"
     success_msg: "Menu bar auto-hide is enabled"

@@ -10,7 +10,7 @@
   changed_when: false
 
 - name: assert tap to click enabled
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_trackpad_tap_user.stdout == '1'
       - verify_trackpad_tap_driver.stdout == '1'

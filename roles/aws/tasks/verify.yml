@@ -7,7 +7,7 @@
   when: ansible_facts['architecture'] in ['arm64', 'aarch64']
 
 - name: assert rosetta 2 is running
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_rosetta_check.rc == 0
     fail_msg: "Rosetta 2 (oahd process) is not running on this ARM Mac."
@@ -20,7 +20,7 @@
   failed_when: false
 
 - name: assert aws cli is installed and in path
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_aws_path.rc == 0
     fail_msg: "AWS CLI binary was not found in the executable path."
@@ -40,7 +40,7 @@
   register: verify_aws_pkg_stat
 
 - name: assert installer package was removed
-  assert:
+  ansible.builtin.assert:
     that:
       - not verify_aws_pkg_stat.stat.exists
     fail_msg: "The installer package at /tmp/AWSCLIV2.pkg was not cleaned up."

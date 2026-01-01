@@ -20,21 +20,21 @@
   when: verify_zsh_which.rc == 0
 
 - name: assert zsh binary is present
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_zsh_stats.results[0].stat.exists
       - verify_zsh_stats.results[0].stat.executable
     fail_msg: "Zsh binary was not found or is not executable"
 
 - name: assert .work.zsh exists with correct mode
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_zsh_stats.results[1].stat.exists
       - verify_zsh_stats.results[1].stat.mode == "0700"
     fail_msg: ".work.zsh is missing or has incorrect permissions"
 
 - name: assert .zshrc symlink is valid
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_zsh_stats.results[2].stat.islnk
       - verify_zsh_stats.results[2].stat.lnk_source == ansible_facts['env']['HOME'] + "/.dotfiles/roles/zsh/files/.zshrc"
@@ -46,7 +46,7 @@
   changed_when: false
 
 - name: assert zsh is the default shell
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_current_shell.stdout == verify_zsh_which.stdout
     fail_msg: "Default shell is {{ verify_current_shell.stdout }} but expected {{ verify_zsh_which.stdout }}"

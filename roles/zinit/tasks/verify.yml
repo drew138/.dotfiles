@@ -9,7 +9,7 @@
   register: verify_zinit_dir_stats
 
 - name: assert zinit directories exist
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat.exists
       - item.stat.isdir
@@ -23,7 +23,7 @@
   failed_when: false
 
 - name: assert zinit path is a valid git repo
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_zinit_git_check.rc == 0
     fail_msg: "The destination {{ zinit_home }} exists but is not a valid git repository"
@@ -34,7 +34,7 @@
   register: verify_zinit_script_stat
 
 - name: assert zinit loader is present
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_zinit_script_stat.stat.exists
     fail_msg: "The core zinit.zsh script was not found in {{ zinit_home }}"

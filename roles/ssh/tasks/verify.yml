@@ -14,7 +14,7 @@
   register: verify_ssh_file_stats
 
 - name: assert ssh files exist and have correct permissions
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat.exists
       - item.stat.mode == item.item.mode
@@ -30,7 +30,7 @@
   failed_when: false
 
 - name: assert github.com is recognized
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_github_known_hosts_check.rc == 0
     fail_msg: "github.com was not found in the known_hosts file."

@@ -12,7 +12,7 @@
   when: verify_zoxide_which.rc == 0
 
 - name: assert zoxide binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_zoxide_bin.stat is defined
       - verify_zoxide_bin.stat.exists

@@ -12,7 +12,7 @@
   failed_when: false
 
 - name: assert InitialKeyRepeat is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_initial_key_repeat.rc == 0
       - verify_initial_key_repeat.stdout | int == 15
@@ -21,7 +21,7 @@
       Expected 15, got {{ verify_initial_key_repeat.stdout }}
 
 - name: assert KeyRepeat is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_key_repeat.rc == 0
       - verify_key_repeat.stdout | int == 2

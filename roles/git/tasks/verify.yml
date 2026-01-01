@@ -12,7 +12,7 @@
   when: verify_git_which.rc == 0
 
 - name: assert git binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_git_bin.stat is defined
       - verify_git_bin.stat.exists
@@ -26,7 +26,7 @@
   register: verify_gitconfig
 
 - name: assert .gitconfig is a symlink
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_gitconfig.stat.exists
       - verify_gitconfig.stat.islnk
@@ -39,7 +39,7 @@
   register: verify_gitignore_global
 
 - name: assert .gitignore_global is a symlink
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_gitignore_global.stat.exists
       - verify_gitignore_global.stat.islnk
@@ -51,7 +51,7 @@
   register: verify_work_gitconfig
 
 - name: assert .work.gitconfig exists with correct permissions
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_work_gitconfig.stat.exists
       - verify_work_gitconfig.stat.isreg
@@ -64,7 +64,7 @@
   register: verify_work_dir
 
 - name: assert work directory exists
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_work_dir.stat.exists
       - verify_work_dir.stat.isdir

@@ -12,7 +12,7 @@
   when: verify_eza_which.rc == 0
 
 - name: assert eza binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_eza_bin.stat is defined
       - verify_eza_bin.stat.exists
@@ -28,7 +28,7 @@
   register: verify_dir_stats
 
 - name: assert directories and repo exist
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat.exists
       - item.stat.isdir
@@ -42,7 +42,7 @@
   failed_when: false
 
 - name: assert eza path is a valid git repo
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_eza_git_check.rc == 0
     fail_msg: "The destination {{ eza_home }} exists but is not a valid git repository"

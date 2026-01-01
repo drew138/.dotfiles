@@ -5,7 +5,7 @@
   changed_when: false
 
 - name: assert dark mode is active
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_dark_mode_check.stdout == "true"
     fail_msg: "Dark mode verification failed. Expected 'true' but got '{{ verify_dark_mode_check.stdout }}'"

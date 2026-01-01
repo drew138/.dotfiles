@@ -12,7 +12,7 @@
   when: verify_git_which.rc == 0
 
 - name: assert git binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_git_bin.stat is defined
       - verify_git_bin.stat.exists
@@ -29,7 +29,7 @@
   register: verify_base_dir_stats
 
 - name: assert base directories exist
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat.exists
       - item.stat.isdir
@@ -43,7 +43,7 @@
   register: verify_repo_dir_stats
 
 - name: assert repositories were cloned
-  assert:
+  ansible.builtin.assert:
     that:
       - item.stat.exists
       - item.stat.isdir
@@ -59,7 +59,7 @@
   failed_when: false
 
 - name: assert dotfiles is a valid git repo
-  assert:
+  ansible.builtin.assert:
     that:
       - item.rc == 0
     fail_msg: "Directory exists but is not a valid git repository: {{ item.item }}"

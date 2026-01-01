@@ -19,7 +19,7 @@
       or verify_wallpaper_current_path == ""
 
 - name: verify wallpaper path matches expected
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_wallpaper_current_path == macos_wallpaper_path
     fail_msg: >

@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: assert nvim is in PATH
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_nvim_which.rc == 0
       - verify_nvim_which.stdout | length > 0
@@ -18,7 +18,7 @@
   register: verify_nvim_bin
 
 - name: assert nvim binary is executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_nvim_bin.stat.exists
       - verify_nvim_bin.stat.executable
@@ -30,7 +30,7 @@
   register: verify_nvim_config
 
 - name: assert nvim config is a symlink
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_nvim_config.stat.exists
       - verify_nvim_config.stat.islnk
@@ -42,7 +42,7 @@
   register: verify_nvim_venv
 
 - name: assert nvim python virtualenv exists
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_nvim_venv.stat.exists
     fail_msg: "~/.nvimvenv was not created"

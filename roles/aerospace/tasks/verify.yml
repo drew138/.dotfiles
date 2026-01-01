@@ -12,7 +12,7 @@
   when: verify_aerospace_which.rc == 0
 
 - name: assert binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_aerospace_bin.stat is defined
       - verify_aerospace_bin.stat.exists

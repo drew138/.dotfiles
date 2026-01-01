@@ -12,7 +12,7 @@
   when: verify_packer_which.rc == 0
 
 - name: assert packer binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_packer_bin.stat is defined
       - verify_packer_bin.stat.exists

@@ -5,7 +5,7 @@
   changed_when: false
 
 - name: assert FelixKratz tap is registered
-  assert:
+  ansible.builtin.assert:
     that:
       - "'felixkratz/formulae' in verify_borders_brew_taps.stdout"
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
@@ -23,7 +23,7 @@
   when: verify_borders_which.rc == 0
 
 - name: assert borders binary is present and executable
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_borders_bin.stat is defined
       - verify_borders_bin.stat.exists
@@ -37,7 +37,7 @@
   register: verify_borders_symlink
 
 - name: assert borders config symlink is present and correct
-  assert:
+  ansible.builtin.assert:
     that:
       - verify_borders_symlink.stat.exists
       - verify_borders_symlink.stat.islnk
