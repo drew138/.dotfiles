@@ -1,6 +1,6 @@
 ---
 - name: locate rust binaries
-  command: "which {{ item }}"
+  ansible.builtin.command: "which {{ item }}"
   loop:
     - rustup
     - cargo

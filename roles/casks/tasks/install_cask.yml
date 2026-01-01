@@ -5,6 +5,6 @@
     state: present
 
 - name: remove quarantine from installed app
-  command: xattr -d com.apple.quarantine "/Applications/{{ cask.app }}.app"
+  ansible.builtin.command: xattr -d com.apple.quarantine "/Applications/{{ cask.app }}.app"
   changed_when: false
   failed_when: false

@@ -1,6 +1,6 @@
 ---
 - name: check if brew is in path
-  command: which brew
+  ansible.builtin.command: which brew
   register: verify_brew_which
   changed_when: false
   failed_when: false
@@ -21,7 +21,7 @@
     fail_msg: "homebrew is not installed or brew is not executable"
 
 - name: get homebrew version
-  command: brew --version
+  ansible.builtin.command: brew --version
   register: verify_brew_version
   changed_when: false
 

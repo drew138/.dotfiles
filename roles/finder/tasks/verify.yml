@@ -1,6 +1,6 @@
 ---
 - name: read Finder settings
-  command: "{{ item.cmd }}"
+  ansible.builtin.command: "{{ item.cmd }}"
   register: verify_finder_settings
   changed_when: false
   failed_when: false

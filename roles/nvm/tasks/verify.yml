@@ -12,7 +12,7 @@
     fail_msg: "nvm directory was not found at {{ ansible_facts['env']['HOME'] }}/.nvm"
 
 - name: verify nvm git repository integrity
-  command: git -C "{{ ansible_facts['env']['HOME'] }}/.nvm" rev-parse --is-inside-work-tree
+  ansible.builtin.command: git -C "{{ ansible_facts['env']['HOME'] }}/.nvm" rev-parse --is-inside-work-tree
   register: verify_nvm_git_check
   changed_when: false
   failed_when: false

@@ -1,6 +1,6 @@
 ---
 - name: locate git binary
-  command: which git
+  ansible.builtin.command: which git
   register: verify_git_which
   changed_when: false
   failed_when: false
@@ -51,7 +51,7 @@
   loop: "{{ verify_repo_dir_stats.results }}"
 
 - name: verify git repository integrity
-  command: "git -C {{ item }} rev-parse --is-inside-work-tree"
+  ansible.builtin.command: "git -C {{ item }} rev-parse --is-inside-work-tree"
   loop:
     - "{{ ansible_facts['env']['HOME'] }}/.dotfiles"
   register: verify_git_integrity_check

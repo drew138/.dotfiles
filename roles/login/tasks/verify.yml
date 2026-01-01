@@ -1,6 +1,6 @@
 ---
 - name: read login settings
-  command: "{{ item.cmd }}"
+  ansible.builtin.command: "{{ item.cmd }}"
   register: verify_login_settings
   changed_when: false
   failed_when: false

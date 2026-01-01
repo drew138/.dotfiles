@@ -1,6 +1,6 @@
 ---
 - name: locate git binary
-  command: which git
+  ansible.builtin.command: which git
   register: verify_git_which
   changed_when: false
   failed_when: false

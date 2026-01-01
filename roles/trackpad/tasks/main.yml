@@ -1,8 +1,8 @@
 ---
 - name: enable tap to click (user domain)
-  command: defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+  ansible.builtin.command: defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
   changed_when: false
 
 - name: enable tap to click (trackpad driver)
-  command: defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+  ansible.builtin.command: defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
   changed_when: false

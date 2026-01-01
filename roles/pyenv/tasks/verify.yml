@@ -1,6 +1,6 @@
 ---
 - name: locate dependency binaries
-  command: "which {{ item }}"
+  ansible.builtin.command: "which {{ item }}"
   loop:
     - pyenv
     - xz

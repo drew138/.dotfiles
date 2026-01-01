@@ -1,6 +1,6 @@
 ---
 - name: locate packer binary
-  command: which packer
+  ansible.builtin.command: which packer
   register: verify_packer_which
   changed_when: false
   failed_when: false

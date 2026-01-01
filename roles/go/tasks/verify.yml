@@ -31,7 +31,7 @@
     fail_msg: "Go binary is missing or not executable"
 
 - name: get installed go version
-  command: /usr/local/go/bin/go version
+  ansible.builtin.command: /usr/local/go/bin/go version
   register: verify_go_version
   changed_when: false
 
@@ -45,7 +45,7 @@
       {{ verify_go_version.stdout }}
 
 - name: verify go installation path is correct
-  command: /usr/local/go/bin/go env GOROOT
+  ansible.builtin.command: /usr/local/go/bin/go env GOROOT
   register: verify_goroot
   changed_when: false
 
@@ -58,7 +58,7 @@
       got {{ verify_goroot.stdout }}
 
 - name: verify go runs without error
-  command: /usr/local/go/bin/go env
+  ansible.builtin.command: /usr/local/go/bin/go env
   register: verify_go_env
   changed_when: false
 

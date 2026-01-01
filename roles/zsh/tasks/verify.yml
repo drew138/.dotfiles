@@ -1,6 +1,6 @@
 ---
 - name: locate zsh binary
-  command: which zsh
+  ansible.builtin.command: which zsh
   register: verify_zsh_which
   changed_when: false
   failed_when: false

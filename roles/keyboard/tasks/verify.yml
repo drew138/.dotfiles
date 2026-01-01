@@ -1,12 +1,12 @@
 ---
 - name: read InitialKeyRepeat value
-  command: defaults read -g InitialKeyRepeat
+  ansible.builtin.command: defaults read -g InitialKeyRepeat
   register: verify_initial_key_repeat
   changed_when: false
   failed_when: false
 
 - name: read KeyRepeat value
-  command: defaults read -g KeyRepeat
+  ansible.builtin.command: defaults read -g KeyRepeat
   register: verify_key_repeat
   changed_when: false
   failed_when: false

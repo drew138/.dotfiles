@@ -1,6 +1,6 @@
 ---
 - name: locate gh binary
-  command: which gh
+  ansible.builtin.command: which gh
   register: verify_gh_which
   changed_when: false
   failed_when: false
@@ -20,7 +20,7 @@
     fail_msg: gh binary was not found in the PATH or is not executable
 
 - name: verify gh runs successfully
-  command: gh --version
+  ansible.builtin.command: gh --version
   register: verify_gh_version
   changed_when: false
 

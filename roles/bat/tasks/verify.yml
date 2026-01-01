@@ -1,6 +1,6 @@
 ---
 - name: locate bat binary
-  command: which bat
+  ansible.builtin.command: which bat
   register: verify_bat_which
   changed_when: false
   failed_when: false

@@ -1,6 +1,6 @@
 ---
 - name: read current desktop wallpaper via System Events
-  command: >
+  ansible.builtin.command: >
     osascript -e 'tell application "System Events" to get picture of desktop 1'
   register: verify_wallpaper_system_events
   changed_when: false

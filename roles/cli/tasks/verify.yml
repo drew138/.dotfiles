@@ -1,6 +1,6 @@
 ---
 - name: list installed homebrew packages
-  command: brew list --formula
+  ansible.builtin.command: brew list --formula
   register: verify_brew_list
   changed_when: false
 
@@ -24,7 +24,7 @@
     fail_msg: "virtualenv ~/.clitools does not exist"
 
 - name: list installed python packages in virtualenv
-  command: "{{ ansible_facts['env']['HOME'] }}/.clitools/bin/pip list --format=freeze"
+  ansible.builtin.command: "{{ ansible_facts['env']['HOME'] }}/.clitools/bin/pip list --format=freeze"
   register: verify_clitools_pip
   changed_when: false
 

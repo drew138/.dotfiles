@@ -1,6 +1,6 @@
 ---
 - name: check current appearance mode
-  command: osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode'
+  ansible.builtin.command: osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode'
   register: verify_dark_mode_check
   changed_when: false
 

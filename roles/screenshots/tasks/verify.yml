@@ -1,6 +1,6 @@
 ---
 - name: verify screenshot location
-  command: defaults read com.apple.screencapture location
+  ansible.builtin.command: defaults read com.apple.screencapture location
   register: verify_screenshot_location
   changed_when: false
 

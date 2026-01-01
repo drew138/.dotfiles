@@ -1,6 +1,6 @@
 ---
 - name: locate docker related binaries
-  command: "which {{ item }}"
+  ansible.builtin.command: "which {{ item }}"
   loop:
     - colima
     - docker

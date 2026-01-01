@@ -1,6 +1,6 @@
 ---
 - name: verify FelixKratz tap is present
-  command: brew tap
+  ansible.builtin.command: brew tap
   register: verify_borders_brew_taps
   changed_when: false
 
@@ -11,7 +11,7 @@
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
 
 - name: locate borders binary
-  command: which borders
+  ansible.builtin.command: which borders
   register: verify_borders_which
   changed_when: false
   failed_when: false

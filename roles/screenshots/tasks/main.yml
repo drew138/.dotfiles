@@ -6,25 +6,25 @@
     mode: "0755"
 
 - name: configure screenshot location
-  command: >
+  ansible.builtin.command: >
     defaults write com.apple.screencapture location "{{ ansible_facts['env']['HOME'] }}/Pictures/Screenshots"
   changed_when: false
 
 - name: disable floating screenshot thumbnail preview
-  command: >
+  ansible.builtin.command: >
     defaults write com.apple.screencapture show-thumbnail -bool false
   changed_when: false
 
 - name: set screenshot format to PNG
-  command: >
+  ansible.builtin.command: >
     defaults write com.apple.screencapture type -string png
   changed_when: false
 
 - name: remove timestamp from screenshot filenames
-  command: >
+  ansible.builtin.command: >
     defaults write com.apple.screencapture include-date -bool false
   changed_when: false
 
 - name: restart SystemUIServer to apply screenshot settings
-  command: killall SystemUIServer
+  ansible.builtin.command: killall SystemUIServer
   changed_when: false

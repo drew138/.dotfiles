@@ -25,7 +25,7 @@
     fail_msg: "WezTerm config symlink is missing, broken, or pointing to the wrong source"
 
 - name: locate wezterm-gui binary
-  command: which wezterm
+  ansible.builtin.command: which wezterm
   register: verify_wezterm_cli_which
   changed_when: false
   failed_when: false

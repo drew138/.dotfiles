@@ -1,11 +1,11 @@
 ---
 - name: read tap to click (user domain)
-  command: defaults read NSGlobalDomain com.apple.mouse.tapBehavior
+  ansible.builtin.command: defaults read NSGlobalDomain com.apple.mouse.tapBehavior
   register: verify_trackpad_tap_user
   changed_when: false
 
 - name: read tap to click (trackpad driver)
-  command: defaults read com.apple.AppleMultitouchTrackpad Clicking
+  ansible.builtin.command: defaults read com.apple.AppleMultitouchTrackpad Clicking
   register: verify_trackpad_tap_driver
   changed_when: false
 

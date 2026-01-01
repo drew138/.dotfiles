@@ -1,6 +1,6 @@
 ---
 - name: locate nvim binary
-  command: which nvim
+  ansible.builtin.command: which nvim
   register: verify_nvim_which
   changed_when: false
   failed_when: false
@@ -48,7 +48,7 @@
     fail_msg: "~/.nvimvenv was not created"
 
 - name: verify pynvim can be imported
-  command: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/python -c 'import pynvim'"
+  ansible.builtin.command: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/python -c 'import pynvim'"
   register: verify_pynvim
   changed_when: false
   failed_when: verify_pynvim.rc != 0

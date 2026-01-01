@@ -24,7 +24,7 @@
   loop: "{{ verify_ssh_file_stats.results }}"
 
 - name: verify github is in known_hosts
-  command: "ssh-keygen -F github.com -f {{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
+  ansible.builtin.command: "ssh-keygen -F github.com -f {{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
   register: verify_github_known_hosts_check
   changed_when: false
   failed_when: false

@@ -1,6 +1,6 @@
 ---
 - name: locate aerospace binary
-  command: which aerospace
+  ansible.builtin.command: which aerospace
   register: verify_aerospace_which
   changed_when: false
   failed_when: false

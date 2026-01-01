@@ -15,7 +15,7 @@
   loop: "{{ verify_script_link_stats.results }}"
 
 - name: locate symlinked binaries
-  command: "which {{ item.dest | basename }}"
+  ansible.builtin.command: "which {{ item.dest | basename }}"
   loop: "{{ scripts_symlinks }}"
   register: verify_script_which
   changed_when: false

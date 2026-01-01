@@ -1,6 +1,6 @@
 ---
 - name: locate kubectl binary
-  command: which kubectl
+  ansible.builtin.command: which kubectl
   register: verify_kubectl_which
   changed_when: false
   failed_when: false

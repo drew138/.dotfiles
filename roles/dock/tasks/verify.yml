@@ -1,6 +1,6 @@
 ---
 - name: verify dock autohide is enabled
-  command: defaults read com.apple.dock autohide
+  ansible.builtin.command: defaults read com.apple.dock autohide
   register: verify_dock_autohide
   changed_when: false
 
@@ -11,7 +11,7 @@
     fail_msg: "Dock autohide is not enabled"
 
 - name: verify dock tile size
-  command: defaults read com.apple.dock tilesize
+  ansible.builtin.command: defaults read com.apple.dock tilesize
   register: verify_dock_tilesize
   changed_when: false
 
@@ -22,7 +22,7 @@
     fail_msg: "Dock tile size is not set to 36"
 
 - name: verify dock show recent apps is disabled
-  command: defaults read com.apple.dock show-recents
+  ansible.builtin.command: defaults read com.apple.dock show-recents
   register: verify_dock_show_recents
   changed_when: false
 
@@ -33,7 +33,7 @@
     fail_msg: "Dock recent applications are not disabled"
 
 - name: verify dock is on the left
-  command: defaults read com.apple.dock orientation
+  ansible.builtin.command: defaults read com.apple.dock orientation
   register: verify_dock_orientation
   changed_when: false
 
@@ -44,7 +44,7 @@
     fail_msg: "Dock orientation is not set to left"
 
 - name: locate dockutil binary
-  command: which dockutil
+  ansible.builtin.command: which dockutil
   register: verify_dockutil_which
   changed_when: false
   failed_when: false
@@ -56,7 +56,7 @@
     fail_msg: "dockutil was not found in PATH"
 
 - name: list current dock items
-  command: dockutil --list
+  ansible.builtin.command: dockutil --list
   register: verify_dock_items
   changed_when: false
 

@@ -1,6 +1,6 @@
 ---
 - name: verify hashicorp tap is present
-  command: brew tap
+  ansible.builtin.command: brew tap
   register: verify_brew_taps
   changed_when: false
 
@@ -11,7 +11,7 @@
     fail_msg: "The hashicorp/tap Homebrew tap is not available."
 
 - name: locate terraform binary
-  command: which terraform
+  ansible.builtin.command: which terraform
   register: verify_terraform_which
   changed_when: false
   failed_when: false

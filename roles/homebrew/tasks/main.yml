@@ -33,7 +33,7 @@
 
 - name: install Homebrew.pkg
   become: true
-  command:
+  ansible.builtin.command:
     cmd: "installer -pkg /tmp/Homebrew.pkg -target /"
   changed_when: false
 

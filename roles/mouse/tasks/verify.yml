@@ -1,6 +1,6 @@
 ---
 - name: read scroll direction setting
-  command: defaults read NSGlobalDomain com.apple.swipescrolldirection
+  ansible.builtin.command: defaults read NSGlobalDomain com.apple.swipescrolldirection
   register: verify_mouse_scroll_direction
   changed_when: false
   failed_when: false

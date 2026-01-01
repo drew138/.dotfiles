@@ -1,5 +1,5 @@
 ---
 - name: hide desktop widgets
-  command: >
+  ansible.builtin.command: >
     defaults write com.apple.WindowManager StandardHideWidgets -int 1
   changed_when: false

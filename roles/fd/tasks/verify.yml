@@ -1,6 +1,6 @@
 ---
 - name: locate fd binary
-  command: which fd
+  ansible.builtin.command: which fd
   register: verify_fd_which
   changed_when: false
   failed_when: false

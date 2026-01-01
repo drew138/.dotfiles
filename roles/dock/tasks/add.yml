@@ -1,6 +1,6 @@
 ---
 - name: "see if dock item {{ dock_item_add.name | default(dock_item_add) }} exists"
-  command: "dockutil --find '{{ dock_item_add.name }}'"
+  ansible.builtin.command: "dockutil --find '{{ dock_item_add.name }}'"
   register: dockitem_exists
   failed_when: >
     "No such file or directory" in dockitem_exists.stdout
@@ -13,7 +13,7 @@
   when: dockitem_exists.rc == 0
 
 - name: ensure dock item {{ dock_item_add.name | default(dock_item_add) }} exists
-  command: |
+  ansible.builtin.command: |
     dockutil --add '{{ dock_item_add.path }}' --label '{{ dock_item_add.name }}'
     {% if not ansible_loop.last %}--no-restart{% endif %}
   when: dockitem_exists.rc > 0 or

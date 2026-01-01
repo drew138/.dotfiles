@@ -7,7 +7,7 @@
     state: latest
 
 - name: ensure virtual environment is created
-  command: python3 -m venv "{{ ansible_facts['env']['HOME'] }}/.clitools"
+  ansible.builtin.command: python3 -m venv "{{ ansible_facts['env']['HOME'] }}/.clitools"
   args:
     creates: "{{ ansible_facts['env']['HOME'] }}/.clitools/bin/activate"
   environment:

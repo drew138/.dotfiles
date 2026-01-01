@@ -1,6 +1,6 @@
 ---
 - name: locate zoxide binary
-  command: which zoxide
+  ansible.builtin.command: which zoxide
   register: verify_zoxide_which
   changed_when: false
   failed_when: false
