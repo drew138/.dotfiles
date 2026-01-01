@@ -61,7 +61,7 @@
   changed_when: false
 
 - name: Normalize dock list (remove numbering)
-  set_fact:
+  ansible.builtin.set_fact:
     verify_dock_list_clean: >-
       {{
         verify_dock_items.stdout_lines

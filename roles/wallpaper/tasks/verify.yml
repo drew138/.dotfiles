@@ -7,7 +7,7 @@
   failed_when: verify_wallpaper_system_events.rc != 0
 
 - name: Normalize wallpaper path
-  set_fact:
+  ansible.builtin.set_fact:
     verify_wallpaper_current_path: "{{ verify_wallpaper_system_events.stdout | trim }}"
   changed_when: false
 

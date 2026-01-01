@@ -16,7 +16,7 @@
     owner: "{{ ansible_facts['env']['USER'] }}"
 
 - name: Set user to change shell
-  set_fact:
+  ansible.builtin.set_fact:
     zsh_user: "{{ ansible_facts['env']['USER'] }}"
 
 - name: Change default shell

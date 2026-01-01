@@ -1,6 +1,6 @@
 ---
 - name: Set request headers
-  set_fact:
+  ansible.builtin.set_fact:
     request_headers: >-
       {{
         {
@@ -21,7 +21,7 @@
   register: release_data
 
 - name: Extract url for Homebrew.pkg
-  set_fact:
+  ansible.builtin.set_fact:
     pkg_url: "{{ release_data.json['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='browser_download_url') | first }}"
 
 - name: Download Homebrew.pkg

@@ -29,7 +29,7 @@
   changed_when: false
 
 - name: Normalize installed python package names
-  set_fact:
+  ansible.builtin.set_fact:
     verify_clitools_installed_packages: >-
       {{
         verify_clitools_pip.stdout_lines
