@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: Setup workstation
+  hosts: localhost
   gather_facts: true
   vars_files:
     - ~/extra_vars.yml

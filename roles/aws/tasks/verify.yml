@@ -31,7 +31,7 @@
   changed_when: false
 
 - name: Display aws cli version
-  debug:
+  ansible.builtin.debug:
     msg: "Installed: {{ verify_aws_v_output.stdout }}"
 
 - name: Verify installer cleanup

@@ -1,5 +1,5 @@
 ---
-- name: "see if dock item {{ dock_item_add.name | default(dock_item_add) }} exists"
+- name: See if dock item {{ dock_item_add.name | default(dock_item_add) }} exists
   ansible.builtin.command: "dockutil --find '{{ dock_item_add.name }}'"
   register: dockitem_exists
   failed_when: >
