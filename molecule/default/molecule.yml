@@ -13,9 +13,9 @@ dependency:
   name: galaxy
 verifier:
   name: ansible
-test_sequence:
-  - dependency
-  - syntax
-  - converge
-  - idempotence
-  - verify
+# test_sequence:
+#   - dependency
+#   - syntax
+#   - converge
+#   - idempotence
+#   - verify
