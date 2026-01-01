@@ -1,18 +1,15 @@
 ---
 - name: install aerospace
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   homebrew_cask:
     name: nikitabobko/tap/aerospace
     state: present
 
 - name: create ~/.config/aerospace directory
-  become: true
   file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/aerospace"
     state: directory
     mode: "0700"
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_facts['env']['USER'] }}"
 
 - name: create aerospace symlink
   file:

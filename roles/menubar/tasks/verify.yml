@@ -1,0 +1,13 @@
+---
+- name: check menu bar auto-hide status
+  command: >
+    osascript -e 'tell application "System Events" to get autohide menu bar of dock preferences'
+  register: menu_bar_status
+  changed_when: false
+
+- name: assert menu bar auto-hide is enabled
+  assert:
+    that:
+      - menu_bar_status.stdout == "true"
+    success_msg: "Menu bar auto-hide is enabled"
+    fail_msg: "Menu bar auto-hide is NOT enabled"

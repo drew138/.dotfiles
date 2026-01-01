@@ -3,19 +3,16 @@ driver:
   name: default
 platforms:
   - name: instance
+ansible:
+  executor:
+    args:
+      ansible_playbook:
+        - --connection=local
+  env:
+    ANSIBLE_ROLES_PATH: "../../roles"
+    ANSIBLE_FORCE_COLOR: "1"
 provisioner:
   name: ansible
-  ansible:
-    options:
-      # previously ansible_args
-      connection: local
-    env:
-      # previously env
-      ANSIBLE_ROLES_PATH: "../../roles"
-  # ansible_args:
-  #   - --connection=local
-  # env:
-  #   ANSIBLE_ROLES_PATH: "../../roles"
 dependency:
   name: galaxy
 verifier:

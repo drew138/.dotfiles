@@ -1,14 +1,13 @@
 ---
 galaxy_info:
   author: drew138
-  description: installs sketchybar cli
+  description: changes menubar preferences
   license: MIT
   min_ansible_version: 2.16.1
-  role_name: sketchybar
+  role_name: menubar
   namespace: drew138
   platforms:
     - name: MacOSX
       versions:
         - all
-dependencies:
-  - role: menubar
+dependencies: []
