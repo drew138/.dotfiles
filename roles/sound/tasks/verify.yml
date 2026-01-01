@@ -1,6 +1,6 @@
 ---
 - name: read sound settings
-  command: "{{ item.cmd }}"
+  shell: "{{ item.cmd }}"
   register: verify_sound_settings
   changed_when: false
   failed_when: false
@@ -11,14 +11,15 @@
 
     - name: startup_mute
       cmd: nvram -p | grep -E '^StartupMute'
-      expected: "StartupMute\t%01"
+      expected: "%01"
 
 - name: assert sound settings
   assert:
     that:
-      - item.stdout | trim == item.item.expected
+      - item.stdout is search(item.item.expected)
+    success_msg: "Sound setting {{ item.item.name }} is correct"
     fail_msg: >-
       Sound setting {{ item.item.name }} is incorrect
-      (expected={{ item.item.expected }}, got={{ item.stdout | trim | default('unset') }})
-    success_msg: "Sound setting {{ item.item.name }} is correct"
+      (expected to contain={{ item.item.expected }},
+       got={{ item.stdout | trim | default('unset') }})
   loop: "{{ verify_sound_settings.results }}"

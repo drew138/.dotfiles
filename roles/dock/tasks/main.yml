@@ -19,11 +19,11 @@
 
 - name: clean up dock
   include_tasks: remove.yml
-  loop: "{{ dockitems_remove }}"
-  loop_control:
-    loop_var: dock_item_clean
-    extended: true
-    extended_allitems: false
+  # loop: "{{ dockitems_remove }}"
+  # loop_control:
+  #   loop_var: dock_item_clean
+  #   extended: true
+  #   extended_allitems: false
 
 - name: ensure required dock items exist
   include_tasks: add.yml

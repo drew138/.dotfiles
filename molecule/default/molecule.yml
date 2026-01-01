@@ -9,5 +9,13 @@ provisioner:
     - --connection=local
   env:
     ANSIBLE_ROLES_PATH: "../../roles"
+dependency:
+  name: galaxy
 verifier:
   name: ansible
+test_sequence:
+  - dependency
+  - syntax
+  - converge
+  - idempotence
+  - verify

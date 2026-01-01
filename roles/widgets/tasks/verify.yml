@@ -2,13 +2,13 @@
 - name: verify desktop widgets are hidden
   command: >
     defaults read com.apple.WindowManager StandardHideWidgets
-  register: hide_widgets_state
+  register: verify_hide_widgets
   changed_when: false
   failed_when: false
 
 - name: assert desktop widgets are hidden
   assert:
     that:
-      - hide_widgets_state.stdout | trim == "1"
+      - verify_hide_widgets.stdout | trim == "1"
     fail_msg: "Desktop widgets are NOT hidden"
     success_msg: "Desktop widgets are hidden"

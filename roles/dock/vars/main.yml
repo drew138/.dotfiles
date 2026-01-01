@@ -1,27 +1,27 @@
 ---
-dockitems_remove:
-  # Unwanted apps
-  - Launchpad
-  - Safari
-  - Messages
-  - Mail
-  - Maps
-  - Photos
-  - FaceTime
-  # Calendar
-  - com.apple.iCal
-  - Contacts
-  - Reminders
-  - Notes
-  - Freeform
-  - TV
-  - Music
-  - Podcasts
-  - App Store
-  - News
-  - Keynote
-  - Numbers
-  - Pages
+# dockitems_remove:
+#   # Unwanted apps
+#   - Launchpad
+#   - Safari
+#   - Messages
+#   - Mail
+#   - Maps
+#   - Photos
+#   - FaceTime
+#   # Calendar
+#   - com.apple.iCal
+#   - Contacts
+#   - Reminders
+#   - Notes
+#   - Freeform
+#   - TV
+#   - Music
+#   - Podcasts
+#   - App Store
+#   - News
+#   - Keynote
+#   - Numbers
+#   - Pages
 
 dockitems_persist:
   - name: "System Settings"
