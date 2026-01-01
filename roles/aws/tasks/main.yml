@@ -1,6 +1,6 @@
 ---
 - name: download aws cli package
-  get_url:
+  ansible.builtin.get_url:
     url: "https://awscli.amazonaws.com/AWSCLIV2.pkg"
     dest: "/tmp/AWSCLIV2.pkg"
   changed_when: false
