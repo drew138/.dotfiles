@@ -1,6 +1,6 @@
 ---
 - name: ensure screenshots directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/Pictures/Screenshots"
     state: directory
     mode: "0755"

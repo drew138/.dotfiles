@@ -1,7 +1,7 @@
 ---
 - name: create Fonts directory if it doesn't exist
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts"
     state: directory
 

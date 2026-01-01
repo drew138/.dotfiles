@@ -14,13 +14,13 @@
   notify: start_sketchybar_service
 
 - name: ensure sketchybar config directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar"
     state: directory
     mode: "0755"
 
 - name: create sketchybar symlink
-  file:
+  ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/sketchybarrc"
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
     owner: "{{ ansible_facts['env']['USER'] }}"

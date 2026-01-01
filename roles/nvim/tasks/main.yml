@@ -86,14 +86,14 @@
 
 - name: create ~/.config directory
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config"
     state: directory
     mode: "0755"
     owner: "{{ ansible_facts['env']['USER'] }}"
 
 - name: create nvim symlink
-  file:
+  ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/nvim/files"
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/nvim"
     owner: "{{ ansible_facts['env']['USER'] }}"

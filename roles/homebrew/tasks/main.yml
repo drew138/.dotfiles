@@ -38,7 +38,7 @@
   changed_when: false
 
 - name: Clean up .pkg file
-  file:
+  ansible.builtin.file:
     path: /tmp/Homebrew.pkg
     state: absent
   changed_when: false

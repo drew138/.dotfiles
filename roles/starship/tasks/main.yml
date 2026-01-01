@@ -1,14 +1,14 @@
 ---
 - name: ensure .config directory exists
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config"
     state: directory
     owner: "{{ ansible_facts['env']['USER'] }}"
     mode: "0700"
 
 - name: create starship symlink
-  file:
+  ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/starship/files/starship.toml"
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/starship.toml"
     owner: "{{ ansible_facts['env']['USER'] }}"

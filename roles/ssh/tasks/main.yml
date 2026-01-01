@@ -1,7 +1,7 @@
 ---
 - name: ensure .ssh directory exists
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh"
     state: directory
     owner: "{{ ansible_facts['env']['USER'] }}"

@@ -1,7 +1,7 @@
 ---
 - name: create symlinks
   become: true
-  file:
+  ansible.builtin.file:
     src: "{{ script.src }}"
     dest: "{{ script.dest }}"
     owner: "{{ ansible_facts['env']['USER'] }}"

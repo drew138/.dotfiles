@@ -19,7 +19,7 @@
   changed_when: false
 
 - name: remove aws cli package file
-  file:
+  ansible.builtin.file:
     path: "/tmp/AWSCLIV2.pkg"
     state: absent
   changed_when: false

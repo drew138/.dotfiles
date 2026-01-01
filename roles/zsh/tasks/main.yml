@@ -25,7 +25,7 @@
   changed_when: false
 
 - name: create .zshrc symlink
-  file:
+  ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/zsh/files/.zshrc"
     dest: "{{ ansible_facts['env']['HOME'] }}/.zshrc"
     state: link

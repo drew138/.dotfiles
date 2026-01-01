@@ -1,13 +1,13 @@
 ---
 - name: create /usr/local/include
   become: true
-  file:
+  ansible.builtin.file:
     path: /usr/local/include
     state: directory
 
 - name: create /usr/local/include/bits
   become: true
-  file:
+  ansible.builtin.file:
     path: /usr/local/include/bits
     state: directory
 

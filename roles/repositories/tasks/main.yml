@@ -8,7 +8,7 @@
 
 - name: create dev directory
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/dev/"
     state: directory
     mode: "0755"
@@ -16,7 +16,7 @@
 
 - name: create work directory
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/work/"
     state: directory
     mode: "0755"

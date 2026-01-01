@@ -7,7 +7,7 @@
     - community.general
   tasks:
     - name: Include roles
-      include_role:
+      ansible.builtin.include_role:
         name: "{{ role }}"
       loop: "{{ selected_roles }}"
       loop_control:
@@ -15,5 +15,5 @@
 
   handlers:
     - name: open security settings
-      command: >
+      ansible.builtin.command: >
         open "x-apple.systempreferences:com.apple.preference.security"

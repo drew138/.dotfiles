@@ -8,7 +8,7 @@
     state: latest
 
 - name: create .gitconfig symlink
-  file:
+  ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/git/files/.gitconfig"
     dest: "{{ ansible_facts['env']['HOME'] }}/.gitconfig"
     state: link
@@ -16,7 +16,7 @@
     follow: false
 
 - name: create .gitignore_global symlink
-  file:
+  ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/git/files/.gitignore_global"
     dest: "{{ ansible_facts['env']['HOME'] }}/.gitignore_global"
     state: link
@@ -34,7 +34,7 @@
 
 - name: create work directory
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/work/"
     state: directory
     mode: "0755"
