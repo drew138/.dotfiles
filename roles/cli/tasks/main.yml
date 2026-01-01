@@ -14,7 +14,7 @@
     PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: install python tooling in virtual environment
-  pip:
+  ansible.builtin.pip:
     name: "{{ clitools_python_packages }}"
     state: latest
     virtualenv: "{{ ansible_facts['env']['HOME'] }}/.clitools"

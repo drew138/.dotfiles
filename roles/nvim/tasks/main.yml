@@ -58,7 +58,7 @@
     PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: install pynvim in virtual environment
-  pip:
+  ansible.builtin.pip:
     name: pynvim
     state: latest
     virtualenv: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv"
