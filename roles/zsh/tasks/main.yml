@@ -8,7 +8,7 @@
     state: latest
 
 - name: Create .work.zsh file
-  copy:
+  ansible.builtin.copy:
     content: "#!/bin/bash"
     dest: "{{ ansible_facts['env']['HOME'] }}/.work.zsh"
     force: false

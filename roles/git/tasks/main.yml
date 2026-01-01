@@ -24,7 +24,7 @@
     follow: false
 
 - name: Create .work.gitconfig file
-  copy:
+  ansible.builtin.copy:
     content: ""
     dest: "{{ ansible_facts['env']['HOME'] }}/.work.gitconfig"
     backup: true
