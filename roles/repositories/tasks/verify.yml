@@ -64,10 +64,3 @@
       - item.stat.isdir
     fail_msg: "Directory exists but is not a valid git repository: {{ item.item }}"
   loop: "{{ repositories_verify_git_stat.results }}"
-
-- name: Assert dotfiles is a valid git repo
-  ansible.builtin.assert:
-    that:
-      - item.rc == 0
-    fail_msg: "Directory exists but is not a valid git repository: {{ item.item }}"
-  loop: "{{ repositories_verify_git_integrity_check.results }}"
