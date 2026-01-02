@@ -24,3 +24,18 @@
     mode: "0644"
     owner: root
     group: wheel
+
+- name: Create clangd preferences directory
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/Library/Preferences/clangd"
+    state: directory
+    mode: "0755"
+
+- name: Symlink global clangd config
+  ansible.builtin.file:
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/cpp/files/config.yml"
+    dest: "{{ ansible_facts['env']['HOME'] }}/Library/Preferences/clangd/config.yaml"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    state: link
+    force: true
+    follow: false

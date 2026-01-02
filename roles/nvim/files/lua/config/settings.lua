@@ -4,6 +4,8 @@ function M.load_globals()
 	-- Global Variables (vim.g)
 	vim.g.mapleader = " "
 	vim.g.python3_host_prog = vim.fn.expand("~/.nvimvenv/bin/python")
+	vim.g.loaded_netrw = 1
+	vim.g.loaded_netrwPlugin = 1
 end
 
 function M.load_opt_settings()

@@ -24,8 +24,20 @@ local M = {
 		proto = { "buf" },
 		cpp = { "clang_format" },
 		sql = { "sqlfmt" },
-		terraform = { "hclfmt" },
+		terraform = { "hcl" },
 		["*"] = { "trim_whitespace" },
+	},
+
+	formatters = {
+		prettier = {
+			prepend_args = function(_, ctx)
+				-- Only force yaml parser for files without extension like .yamllint
+				if vim.fn.fnamemodify(ctx.filename, ":t") == ".yamllint" then
+					return { "--parser", "yaml" }
+				end
+				return {}
+			end,
+		},
 	},
 	-- format_on_save = false,
 	format_on_save = {

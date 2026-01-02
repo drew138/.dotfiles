@@ -17,11 +17,6 @@
 
 - name: Clean up dock
   ansible.builtin.include_tasks: remove.yml
-  # loop: "{{ dockitems_remove }}"
-  # loop_control:
-  #   loop_var: dock_item_clean
-  #   extended: true
-  #   extended_allitems: false
 
 - name: Ensure required dock items exist
   ansible.builtin.include_tasks: add.yml

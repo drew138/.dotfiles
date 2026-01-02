@@ -26,3 +26,16 @@
       - cpp_verify_stdc_header_stat.stat.exists
       - cpp_verify_stdc_header_stat.stat.isreg
     fail_msg: "The C++ header stdc++.h was not found in /usr/local/include/bits/"
+
+- name: Check clangd config file stats
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/Library/Preferences/clangd/config.yaml"
+  register: clangd_verify_config_stat
+
+- name: Assert clangd config file exists
+  ansible.builtin.assert:
+    that:
+      - clangd_verify_config_stat.stat.exists
+      - clangd_verify_config_stat.stat.isreg
+    fail_msg: "clangd config.yaml file is missing at ~/Library/Preferences/clangd/config.yaml"
+    success_msg: "clangd config.yaml file is present"

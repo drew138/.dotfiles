@@ -69,13 +69,6 @@
         | list
       }}
 
-# - name: assert unwanted dock items are removed
-#   ansible.builtin.assert:
-#     that:
-#       - item not in dock_verify_items.stdout
-#     fail_msg: "Dock item '{{ item }}' was not removed"
-#   loop: "{{ dockitems_remove }}"
-
 - name: Assert required dock items exist
   ansible.builtin.assert:
     that:
