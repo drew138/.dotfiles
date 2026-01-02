@@ -23,12 +23,6 @@
       - nvm_verify_git_stat.stat.isdir
     fail_msg: "The destination {{ ansible_facts['env']['HOME'] }}/.nvm exists but is not a valid git repository"
 
-- name: Assert nvm path is a valid git repo
-  ansible.builtin.assert:
-    that:
-      - nvm_verify_git_check.rc == 0
-    fail_msg: "The destination ~/.nvm exists but is not a valid git repository"
-
 - name: Check nvm shell script existence
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh"

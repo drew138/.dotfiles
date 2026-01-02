@@ -39,7 +39,7 @@
 - name: Verify repository directories
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/dev/{{ item }}"
-  loop: "{{ repository_names }}"
+  loop: "{{ repositories_names }}"
   register: repositories_verify_repo_dir_stats
 
 - name: Assert repositories were cloned

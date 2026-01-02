@@ -24,7 +24,7 @@ jobs:
       - name: lint code
         run: |
           yamllint ./**.yml
-          ansible-lint ./**.yml
+          ansible-lint ./*
 
   check-roles:
     needs: lint
@@ -93,7 +93,6 @@ jobs:
         env:
           ROOT_DIR: ${{ github.workspace }}
           PY_COLORS: "1"
-          # ANSIBLE_FORCE_COLOR: "1" TODO:remove
           ANSIBLE_VAULT_PASSWORD_FILE: ./vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
           GHUB_ACCESS_TOKEN: ${{ secrets.GHUB_ACCESS_TOKEN }}

@@ -15,7 +15,7 @@
 
 - name: Check Gatekeeper status on installed apps
   ansible.builtin.command: spctl --assess "/Applications/{{ item.app }}.app"
-  loop: "{{ casks }}"
+  loop: "{{ casks_applications }}"
   register: casks_quarantine_verify
   changed_when: false
 

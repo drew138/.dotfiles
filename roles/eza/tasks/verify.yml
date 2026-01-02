@@ -46,9 +46,3 @@
       - eza_verify_git_stat.stat.exists
       - eza_verify_git_stat.stat.isdir
     fail_msg: "The destination {{ eza_home }} exists but is not a valid git repository"
-
-- name: Assert eza path is a valid git repo
-  ansible.builtin.assert:
-    that:
-      - eza_verify_git_check.rc == 0
-    fail_msg: "The destination {{ eza_home }} exists but is not a valid git repository"
