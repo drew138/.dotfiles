@@ -75,18 +75,20 @@
       - luajit
     state: latest
 
-- name: Create ~/.config directory
+- name: Ensure tool config directories exist
   ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config"
+    path: "{{ ansible_facts.env.HOME }}/{{ item.parent_directory }}"
     state: directory
     mode: "0755"
-    owner: "{{ ansible_facts['env']['USER'] }}"
+    owner: "{{ ansible_facts.env.USER }}"
+  loop: "{{ nvim_tool_configs }}"
 
-- name: Create nvim symlink
+- name: Create symbolic links for tool configs
   ansible.builtin.file:
-    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/nvim/files"
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/nvim"
-    owner: "{{ ansible_facts['env']['USER'] }}"
+    src: "{{ ansible_facts.env.HOME }}/{{ item.src }}"
+    dest: "{{ ansible_facts.env.HOME }}/{{ item.dest }}"
+    owner: "{{ ansible_facts.env.USER }}"
     state: link
     force: true
     follow: false
+  loop: "{{ nvim_tool_configs }}"

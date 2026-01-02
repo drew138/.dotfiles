@@ -1,2 +1,12 @@
 ---
 nvim_release_branch: stable
+nvim_tool_configs:
+  - src: ".dotfiles/roles/nvim/files/nvim"
+    dest: ".config/nvim"
+    parent_directory: ".config"
+  - src: ".dotfiles/roles/nvim/files/toolconfig/tombi/config.toml"
+    dest: ".config/tombi/config.toml"
+    parent_directory: ".config/tombi"
+  - src: ".dotfiles/roles/nvim/files/toolconfig/clangd/config.yaml"
+    dest: "Library/Preferences/clangd/config.yaml"
+    parent_directory: "Library/Preferences/clangd"

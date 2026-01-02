@@ -24,18 +24,6 @@
       - nvim_verify_bin.stat.executable
     fail_msg: "nvim binary exists but is not executable"
 
-- name: Verify nvim config symlink exists
-  ansible.builtin.stat:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config/nvim"
-  register: nvim_verify_config
-
-- name: Assert nvim config is a symlink
-  ansible.builtin.assert:
-    that:
-      - nvim_verify_config.stat.exists
-      - nvim_verify_config.stat.islnk
-    fail_msg: "~/.config/nvim is missing or not a symlink"
-
 - name: Verify nvim python virtualenv exists
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/activate"
@@ -52,3 +40,21 @@
   register: nvim_verify_pynvim
   changed_when: false
   failed_when: nvim_verify_pynvim.rc != 0
+
+- name: Verify tool config symlinks exist
+  ansible.builtin.stat:
+    path: "{{ ansible_facts.env.HOME }}/{{ item.dest }}"
+  loop: "{{ nvim_tool_configs }}"
+  loop_control:
+    label: "{{ item.dest }}"
+  register: nvim_verify_symlinks
+
+- name: Assert tool config symlinks are created
+  ansible.builtin.assert:
+    that: >
+      {% for stat in nvim_verify_symlinks.results %}
+      - stat.stat.exists
+      - stat.stat.islnk
+      {% endfor %}
+    fail_msg: "Some tool config symlinks are missing or not proper symlinks"
+    success_msg: "All tool config symlinks are present"
