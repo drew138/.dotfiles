@@ -9,11 +9,11 @@ local M = {
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	},
 	opts = function()
-		return require("plugins.telescope.opts")
+		return require("plugins.telescope-nvim.opts")
 	end,
 
 	keys = function()
-		return require("plugins.telescope.keys")
+		return require("plugins.telescope-nvim.keys")
 	end,
 
 	config = function(_, opts)

@@ -51,7 +51,7 @@ function M.map_lsp_keys(bufnr)
 	set("n", "gt", buf.type_definition, opts)
 	set("n", "gr", buf.references, opts)
 	set({ "n", "v" }, "<leader>ca", buf.code_action, opts)
-	set("n", "<c-e>", buf.rename, { buffer = bufnr, noremap = true, silent = true })
+	-- set("n", "<c-e>", buf.rename, { buffer = bufnr, noremap = true, silent = true })
 end
 
 -- Highlights: Symbol highlighting under cursor

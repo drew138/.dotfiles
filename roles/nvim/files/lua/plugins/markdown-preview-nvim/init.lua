@@ -4,7 +4,7 @@ local M = {
 	ft = { "markdown" },
 	build = "cd app && npm install",
 	keys = function()
-		return require("plugins.markdown-preview.keys")
+		return require("plugins.markdown-preview-nvim.keys")
 	end,
 }
 

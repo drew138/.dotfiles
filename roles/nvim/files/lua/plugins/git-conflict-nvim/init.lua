@@ -3,11 +3,11 @@ local M = {
 	version = "*",
 	lazy = false,
 	opts = function()
-		return require("plugins.git-conflict.opts")
+		return require("plugins.git-conflict-nvim.opts")
 	end,
 	config = true,
 	keys = function()
-		return require("plugins.git-conflict.keys")
+		return require("plugins.git-conflict-nvim.keys")
 	end,
 }
 

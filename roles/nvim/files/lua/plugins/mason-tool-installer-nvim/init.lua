@@ -8,7 +8,7 @@ local M = {
 		{ "mfussenegger/nvim-lint" },
 	},
 	opts = function()
-		return require("plugins.mason-tool-installer.opts")
+		return require("plugins.mason-tool-installer-nvim.opts")
 	end,
 	config = true,
 }

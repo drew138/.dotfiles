@@ -5,7 +5,7 @@ local M = {
 		{ "nvim-tree/nvim-web-devicons" },
 	},
 	opts = function()
-		return require("plugins.lualine.opts")
+		return require("plugins.lualine-nvim.opts")
 	end,
 	config = true,
 }
