@@ -1,29 +1,29 @@
 ---
-- name: See if dock item {{ dock_item_add.name | default(dock_item_add) }} exists
+- name: "See if dock item exists: {{ dock_item_add.name | default(dock_item_add) }}"
   ansible.builtin.command: "dockutil --find '{{ dock_item_add.name }}'"
-  register: dockitem_exists
+  register: dock_item_exists
   failed_when: >
-    "No such file or directory" in dockitem_exists.stdout
-    or "command not found" in dockitem_exists.stdout
+    "No such file or directory" in dock_item_exists.stdout
+    or "command not found" in dock_item_exists.stdout
   changed_when: false
 
 - name: Get current dock section from output
   ansible.builtin.set_fact:
-    current_section: "{{ dockitem_exists.stdout | regex_replace('^.*was found in (.*) at slot.*$', '\\1') }}"
-  when: dockitem_exists.rc == 0
+    dock_current_section: "{{ dock_item_exists.stdout | regex_replace('^.*was found in (.*) at slot.*$', '\\1') }}"
+  when: dock_item_exists.rc == 0
 
-- name: Ensure dock item {{ dock_item_add.name | default(dock_item_add) }} exists
+- name: "Ensure dock item exists: {{ dock_item_add.name | default(dock_item_add) }}"
   ansible.builtin.command: |
     dockutil --add '{{ dock_item_add.path }}' --label '{{ dock_item_add.name }}'
     {% if not ansible_loop.last %}--no-restart{% endif %}
-  when: dockitem_exists.rc > 0 or
-    dockitem_exists.rc == 0 and current_section == 'recent-apps'
+  when: dock_item_exists.rc > 0 or
+    dock_item_exists.rc == 0 and dock_current_section == 'recent-apps'
   changed_when: false
 
 - name: Pause for 7 seconds between dock changes
   ansible.builtin.pause:
     seconds: 7
   when:
-    - dockitem_exists.rc > 0 or
-      dockitem_exists.rc == 0 and current_section == 'recent-apps'
+    - dock_item_exists.rc > 0 or
+      dock_item_exists.rc == 0 and dock_current_section == 'recent-apps'
     - ansible_loop.last

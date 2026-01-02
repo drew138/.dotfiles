@@ -1,6 +1,6 @@
 ---
 - name: Read sound settings
-  ansible.builtin.shell: "{{ item.cmd }}"
+  ansible.builtin.command: "{{ item.cmd }}"
   register: sound_verify_settings
   changed_when: false
   failed_when: false

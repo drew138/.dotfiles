@@ -22,6 +22,7 @@ local M = {
 			sql = { "sqlfluff" },
 			proto = { "buf", "protolint" },
 			css = { "stylelint" },
+			yaml = { "yamllint" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

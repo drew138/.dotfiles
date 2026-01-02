@@ -4,6 +4,8 @@
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts"
     state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0755"
 
 - name: Copy NerdFonts files
   with_fileglob: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/nerdfonts/files/*"
@@ -13,5 +15,6 @@
     src: "{{ item }}"
     dest: "{{ destination_file }}"
     owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0755"
     remote_src: true
     force: true

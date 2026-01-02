@@ -1,6 +1,9 @@
 ---
-- name: Install go binaries
+- name: Install Go binaries if missing
   ansible.builtin.shell: "/usr/local/go/bin/go install {{ go_package }}"
+  args:
+    executable: /bin/bash
+    creates: "{{ ansible_facts['env']['HOME'] }}/go/bin/{{ go_package | basename | regex_replace('@.*', '') }}"
   loop:
     - github.com/charmbracelet/gum@latest
     - github.com/go-delve/delve/cmd/dlv@latest

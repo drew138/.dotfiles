@@ -16,11 +16,17 @@
     fail_msg: "Required directory missing: {{ item.item }}"
   loop: "{{ zinit_verify_dir_stats.results }}"
 
-- name: Verify zinit git repository integrity
-  ansible.builtin.command: "git -C {{ zinit_home }} rev-parse --is-inside-work-tree"
-  register: zinit_verify_git_check
-  changed_when: false
-  failed_when: false
+- name: Verify zinit git repository exists
+  ansible.builtin.stat:
+    path: "{{ zinit_home }}/.git"
+  register: zinit_verify_git_stat
+
+- name: Assert zinit path is a valid git repo
+  ansible.builtin.assert:
+    that:
+      - zinit_verify_git_stat.stat.exists
+      - zinit_verify_git_stat.stat.isdir
+    fail_msg: "The destination {{ zinit_home }} exists but is not a valid git repository"
 
 - name: Assert zinit path is a valid git repo
   ansible.builtin.assert:

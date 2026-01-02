@@ -3,6 +3,7 @@
   ansible.builtin.get_url:
     url: "https://awscli.amazonaws.com/AWSCLIV2.pkg"
     dest: "/tmp/AWSCLIV2.pkg"
+    mode: "0644"
   changed_when: false
 
 - name: Install rosetta 2

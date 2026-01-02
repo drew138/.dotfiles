@@ -1,4 +1,0 @@
----
-docker_compose_download_url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-{{docker_compose_cli_arch}}
-docker_keyring_path: /etc/apt/keyrings/docker.asc
-docker_repo_url: https://download.docker.com/linux/ubuntu

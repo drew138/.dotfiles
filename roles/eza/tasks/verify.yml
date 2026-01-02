@@ -35,11 +35,17 @@
     fail_msg: "Required directory or repo missing: {{ item.item }}"
   loop: "{{ eza_verify_dir_stats.results }}"
 
-- name: Verify eza git repository integrity
-  ansible.builtin.command: git -C "{{ eza_home }}" rev-parse --is-inside-work-tree
-  register: eza_verify_git_check
-  changed_when: false
-  failed_when: false
+- name: Verify eza git repository exists
+  ansible.builtin.stat:
+    path: "{{ eza_home }}/.git"
+  register: eza_verify_git_stat
+
+- name: Assert eza path is a valid git repo
+  ansible.builtin.assert:
+    that:
+      - eza_verify_git_stat.stat.exists
+      - eza_verify_git_stat.stat.isdir
+    fail_msg: "The destination {{ eza_home }} exists but is not a valid git repository"
 
 - name: Assert eza path is a valid git repo
   ansible.builtin.assert:

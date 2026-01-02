@@ -31,7 +31,6 @@
     owner: "{{ ansible_facts['env']['USER'] }}"
 
 - name: Create work directory
-  become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/work/"
     state: directory

@@ -1,5 +1,5 @@
 ---
-- name: Installs homebrew {{ cask.name }} cask
+- name: "Installs homebrew cask: {{ cask.name }}"
   community.general.homebrew_cask:
     name: "{{ cask.name }}"
     state: present

@@ -1,16 +1,11 @@
 ---
 - name: Installs cmake
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew_cask:
     name:
       - cmake
     state: present
-  ignore_errors: true
 
 - name: Install dependencies
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   community.general.homebrew:
     name:
       - xclip
@@ -27,8 +22,6 @@
     - install_neovim_development_tools
 
 - name: Clone nvim repository
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.git:
     repo: "https://github.com/neovim/neovim.git"
     dest: "{{ ansible_facts['env']['HOME'] }}/dev/neovim"
@@ -83,7 +76,6 @@
     state: latest
 
 - name: Create ~/.config directory
-  become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config"
     state: directory

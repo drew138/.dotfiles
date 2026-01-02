@@ -4,12 +4,16 @@
   ansible.builtin.file:
     path: /usr/local/include
     state: directory
+    mode: "0755"
+    group: wheel
 
 - name: Create /usr/local/include/bits
   become: true
   ansible.builtin.file:
     path: /usr/local/include/bits
     state: directory
+    mode: "0755"
+    group: wheel
 
 - name: Copy stdc++.h to /usr/local/include/bits
   become: true
@@ -17,3 +21,6 @@
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/cpp/files/stdc++.h"
     dest: /usr/local/include/bits/stdc++.h
     remote_src: true
+    mode: "0644"
+    owner: root
+    group: wheel

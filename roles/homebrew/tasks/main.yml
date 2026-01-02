@@ -22,11 +22,11 @@
 
 - name: Extract url for Homebrew.pkg
   ansible.builtin.set_fact:
-    pkg_url: "{{ homebrew_release_data.json['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='browser_download_url') | first }}"
+    homebrew_pkg_url: "{{ homebrew_release_data.json['assets'] | selectattr('name', 'search', '.pkg') | map(attribute='browser_download_url') | first }}"
 
 - name: Download Homebrew.pkg
   ansible.builtin.get_url:
-    url: "{{ pkg_url }}"
+    url: "{{ homebrew_pkg_url }}"
     dest: /tmp/Homebrew.pkg
     mode: "0644"
   changed_when: false

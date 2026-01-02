@@ -5,8 +5,6 @@
   changed_when: false
 
 - name: Clone nvm repository
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.git:
     repo: "https://github.com/nvm-sh/nvm.git"
     dest: "{{ ansible_facts['env']['HOME'] }}/.nvm"

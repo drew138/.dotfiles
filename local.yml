@@ -13,6 +13,7 @@
         loop_var: role
 
   handlers:
-    - name: open security settings
+    - name: Open security settings
       ansible.builtin.command: >
         open "x-apple.systempreferences:com.apple.preference.security"
+      changed_when: false

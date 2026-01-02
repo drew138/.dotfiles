@@ -6,7 +6,6 @@
     state: latest
 
 - name: Create dev directory
-  become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/dev/"
     state: directory
@@ -14,9 +13,6 @@
     owner: "{{ ansible_facts['env']['USER'] }}"
 
 - name: Clone eza repository
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
-  changed_when: false
   ansible.builtin.git:
     repo: "{{ eza_repo }}"
     dest: "{{ eza_home }}"

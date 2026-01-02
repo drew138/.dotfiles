@@ -24,20 +24,20 @@
 #     - dockitem_exists.rc == 0
 #     - ansible_loop.last
 
-- name: "Get current Dock items"
+- name: Get current Dock items
   ansible.builtin.command: dockutil --list
-  register: current_dock_items
+  register: dock_current_items
   changed_when: false
-  failed_when: '"command not found" in current_dock_items.stdout'
+  failed_when: '"command not found" in dock_current_items.stdout'
 
-- name: "Remove all current Dock items"
+- name: Remove all current Dock items
   ansible.builtin.command: >
     dockutil --remove '{{ item }}'
     {% if not ansible_loop.last %}--no-restart{% endif %}
-  loop: "{{ current_dock_items.stdout_lines }}"
+  loop: "{{ dock_current_items.stdout_lines }}"
   changed_when: false
 
 - name: Pause after removing all dock items
   ansible.builtin.pause:
     seconds: 3
-  when: current_dock_items.stdout_lines | length > 0
+  when: dock_current_items.stdout_lines | length > 0

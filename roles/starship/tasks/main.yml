@@ -1,6 +1,5 @@
 ---
 - name: Ensure .config directory exists
-  become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config"
     state: directory

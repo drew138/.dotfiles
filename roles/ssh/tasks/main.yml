@@ -1,6 +1,5 @@
 ---
 - name: Ensure .ssh directory exists
-  become: true
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh"
     state: directory
@@ -21,8 +20,8 @@
     owner: "{{ ansible_facts['env']['USER'] }}"
     mode: "0600"
 
-- name: Capture gitHub rsa key
-  ansible.builtin.shell: ssh-keyscan -t rsa github.com
+- name: Capture GitHub RSA key
+  ansible.builtin.command: ssh-keyscan -t rsa github.com
   register: ssh_github_rsa_key
   changed_when: false
 
@@ -31,6 +30,7 @@
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
     line: "{{ ssh_rsa_key_line }}"
     create: true
+    mode: "0644"
   loop: "{{ ssh_github_rsa_key.stdout_lines }}"
   loop_control:
     loop_var: ssh_rsa_key_line

@@ -38,6 +38,7 @@ local M = {
 		"buf",
 		"protolint",
 		"stylelint",
+		"yamllint",
 
 		-- formatters used by conform.nvim
 		"prettier",

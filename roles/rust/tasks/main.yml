@@ -1,6 +1,5 @@
 ---
 - name: Check if cargo is installed
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.cargo/bin/cargo"
   register: rust_cargo_path
@@ -8,10 +7,10 @@
   changed_when: false
 
 - name: Ensure rustup is installed
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   changed_when: false
-  ansible.builtin.shell: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
+  ansible.builtin.shell: |
+    set -o pipefail
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   args:
     executable: /bin/bash
   when: not rust_cargo_path.stat.exists

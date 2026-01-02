@@ -11,11 +11,17 @@
       - nvm_verify_dir_stat.stat.isdir
     fail_msg: "nvm directory was not found at {{ ansible_facts['env']['HOME'] }}/.nvm"
 
-- name: Verify nvm git repository integrity
-  ansible.builtin.command: git -C "{{ ansible_facts['env']['HOME'] }}/.nvm" rev-parse --is-inside-work-tree
-  register: nvm_verify_git_check
-  changed_when: false
-  failed_when: false
+- name: Verify nvm git repository exists
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.nvm/.git"
+  register: nvm_verify_git_stat
+
+- name: Assert nvm path is a valid git repo
+  ansible.builtin.assert:
+    that:
+      - nvm_verify_git_stat.stat.exists
+      - nvm_verify_git_stat.stat.isdir
+    fail_msg: "The destination {{ ansible_facts['env']['HOME'] }}/.nvm exists but is not a valid git repository"
 
 - name: Assert nvm path is a valid git repo
   ansible.builtin.assert:

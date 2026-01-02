@@ -1,6 +1,6 @@
 ---
 - name: Verify rosetta 2 installation
-  ansible.builtin.shell: /usr/bin/pgrep -q oahd
+  ansible.builtin.command: /usr/bin/pgrep -q oahd
   register: aws_verify_rosetta_check
   failed_when: false
   changed_when: false

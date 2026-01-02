@@ -12,8 +12,6 @@
     mode: "0755"
 
 - name: Clone zinit repository
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.git:
     repo: "{{ zinit_repo }}"
     dest: "{{ zinit_home }}"

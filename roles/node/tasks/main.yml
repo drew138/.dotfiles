@@ -1,7 +1,5 @@
 ---
 - name: Install node
-  become: true
-  become_user: "{{ ansible_facts['env']['USER'] }}"
   ansible.builtin.shell: "source {{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh && nvm install --lts"
   changed_when: false
   args:
