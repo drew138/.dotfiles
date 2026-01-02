@@ -1,59 +1,35 @@
 ---
-# dockitems_remove:
-#   # Unwanted apps
-#   - Launchpad
-#   - Safari
-#   - Messages
-#   - Mail
-#   - Maps
-#   - Photos
-#   - FaceTime
-#   # Calendar
-#   - com.apple.iCal
-#   - Contacts
-#   - Reminders
-#   - Notes
-#   - Freeform
-#   - TV
-#   - Music
-#   - Podcasts
-#   - App Store
-#   - News
-#   - Keynote
-#   - Numbers
-#   - Pages
-
 dock_items_persist:
   - name: "System Settings"
     path: "/Applications/System Settings.app/"
     pos: 1
 
-  - name: "Postman"
-    path: "/Applications/Postman.app/"
-    pos: 2
-
-  - name: "Bitwarden"
-    path: "/Applications/Bitwarden.app/"
-    pos: 3
-
   - name: "WezTerm"
     path: "/Applications/WezTerm.app/"
-    pos: 4
-
-  - name: "Notion"
-    path: "/Applications/Notion.app/"
-    pos: 5
-
-  - name: "Notion Calendar"
-    path: "/Applications/Notion Calendar.app/"
-    pos: 6
-
-  - name: "Slack"
-    path: "/Applications/Slack.app/"
-    pos: 7
+    pos: 2
 
   - name: "Google Chrome"
     path: "/Applications/Google Chrome.app/"
+    pos: 3
+
+  - name: "Slack"
+    path: "/Applications/Slack.app/"
+    pos: 4
+
+  - name: "Postman"
+    path: "/Applications/Postman.app/"
+    pos: 5
+
+  - name: "Bitwarden"
+    path: "/Applications/Bitwarden.app/"
+    pos: 6
+
+  - name: "Notion"
+    path: "/Applications/Notion.app/"
+    pos: 7
+
+  - name: "Notion Calendar"
+    path: "/Applications/Notion Calendar.app/"
     pos: 8
 
   - name: "WhatsApp"
@@ -64,10 +40,6 @@ dock_items_persist:
     path: "/Applications/Discord.app/"
     pos: 10
 
-  - name: "Spotify"
-    path: "/Applications/Spotify.app/"
-    pos: 11
-
   - name: "OBS"
     path: "/Applications/OBS.app/"
-    pos: 12
+    pos: 11

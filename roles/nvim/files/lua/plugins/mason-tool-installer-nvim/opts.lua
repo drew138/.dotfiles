@@ -18,6 +18,7 @@ local M = {
 		"yaml-language-server",
 		"ruff",
 		"gh-actions-language-server",
+		"tombi", -- toml
 
 		-- debuggers used by nvim dap
 		"delve",

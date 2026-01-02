@@ -18,6 +18,7 @@ M.servers = {
 	"ts_ls",
 	"gh_actions_ls",
 	"yamlls",
+	"tombi",
 }
 
 function M.setup_ui()

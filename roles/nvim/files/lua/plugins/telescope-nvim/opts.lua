@@ -2,14 +2,14 @@ local ignore_patterns = {
 	"^node_modules//*",
 	"^.git//*",
 	".cache",
-	"%.o",
-	"%.a",
-	"%.out",
-	"%.class",
-	"%.pdf",
-	"%.mkv",
-	"%.mp4",
-	"%.zip",
+	"%.o$",
+	"%.a$",
+	"%.out$",
+	"%.class$",
+	"%.pdf$",
+	"%.mkv$",
+	"%.mp4$",
+	"%.zip$",
 }
 
 local picker_config = {

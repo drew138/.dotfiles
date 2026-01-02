@@ -11,6 +11,7 @@ cli_brew_packages:
   - wget
   - gnu-tar
   - xclip
+  - ansible
 
   # required by python for scikit
   # learn god knows why
@@ -20,5 +21,4 @@ cli_brew_packages:
 cli_python_packages:
   - pre-commit
   - poetry==1.8.3
-  - ansible
   - cookiecutter

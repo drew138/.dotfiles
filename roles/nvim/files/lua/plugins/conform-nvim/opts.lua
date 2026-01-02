@@ -25,6 +25,7 @@ local M = {
 		cpp = { "clang_format" },
 		sql = { "sqlfmt" },
 		terraform = { "hcl" },
+		toml = { "tombi" },
 		["*"] = { "trim_whitespace" },
 	},
 
@@ -37,6 +38,11 @@ local M = {
 				end
 				return {}
 			end,
+		},
+		tombi = {
+			command = "tombi",
+			args = { "format", "--stdin-filename", "$FILENAME", "-" },
+			stdin = true,
 		},
 	},
 	-- format_on_save = false,
