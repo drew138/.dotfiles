@@ -19,8 +19,8 @@
 
 - name: Create sketchybar symlink
   ansible.builtin.file:
-    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/sketchybarrc"
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar"
     owner: "{{ ansible_facts['env']['USER'] }}"
     state: link
     force: true

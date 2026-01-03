@@ -36,7 +36,7 @@ exec-on-workspace-change                                        = [
   inner.vertical   = 10
   outer.left       = 10
   outer.bottom     = 10
-  outer.top        = [{ monitor.main = 15 }, 15]
+  outer.top        = [{ monitor.main = 40 }, 40]
   outer.right      = 10
 
 [mode.main.binding]
