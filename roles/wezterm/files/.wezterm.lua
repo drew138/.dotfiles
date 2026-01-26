@@ -6,7 +6,7 @@ package.path = package.path .. ";" .. os.getenv("HOME") .. "/.dotfiles/roles/wez
 local config = {}
 
 require("tabline")(config, wezterm)
-require("style")(config)
+require("style")(config, wezterm)
 require("keybinds")(config, wezterm)
 
 return config

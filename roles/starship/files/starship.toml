@@ -1,45 +1,79 @@
-format = """\
-$username\
-$localip\
-$directory\
-$python\
-$golang\
-$nodejs\
-$lua\
-$git_branch
+add_newline = true
+palette     = "nightfox"
+format      = """\
+  $username\
+  $localip\
+  $directory\
+  $python\
+  $nodejs\
+  $lua\
+  $golang\
+  $git_branch
 $character\
 """
-add_newline = true
+
+[palettes.nightfox]
+  bg0     = "#131a24"
+  bg1     = "#192330"
+  bg2     = "#212e3f"
+  bg3     = "#29394f"
+  bg4     = "#39506d"
+  fg0     = "#d6d6d7"
+  fg1     = "#cdcecf"
+  fg2     = "#aeafb0"
+  black   = "#393b44"
+  red     = "#c94f6d"
+  green   = "#81b29a"
+  yellow  = "#dbc074"
+  blue    = "#719cd6"
+  magenta = "#9d79d6"
+  cyan    = "#63cdcf"
+  white   = "#dfdfe0"
+  orange  = "#f4a261"
+  pink    = "#d67ad2"
+  comment = "#738091"
 
 [character]
-success_symbol = "[➜](bold green)"
-error_symbol = "[➜](bold red)"
+  success_symbol = "[➜](bold green)"
+  error_symbol   = "[➜](bold red)"
 
 [username]
-format = "[$user]($style) "
-show_always = true
-
-[lua]
-format = "[$symbol($version )]($style)"
-symbol = " "
-detect_extensions = []
-
-[python]
-format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
-symbol = " "
-pyenv_version_name = true
-detect_extensions = []
-
-[golang]
-format = "[ $version](bold cyan) "
-detect_extensions = []
-
-[nodejs]
-format = "[$symbol($version )]($style)"
-detect_extensions = []
-symbol = " "
+  format      = "[$user](bold yellow) "
+  show_always = true
 
 [localip]
-ssh_only = false
-format = "[$localipv4](#bb9af7) "
-disabled = false
+  ssh_only = false
+  format   = "[$localipv4](purple) "
+  disabled = false
+
+[directory]
+  style = "bold blue"
+
+[git_branch]
+  symbol = " "
+  style  = "orange"
+  format = " [$symbol$branch(:$remote_branch)]($style) "
+
+[lua]
+  format            = "[$symbol($version )]($style)"
+  symbol            = " "
+  style             = "blue"
+  detect_extensions = []
+
+[python]
+  format             = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+  symbol             = " "
+  style              = "yellow"
+  pyenv_version_name = true
+  detect_extensions  = []
+
+[golang]
+  format            = "[ $version]($style) "
+  style             = "cyan"
+  detect_extensions = []
+
+[nodejs]
+  format            = "[$symbol($version )]($style)"
+  symbol            = " "
+  style             = "green"
+  detect_extensions = []

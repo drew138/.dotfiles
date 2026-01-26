@@ -3,3 +3,23 @@
   community.general.homebrew:
     name:
       - bat
+
+- name: Ensure config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.config"
+    state: directory
+    mode: "0755"
+
+- name: Create bat symlink
+  ansible.builtin.file:
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/bat/files"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat"
+    state: link
+    force: true
+    follow: false
+
+- name: Rebuild bat cache
+  command: bat cache --build
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts.env.PATH }}"
+  changed_when: true

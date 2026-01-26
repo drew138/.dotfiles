@@ -1,0 +1,100 @@
+---
+date:
+  foreground: "#9d79d6"
+
+size:
+  major:
+    foreground: "#d67ad2"
+  minor:
+    foreground: "#d67ad2"
+  number_byte:
+    foreground: "#d67ad2"
+  number_kilo:
+    foreground: "#d67ad2"
+  number_mega:
+    foreground: "#d67ad2"
+  number_giga:
+    foreground: "#d67ad2"
+  number_huge:
+    foreground: "#d67ad2"
+  unit_byte:
+    foreground: "#d67ad2"
+  unit_kilo:
+    foreground: "#d67ad2"
+  unit_mega:
+    foreground: "#d67ad2"
+  unit_giga:
+    foreground: "#d67ad2"
+  unit_huge:
+    foreground: "#d67ad2"
+
+filekinds:
+  normal:
+    foreground: "#dfdfe0"
+  directory:
+    foreground: "#719cd6"
+  symlink:
+    foreground: "#9d79d6"
+  executable:
+    foreground: "#81b29a"
+  pipe:
+    foreground: "#dbc074"
+  socket:
+    foreground: "#9d79d6"
+  block_device:
+    foreground: "#f4a261"
+  char_device:
+    foreground: "#f4a261"
+  special:
+    foreground: "#c94f6d"
+
+file_type:
+  source:
+    foreground: "#dfdfe0"
+  compiled:
+    foreground: "#81b29a"
+
+perms:
+  user_read:
+    foreground: "#dbc074"
+  user_write:
+    foreground: "#f4a261"
+  user_execute_file:
+    foreground: "#81b29a"
+  user_execute_other:
+    foreground: "#81b29a"
+
+  group_read:
+    foreground: "#9d79d6"
+  group_write:
+    foreground: "#9d79d6"
+  group_execute:
+    foreground: "#9d79d6"
+
+  other_read:
+    foreground: "#c94f6d"
+  other_write:
+    foreground: "#c94f6d"
+  other_execute:
+    foreground: "#c94f6d"
+
+users:
+  user_you:
+    foreground: "#dbc074"
+
+extensions:
+  zshrc:
+    filename:
+      foreground: "#9d79d6"
+  zsh:
+    filename:
+      foreground: "#9d79d6"
+  gitignore:
+    filename:
+      foreground: "#f4a261"
+  gitignore_global:
+    filename:
+      foreground: "#f4a261"
+  gitconfig:
+    filename:
+      foreground: "#f4a261"

@@ -19,6 +19,9 @@ local picker_config = {
 }
 
 local M = {
+	defaults = {
+		winblend = 0,
+	},
 	pickers = {
 		find_files = picker_config,
 		live_grep = picker_config,

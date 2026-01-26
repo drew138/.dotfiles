@@ -18,3 +18,18 @@
       - bat_verify_bin.stat.exists
       - bat_verify_bin.stat.executable
     fail_msg: "bat binary was not found in the PATH or is not executable."
+
+- name: List bat themes
+  ansible.builtin.command: bat --list-themes
+  register: bat_verify_themes
+  changed_when: false
+  failed_when: false
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts.env.PATH }}"
+
+- name: Assert nightfox theme is installed
+  ansible.builtin.assert:
+    that:
+      - bat_verify_themes.rc == 0
+      - "'nightfox' in bat_verify_themes.stdout"
+    fail_msg: "bat theme 'nightfox' was not found in `bat --list-themes` output."

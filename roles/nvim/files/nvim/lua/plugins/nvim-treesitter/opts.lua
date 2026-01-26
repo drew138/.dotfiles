@@ -26,6 +26,7 @@ local M = {
 		"vim",
 		"yaml",
 		"html",
+		"xml",
 		"sql",
 		"gitcommit",
 		"make",

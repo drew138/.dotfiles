@@ -44,6 +44,17 @@ local M = {
 			args = { "format", "--stdin-filename", "$FILENAME", "-" },
 			stdin = true,
 		},
+		beautysh = {
+			command = "beautysh",
+			args = {
+				"--force-function-style",
+				"paronly",
+				"--variable-style",
+				"braces",
+				"-",
+			},
+			stdin = true,
+		},
 	},
 	-- format_on_save = false,
 	format_on_save = {

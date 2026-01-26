@@ -16,21 +16,3 @@
     string-quote-style                = "double"
     trailing-comment-alignment        = false
     trailing-comment-space-width      = 2
-
-    # [lint]
-    # [lint.rules]
-    # dotted-keys-out-of-order = "warn"
-    # key-empty = "warn"
-    # tables-out-of-order = "warn"
-
-    # [lsp]
-    # code-action.enabled = true
-    # completion.enabled = true
-    # diagnostic.enabled = true
-    # document-link.enabled = true
-    # formatting.enabled = true
-    # goto-declaration.enabled = true
-    # goto-definition.enabled = true
-    # goto-type-definition.enabled = true
-    # hover.enabled = true
-    # workspace-diagnostic.enabled = true

@@ -20,3 +20,21 @@
     force: true
     update: true
     depth: 1
+
+- name: Ensure eza config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - .config
+    - .config/eza
+
+- name: Create theme.yml symlink
+  ansible.builtin.file:
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/eza/files/theme.yml"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/eza/theme.yml"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    state: link
+    force: true
+    follow: false

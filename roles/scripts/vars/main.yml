@@ -4,3 +4,7 @@ scripts_symlinks:
     dest: "/usr/local/bin/commit"
   - src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/scripts/files/repo.sh"
     dest: "/usr/local/bin/repo"
+  - src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/scripts/files/wifi.sh"
+    dest: "/usr/local/bin/wifi"
+  - src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/scripts/files/bluetooth.sh"
+    dest: "/usr/local/bin/bluetooth"

@@ -11,13 +11,16 @@
     state: latest
   notify: start_borders_service
 
-- name: Ensure sketchybar config directory exists
+- name: Ensure jankyborders config directory exists
   ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config/borders"
+    path: "{{ ansible_facts['env']['HOME'] }}/{{ item }}"
     state: directory
     mode: "0755"
+  loop:
+    - .config
+    - .config/borders
 
-- name: Create sketchybar symlink
+- name: Create jankyborders symlink
   ansible.builtin.file:
     src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/borders/files/bordersrc"
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/borders/bordersrc"
