@@ -20,6 +20,8 @@ local M = {
 			"golines",
 		},
 		sh = { "beautysh" },
+		bash = { "beautysh" },
+		zsh = { "beautysh" },
 		rust = { "rustfmt" },
 		proto = { "buf" },
 		cpp = { "clang_format" },

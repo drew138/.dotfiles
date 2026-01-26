@@ -8,14 +8,20 @@
   community.general.homebrew:
     name:
       - sketchybar
+      - lua
+      - switchaudio-osx
+      - nowplaying-cli
     state: latest
   notify: start_sketchybar_service
 
 - name: Ensure sketchybar config directory exists
   ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar"
+    path: "{{ ansible_facts['env']['HOME'] }}/{{ item }}"
     state: directory
     mode: "0755"
+  loop:
+    - .config
+    - .config/sketchybar
 
 - name: Create sketchybar symlink
   ansible.builtin.file:

@@ -23,6 +23,7 @@
 				<string>#29394f</string>
 			</dict>
 		</dict>
+
 		<dict>
 			<key>name</key>
 			<string>Comment</string>
@@ -34,6 +35,7 @@
 				<string>#738091</string>
 			</dict>
 		</dict>
+
 		<dict>
 			<key>name</key>
 			<string>String</string>
@@ -45,6 +47,7 @@
 				<string>#81b29a</string>
 			</dict>
 		</dict>
+
 		<dict>
 			<key>name</key>
 			<string>Number</string>
@@ -56,6 +59,34 @@
 				<string>#f4a261</string>
 			</dict>
 		</dict>
+
+		<dict>
+			<key>name</key>
+			<string>Boolean</string>
+			<key>scope</key>
+			<string>constant.language.boolean</string>
+			<key>settings</key>
+			<dict>
+				<key>foreground</key>
+				<string>#f4a261</string>
+			</dict>
+		</dict>
+
+		<dict>
+			<key>name</key>
+			<string>JSON Boolean</string>
+			<key>scope</key>
+			<string>
+				constant.language.boolean.json,
+				constant.language.json
+			</string>
+			<key>settings</key>
+			<dict>
+				<key>foreground</key>
+				<string>#f4a261</string>
+			</dict>
+		</dict>
+
 		<dict>
 			<key>name</key>
 			<string>Keyword</string>
@@ -67,6 +98,7 @@
 				<string>#9d79d6</string>
 			</dict>
 		</dict>
+
 		<dict>
 			<key>name</key>
 			<string>Function</string>
@@ -78,6 +110,7 @@
 				<string>#719cd6</string>
 			</dict>
 		</dict>
+
 		<dict>
 			<key>name</key>
 			<string>Variable</string>
@@ -89,6 +122,7 @@
 				<string>#dfdfe0</string>
 			</dict>
 		</dict>
+
 		<dict>
 			<key>name</key>
 			<string>Constant</string>
@@ -100,6 +134,7 @@
 				<string>#dbc074</string>
 			</dict>
 		</dict>
+
 		<dict>
 			<key>name</key>
 			<string>Tag name</string>
@@ -114,3 +149,4 @@
 	</array>
 </dict>
 </plist>
+

@@ -7,42 +7,52 @@
 - name: Assert FelixKratz tap is registered
   ansible.builtin.assert:
     that:
-      - "'felixkratz/formulae' in sketchybar_verify_brew_taps.stdout"
+      - "'felixkratz/formulae' in sketchybar_verify_brew_taps.stdout | lower"
     fail_msg: "The FelixKratz/formulae Homebrew tap is not available."
 
-- name: Locate sketchybar binary
-  ansible.builtin.command: which sketchybar
-  register: sketchybar_verify_which
+- name: Verify required Homebrew formulae are installed
+  ansible.builtin.command: brew list --formula {{ item }}
+  loop:
+    - sketchybar
+    - lua
+    - switchaudio-osx
+    - nowplaying-cli
+  register: sketchybar_verify_formulae
   changed_when: false
   failed_when: false
 
-- name: Check if sketchybar binary exists
-  ansible.builtin.stat:
-    path: "{{ sketchybar_verify_which.stdout }}"
-  register: sketchybar_verify_bin
-  when: sketchybar_verify_which.rc == 0
-
-- name: Assert sketchybar binary is present and executable
+- name: Assert required Homebrew formulae are installed
   ansible.builtin.assert:
     that:
-      - sketchybar_verify_bin.stat is defined
-      - sketchybar_verify_bin.stat.exists
-      - sketchybar_verify_bin.stat.executable
-    fail_msg: "sketchybar binary was not found in the PATH or is not executable"
+      - item.rc == 0
+    fail_msg: "Required Homebrew formula '{{ item.item }}' is not installed"
+  loop: "{{ sketchybar_verify_formulae.results }}"
 
-- name: Stat sketchybar config symlink
+- name: Stat sketchybar config directory
   ansible.builtin.stat:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/sketchybarrc"
+    path: "{{ ansible_facts.env.HOME }}/.config/sketchybar"
     follow: false
-  register: sketchybar_verify_symlink
+  register: sketchybar_verify_config_dir
 
-- name: Assert sketchybar config symlink is present and correct
+- name: Assert sketchybar config directory is a symlink to dotfiles
   ansible.builtin.assert:
     that:
-      - sketchybar_verify_symlink.stat.exists
-      - sketchybar_verify_symlink.stat.islnk
-      - sketchybar_verify_symlink.stat.lnk_source ==
-        ansible_facts['env']['HOME'] + '/.dotfiles/roles/sketchybar/files/sketchybarrc'
+      - sketchybar_verify_config_dir.stat.exists
+      - sketchybar_verify_config_dir.stat.islnk
+      - sketchybar_verify_config_dir.stat.lnk_source ==
+        ansible_facts.env.HOME + '/.dotfiles/roles/sketchybar/files'
     fail_msg: >-
-      SketchyBar config symlink is missing, not a symlink,
-      or does not point to the expected source.
+      SketchyBar config directory is missing, not a symlink,
+      or does not point to the expected dotfiles location.
+
+- name: Stat sketchybarrc inside sketchybar config
+  ansible.builtin.stat:
+    path: "{{ ansible_facts.env.HOME }}/.config/sketchybar/sketchybarrc"
+  register: sketchybar_verify_sketchybarrc
+
+- name: Assert sketchybarrc exists
+  ansible.builtin.assert:
+    that:
+      - sketchybar_verify_sketchybarrc.stat.exists
+      - sketchybar_verify_sketchybarrc.stat.isreg
+    fail_msg: "sketchybarrc does not exist inside the sketchybar config directory"

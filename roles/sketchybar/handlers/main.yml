@@ -1,6 +1,0 @@
----
-- name: Start sketchybar service
-  community.general.homebrew_services:
-    name: sketchybar
-    state: restarted
-  listen: start_sketchybar_service

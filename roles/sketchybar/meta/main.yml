@@ -12,3 +12,5 @@ galaxy_info:
         - all
 dependencies:
   - role: menubar
+  - role: casks
+  - role: nerdfonts

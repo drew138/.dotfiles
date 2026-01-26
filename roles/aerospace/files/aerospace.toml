@@ -26,7 +26,16 @@ automatically-unhide-macos-hidden-apps                          = false
 exec-on-workspace-change                                        = [
   "/bin/bash",
   "-c",
-  "sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE && ~/.config/sketchybar/plugins/update_workspace_icons.sh"
+  "/usr/local/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+]
+persistent-workspaces                                           = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "q",
+  "w",
+  "e",
 ]
 
 [key-mapping]
@@ -71,27 +80,29 @@ exec-on-workspace-change                                        = [
     "workspace 3",
     "exec-and-forget open -a /Applications/Slack.app"
   ]
-  alt-q               = [
+  alt-4               = [
     "workspace 4",
     "exec-and-forget open -a /Applications/Postman.app"
   ]
-  alt-w               = [
-    "workspace 5",
+  alt-q               = [
+    "workspace q",
     "exec-and-forget open -a /Applications/Notion.app"
   ]
-  alt-e               = [
-    "workspace 6",
+  alt-w               = [
+    "workspace w",
     "exec-and-forget open -a /Applications/Bitwarden.app"
   ]
-  alt-4               = "workspace 7"
+  alt-e               = [
+    "workspace e",
+  ]
   # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
   alt-shift-1         = "move-node-to-workspace 1"
   alt-shift-2         = "move-node-to-workspace 2"
   alt-shift-3         = "move-node-to-workspace 3"
-  alt-shift-q         = "move-node-to-workspace 4"
-  alt-shift-w         = "move-node-to-workspace 5"
-  alt-shift-e         = "move-node-to-workspace 6"
-  alt-shift-4         = "move-node-to-workspace 7"
+  alt-shift-4         = "move-node-to-workspace 4"
+  alt-shift-q         = "move-node-to-workspace q"
+  alt-shift-w         = "move-node-to-workspace w"
+  alt-shift-e         = "move-node-to-workspace e"
   # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
   alt-ctrl-6          = "workspace-back-and-forth"
   # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor

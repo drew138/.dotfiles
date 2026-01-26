@@ -10,9 +10,13 @@ autoload -Uz compinit && compinit
 # enable bash completion in zsh
 autoload -U +X bashcompinit && bashcompinit
 
+# homebrew configs
+export HOMEBREW_NO_AUTO_UPDATE=1
+export PATH="/opt/homebrew/bin:${PATH}"
+
 # zinit
-export ZINIT_HOME="$HOME/.local/share/zinit"
-source "$ZINIT_HOME/zinit.zsh"
+export ZINIT_HOME="${HOME}/.local/share/zinit"
+source "${ZINIT_HOME}/zinit.zsh"
 
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -23,16 +27,17 @@ zsh-defer zinit light zsh-users/zsh-completions
 zsh-defer zinit light zsh-users/zsh-autosuggestions
 zsh-defer zinit light Aloxaf/fzf-tab
 
+compinit
 zinit cdreplay -q
 
 zinit ice as"command" from"gh-r" \
-          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
-          atpull"%atclone" src"init.zsh"
+    atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+    atpull"%atclone" src"init.zsh"
 zinit light starship/starship
 
 export HISTSIZE=5000
 export HISTFILE=~/.zsh_history
-export SAVEHIST=$HISTSIZE
+export SAVEHIST=${HISTSIZE}
 export HISTDUP=erase
 
 setopt appendhistory
@@ -46,7 +51,9 @@ setopt hist_find_no_dups
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath | command fzf'
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath | command fzf'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # editor configs
@@ -65,7 +72,8 @@ alias gdiff='git diff --name-only --relative --diff-filter=d | xargs bat --diff'
 alias ..='cd ..'
 
 ### eza
-export FPATH="$HOME/dev/eza/completions/zsh:$FPATH"
+export FPATH="${HOME}/dev/eza/completions/zsh:${FPATH}"
+export EZA_CONFIG_DIR="${HOME}/.config/eza"
 alias l='eza'
 alias ls='eza'
 alias ll='eza -lah'
@@ -76,59 +84,58 @@ alias -s md="bat"
 alias -s mov="open"
 alias -s png="open"
 alias -s mp4="open"
-alias -s go="\$EDITOR"
-alias -s sh="\$EDITOR"
-alias -s zsh="\$EDITOR"
-alias -s py="\$EDITOR"
-alias -s gitignore="\$EDITOR"
-alias -s gitconfig="\$EDITOR"
-alias -s js="\$EDITOR"
-alias -s ts="\$EDITOR"
-alias -s tsx="\$EDITOR"
-alias -s yaml="\$EDITOR"
-alias -s json="\$EDITOR"
+alias -s go="${EDITOR}"
+alias -s py="python3"
+alias -s gitignore="${EDITOR}"
+alias -s gitconfig="${EDITOR}"
+alias -s js="${EDITOR}"
+alias -s ts="${EDITOR}"
+alias -s tsx="${EDITOR}"
+alias -s yaml="${EDITOR}"
+alias -s json="${EDITOR}"
 
 # bat
 if command -v bat 1>/dev/null 2>&1; then
     alias cat='bat'
-    alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+    export BAT_CONFIG_PATH="${HOME}/.config/bat/config"
+    export BAT_CONFIG_DIR="${HOME}/.config/bat"
+    # alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
 fi
 
 # workrc configs
-[ -f "$HOME/.work.zsh" ] && \. "$HOME/.work.zsh"
+[ -f "${HOME}/.work.zsh" ] && \. "${HOME}/.work.zsh"
 
 # scripts configs
-export PATH="$HOME/.dotfiles/roles/scripts/files:$PATH"
+export PATH="${HOME}/.dotfiles/roles/scripts/files:${PATH}"
 
 # go configs
-export PATH="$HOME/go/bin:/usr/local/go/bin:$PATH"
-
-# homebrew configs
-export HOMEBREW_NO_AUTO_UPDATE=1
-export PATH="/opt/homebrew/bin:$PATH"
+export PATH="${HOME}/go/bin:/usr/local/go/bin:${PATH}"
 
 # local binaries
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="${HOME}/.local/bin:${PATH}"
 
 # nvm configs
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+export NVM_DIR="${HOME}/.nvm"
+[ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
 
 # fzf configs
-if [ -f "$HOME/.fzf.zsh" ] ;then
-    source "$HOME/.fzf.zsh"
+if [ -f "${HOME}/.fzf.zsh" ] ;then
+    source "${HOME}/.fzf.zsh"
+
+    alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
     export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
-    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
+    export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
     eval "$(fzf --zsh)"
 fi
 
 # rust configs
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+[ -f "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
 
 # pyenv configs
 if command -v pyenv 1>/dev/null 2>&1; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
+    export PYENV_ROOT="${HOME}/.pyenv"
+    export PATH="${PYENV_ROOT}/bin:${PATH}"
     eval "$(pyenv init -)"
 fi
 
@@ -144,19 +151,19 @@ bindkey '^x^e' edit-command-line
 ## magic space
 bindkey ' ' magic-space
 
-git-commit-msg() {
-  LBUFFER+='git commit -m ""'
-  zle backward-char
-}
-zle -N git-commit-msg
-bindkey '^xgc' git-commit-msg
-
-copy-command(){
-    echo -n "$BUFFER" | pbcopy
-    zle -M "Copied to clipboard"
-}
-zle -N copy-command
-bindkey '^xcc' copy-command
+# git-commit-msg() {
+#   LBUFFER+='git commit -m ""'
+#   zle backward-char
+# }
+# zle -N git-commit-msg
+# bindkey '^xgc' git-commit-msg
+#
+# copy-command(){
+#     echo -n "${BUFFER}" | pbcopy
+#     zle -M "Copied to clipboard"
+# }
+# zle -N copy-command
+# bindkey '^xcc' copy-command
 
 
 # zoxide
@@ -169,23 +176,23 @@ if command -v kubectl 1>/dev/null 2>&1; then
     source <(kubectl completion zsh)
 fi
 
+bashcompinit
 # terraform
 if command -v terraform 1>/dev/null 2>&1; then
-    complete -o nospace -C /usr/local/bin/terraform terraform
+    complete -o nospace -C "$(command -v terraform)" terraform
 fi
 
 # wezterm
-[[ "$(uname -s)" == "Linux" ]] && alias wezterm='flatpak run org.wezfurlong.wezterm'
-
-[[ "$(uname -s)" == "Darwin" ]] && export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
+[[ "$(uname -s)" == "Darwin" ]] && export PATH="${PATH}:/Applications/WezTerm.app/Contents/MacOS"
 
 # clitools
-export PATH="$HOME/.clitools/bin:$PATH"
+export PATH="${HOME}/.clitools/bin:${PATH}"
 
 # gcloud
 # The next line updates PATH for the Google Cloud SDK.
-[ -f "$HOME/google-cloud-sdk/path.zsh.inc" ] && \. "$HOME/google-cloud-sdk/path.zsh.inc"
+[ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ] && \. "${HOME}/google-cloud-sdk/path.zsh.inc"
 
 # The next line enables shell command completion for gcloud.
-[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ] && \. "$HOME/google-cloud-sdk/completion.zsh.inc"
+[ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ] && \. "${HOME}/google-cloud-sdk/completion.zsh.inc"
+
 

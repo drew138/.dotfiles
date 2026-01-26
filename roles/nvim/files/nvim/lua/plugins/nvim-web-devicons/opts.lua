@@ -12,27 +12,19 @@ local M = {
 			color = "#f1502f",
 			name = "GitignoreGlobal",
 		},
-		["dockerfile.runtime"] = {
-			icon = "󰡨",
-			color = "#458ee6",
-			cterm_color = "68",
-			name = "Dockerfile",
-		},
 		["sketchybarrc"] = {
 			icon = "",
-			color = "#89e051",
-			cterm_color = "113",
+			color = "#81b29a",
 			name = "sketchybarrc",
 		},
 		["bordersrc"] = {
 			icon = "",
-			color = "#89e051",
-			cterm_color = "113",
+			color = "#81b29a",
 			name = "bordersrc",
 		},
 		["work.zsh"] = {
 			icon = "",
-			color = "#89E051",
+			color = "#81b29a",
 			name = "ZshWork",
 		},
 		["work.gitconfig"] = {
@@ -47,8 +39,12 @@ local M = {
 		},
 		sh = {
 			icon = "",
-			color = "#89e051",
-			cterm_color = "113",
+			color = "#81b29a",
+			name = "Shell",
+		},
+		[".zshrc"] = {
+			icon = "",
+			color = "#81b29a",
 			name = "Shell",
 		},
 		[".yamllint"] = {
