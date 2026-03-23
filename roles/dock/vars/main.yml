@@ -43,3 +43,7 @@ dock_items_persist:
   - name: "OBS"
     path: "/Applications/OBS.app/"
     pos: 11
+
+  - name: "Figma"
+    path: "/Applications/Figma.app/"
+    pos: 11

@@ -10,6 +10,8 @@ casks_applications:
     app: OBS
   - name: bitwarden
     app: Bitwarden
+  - name: figma
+    app: Figma
   - name: notion
     app: Notion
   - name: notion-calendar

@@ -11,6 +11,12 @@
   changed_when: false
   failed_when: false
 
+- name: Read ApplePressAndHoldEnabled value
+  ansible.builtin.command: defaults read -g ApplePressAndHoldEnabled
+  register: keyboard_verify_apple_press_and_hold_enabled
+  changed_when: false
+  failed_when: false
+
 - name: Assert InitialKeyRepeat is set correctly
   ansible.builtin.assert:
     that:
@@ -28,3 +34,12 @@
     fail_msg: >
       KeyRepeat is not set correctly.
       Expected 2, got {{ keyboard_verify_key_repeat.stdout }}
+
+- name: Assert ApplePressAndHoldEnabled is set correctly
+  ansible.builtin.assert:
+    that:
+      - keyboard_verify_apple_press_and_hold_enabled.rc == 0
+      - keyboard_verify_apple_press_and_hold_enabled.stdout | bool == false
+    fail_msg: >
+      ApplePressAndHoldEnabled is not set correctly.
+      Expected false, got {{ keyboard_verify_apple_press_and_hold_enabled.stdout }}
