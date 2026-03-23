@@ -16,4 +16,4 @@
       dockutil --move '{{ dock_item_position.name | default(dock_item_position) }}' --position '{{ dock_item_position.pos }}'
       {% if not ansible_loop.last %}--no-restart{% endif %}
   when: dock_current_position|int != dock_item_position.pos|int
-  changed_when: true
+  changed_when: false
