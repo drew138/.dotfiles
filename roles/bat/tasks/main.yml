@@ -22,4 +22,4 @@
   ansible.builtin.command: bat cache --build
   environment:
     PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts.env.PATH }}"
-  changed_when: true
+  changed_when: false
