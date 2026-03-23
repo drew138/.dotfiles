@@ -27,6 +27,11 @@
   environment:
     PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts.env.PATH }}"
 
+# TODO: remove this
+- name: Debug bat themes output
+  ansible.builtin.debug:
+    var: bat_verify_themes.stdout_lines
+
 - name: Assert nightfox theme is installed
   ansible.builtin.assert:
     that:

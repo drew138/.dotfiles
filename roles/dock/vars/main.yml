@@ -46,4 +46,4 @@ dock_items_persist:
 
   - name: "Figma"
     path: "/Applications/Figma.app/"
-    pos: 11
+    pos: 12

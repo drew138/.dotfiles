@@ -9,7 +9,6 @@
     name:
       - borders
     state: latest
-  notify: start_borders_service
 
 - name: Ensure jankyborders config directory exists
   ansible.builtin.file:

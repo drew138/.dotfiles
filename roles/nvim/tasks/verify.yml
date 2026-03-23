@@ -51,10 +51,10 @@
 
 - name: Assert tool config symlinks are created
   ansible.builtin.assert:
-    that: >
-      {% for stat in nvim_verify_symlinks.results %}
-      - stat.stat.exists
-      - stat.stat.islnk
-      {% endfor %}
-    fail_msg: "Some tool config symlinks are missing or not proper symlinks"
-    success_msg: "All tool config symlinks are present"
+    that:
+      - item.stat.exists
+      - item.stat.islnk
+    fail_msg: "Symlink at {{ item.item.dest }} is missing or is not a proper symlink"
+  loop: "{{ nvim_verify_symlinks.results }}"
+  loop_control:
+    label: "{{ item.item.dest }}"

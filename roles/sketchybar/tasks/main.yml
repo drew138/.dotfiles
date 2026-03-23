@@ -12,7 +12,6 @@
       - switchaudio-osx
       - nowplaying-cli
     state: latest
-  notify: start_sketchybar_service
 
 - name: Ensure sketchybar config directory exists
   ansible.builtin.file:
