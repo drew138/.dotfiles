@@ -151,21 +151,6 @@ bindkey '^x^e' edit-command-line
 ## magic space
 bindkey ' ' magic-space
 
-# git-commit-msg() {
-#   LBUFFER+='git commit -m ""'
-#   zle backward-char
-# }
-# zle -N git-commit-msg
-# bindkey '^xgc' git-commit-msg
-#
-# copy-command(){
-#     echo -n "${BUFFER}" | pbcopy
-#     zle -M "Copied to clipboard"
-# }
-# zle -N copy-command
-# bindkey '^xcc' copy-command
-
-
 # zoxide
 if  command -v zoxide 1>/dev/null 2>&1; then
     eval "$(zoxide init --cmd cd zsh)"
