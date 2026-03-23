@@ -12,20 +12,16 @@
 
 ## Installation
 
-Setup ansible for installation.
-
-### Ubuntu Only
+Install homebrew and setup ansible.
 
 ```bash
-sudo apt update && sudo apt upgrade
-sudo add-apt-repository universe
-sudo apt install -y curl python3-pip python3-venv git
-```
-
-### Macos and Ubuntu
-
-```bash
-source <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/setup_ansible.sh)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if [ -f /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -f /usr/local/bin/brew ]; then
+    export PATH="/usr/local/bin:$PATH"
+fi
+brew install git curl ansible
 ```
 
 ### Install
@@ -47,10 +43,3 @@ They can be installed manually using the following command:
 ```bash
 brew install --cask google-drive logitech-g-hub
 ```
-
-#### Flatpak
-
-Some flatpak packages are not available for all system architectures.
-For example, they may only available for `x86_64` systems.
-To avoid errors, the `flatpak` role will not fail if a package can not be installed.
-They can be installed manually through other means.
