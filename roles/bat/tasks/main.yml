@@ -12,8 +12,10 @@
 
 - name: Create bat symlink
   ansible.builtin.file:
-    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/bat/files"
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat"
+    # src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/bat/files"
+    # dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat"
+    src: "{{  ansible_facts['env']['HOME']  }}/.dotfiles/roles/bat/files/nightfox.tmTheme"
+    dest: "{{  ansible_facts['env']['HOME']  }}/.config/bat/themes/nightfox.tmTheme"
     state: link
     force: true
     follow: false
