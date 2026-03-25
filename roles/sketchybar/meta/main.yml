@@ -14,3 +14,4 @@ dependencies:
   - role: menubar
   - role: casks
   - role: nerdfonts
+  - role: repositories

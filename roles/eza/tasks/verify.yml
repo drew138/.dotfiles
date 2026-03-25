@@ -46,3 +46,17 @@
       - eza_verify_git_stat.stat.exists
       - eza_verify_git_stat.stat.isdir
     fail_msg: "The destination {{ eza_home }} exists but is not a valid git repository"
+
+- name: Verify theme.yml symlink
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/eza/theme.yml"
+  register: eza_theme_link
+
+- name: Assert theme symlink is valid
+  ansible.builtin.assert:
+    that:
+      - eza_theme_link.stat.exists
+      - eza_theme_link.stat.islnk
+      - eza_theme_link.stat.lnk_source ==
+        ansible_facts['env']['HOME'] + '/.dotfiles/roles/eza/files/theme.yml'
+    fail_msg: "Eza theme symlink is missing, broken, or pointing to the wrong source."
