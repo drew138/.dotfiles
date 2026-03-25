@@ -4,18 +4,18 @@
     name:
       - bat
 
-- name: Ensure config directory exists
+- name: Ensure required directories exist
   ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config"
+    path: "{{ item }}"
     state: directory
     mode: "0755"
+    owner: "{{ ansible_facts.env.USER }}"
+  loop: "{{ bat_theme_directory }}"
 
 - name: Create bat symlink
   ansible.builtin.file:
-    # src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/bat/files"
-    # dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat"
-    src: "{{  ansible_facts['env']['HOME']  }}/.dotfiles/roles/bat/files/nightfox.tmTheme"
-    dest: "{{  ansible_facts['env']['HOME']  }}/.config/bat/themes/nightfox.tmTheme"
+    src: "{{  ansible_facts['env']['HOME']  }}/.dotfiles/roles/bat/files/themes"
+    dest: "{{  ansible_facts['env']['HOME']  }}/.config/bat/themes"
     state: link
     force: true
     follow: false
