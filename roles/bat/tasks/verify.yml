@@ -32,6 +32,16 @@
   ansible.builtin.debug:
     var: bat_verify_themes.stdout_lines
 
+- name: List files in bat themes directory
+  ansible.builtin.command: "ls -R {{ ansible_facts['env']['HOME'] }}/.config/bat/themes"
+  register: bat_ls_output
+  ignore_errors: true
+  changed_when: false
+
+- name: Show what bat sees
+  ansible.builtin.debug:
+    var: bat_ls_output.stdout_lines
+
 - name: Assert nightfox theme is installed
   ansible.builtin.assert:
     that:
