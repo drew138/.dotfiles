@@ -51,10 +51,13 @@ setopt hist_find_no_dups
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath | command fzf'
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:(cd|cat|bat|vim|nano|nvim):*' popup-pad 30 0
+zstyle ':fzf-tab:complete:(cd|cat|bat|vim|nano|nvim):*' fzf-preview '
+if [ -d $realpath ]; then
+  eza -1 --color=always $realpath 2>/dev/null || ls -1 --color=always $realpath
+else
+  bat --color=always --style=numbers --line-range=:500 $realpath 2>/dev/null || cat $realpath
+fi'
 
 # editor configs
 export EDITOR='nvim'
@@ -68,38 +71,34 @@ alias abort='git reset --merge'
 alias status='git status'
 alias checkout='git checkout'
 alias push='git push'
-alias gdiff='git diff --name-only --relative --diff-filter=d | xargs bat --diff'
+alias gdiff='if command -v bat >/dev/null 2>&1; then
+    git diff --name-only --relative --diff-filter=d | xargs bat --diff
+  else
+    git diff
+  fi'
 alias ..='cd ..'
 
 ### eza
-export FPATH="${HOME}/dev/eza/completions/zsh:${FPATH}"
-export EZA_CONFIG_DIR="${HOME}/.config/eza"
-alias l='eza'
-alias ls='eza'
-alias ll='eza -lah'
-alias lt='eza --tree'
+if command -v eza 1>/dev/null 2>&1; then
+    export FPATH="${HOME}/dev/eza/completions/zsh:${FPATH}"
+    export EZA_CONFIG_DIR="${HOME}/.config/eza"
+    alias l='eza --icons'
+    alias ls='eza --icons'
+    alias ll='eza -lah --icons --git'
+    alias lt='eza --tree'
+fi
 
 ## sufix
-alias -s md="bat"
 alias -s mov="open"
 alias -s png="open"
 alias -s mp4="open"
-alias -s go="${EDITOR}"
 alias -s py="python3"
-alias -s gitignore="${EDITOR}"
-alias -s gitconfig="${EDITOR}"
-alias -s js="${EDITOR}"
-alias -s ts="${EDITOR}"
-alias -s tsx="${EDITOR}"
-alias -s yaml="${EDITOR}"
-alias -s json="${EDITOR}"
 
 # bat
 if command -v bat 1>/dev/null 2>&1; then
     alias cat='bat'
     export BAT_CONFIG_PATH="${HOME}/.config/bat/config"
     export BAT_CONFIG_DIR="${HOME}/.config/bat"
-    # alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
 fi
 
 # workrc configs
@@ -119,10 +118,17 @@ export NVM_DIR="${HOME}/.nvm"
 [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
 
 # fzf configs
-if [ -f "${HOME}/.fzf.zsh" ] ;then
+if [ -f "${HOME}/.fzf.zsh" ]; then
     source "${HOME}/.fzf.zsh"
 
-    alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+    export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border \
+    --color=hl:#f4a261,hl+:#f4a261,pointer:#f4a261,marker:#f4a261 \
+    --preview 'if command -v bat >/dev/null 2>&1; then \
+        bat --color=always --style=numbers --line-range=:500 {}; \
+      else \
+        cat {}; \
+      fi'"
+
     export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
     export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
     export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
@@ -139,6 +145,7 @@ if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
 
+# python configs
 export PYTHONDONTWRITEBYTECODE=1
 export PYTHONUNBUFFERED=1
 export PYTEST_ADDOPTS="-p no:cacheprovider"
@@ -179,5 +186,3 @@ export PATH="${HOME}/.clitools/bin:${PATH}"
 
 # The next line enables shell command completion for gcloud.
 [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ] && \. "${HOME}/google-cloud-sdk/completion.zsh.inc"
-
-
