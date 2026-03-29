@@ -18,7 +18,7 @@ casks_applications:
     app: Notion Calendar
   - name: whatsapp
     app: WhatsApp
-  - name: google-chrome
-    app: Google Chrome
+  - name: vivaldi
+    app: Vivaldi
   - name: utm
     app: UTM

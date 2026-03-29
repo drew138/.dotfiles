@@ -36,10 +36,10 @@ reminder: system reboot might be required for some programs to work as expected.
 
 #### Homebrew Casks
 
-Some packages like `google-drive` and `logitech-g-hub` impede automatic installation
+Some packages like `logitech-g-hub` impede automatic installation
 without password prompting. For that reason, they are not included in the role.
 They can be installed manually using the following command:
 
 ```bash
-brew install --cask google-drive logitech-g-hub
+brew install --cask logitech-g-hub
 ```

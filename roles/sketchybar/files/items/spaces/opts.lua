@@ -17,7 +17,7 @@ M.aerospace_workspaces_names = {
 
 M.workspace_icons = {
 	["1"] = app_icons["WezTerm"],
-	["2"] = app_icons["Google Chrome"],
+	["2"] = app_icons["Vivaldi"],
 	["3"] = app_icons["Slack"],
 	["4"] = app_icons["Postman"],
 	["q"] = app_icons["Notion"],

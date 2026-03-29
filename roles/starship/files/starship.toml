@@ -1,79 +1,169 @@
-add_newline = true
-palette     = "nightfox"
-format      = """\
-  $username\
-  $localip\
-  $directory\
-  $python\
-  $nodejs\
-  $lua\
-  $golang\
-  $git_branch
-$character\
-"""
+"$schema" = "https://starship.rs/config-schema.json"
+format    = """
+[░▒▓](os_bg)\
+$os\
+$username\
+[](bg:dir_bg fg:os_bg)\
+$directory\
+[](fg:dir_bg bg:git_bg)\
+$git_branch\
+$git_status\
+[](fg:git_bg bg:lang_bg)\
+$golang\
+$python\
+$lua\
+$nodejs\
+$rust\
+$zig\
+$c\
+$php\
+$java\
+$kotlin\
+$haskell\
+[](fg:lang_bg)\
+\n$character"""
+palette   = "nightfox"
 
 [palettes.nightfox]
-  bg0     = "#131a24"
-  bg1     = "#192330"
-  bg2     = "#212e3f"
-  bg3     = "#29394f"
-  bg4     = "#39506d"
-  fg0     = "#d6d6d7"
-  fg1     = "#cdcecf"
-  fg2     = "#aeafb0"
-  black   = "#393b44"
   red     = "#c94f6d"
   green   = "#81b29a"
+  purple  = "#9d79d6"
   yellow  = "#dbc074"
-  blue    = "#719cd6"
-  magenta = "#9d79d6"
-  cyan    = "#63cdcf"
-  white   = "#dfdfe0"
-  orange  = "#f4a261"
-  pink    = "#d67ad2"
-  comment = "#738091"
+  os_bg   = "#71839b"
+  os_fg   = "#131a24"
+  dir_bg  = "#81b29a"
+  dir_fg  = "#192330"
+  git_bg  = "#dbc074"
+  git_fg  = "#212e3f"
+  lang_bg = "#719cd6"
+  lang_fg = "#29394f"
 
-[character]
-  success_symbol = "[➜](bold green)"
-  error_symbol   = "[➜](bold red)"
+[os]
+  disabled = false
+  style    = "bg:os_bg fg:os_fg"
+
+  [os.symbols]
+    Windows          = "󰍲"
+    Ubuntu           = "󰕈"
+    SUSE             = ""
+    Raspbian         = "󰐿"
+    Mint             = " 󰣭 "
+    Macos            = "󰀵"
+    Manjaro          = ""
+    Linux            = "󰌽"
+    Gentoo           = "󰣨"
+    Fedora           = "󰣛"
+    Alpine           = ""
+    Amazon           = ""
+    Android          = ""
+    Arch             = "󰣇"
+    Artix            = "󰣇"
+    CentOS           = ""
+    Debian           = "󰣚"
+    Redhat           = "󱄛"
+    RedHatEnterprise = "󱄛"
 
 [username]
-  format      = "[$user](bold yellow) "
   show_always = true
-
-[localip]
-  ssh_only = false
-  format   = "[$localipv4](purple) "
-  disabled = false
+  style_user  = "bg:os_bg fg:os_fg"
+  style_root  = "bg:os_bg fg:os_fg"
+  format      = "[ $user ]($style)"
 
 [directory]
-  style = "bold blue"
+  style             = "fg:dir_fg bg:dir_bg"
+  format            = "[ $path ]($style)"
+  truncation_length = 3
+  truncation_symbol = "…/"
+
+  [directory.substitutions]
+    "Documents" = "󰈙 "
+    "Downloads" = " "
+    "Music"     = " "
+    "Pictures"  = " "
+    "src"       = " "
 
 [git_branch]
-  symbol = " "
-  style  = "orange"
-  format = " [$symbol$branch(:$remote_branch)]($style) "
+  symbol = ""
+  style  = "bg:git_bg"
+  format = "[[ $symbol $branch ](fg:git_fg bg:git_bg)]($style)"
 
-[lua]
-  format            = "[$symbol($version )]($style)"
-  symbol            = " "
-  style             = "blue"
-  detect_extensions = []
-
-[python]
-  format             = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
-  symbol             = " "
-  style              = "yellow"
-  pyenv_version_name = true
-  detect_extensions  = []
-
-[golang]
-  format            = "[ $version]($style) "
-  style             = "cyan"
-  detect_extensions = []
+[git_status]
+  style  = "bg:git_bg"
+  format = "[[($all_status$ahead_behind )](fg:git_fg bg:git_bg)]($style)"
 
 [nodejs]
-  format            = "[$symbol($version )]($style)"
-  symbol            = " "
-  style             = "green"
-  detect_extensions = []
+  symbol = ""
+  style  = "bg:lang_bg"
+  format = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+
+[c]
+  symbol = " "
+  style  = "bg:lang_bg"
+  format = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+
+[rust]
+  symbol = ""
+  style  = "bg:lang_bg"
+  format = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+
+[golang]
+  symbol       = ""
+  style        = "bg:lang_bg"
+  format       = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+  detect_files = [
+    "go.mod",
+    "go.sum",
+    "glide.yaml",
+    "Gopkg.toml",
+    "Gopkg.lock",
+    "go.work"
+  ]
+
+[php]
+  symbol = ""
+  style  = "bg:lang_bg"
+  format = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+
+[java]
+  symbol = " "
+  style  = "bg:lang_bg"
+  format = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+
+[kotlin]
+  symbol = ""
+  style  = "bg:lang_bg"
+  format = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+
+[haskell]
+  symbol = ""
+  style  = "bg:lang_bg"
+  format = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+
+[python]
+  symbol            = ""
+  style             = "bg:lang_bg"
+  format            = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+  detect_files      = [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "setup.py",
+    "tox.ini"
+  ]
+  detect_extensions = ["py"]
+
+[lua]
+  symbol            = ""
+  style             = "bg:lang_bg"
+  format            = "[[ $symbol( $version) ](fg:lang_fg bg:lang_bg)]($style)"
+  detect_files      = ["selene.toml", ".lua-version"]
+  detect_extensions = ["lua"]
+
+[character]
+  disabled                  = false
+  success_symbol            = "[](bold fg:#81b29a)"
+  error_symbol              = "[](bold fg:#c94f6d)"
+  vimcmd_symbol             = "[](bold fg:green)"
+  vimcmd_replace_one_symbol = "[](bold fg:purple)"
+  vimcmd_replace_symbol     = "[](bold fg:purple)"
+  vimcmd_visual_symbol      = "[](bold fg:yellow)"

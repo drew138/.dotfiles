@@ -8,8 +8,8 @@ dock_items_persist:
     path: "/Applications/WezTerm.app/"
     pos: 2
 
-  - name: "Google Chrome"
-    path: "/Applications/Google Chrome.app/"
+  - name: "Vivaldi"
+    path: "/Applications/Vivaldi.app/"
     pos: 3
 
   - name: "Slack"
