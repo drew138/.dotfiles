@@ -1,29 +1,5 @@
 ---
-- name: Create Fonts directory if it doesn't exist
-  become: true
-  ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts"
-    state: directory
-    owner: "{{ ansible_facts['env']['USER'] }}"
-    mode: "0755"
-
-- name: Copy NerdFonts files
-  with_fileglob: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/nerdfonts/files/*"
-  vars:
-    destination_file: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts/{{ item | regex_replace('.*/', '') }}"
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ destination_file }}"
-    owner: "{{ ansible_facts['env']['USER'] }}"
-    mode: "0755"
-    remote_src: true
-    force: true
-
 - name: Install nerdfonts
   community.general.homebrew_cask:
-    name:
-      - sf-symbols
-      - font-sf-mono
-      - font-sf-pro
-      - font-jetbrains-mono-nerd-font
+    name: "{{ nerdfonts_fonts }}"
     state: present

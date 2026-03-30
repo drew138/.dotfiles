@@ -65,7 +65,7 @@ export EDITOR='nvim'
 # aliases
 ## prefix
 alias vim='nvim'
-alias unstage='git restore --staged .'
+alias unstage='git restore --staged'
 alias merge='git mergetool'
 alias abort='git reset --merge'
 alias status='git status'

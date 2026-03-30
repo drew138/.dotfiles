@@ -33,7 +33,6 @@ M.items = {
 				border_color = theme.colors.black,
 				border_width = 1,
 			},
-			click_script = "open -a 'Notion Calendar'",
 		},
 	},
 	calendar_space_left = {

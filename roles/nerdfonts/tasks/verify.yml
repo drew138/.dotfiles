@@ -1,24 +1,25 @@
 ---
-- name: Verify Fonts directory exists
+- name: Check if Homebrew casks are installed
+  ansible.builtin.command: "brew list --cask {{ item }}"
+  register: nerdfonts_verify_brew_list
+  changed_when: false
+  failed_when: false
+  loop: "{{ nerdfonts_fonts }}"
+
+- name: Assert all casks are reported as installed by Homebrew
+  ansible.builtin.assert:
+    that:
+      - item.rc == 0
+    fail_msg: "Cask {{ item.item }} is not reported as installed by Homebrew"
+  loop: "{{ nerdfonts_verify_brew_list.results }}"
+
+- name: Verify SF Symbols application path specifically
   ansible.builtin.stat:
-    path: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts"
-  register: nerdfonts_verify_fonts_dir
+    path: "/Applications/SF Symbols.app"
+  register: nerdfonts_verify_sf_app
 
-- name: Assert Fonts directory exists
+- name: Assert SF Symbols binary exists in Applications
   ansible.builtin.assert:
     that:
-      - nerdfonts_verify_fonts_dir.stat.exists
-      - nerdfonts_verify_fonts_dir.stat.isdir
-    fail_msg: "~/Library/Fonts directory does not exist"
-
-- name: List Nerd Font files
-  ansible.builtin.find:
-    paths: "{{ ansible_facts['env']['HOME'] }}/Library/Fonts"
-    patterns: "*Nerd Font*"
-  register: nerdfonts_verify_nerdfonts
-
-- name: Assert at least one Nerd Font is installed
-  ansible.builtin.assert:
-    that:
-      - nerdfonts_verify_nerdfonts.files | length > 0
-    fail_msg: "No Nerd Font files found in ~/Library/Fonts"
+      - nerdfonts_verify_sf_app.stat.exists
+    fail_msg: "SF Symbols app is missing from /Applications despite Homebrew status"
