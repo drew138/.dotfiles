@@ -10,7 +10,7 @@ M.items = {
 		name = "calendar",
 		properties = {
 			icon = {
-				color = theme.colors.white,
+				color = theme.colors.cyan,
 				padding_left = 8,
 				font = {
 					style = theme.settings.font.style_map["Black"],
@@ -18,20 +18,23 @@ M.items = {
 				},
 			},
 			label = {
-				color = theme.colors.white,
+				color = theme.colors.cyan,
 				padding_right = 8,
 				width = 49,
 				align = "right",
-				font = { family = theme.settings.font.numbers },
+				font = {
+					style = theme.settings.font.style_map["Black"],
+					size = 12.0,
+				},
 			},
 			position = "right",
 			update_freq = 30,
 			padding_left = 1,
 			padding_right = 1,
 			background = {
-				color = theme.colors.bg2,
-				border_color = theme.colors.black,
-				border_width = 1,
+				color = theme.colors.bg1,
+				border_color = theme.colors.transparent,
+				border_width = 2,
 			},
 		},
 	},
@@ -47,7 +50,7 @@ M.brackets = {
 			background = {
 				color = theme.colors.transparent,
 				height = 30,
-				border_color = theme.colors.grey,
+				border_color = theme.colors.bg2,
 			},
 		},
 	},

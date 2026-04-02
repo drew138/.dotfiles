@@ -1,2 +1,2 @@
 ---
-wallpaper_path: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/assets/wallpaper.png"
+wallpaper_path: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/wallpaper/files/wallpaper.png"

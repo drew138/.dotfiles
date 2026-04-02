@@ -39,7 +39,6 @@ M.items = {
 			icon = {
 				padding_left = 8,
 				padding_right = 9,
-				-- color = theme.colors.grey,
 				color = theme.colors.magenta,
 				string = theme.icons.switch.on,
 			},
@@ -62,37 +61,19 @@ function M.create_default_workspace_opts(i)
 	return {
 		name = M.base_workspace_name .. i,
 		properties = {
-			-- icon = {
-			-- 	font = { family = theme.settings.font.numbers },
-			-- 	-- string = i,
-			-- 	padding_left = 1,
-			-- 	-- padding_right = 8,
-			-- 	color = theme.colors.white,
-			-- color = theme.colors.bg1,
-			-- 	highlight_color = theme.colors.red,
-			-- },
 			label = {
 				string = M.workspace_icons[i],
 				padding_right = 6,
 				padding_left = 1,
-				-- color = theme.colors.grey,
 				color = theme.colors.blue,
-				-- color = theme.colors.red,
 				highlight_color = theme.colors.grey,
 				font = "sketchybar-app-font:Regular:16.0",
-				-- y_offset = -1,
 			},
 			padding_right = 1,
 			padding_left = 1,
 			background = {
-				-- color = theme.colors.bg1,
-				-- color = theme.colors.bg2,
-				-- border_width = 1,
 				height = 24,
-				-- width = 5,
-				-- border_color = theme.colors.bg1,
 			},
-			-- popup = { background = { border_width = 5, border_color = theme.colors.black } },
 		},
 	}
 end
