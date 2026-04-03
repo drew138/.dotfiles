@@ -6,11 +6,10 @@
 
 - name: Ensure required directories exist
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ ansible_facts['env']['HOME'] }}/.config"
     state: directory
     mode: "0755"
     owner: "{{ ansible_facts.env.USER }}"
-  loop: "{{ ansible_facts['env']['HOME'] }}/.config"
 
 - name: Create bat symlink
   ansible.builtin.file:
