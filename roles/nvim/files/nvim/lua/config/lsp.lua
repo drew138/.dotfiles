@@ -52,13 +52,12 @@ function M.map_lsp_keys(bufnr)
 	set("n", "gt", buf.type_definition, opts)
 	set("n", "gr", buf.references, opts)
 	set({ "n", "v" }, "<leader>ca", buf.code_action, opts)
-	-- set("n", "<c-e>", buf.rename, { buffer = bufnr, noremap = true, silent = true })
 end
 
 -- Highlights: Symbol highlighting under cursor
 function M.setup_document_highlights(client, bufnr)
 	local method = vim.lsp.protocol.Methods.textDocument_documentHighlight
-	if not client.supports_method(method, { bufnr = bufnr }) then
+	if not client:supports_method(method, { bufnr = bufnr }) then
 		return
 	end
 
