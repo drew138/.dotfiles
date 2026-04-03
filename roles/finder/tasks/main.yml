@@ -36,7 +36,7 @@
 
 - name: Set Finder home directory path
   ansible.builtin.command: >
-    defaults write com.apple.finder NewWindowTargetPath -string "file://{{ ansible_env.HOME }}/"
+    defaults write com.apple.finder NewWindowTargetPath -string "file://{{ ansible_facts['env']['HOME'] }}/"
   changed_when: false
 
 - name: Keep folders on top in list view
