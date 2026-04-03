@@ -24,8 +24,6 @@ function M.install_sketchybar()
 	end
 
 	package.cpath = package.cpath .. ";" .. sbarpath .. "?.so"
-	--
-	-- os.execute("(cd bridge && make)")
 end
 
 function M.start()
@@ -34,8 +32,6 @@ function M.start()
 	sketchybar.begin_config()
 	sketchybar.hotload(true)
 	require("appearance")
-	-- require("bar")
-	-- require("default")
 	require("items")
 
 	sketchybar.end_config()
