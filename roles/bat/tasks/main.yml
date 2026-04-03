@@ -10,12 +10,12 @@
     state: directory
     mode: "0755"
     owner: "{{ ansible_facts.env.USER }}"
-  loop: "{{ bat_theme_directory }}"
+  loop: "{{ ansible_facts['env']['HOME'] }}/.config"
 
 - name: Create bat symlink
   ansible.builtin.file:
-    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/bat/files/themes"
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat/themes"
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/bat/files"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat"
     state: link
     force: true
     follow: false

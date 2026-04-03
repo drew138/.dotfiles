@@ -1,4 +1,0 @@
----
-bat_theme_directory:
-  - "{{ ansible_facts['env']['HOME'] }}/.config"
-  - "{{ ansible_facts['env']['HOME'] }}/.config/bat"
