@@ -42,7 +42,7 @@
       - jankyborders_verify_symlink.stat.exists
       - jankyborders_verify_symlink.stat.islnk
       - jankyborders_verify_symlink.stat.lnk_source ==
-        ansible_facts['env']['HOME'] + '/.dotfiles/roles/borders/files/bordersrc'
+        ansible_facts['env']['HOME'] + '/.dotfiles/roles/jankyborders/files/bordersrc'
     fail_msg: >-
       Borders config symlink is missing, not a symlink,
       or does not point to the expected source.

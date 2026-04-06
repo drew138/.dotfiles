@@ -2,7 +2,7 @@ local theme = require("theme")
 local M = {}
 
 M.items = {
-	cpu_padding_left = {
+	cpu_space_left = {
 		name = "widgets.cpu.padding",
 		properties = {
 			position = "right",

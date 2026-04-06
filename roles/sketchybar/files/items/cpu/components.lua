@@ -13,7 +13,7 @@ local M = {
 		opts.brackets.cpu_bracket.item_names,
 		opts.brackets.cpu_bracket.properties
 	),
-	cpu_padding_left = sketchybar.add("item", opts.items.cpu_padding_left.name, opts.items.cpu_padding_left.properties),
+	cpu_padding_left = sketchybar.add("item", opts.items.cpu_space_left.name, opts.items.cpu_space_left.properties),
 }
 
 return M

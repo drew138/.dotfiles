@@ -21,7 +21,7 @@
 
 - name: Create jankyborders symlink
   ansible.builtin.file:
-    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/borders/files/bordersrc"
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/jankyborders/files/bordersrc"
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/borders/bordersrc"
     owner: "{{ ansible_facts['env']['USER'] }}"
     state: link

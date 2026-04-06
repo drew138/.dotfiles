@@ -8,13 +8,14 @@ local M = {
 		end,
 	},
 	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
+		completion = cmp.config.window.bordered({
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+		}),
+		documentation = cmp.config.window.bordered({
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+		}),
 	},
 	mapping = cmp.mapping.preset.insert({
-		-- ["<c-b>"] = cmp.mapping.scroll_docs(-4),
-		-- ["<c-f>"] = cmp.mapping.scroll_docs(4),
-		-- ["<c-Space>"] = cmp.mapping.complete(),
 		["<c-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 		["<c-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
 		["<c-x>"] = cmp.mapping.abort(),
