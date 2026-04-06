@@ -1,5 +1,6 @@
 ---
 - name: Install nerdfonts
+  become: true
   community.general.homebrew_cask:
     name: "{{ nerdfonts_fonts }}"
     state: present
