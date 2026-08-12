@@ -158,11 +158,6 @@ bindkey '^x^e' edit-command-line
 ## magic space
 bindkey ' ' magic-space
 
-# zoxide
-if  command -v zoxide 1>/dev/null 2>&1; then
-    eval "$(zoxide init --cmd cd zsh)"
-fi
-
 # kubectl
 if command -v kubectl 1>/dev/null 2>&1; then
     source <(kubectl completion zsh)
@@ -186,3 +181,8 @@ export PATH="${HOME}/.clitools/bin:${PATH}"
 
 # The next line enables shell command completion for gcloud.
 [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ] && \. "${HOME}/google-cloud-sdk/completion.zsh.inc"
+
+# zoxide
+if  command -v zoxide 1>/dev/null 2>&1; then
+    eval "$(zoxide init --cmd cd zsh)"
+fi

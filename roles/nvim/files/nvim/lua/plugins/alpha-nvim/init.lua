@@ -25,7 +25,13 @@ local M = {
 				[[ 888    Y888  "Y8888   "Y88P"     Y8P     888 888  888  888 ]],
 			}
 
-			require("alpha").setup(dashboard.config)
+			local alpha = require("alpha")
+			alpha.setup(dashboard.config)
+
+			local orig_press = alpha.press
+			alpha.press = function()
+				pcall(orig_press)
+			end
 		end,
 	},
 }
