@@ -12,3 +12,17 @@
       - widgets_verify_hide.stdout | trim == "1"
     fail_msg: "Desktop widgets are NOT hidden"
     success_msg: "Desktop widgets are hidden"
+
+- name: Verify click wallpaper to reveal desktop is disabled
+  ansible.builtin.command: >
+    defaults read com.apple.WindowManager EnableStandardClickToShowDesktop
+  register: widgets_verify_click_to_show
+  changed_when: false
+  failed_when: false
+
+- name: Assert click wallpaper to reveal desktop is disabled
+  ansible.builtin.assert:
+    that:
+      - widgets_verify_click_to_show.stdout | trim == "0"
+    fail_msg: "Click wallpaper to reveal desktop is NOT disabled"
+    success_msg: "Click wallpaper to reveal desktop is disabled"

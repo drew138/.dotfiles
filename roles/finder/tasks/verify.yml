@@ -49,6 +49,10 @@
       cmd: defaults read com.apple.desktopservices DSDontWriteUSBStores
       expected: "1"
 
+    - name: CreateDesktop
+      cmd: defaults read com.apple.finder CreateDesktop
+      expected: "0"
+
 - name: Assert Finder settings
   ansible.builtin.assert:
     that:

@@ -1,106 +1,106 @@
 local sketchybar = require("sketchybar")
 local theme = require("theme")
+local opts = require("items.spaces.opts")
 
 local aerospace_workspace_change_event = "aerospace_workspace_change"
 
 local M = {}
 
-function M.configure_workspaces_indicator()
-	M.workspaces_indicator:subscribe("swap_menus_and_spaces", function(_)
-		local currently_on = M.workspaces_indicator:query().icon.value == theme.icons.switch.on
-		M.workspaces_indicator:set({
-			icon = currently_on and theme.icons.switch.off or theme.icons.switch.on,
-		})
-	end)
+M.app_is_open = {}
+M.focused_workspace = nil
 
-	M.workspaces_indicator:subscribe("mouse.entered", function(_)
-		sketchybar.animate("tanh", 30, function()
-			M.workspaces_indicator:set({
-				background = {
-					color = { alpha = 1.0 },
-					border_color = { alpha = 1.0 },
-				},
-				icon = { color = theme.colors.bg1 },
-				label = { width = "dynamic" },
-			})
-		end)
-	end)
+local function paint(workspace_name)
+	local workspace = M.workspace_by_name[workspace_name]
+	if not workspace then
+		return
+	end
 
-	M.workspaces_indicator:subscribe("mouse.exited", function(_)
-		sketchybar.animate("tanh", 30, function()
-			M.workspaces_indicator:set({
-				background = {
-					color = { alpha = 0.0 },
-					border_color = { alpha = 0.0 },
-				},
-				icon = { color = theme.colors.magenta },
-				label = { width = 0 },
-			})
-		end)
-	end)
+	local is_focused = workspace_name == M.focused_workspace
+	local background_color = is_focused and theme.colors.bg2 or theme.colors.bg1
 
-	M.workspaces_indicator:subscribe("mouse.clicked", function(_)
-		sketchybar.trigger("swap_menus_and_spaces")
+	local label_color = theme.colors.grey
+	if M.app_is_open[workspace_name] then
+		label_color = is_focused and theme.colors.orange or theme.colors.blue
+	end
+
+	workspace:set({
+		background = { color = background_color, border_color = background_color },
+		label = { color = label_color },
+	})
+end
+
+local function paint_all()
+	for _, workspace_name in ipairs(opts.aerospace_workspaces_names) do
+		paint(workspace_name)
+	end
+end
+
+function M.refresh_open_state()
+	sketchybar.exec("aerospace list-windows --all --format '%{workspace}|%{app-name}'", function(result)
+		local apps_present = {}
+
+		for line in string.gmatch(result or "", "[^\r\n]+") do
+			local workspace_name, app_name = line:match("^%s*(.-)%s*|%s*(.-)%s*$")
+			if workspace_name and app_name and app_name ~= "" then
+				apps_present[workspace_name] = apps_present[workspace_name] or {}
+				apps_present[workspace_name][app_name] = true
+			end
+		end
+
+		for _, workspace_name in ipairs(opts.aerospace_workspaces_names) do
+			local present = apps_present[workspace_name]
+			local main_app = opts.workspace_apps[workspace_name]
+
+			if main_app then
+				M.app_is_open[workspace_name] = (present and present[main_app]) == true
+			else
+				M.app_is_open[workspace_name] = present ~= nil
+			end
+		end
+
+		paint_all()
 	end)
 end
 
 function M.configure_workspaces()
-	for _, workspace in ipairs(M.workspaces) do
-		workspace:subscribe("mouse.clicked", function(env)
-			sketchybar.exec("aerospace " .. env.NAME:gsub("%.", " "))
-		end)
-
-		workspace:subscribe("mouse.exited", function(_)
-			workspace:set({ popup = { drawing = false } })
-		end)
-
-		workspace:subscribe(aerospace_workspace_change_event, function(env)
-			-- local color = theme.colors.bg1
-			local color = theme.colors.bg1
-			-- local label_color = theme.colors.grey
-			local label_color = theme.colors.blue
-			-- print(env.FOCUSED_WORKSPACE)
-			if workspace.name == "workspace." .. env.FOCUSED_WORKSPACE then
-				color = theme.colors.bg2
-				-- label_color = theme.colors.blue
-				-- label_color = 0xff5e81ac
-				label_color = theme.colors.orange
-				-- label_color = 0xff3fa7a1
-				-- label_color = 0xff7a5fa1
-				-- label_color = 0xffc89b3c
-				-- label_color = theme.colors.white
-			end
-			workspace:set({
-				background = { color = color, border_color = color },
-				label = {
-					color = label_color,
-				},
-			})
+	for workspace_name, workspace in pairs(M.workspace_by_name) do
+		workspace:subscribe("mouse.clicked", function(_)
+			sketchybar.exec("aerospace workspace " .. workspace_name)
 		end)
 	end
+end
+
+function M.configure_observer()
+	M.workspace_window_observer:subscribe(aerospace_workspace_change_event, function(env)
+		if env.FOCUSED_WORKSPACE and env.FOCUSED_WORKSPACE ~= "" then
+			M.focused_workspace = env.FOCUSED_WORKSPACE
+		end
+		M.refresh_open_state()
+	end)
+
+	M.workspace_window_observer:subscribe("front_app_switched", function(_)
+		M.refresh_open_state()
+	end)
 end
 
 function M.define_initial_workspace()
 	sketchybar.delay(0.05, function()
 		sketchybar.exec("aerospace list-workspaces --focused", function(result)
-			sketchybar.trigger(aerospace_workspace_change_event, {
-				FOCUSED_WORKSPACE = result:match("^%s*(.-)%s*$"), -- remove trailing spaces/returns
-			})
+			M.focused_workspace = result:match("^%s*(.-)%s*$") -- remove trailing spaces/returns
+			M.refresh_open_state()
 		end)
 	end)
 end
 
 function M.setup(components)
 	sketchybar.add("event", aerospace_workspace_change_event)
-	M.workspaces = components.workspaces
-	M.workspaces_brackets = components.workspaces_brackets
-	M.workspaces_spaces_right = components.workspaces_spaces_right
-	M.workspaces_popups = components.workspaces_popups
-	M.workspace_window_observer = components.workspace_window_observer
-	M.workspaces_indicator = components.workspaces_indicator
 
-	M.configure_workspaces_indicator()
+	M.workspaces = components.workspaces
+	M.workspace_by_name = components.workspace_by_name
+	M.workspace_window_observer = components.workspace_window_observer
+
 	M.configure_workspaces()
+	M.configure_observer()
 	M.define_initial_workspace()
 end
 

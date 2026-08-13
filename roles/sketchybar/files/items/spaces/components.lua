@@ -3,7 +3,7 @@ local opts = require("items.spaces.opts")
 
 local M = {
 	workspaces = {},
-	workspaces_popups = {},
+	workspace_by_name = {},
 }
 
 for _, aerospace_workspace_name in ipairs(opts.aerospace_workspaces_names) do
@@ -11,6 +11,7 @@ for _, aerospace_workspace_name in ipairs(opts.aerospace_workspaces_names) do
 	local workspace = sketchybar.add("item", workspace_opts.name, workspace_opts.properties)
 
 	table.insert(M.workspaces, workspace)
+	M.workspace_by_name[aerospace_workspace_name] = workspace
 end
 
 local workspace_bracket_opts = opts.create_default_workspace_bracket_opts()
@@ -18,6 +19,5 @@ local workspace_bracket_opts = opts.create_default_workspace_bracket_opts()
 M.workspace_bracket = sketchybar.add("bracket", workspace_bracket_opts.item_names, workspace_bracket_opts.properties)
 
 M.workspace_window_observer = sketchybar.add("item", opts.items.workspace_window_observer.properties)
-M.workspaces_indicator = sketchybar.add("item", opts.items.workspaces_indicator.properties)
 
 return M

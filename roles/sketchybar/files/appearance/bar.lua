@@ -3,8 +3,10 @@ local theme = require("theme")
 
 -- Equivalent to the --bar domain
 sketchybar.bar({
-	height = 45,
+	height = 36,
 	color = theme.colors.transparent,
-	padding_right = 2,
-	padding_left = 2,
+	padding_right = 11,
+	padding_left = 11,
+	topmost = false,
+	y_offset = 0,
 })

@@ -18,3 +18,16 @@
     virtualenv: "{{ ansible_facts['env']['HOME'] }}/.clitools"
   environment:
     PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+
+- name: Ensure zsh function directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.zfunc"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+
+- name: Generate poetry zsh completions
+  ansible.builtin.shell: >
+    {{ ansible_facts['env']['HOME'] }}/.clitools/bin/poetry completions zsh
+    > {{ ansible_facts['env']['HOME'] }}/.zfunc/_poetry
+  changed_when: false

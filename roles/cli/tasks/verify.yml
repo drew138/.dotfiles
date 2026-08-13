@@ -54,3 +54,15 @@
         }}
     fail_msg: "python package '{{ item }}' is missing from the virtualenv"
   loop: "{{ cli_python_packages }}"
+
+- name: Stat poetry zsh completions
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.zfunc/_poetry"
+  register: cli_verify_poetry_completions
+
+- name: Assert poetry zsh completions are generated
+  ansible.builtin.assert:
+    that:
+      - cli_verify_poetry_completions.stat.exists
+      - cli_verify_poetry_completions.stat.size > 0
+    fail_msg: "poetry zsh completions are missing from ~/.zfunc/_poetry"

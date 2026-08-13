@@ -9,18 +9,40 @@
     name:
       - sketchybar
       - lua
-      - switchaudio-osx
-      - nowplaying-cli
     state: latest
 
-- name: Ensure sketchybar config directory exists
+- name: Check whether SbarLua is installed
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/share/sketchybar_lua/sketchybar.so"
+  register: sketchybar_lua_stat
+
+- name: Install SbarLua
+  when: not sketchybar_lua_stat.stat.exists
+  block:
+    - name: Clone SbarLua
+      ansible.builtin.git:
+        repo: https://github.com/FelixKratz/SbarLua.git
+        dest: /tmp/SbarLua
+        clone: true
+        force: true
+        depth: 1
+
+    - name: Build and install SbarLua
+      ansible.builtin.command: make install
+      args:
+        chdir: /tmp/SbarLua
+      changed_when: true
+
+    - name: Remove SbarLua build directory
+      ansible.builtin.file:
+        path: /tmp/SbarLua
+        state: absent
+
+- name: Ensure config directory exists
   ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/{{ item }}"
+    path: "{{ ansible_facts['env']['HOME'] }}/.config"
     state: directory
     mode: "0755"
-  loop:
-    - .config
-    - .config/sketchybar
 
 - name: Create sketchybar symlink
   ansible.builtin.file:

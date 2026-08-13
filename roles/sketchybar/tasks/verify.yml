@@ -15,8 +15,6 @@
   loop:
     - sketchybar
     - lua
-    - switchaudio-osx
-    - nowplaying-cli
   register: sketchybar_verify_formulae
   changed_when: false
   failed_when: false
@@ -44,6 +42,19 @@
     fail_msg: >-
       SketchyBar config directory is missing, not a symlink,
       or does not point to the expected dotfiles location.
+
+- name: Stat SbarLua module
+  ansible.builtin.stat:
+    path: "{{ ansible_facts.env.HOME }}/.local/share/sketchybar_lua/sketchybar.so"
+  register: sketchybar_verify_lua
+
+- name: Assert SbarLua module is installed
+  ansible.builtin.assert:
+    that:
+      - sketchybar_verify_lua.stat.exists
+      - sketchybar_verify_lua.stat.isreg
+    fail_msg: >-
+      SbarLua is not installed at ~/.local/share/sketchybar_lua/sketchybar.so
 
 - name: Stat sketchybarrc inside sketchybar config
   ansible.builtin.stat:

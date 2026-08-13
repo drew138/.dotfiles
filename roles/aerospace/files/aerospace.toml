@@ -90,7 +90,7 @@ persistent-workspaces                                           = [
   inner.vertical   = 10
   outer.left       = 10
   outer.bottom     = 10
-  outer.top        = [{ monitor.main = 50 }, 50]
+  outer.top        = [{ monitor."built-in" = 44 }, 37]
   outer.right      = 10
 
 [mode.main.binding]
@@ -128,7 +128,10 @@ persistent-workspaces                                           = [
   f         = ["layout floating tiling", "mode main"]
   backspace = ["close-all-windows-but-current", "mode main"]
   alt-1     = ["exec-and-forget open -a /Applications/Wezterm.app", "mode main"]
-  alt-2     = ["exec-and-forget open -a /Applications/Vivaldi.app", "mode main"]
+  alt-2     = [
+    "exec-and-forget open -a '/Applications/Google Chrome.app'",
+    "mode main"
+  ]
   alt-3     = ["exec-and-forget open -a /Applications/Slack.app", "mode main"]
   alt-4     = ["exec-and-forget open -a /Applications/Postman.app", "mode main"]
   alt-q     = ["exec-and-forget open -a /Applications/Notion.app", "mode main"]

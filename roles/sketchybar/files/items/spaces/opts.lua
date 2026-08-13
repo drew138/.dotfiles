@@ -15,9 +15,18 @@ M.aerospace_workspaces_names = {
 	"e",
 }
 
+M.workspace_apps = {
+	["1"] = "WezTerm",
+	["2"] = "Google Chrome",
+	["3"] = "Slack",
+	["4"] = "Postman",
+	["q"] = "Notion",
+	["w"] = "Bitwarden",
+}
+
 M.workspace_icons = {
 	["1"] = app_icons["WezTerm"],
-	["2"] = app_icons["Vivaldi"],
+	["2"] = app_icons["Google Chrome"],
 	["3"] = app_icons["Slack"],
 	["4"] = app_icons["Postman"],
 	["q"] = app_icons["Notion"],
@@ -32,29 +41,6 @@ M.items = {
 			updates = true,
 		},
 	},
-	workspaces_indicator = {
-		properties = {
-			padding_left = -3,
-			padding_right = 0,
-			icon = {
-				padding_left = 8,
-				padding_right = 9,
-				color = theme.colors.magenta,
-				string = theme.icons.switch.on,
-			},
-			label = {
-				width = 0,
-				padding_left = 0,
-				padding_right = 8,
-				string = "Spaces",
-				color = theme.colors.bg1,
-			},
-			background = {
-				color = theme.colors.with_alpha(theme.colors.grey, 0.0),
-				border_color = theme.colors.with_alpha(theme.colors.bg1, 0.0),
-			},
-		},
-	},
 }
 
 function M.create_default_workspace_opts(i)
@@ -65,7 +51,7 @@ function M.create_default_workspace_opts(i)
 				string = M.workspace_icons[i],
 				padding_right = 6,
 				padding_left = 1,
-				color = theme.colors.blue,
+				color = theme.colors.grey,
 				highlight_color = theme.colors.grey,
 				font = "sketchybar-app-font:Regular:16.0",
 			},

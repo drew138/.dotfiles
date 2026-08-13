@@ -5,22 +5,6 @@
       - eza
     state: latest
 
-- name: Create dev directory
-  ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/dev/"
-    state: directory
-    mode: "0755"
-    owner: "{{ ansible_facts['env']['USER'] }}"
-
-- name: Clone eza repository
-  ansible.builtin.git:
-    repo: "{{ eza_repo }}"
-    dest: "{{ eza_home }}"
-    clone: true
-    force: true
-    update: true
-    depth: 1
-
 - name: Ensure eza config directory exists
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/{{ item }}"

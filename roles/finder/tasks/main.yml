@@ -59,6 +59,11 @@
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
   changed_when: false
 
+- name: Hide desktop icons
+  ansible.builtin.command: >
+    defaults write com.apple.finder CreateDesktop -bool false
+  changed_when: false
+
 - name: Restart Finder
   ansible.builtin.command: killall Finder
   failed_when: false

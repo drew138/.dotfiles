@@ -5,7 +5,15 @@ bindkey -v
 fpath+=~/.zfunc
 
 # initialize completion system
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+# (N.mh+24) is a zsh glob qualifier: match only if the file's modification time is more than 24 hours ago
+_zcompdump_stale=(${ZDOTDIR:-$HOME}/.zcompdump(N.mh+24))
+if (( $#_zcompdump_stale )); then
+    compinit
+else
+    compinit -C
+fi
+unset _zcompdump_stale
 
 # enable bash completion in zsh
 autoload -U +X bashcompinit && bashcompinit
@@ -27,7 +35,6 @@ zsh-defer zinit light zsh-users/zsh-completions
 zsh-defer zinit light zsh-users/zsh-autosuggestions
 zsh-defer zinit light Aloxaf/fzf-tab
 
-compinit
 zinit cdreplay -q
 
 zinit ice as"command" from"gh-r" \
@@ -80,7 +87,6 @@ alias ..='cd ..'
 
 ### eza
 if command -v eza 1>/dev/null 2>&1; then
-    export FPATH="${HOME}/dev/eza/completions/zsh:${FPATH}"
     export EZA_CONFIG_DIR="${HOME}/.config/eza"
     alias l='eza --icons'
     alias ls='eza --icons'
@@ -115,7 +121,31 @@ export PATH="${HOME}/.local/bin:${PATH}"
 
 # nvm configs
 export NVM_DIR="${HOME}/.nvm"
-[ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
+
+# Sourcing nvm.sh normally costs ~560ms, almost all of it resolving which version
+# "default" means. That name points through a chain of alias files:
+#     default -> lts/* -> lts/krypton -> v24.14.1
+# nvm walks that chain and verifies the result on every single shell start.
+# This block walks the same chain by reading the same files (~0.5ms) and puts the
+# resulting node on PATH itself.
+() {
+    local a=default t
+    # An alias file holds either another alias name or a concrete version string.
+    # When a name has no alias file, it IS a version, so the walk is done.
+    while [[ -f ${NVM_DIR}/alias/$a ]]; do
+        t=$(<${NVM_DIR}/alias/$a)    # $(<file) reads in-process; no subprocess, unlike $(cat)
+        [[ $t == $a ]] && break      # a self-referencing alias would loop forever
+        a=$t
+    done
+    # If that version is not installed, add nothing at all. `node` then fails with
+    # "command not found" rather than PATH silently pointing at a missing directory.
+    [[ -d ${NVM_DIR}/versions/node/$a/bin ]] && export PATH="${NVM_DIR}/versions/node/$a/bin:${PATH}"
+}
+
+# --no-use is nvm's own documented flag. It loads nvm completely -- the nvm
+# function, its helpers like nvm_find_nvmrc, completions -- but skips the
+# auto-use step replaced above. `nvm use`, `nvm install` etc. work normally.
+[ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh" --no-use
 
 # fzf configs
 if [ -f "${HOME}/.fzf.zsh" ]; then
@@ -141,7 +171,6 @@ fi
 # pyenv configs
 if command -v pyenv 1>/dev/null 2>&1; then
     export PYENV_ROOT="${HOME}/.pyenv"
-    export PATH="${PYENV_ROOT}/bin:${PATH}"
     eval "$(pyenv init -)"
 fi
 
@@ -163,7 +192,6 @@ if command -v kubectl 1>/dev/null 2>&1; then
     source <(kubectl completion zsh)
 fi
 
-bashcompinit
 # terraform
 if command -v terraform 1>/dev/null 2>&1; then
     complete -o nospace -C "$(command -v terraform)" terraform
@@ -183,6 +211,6 @@ export PATH="${HOME}/.clitools/bin:${PATH}"
 [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ] && \. "${HOME}/google-cloud-sdk/completion.zsh.inc"
 
 # zoxide
-if  command -v zoxide 1>/dev/null 2>&1; then
+if command -v zoxide 1>/dev/null 2>&1; then
     eval "$(zoxide init --cmd cd zsh)"
 fi

@@ -1,5 +1,5 @@
 ---
-- name: Enable menu bar auto-hide
+- name: Disable menu bar auto-hide
   ansible.builtin.command: >
-    osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'
+    osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to false'
   changed_when: false

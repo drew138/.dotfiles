@@ -15,13 +15,17 @@
 Install homebrew and setup ansible.
 
 ```bash
+if [ ! -f /opt/homebrew/bin/brew ] && [ ! -f /usr/local/bin/brew ]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
 if [ -f /opt/homebrew/bin/brew ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 elif [ -f /usr/local/bin/brew ]; then
     export PATH="/usr/local/bin:$PATH"
 fi
+
 brew install git curl ansible molecule
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 ### Install
@@ -31,6 +35,14 @@ bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/sc
 ```
 
 reminder: system reboot might be required for some programs to work as expected.
+
+## macOS settings
+
+This repo sets a number of macOS options programmatically, and Apple regularly renames or
+removes those keys between releases — a `defaults write` to a dropped key succeeds and does
+nothing, so reading the value back proves nothing. [MACOS-SETTINGS.md](MACOS-SETTINGS.md) is a
+checklist of what to actually look at after a macOS upgrade to confirm each setting still
+changes the machine's behaviour.
 
 ### Caveats
 

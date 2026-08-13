@@ -3,3 +3,13 @@
   ansible.builtin.command: >
     defaults write com.apple.WindowManager StandardHideWidgets -int 1
   changed_when: false
+
+- name: Disable click wallpaper to reveal desktop
+  ansible.builtin.command: >
+    defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+  changed_when: false
+
+- name: Restart WindowManager
+  ansible.builtin.command: killall WindowManager
+  failed_when: false
+  changed_when: false
