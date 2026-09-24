@@ -24,13 +24,12 @@
     repo: "git@github.com:drew138/.dotfiles.git"
     dest: "{{ ansible_facts['env']['HOME'] }}/.dotfiles"
     clone: true
-    update: true
-  changed_when: false
+    update: false
 
 - name: Download repositories
   ansible.builtin.git:
     repo: "git@github.com:drew138/{{ item }}.git"
     dest: "{{ ansible_facts['env']['HOME'] }}/dev/{{ item }}"
     clone: true
-    update: true
+    update: false
   with_items: "{{ repositories_names }}"
