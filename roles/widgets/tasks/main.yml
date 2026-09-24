@@ -1,15 +1,16 @@
 ---
 - name: Hide desktop widgets
-  ansible.builtin.command: >
-    defaults write com.apple.WindowManager StandardHideWidgets -int 1
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.WindowManager
+    key: StandardHideWidgets
+    type: int
+    value: 1
+  notify: Restart WindowManager
 
 - name: Disable click wallpaper to reveal desktop
-  ansible.builtin.command: >
-    defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
-  changed_when: false
-
-- name: Restart WindowManager
-  ansible.builtin.command: killall WindowManager
-  failed_when: false
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.WindowManager
+    key: EnableStandardClickToShowDesktop
+    type: bool
+    value: false
+  notify: Restart WindowManager

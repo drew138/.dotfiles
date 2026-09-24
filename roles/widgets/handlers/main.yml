@@ -1,0 +1,5 @@
+---
+- name: Restart WindowManager
+  ansible.builtin.command: killall WindowManager
+  failed_when: false
+  changed_when: true

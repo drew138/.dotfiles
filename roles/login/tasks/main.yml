@@ -1,5 +1,7 @@
 ---
 - name: Do not save state on logout
-  ansible.builtin.command: >
-    defaults write com.apple.loginwindow TALLogoutSavesState -bool false
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.loginwindow
+    key: TALLogoutSavesState
+    type: bool
+    value: false

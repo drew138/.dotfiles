@@ -1,0 +1,5 @@
+---
+- name: Restart Finder
+  ansible.builtin.command: killall Finder
+  failed_when: false
+  changed_when: true

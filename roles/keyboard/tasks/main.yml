@@ -1,12 +1,13 @@
 ---
 - name: Change keyboard repeat rates
-  ansible.builtin.shell: "{{ keyboard_setup_command }}"
-  args:
-    executable: /bin/bash
-  changed_when: false
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
   loop:
-    - defaults write -g InitialKeyRepeat -int 15
-    - defaults write -g KeyRepeat -int 2
-    - defaults write -g ApplePressAndHoldEnabled -bool false
+    - { key: InitialKeyRepeat, type: int, value: 15 }
+    - { key: KeyRepeat, type: int, value: 2 }
+    - { key: ApplePressAndHoldEnabled, type: bool, value: false }
   loop_control:
-    loop_var: keyboard_setup_command
+    label: "{{ item.key }}"

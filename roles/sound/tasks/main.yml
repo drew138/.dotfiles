@@ -1,8 +1,10 @@
 ---
 - name: Disable system error beep
-  ansible.builtin.command: >
-    defaults write NSGlobalDomain com.apple.sound.beep.feedback -bool false
-  changed_when: false
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: com.apple.sound.beep.feedback
+    type: bool
+    value: false
 
 - name: Mute startup chime
   ansible.builtin.command: >

@@ -1,70 +1,104 @@
 ---
 - name: Show all filename extensions
-  ansible.builtin.command: >
-    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-  changed_when: false
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: AppleShowAllExtensions
+    type: bool
+    value: true
+  notify: Restart Finder
 
 - name: Show hidden files
-  ansible.builtin.command: >
-    defaults write com.apple.finder AppleShowAllFiles -bool true
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: AppleShowAllFiles
+    type: bool
+    value: true
+  notify: Restart Finder
 
 - name: Disable extension change warning
-  ansible.builtin.command: >
-    defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXEnableExtensionChangeWarning
+    type: bool
+    value: false
+  notify: Restart Finder
 
 - name: Show path bar
-  ansible.builtin.command: >
-    defaults write com.apple.finder ShowPathbar -bool true
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: ShowPathbar
+    type: bool
+    value: true
+  notify: Restart Finder
 
 - name: Show status bar
-  ansible.builtin.command: >
-    defaults write com.apple.finder ShowStatusBar -bool true
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: ShowStatusBar
+    type: bool
+    value: true
+  notify: Restart Finder
 
 - name: Set default Finder view to list view
-  ansible.builtin.command: >
-    defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXPreferredViewStyle
+    type: string
+    value: Nlsv
+  notify: Restart Finder
 
 - name: Open new Finder windows in home directory
-  ansible.builtin.command: >
-    defaults write com.apple.finder NewWindowTarget -string "PfHm"
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: NewWindowTarget
+    type: string
+    value: PfHm
+  notify: Restart Finder
 
 - name: Set Finder home directory path
-  ansible.builtin.command: >
-    defaults write com.apple.finder NewWindowTargetPath -string "file://{{ ansible_facts['env']['HOME'] }}/"
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: NewWindowTargetPath
+    type: string
+    value: "file://{{ ansible_facts['env']['HOME'] }}/"
+  notify: Restart Finder
 
 - name: Keep folders on top in list view
-  ansible.builtin.command: >
-    defaults write com.apple.finder _FXSortFoldersFirst -bool true
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: _FXSortFoldersFirst
+    type: bool
+    value: true
+  notify: Restart Finder
 
 - name: Set Finder search scope to current folder
-  ansible.builtin.command: >
-    defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXDefaultSearchScope
+    type: string
+    value: SCcf
+  notify: Restart Finder
 
 - name: Disable .DS_Store on network drives
-  ansible.builtin.command: >
-    defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.desktopservices
+    key: DSDontWriteNetworkStores
+    type: bool
+    value: true
+  notify: Restart Finder
 
 - name: Disable .DS_Store on USB drives
-  ansible.builtin.command: >
-    defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.desktopservices
+    key: DSDontWriteUSBStores
+    type: bool
+    value: true
+  notify: Restart Finder
 
 - name: Hide desktop icons
-  ansible.builtin.command: >
-    defaults write com.apple.finder CreateDesktop -bool false
-  changed_when: false
-
-- name: Restart Finder
-  ansible.builtin.command: killall Finder
-  failed_when: false
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: CreateDesktop
+    type: bool
+    value: false
+  notify: Restart Finder

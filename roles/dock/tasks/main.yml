@@ -1,13 +1,18 @@
 ---
 - name: Change dock preferences
-  ansible.builtin.shell: |
-    defaults write com.apple.dock autohide -bool true
-    defaults write com.apple.dock show-recents -bool false
-    defaults write com.apple.dock tilesize 36
-    defaults write com.apple.dock orientation -string "left"
-  args:
-    executable: /bin/bash
-  changed_when: false
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    check_type: false
+  loop:
+    - { key: autohide, type: bool, value: true }
+    - { key: show-recents, type: bool, value: false }
+    - { key: tilesize, type: int, value: 36 }
+    - { key: orientation, type: string, value: left }
+  loop_control:
+    label: "{{ item.key }}"
 
 - name: Install dockutil
   community.general.homebrew:
