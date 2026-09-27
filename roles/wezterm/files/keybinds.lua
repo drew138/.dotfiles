@@ -1,7 +1,7 @@
 return function(config, wezterm)
 	config.leader = {
 		key = "a",
-		mods = "CTRL",
+		mods = "CMD",
 		timeout_milliseconds = 1000,
 	}
 
