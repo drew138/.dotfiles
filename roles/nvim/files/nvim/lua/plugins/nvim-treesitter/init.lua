@@ -11,6 +11,7 @@ local M = {
 
 	config = function(_, opts)
 		require("nvim-treesitter.configs").setup(opts)
+		require("plugins.nvim-treesitter.directives").setup()
 	end,
 
 	build = function()
