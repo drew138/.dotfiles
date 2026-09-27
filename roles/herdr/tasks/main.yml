@@ -1,0 +1,47 @@
+---
+- name: Install herdr
+  community.general.homebrew:
+    name:
+      - herdr
+    state: latest
+
+- name: Remove herdr installed outside Homebrew
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/bin/herdr"
+    state: absent
+
+- name: Ensure .config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.config"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0755"
+
+- name: Ensure herdr config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/herdr"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0755"
+
+- name: Create herdr symlink
+  ansible.builtin.file:
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/herdr/files/config.toml"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/herdr/config.toml"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    state: link
+    force: true
+    follow: false
+
+- name: Ensure .zfunc directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.zfunc"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0755"
+
+- name: Generate herdr zsh completions
+  ansible.builtin.shell: >
+    herdr completion zsh
+    > {{ ansible_facts['env']['HOME'] }}/.zfunc/_herdr
+  changed_when: false

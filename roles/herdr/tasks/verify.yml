@@ -1,0 +1,55 @@
+---
+- name: Locate herdr binary
+  ansible.builtin.command: which herdr
+  register: herdr_verify_which
+  changed_when: false
+  failed_when: false
+
+- name: Assert herdr is available
+  ansible.builtin.assert:
+    that:
+      - herdr_verify_which.rc == 0
+      - "'/opt/homebrew/bin/herdr' in herdr_verify_which.stdout"
+    fail_msg: "herdr was not found in the PATH or is not the Homebrew copy"
+
+- name: Check herdr config and completion stats
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  loop:
+    - "{{ ansible_facts['env']['HOME'] }}/.config/herdr/config.toml"
+    - "{{ ansible_facts['env']['HOME'] }}/.zfunc/_herdr"
+    - "{{ ansible_facts['env']['HOME'] }}/.local/bin/herdr"
+  register: herdr_verify_stats
+
+- name: Assert herdr config symlink is valid
+  ansible.builtin.assert:
+    that:
+      - herdr_verify_stats.results[0].stat.exists
+      - herdr_verify_stats.results[0].stat.islnk
+      - herdr_verify_stats.results[0].stat.lnk_source ==
+        ansible_facts['env']['HOME'] + "/.dotfiles/roles/herdr/files/config.toml"
+    fail_msg: "herdr config symlink is missing or points to the wrong source"
+
+- name: Assert herdr zsh completions were generated
+  ansible.builtin.assert:
+    that:
+      - herdr_verify_stats.results[1].stat.exists
+      - herdr_verify_stats.results[1].stat.size > 0
+    fail_msg: "herdr zsh completions are missing from ~/.zfunc"
+
+- name: Assert no herdr copy remains outside Homebrew
+  ansible.builtin.assert:
+    that:
+      - not herdr_verify_stats.results[2].stat.exists
+    fail_msg: "A herdr copy still exists in ~/.local/bin and shadows the Homebrew one"
+
+- name: Validate herdr configuration
+  ansible.builtin.command: herdr config check
+  register: herdr_verify_config_check
+  changed_when: false
+
+- name: Assert herdr configuration is valid
+  ansible.builtin.assert:
+    that:
+      - "'config: ok' in herdr_verify_config_check.stdout"
+    fail_msg: "herdr config check did not report a valid configuration"

@@ -1,0 +1,40 @@
+onboarding = false
+
+[theme]
+name = "terminal"
+auto_switch = false
+
+[theme.custom]
+accent = "#719cd6"
+panel_bg = "#192330"
+sidebar_bg = "#131a24"
+active_row_bg = "#212e3f"
+selection_bg = "#2b3b51"
+surface0 = "#29394f"
+surface1 = "#39506d"
+surface_dim = "#161d29"
+overlay0 = "#738091"
+overlay1 = "#71839b"
+text = "#cdcecf"
+subtext0 = "#aeafb0"
+mauve = "#9d79d6"
+green = "#81b29a"
+yellow = "#dbc074"
+red = "#c94f6d"
+blue = "#719cd6"
+teal = "#63cdcf"
+peach = "#f4a261"
+
+[keys]
+prefix = "ctrl+a"
+new_tab = "prefix+c"
+split_horizontal = "prefix+x"
+split_vertical = "prefix+s"
+close_pane = "prefix+d"
+edit_scrollback = "prefix+]"
+
+[ui]
+status_indicators = "symbols"
+
+[ui.toast]
+delivery = "herdr"
