@@ -4,7 +4,7 @@ galaxy_info:
   description: changes appearance preferences
   license: MIT
   min_ansible_version: 2.16.1
-  role_name: keyboard
+  role_name: appearance
   namespace: drew138
   platforms:
     - name: MacOSX
