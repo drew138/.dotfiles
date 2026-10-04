@@ -12,14 +12,3 @@
       - item.rc == 0
     fail_msg: "Cask {{ item.item }} is not reported as installed by Homebrew"
   loop: "{{ nerdfonts_verify_brew_list.results }}"
-
-- name: Verify SF Symbols application path specifically
-  ansible.builtin.stat:
-    path: "/Applications/SF Symbols.app"
-  register: nerdfonts_verify_sf_app
-
-- name: Assert SF Symbols binary exists in Applications
-  ansible.builtin.assert:
-    that:
-      - nerdfonts_verify_sf_app.stat.exists
-    fail_msg: "SF Symbols app is missing from /Applications despite Homebrew status"

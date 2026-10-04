@@ -7,7 +7,7 @@
 - name: Install jankyborders
   community.general.homebrew:
     name:
-      - borders
+      - felixkratz/formulae/borders
     state: latest
 
 - name: Ensure jankyborders config directory exists

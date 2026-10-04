@@ -3,8 +3,17 @@ name: ci
 
 "on":
   push:
+    paths-ignore:
+      - "**.md"
+      - "assets/**"
+      - "LICENSE"
   schedule:
     - cron: "0 7 * * 0"
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:
@@ -23,7 +32,7 @@ jobs:
 
       - name: lint code
         run: |
-          yamllint ./**.yml
+          yamllint .
           ansible-lint ./*
 
   check-roles:
@@ -76,13 +85,18 @@ jobs:
           sudo rm -rf /opt/homebrew/bin/ccmake
           sudo rm -rf /opt/homebrew/bin/cmake
 
+      - name: refresh homebrew metadata
+        run: brew update
+
       - name: install test dependencies
         run: pip3 install \
           ansible \
           molecule
 
       - name: create password file
-        run: echo ${{ secrets.ANSIBLE_VAULT_PASSWORD }} > ./molecule/default/vaultpassword
+        run: echo "${ANSIBLE_VAULT_PASSWORD}" > ./molecule/default/vaultpassword
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
 
       - name: create ~/extra_vars.yml file
         run: >
@@ -100,7 +114,7 @@ jobs:
   notify-errors:
     needs: test-macos
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' && needs.test-macos.result == 'failure'
+    if: failure() && github.event_name == 'schedule'
     steps:
       - name: send mail
         uses: dawidd6/action-send-mail@v3
