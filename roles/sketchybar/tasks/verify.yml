@@ -67,3 +67,40 @@
       - sketchybar_verify_sketchybarrc.stat.exists
       - sketchybar_verify_sketchybarrc.stat.isreg
     fail_msg: "sketchybarrc does not exist inside the sketchybar config directory"
+
+- name: Stat clipwatch binary and widget helpers
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  loop:
+    - "{{ ansible_facts['env']['HOME'] }}/.local/bin/clipwatch"
+    - "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/helpers/herdr_poll.lua"
+    - "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/helpers/brew_outdated.sh"
+    - "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/helpers/brew_upgrade.sh"
+    - "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/helpers/clipboard_copy.lua"
+  register: sketchybar_verify_helpers
+
+- name: Assert clipwatch and the widget helpers are executable
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+      - item.stat.executable
+    fail_msg: "{{ item.item }} is missing or not executable"
+  loop: "{{ sketchybar_verify_helpers.results }}"
+
+- name: Stat widget item modules
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/sketchybar/items/{{ item }}/init.lua"
+  loop:
+    - brew
+    - clipboard
+    - herdr
+    - spaces
+    - uptime
+  register: sketchybar_verify_items
+
+- name: Assert widget item modules are present
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+    fail_msg: "sketchybar item module '{{ item.item }}' is missing"
+  loop: "{{ sketchybar_verify_items.results }}"

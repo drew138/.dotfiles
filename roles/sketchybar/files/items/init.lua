@@ -1,1 +1,5 @@
 require("items.spaces")
+require("items.uptime")
+require("items.brew")
+require("items.clipboard")
+require("items.herdr")

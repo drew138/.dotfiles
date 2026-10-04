@@ -264,6 +264,7 @@ return {
 	["Spotlight"] = ":spotlight:",
 	["Sublime Text"] = ":sublime_text:",
 	["superProductivity"] = ":superproductivity:",
+	["Tailscale"] = ":tailscale:",
 	["Tana"] = ":tana:",
 	["TeamSpeak 3"] = ":team_speak:",
 	["Telegram"] = ":telegram:",

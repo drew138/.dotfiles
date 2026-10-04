@@ -13,6 +13,10 @@ M.aerospace_workspaces_names = {
 	"q",
 	"w",
 	"e",
+	"a",
+	"s",
+	"d",
+	"z",
 }
 
 M.workspace_apps = {
@@ -21,7 +25,11 @@ M.workspace_apps = {
 	["3"] = "Slack",
 	["4"] = "Postman",
 	["q"] = "Notion",
-	["w"] = "Bitwarden",
+	["w"] = "WhatsApp",
+	["e"] = "Marta",
+	["a"] = "Bitwarden",
+	["s"] = "OBS",
+	["d"] = "Discord",
 }
 
 M.workspace_icons = {
@@ -30,8 +38,12 @@ M.workspace_icons = {
 	["3"] = app_icons["Slack"],
 	["4"] = app_icons["Postman"],
 	["q"] = app_icons["Notion"],
-	["w"] = app_icons["Bitwarden"],
-	["e"] = app_icons["Desktop"],
+	["w"] = app_icons["WhatsApp"],
+	["e"] = app_icons["Marta"],
+	["a"] = app_icons["Bitwarden"],
+	["s"] = app_icons["OBS"],
+	["d"] = app_icons["Discord"],
+	["z"] = app_icons["Desktop"],
 }
 
 M.items = {
@@ -53,12 +65,12 @@ function M.create_default_workspace_opts(i)
 				padding_left = 1,
 				color = theme.colors.grey,
 				highlight_color = theme.colors.grey,
-				font = "sketchybar-app-font:Regular:16.0",
+				font = "sketchybar-app-font:Regular:19.0",
 			},
 			padding_right = 1,
 			padding_left = 1,
 			background = {
-				height = 24,
+				height = 30,
 			},
 		},
 	}
@@ -75,7 +87,7 @@ function M.create_default_workspace_bracket_opts()
 			background = {
 				color = theme.colors.bg1,
 				border_color = theme.colors.bg2,
-				height = 28,
+				height = 34,
 				border_width = 2,
 			},
 		},

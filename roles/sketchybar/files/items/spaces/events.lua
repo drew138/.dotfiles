@@ -35,6 +35,10 @@ local function paint_all()
 	end
 end
 
+local function normalize(name)
+	return (name:gsub("[\u{200E}\u{200F}\u{202A}-\u{202E}\u{FEFF}]", ""):gsub("^%s+", ""):gsub("%s+$", ""))
+end
+
 function M.refresh_open_state()
 	sketchybar.exec("aerospace list-windows --all --format '%{workspace}|%{app-name}'", function(result)
 		local apps_present = {}
@@ -42,8 +46,9 @@ function M.refresh_open_state()
 		for line in string.gmatch(result or "", "[^\r\n]+") do
 			local workspace_name, app_name = line:match("^%s*(.-)%s*|%s*(.-)%s*$")
 			if workspace_name and app_name and app_name ~= "" then
+				workspace_name = normalize(workspace_name)
 				apps_present[workspace_name] = apps_present[workspace_name] or {}
-				apps_present[workspace_name][app_name] = true
+				apps_present[workspace_name][normalize(app_name)] = true
 			end
 		end
 
@@ -52,7 +57,7 @@ function M.refresh_open_state()
 			local main_app = opts.workspace_apps[workspace_name]
 
 			if main_app then
-				M.app_is_open[workspace_name] = (present and present[main_app]) == true
+				M.app_is_open[workspace_name] = (present and present[normalize(main_app)]) == true
 			else
 				M.app_is_open[workspace_name] = present ~= nil
 			end

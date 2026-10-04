@@ -7,7 +7,7 @@
 - name: Install sketchybar
   community.general.homebrew:
     name:
-      - sketchybar
+      - felixkratz/formulae/sketchybar
       - lua
     state: latest
 
@@ -37,6 +37,93 @@
       ansible.builtin.file:
         path: /tmp/SbarLua
         state: absent
+
+- name: Locate swiftc
+  ansible.builtin.command: xcrun -f swiftc
+  register: sketchybar_swiftc
+  changed_when: false
+  failed_when: false
+
+- name: Install the command line tools
+  when: sketchybar_swiftc.rc != 0
+  become: true
+  block:
+    - name: Flag the command line tools install as on demand
+      ansible.builtin.file:
+        path: /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+        state: touch
+        mode: "0644"
+
+    - name: Find the command line tools update label
+      ansible.builtin.shell: >
+        set -o pipefail &&
+        softwareupdate --list |
+        awk -F'Label: ' '/Label: Command Line Tools/ {print $2}' |
+        sort -V | tail -1
+      args:
+        executable: /bin/bash
+      register: sketchybar_clt_label
+      changed_when: false
+
+    - name: Install the command line tools
+      ansible.builtin.command: softwareupdate --install "{{ sketchybar_clt_label.stdout | trim }}"
+      when: sketchybar_clt_label.stdout | trim | length > 0
+      changed_when: true
+  always:
+    - name: Clear the on demand flag
+      ansible.builtin.file:
+        path: /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+        state: absent
+
+- name: Locate swiftc after installing the command line tools
+  ansible.builtin.command: xcrun -f swiftc
+  register: sketchybar_swiftc_final
+  changed_when: false
+  failed_when: false
+
+- name: Assert swiftc is available
+  ansible.builtin.assert:
+    that:
+      - sketchybar_swiftc_final.rc == 0
+    fail_msg: >-
+      swiftc is unavailable and the command line tools could not be installed
+      automatically. Run 'xcode-select --install' and try again.
+
+- name: Ensure .local/bin exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/bin"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0755"
+
+- name: Check clipwatch source and binary
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  loop:
+    - "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/helpers/clipwatch.swift"
+    - "{{ ansible_facts['env']['HOME'] }}/.local/bin/clipwatch"
+  register: sketchybar_clipwatch_stats
+
+- name: Build clipwatch
+  ansible.builtin.command:
+    cmd: >
+      swiftc -O
+      -o {{ ansible_facts['env']['HOME'] }}/.local/bin/clipwatch
+      {{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/helpers/clipwatch.swift
+  when: not sketchybar_clipwatch_stats.results[1].stat.exists or
+    sketchybar_clipwatch_stats.results[1].stat.mtime <
+    sketchybar_clipwatch_stats.results[0].stat.mtime
+  changed_when: true
+
+- name: Ensure helper scripts are executable
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/sketchybar/files/helpers/{{ item }}"
+    mode: "0755"
+  loop:
+    - brew_outdated.sh
+    - brew_upgrade.sh
+    - clipboard_copy.lua
+    - herdr_poll.lua
 
 - name: Ensure config directory exists
   ansible.builtin.file:

@@ -9,7 +9,7 @@ sketchybar.default({
 		font = {
 			family = settings.font.text,
 			style = settings.font.style_map["Bold"],
-			size = 14.0,
+			size = 17.0,
 		},
 		color = colors.white,
 		padding_left = settings.paddings,
@@ -20,14 +20,14 @@ sketchybar.default({
 		font = {
 			family = settings.font.text,
 			style = settings.font.style_map["Semibold"],
-			size = 13.0,
+			size = 16.0,
 		},
 		color = colors.white,
 		padding_left = settings.paddings,
 		padding_right = settings.paddings,
 	},
 	background = {
-		height = 28,
+		height = 36,
 		corner_radius = 9,
 		border_width = 2,
 		border_color = colors.bg2,
