@@ -11,6 +11,7 @@
     key: location
     type: string
     value: "{{ ansible_facts['env']['HOME'] }}/Pictures/Screenshots"
+    check_type: false
   notify: Restart SystemUIServer
 
 - name: Disable floating screenshot thumbnail preview
@@ -19,6 +20,7 @@
     key: show-thumbnail
     type: bool
     value: false
+    check_type: false
   notify: Restart SystemUIServer
 
 - name: Set screenshot format to PNG
@@ -27,6 +29,7 @@
     key: type
     type: string
     value: png
+    check_type: false
   notify: Restart SystemUIServer
 
 - name: Remove timestamp from screenshot filenames
@@ -35,4 +38,5 @@
     key: include-date
     type: bool
     value: false
+    check_type: false
   notify: Restart SystemUIServer

@@ -5,6 +5,7 @@
     key: "{{ item.key }}"
     type: "{{ item.type }}"
     value: "{{ item.value }}"
+    check_type: false
   loop:
     - { key: InitialKeyRepeat, type: int, value: 15 }
     - { key: KeyRepeat, type: int, value: 2 }

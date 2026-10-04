@@ -12,3 +12,4 @@
     key: Clicking
     type: bool
     value: true
+    check_type: false
