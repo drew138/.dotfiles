@@ -20,6 +20,24 @@ return function(config, wezterm)
 		{ key = "m", mods = "CMD|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
 		{ key = "n", mods = "CMD|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
 
+		-- Herdr
+		{ key = "h", mods = "CMD|ALT", action = wezterm.action.Multiple({
+			wezterm.action.SendKey({ key = "a", mods = "CTRL" }),
+			wezterm.action.SendKey({ key = "p" }),
+		}) },
+		{ key = "l", mods = "CMD|ALT", action = wezterm.action.Multiple({
+			wezterm.action.SendKey({ key = "a", mods = "CTRL" }),
+			wezterm.action.SendKey({ key = "n" }),
+		}) },
+		{ key = "k", mods = "CMD|ALT", action = wezterm.action.Multiple({
+			wezterm.action.SendKey({ key = "a", mods = "CTRL" }),
+			wezterm.action.SendKey({ key = "k", mods = "SHIFT" }),
+		}) },
+		{ key = "j", mods = "CMD|ALT", action = wezterm.action.Multiple({
+			wezterm.action.SendKey({ key = "a", mods = "CTRL" }),
+			wezterm.action.SendKey({ key = "j", mods = "SHIFT" }),
+		}) },
+
 		-- Select mode
 		{ key = "]", mods = "LEADER", action = wezterm.action.ActivateCopyMode },
 		{ key = " ", mods = "LEADER", action = wezterm.action.QuickSelect },
