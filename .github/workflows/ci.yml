@@ -86,7 +86,14 @@ jobs:
           sudo rm -rf /opt/homebrew/bin/cmake
 
       - name: refresh homebrew metadata
-        run: brew update
+        env:
+          ROLE: ${{ matrix.role }}
+        run: |
+          if grep -rq "community.general.homebrew" "roles/${ROLE}"; then
+            brew update
+          else
+            echo "roles/${ROLE} does not use homebrew, skipping the refresh"
+          fi
 
       - name: install test dependencies
         run: pip3 install \

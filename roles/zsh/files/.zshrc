@@ -88,9 +88,9 @@ alias ..='cd ..'
 ### eza
 if command -v eza 1>/dev/null 2>&1; then
     export EZA_CONFIG_DIR="${HOME}/.config/eza"
-    alias l='eza --icons'
-    alias ls='eza --icons'
-    alias ll='eza -lah --icons --git'
+    alias l='eza --icons=always'
+    alias ls='eza --icons=always'
+    alias ll='eza -lah --icons=always --git'
     alias lt='eza --tree'
 fi
 
@@ -148,9 +148,7 @@ export NVM_DIR="${HOME}/.nvm"
 [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh" --no-use
 
 # fzf configs
-if [ -f "${HOME}/.fzf.zsh" ]; then
-    source "${HOME}/.fzf.zsh"
-
+if command -v fzf 1>/dev/null 2>&1; then
     export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border \
     --color=hl:#f4a261,hl+:#f4a261,pointer:#f4a261,marker:#f4a261 \
     --preview 'if command -v bat >/dev/null 2>&1; then \
