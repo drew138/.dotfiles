@@ -7,11 +7,7 @@ M.base_slot_name = "herdr.slot."
 M.gap_name = "herdr.gap"
 M.gap_width = 7
 M.maximum_slots = 16
-M.base_agent_name = "herdr.agent."
 M.update_event = "herdr_update"
-M.maximum_popup_agents = 10
-M.base_separator_name = "herdr.agent.separator."
-M.base_pill_name = "herdr.pane."
 M.thinking_interval = 0.38
 M.thinking_ticks = 9
 M.thinking_dim_alpha = 0x80
@@ -37,11 +33,6 @@ M.glyphs = {
 		"\u{f06a9}",
 	},
 }
-M.pill_width = 34
-M.popup_minimum_width = 180
-M.popup_timeout = 2
-M.popup_character_width = 8.9
-M.popup_column_padding = 16
 
 M.binary = table.concat({
 	"env",
@@ -52,20 +43,13 @@ M.binary = table.concat({
 
 M.cache_path = (os.getenv("HOME") or "") .. "/.cache/sketchybar/herdr.txt"
 M.poll_command = (os.getenv("HOME") or "") .. "/.config/sketchybar/helpers/herdr_poll.lua >/dev/null 2>&1 &"
-M.agents_command = M.binary .. " agent list 2>/dev/null"
-M.workspaces_command = M.binary .. " workspace list 2>/dev/null"
-M.tabs_command = M.binary .. " tab list 2>/dev/null"
 M.label_separator = " - "
 
-M.query_binary = "/opt/homebrew/bin/sketchybar"
-M.spaces_anchor_item = "workspace."
-	.. require("items.spaces.opts").aerospace_workspaces_names[#require("items.spaces.opts").aerospace_workspaces_names]
 -- sketchybar reports no usable geometry per item, so slot widths are measured from
 -- rendered labels instead of queried.
 M.slot_base_width = 30
 M.slot_character_width = 7.1
 M.overflow_width = 52
-M.fit_margin = 16
 M.label_max_length = 14
 
 M.state_colors = {
@@ -74,14 +58,6 @@ M.state_colors = {
 	working = theme.colors.blue,
 	idle = theme.colors.grey,
 	unknown = theme.colors.grey,
-}
-
-M.state_labels = {
-	done = "done",
-	blocked = "needs you",
-	working = "working",
-	idle = "idle",
-	unknown = "unknown",
 }
 
 M.items = {
