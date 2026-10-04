@@ -40,6 +40,7 @@ end
 function M.load_o_settings()
 	-- Global Options (vim.o)
 	vim.o.pumheight = 10
+	vim.o.winborder = "rounded"
 end
 
 function M.setup()

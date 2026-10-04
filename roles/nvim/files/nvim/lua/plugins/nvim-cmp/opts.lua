@@ -9,9 +9,11 @@ local M = {
 	},
 	window = {
 		completion = cmp.config.window.bordered({
+			border = "rounded",
 			winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
 		}),
 		documentation = cmp.config.window.bordered({
+			border = "rounded",
 			winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
 		}),
 	},
