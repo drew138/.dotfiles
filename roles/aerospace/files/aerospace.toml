@@ -26,6 +26,10 @@ persistent-workspaces                                           = [
   "q",
   "w",
   "e",
+  "a",
+  "s",
+  "d",
+  "z",
 ]
 
 [[on-window-detected]]
@@ -59,7 +63,36 @@ persistent-workspaces                                           = [
 
 [[on-window-detected]]
   if.app-id = "com.bitwarden.desktop"
+  run       = "move-node-to-workspace a"
+
+[[on-window-detected]]
+  if.app-id = "net.whatsapp.WhatsApp"
   run       = "move-node-to-workspace w"
+
+[[on-window-detected]]
+  if.app-id = "org.yanex.marta"
+  run       = "move-node-to-workspace e"
+
+[[on-window-detected]]
+  if.app-id = "com.hnc.Discord"
+  run       = "move-node-to-workspace d"
+
+[[on-window-detected]]
+  if.app-id = "com.obsproject.obs-studio"
+  run       = "move-node-to-workspace s"
+
+[[on-window-detected]]
+  if.app-id = "io.tailscale.ipn.macsys"
+  run       = "move-node-to-workspace z"
+
+[[on-window-detected]]
+  if.app-id = "com.apple.systempreferences"
+  run       = "move-node-to-workspace z"
+
+[[on-window-detected]]
+  if.app-id               = "com.apple.finder"
+  check-further-callbacks = true
+  run                     = "move-node-to-workspace z"
 
 [[on-window-detected]]
   if.app-id = "com.apple.finder"
@@ -67,10 +100,6 @@ persistent-workspaces                                           = [
 
 [[on-window-detected]]
   if.app-id = "com.apple.ActivityMonitor"
-  run       = "layout floating"
-
-[[on-window-detected]]
-  if.app-id = "com.apple.systempreferences"
   run       = "layout floating"
 
 [workspace-to-monitor-force-assignment]
@@ -81,6 +110,10 @@ persistent-workspaces                                           = [
   q = "secondary"
   w = "main"
   e = "main"
+  a = "main"
+  s = "secondary"
+  d = "secondary"
+  z = "main"
 
 [key-mapping]
   preset = "qwerty"
@@ -90,7 +123,7 @@ persistent-workspaces                                           = [
   inner.vertical   = 10
   outer.left       = 10
   outer.bottom     = 10
-  outer.top        = [{ monitor."built-in" = 44 }, 37]
+  outer.top        = [{ monitor."built-in" = 58 }, 51]
   outer.right      = 10
 
 [mode.main.binding]
@@ -99,6 +132,8 @@ persistent-workspaces                                           = [
   alt-j       = "focus down"
   alt-k       = "focus up"
   alt-l       = "focus right"
+  alt-comma   = "layout tiles accordion"
+  alt-t       = "flatten-workspace-tree"
   alt-shift-h = "move left"
   alt-shift-j = "move down"
   alt-shift-k = "move up"
@@ -112,6 +147,10 @@ persistent-workspaces                                           = [
   alt-q       = "workspace q"
   alt-w       = "workspace w"
   alt-e       = "workspace e"
+  alt-a       = "workspace a"
+  alt-s       = "workspace s"
+  alt-d       = "workspace d"
+  alt-z       = "workspace z"
   alt-6       = "workspace-back-and-forth"
   alt-shift-1 = "move-node-to-workspace 1"
   alt-shift-2 = "move-node-to-workspace 2"
@@ -120,12 +159,16 @@ persistent-workspaces                                           = [
   alt-shift-q = "move-node-to-workspace q"
   alt-shift-w = "move-node-to-workspace w"
   alt-shift-e = "move-node-to-workspace e"
+  alt-shift-a = "move-node-to-workspace a"
+  alt-shift-s = "move-node-to-workspace s"
+  alt-shift-d = "move-node-to-workspace d"
+  alt-shift-z = "move-node-to-workspace z"
   alt-i       = "mode service"
 
 [mode.service.binding]
   esc       = ["mode main"]
   r         = ["reload-config", "mode main"]
-  f         = ["layout floating tiling", "mode main"]
+  alt-f     = ["layout floating tiling", "mode main"]
   backspace = ["close-all-windows-but-current", "mode main"]
   alt-1     = ["exec-and-forget open -a /Applications/Wezterm.app", "mode main"]
   alt-2     = [
@@ -136,16 +179,21 @@ persistent-workspaces                                           = [
   alt-4     = ["exec-and-forget open -a /Applications/Postman.app", "mode main"]
   alt-q     = ["exec-and-forget open -a /Applications/Notion.app", "mode main"]
   alt-w     = [
-    "exec-and-forget open -a /Applications/Bitwarden.app",
-    "mode main"
-  ]
-  alt-e     = [
     "exec-and-forget open -a /Applications/WhatsApp.app",
     "mode main"
   ]
+  alt-e     = ["exec-and-forget open -a /Applications/Marta.app", "mode main"]
+  alt-a     = [
+    "exec-and-forget open -a /Applications/Bitwarden.app",
+    "mode main"
+  ]
   alt-d     = ["exec-and-forget open -a /Applications/Discord.app", "mode main"]
-  alt-s     = [
+  alt-s     = ["exec-and-forget open -a /Applications/OBS.app", "mode main"]
+  alt-z     = [
     "exec-and-forget open -a '/System/Applications/System Settings.app'",
     "mode main"
   ]
-  alt-a     = ["exec-and-forget open -a 'Activity Monitor.app'", "mode main"]
+  alt-x     = [
+    "exec-and-forget open -a /Applications/Tailscale.app",
+    "mode main"
+  ]
