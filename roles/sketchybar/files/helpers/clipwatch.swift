@@ -87,7 +87,6 @@ var lastChangeCount = pasteboard.changeCount
 
 while true {
     if pasteboard.changeCount != lastChangeCount {
-  - font-jetbrains-mono-nerd-font
         lastChangeCount = pasteboard.changeCount
 
         let types = Set((pasteboard.types ?? []).map { $0.rawValue })
