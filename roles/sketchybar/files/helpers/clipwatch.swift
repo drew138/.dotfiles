@@ -68,6 +68,22 @@ func notifyBar() {
     try? task.run()
 }
 
+func barIsRunning() -> Bool {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/usr/bin/pgrep")
+    task.arguments = ["-x", "sketchybar"]
+    task.standardOutput = FileHandle.nullDevice
+    task.standardError = FileHandle.nullDevice
+
+    guard (try? task.run()) != nil else {
+        return true
+    }
+
+    task.waitUntilExit()
+
+    return task.terminationStatus == 0
+}
+
 // Only one watcher should ever run. It takes an exclusive lock rather than having the
 // caller pkill by name: that pattern also matches the shell doing the killing.
 let lockPath = NSString(string: "~/.cache/sketchybar/clipwatch.lock").expandingTildeInPath
@@ -85,7 +101,19 @@ if lockDescriptor < 0 || flock(lockDescriptor, LOCK_EX | LOCK_NB) != 0 {
 let pasteboard = NSPasteboard.general
 var lastChangeCount = pasteboard.changeCount
 
+var ticksUntilBarCheck = 0
+
 while true {
+    if ticksUntilBarCheck <= 0 {
+        if !barIsRunning() {
+            exit(0)
+        }
+
+        ticksUntilBarCheck = 20
+    }
+
+    ticksUntilBarCheck -= 1
+
     if pasteboard.changeCount != lastChangeCount {
         lastChangeCount = pasteboard.changeCount
 

@@ -108,6 +108,10 @@ local function bar_items()
 	return names, padding
 end
 
+local function bar_is_running()
+	return os.execute("pgrep -x sketchybar >/dev/null 2>&1") == true
+end
+
 local function occupied_width(names)
 	if #names == 0 then
 		return nil
@@ -188,4 +192,8 @@ while true do
 	end
 
 	os.execute("sleep " .. interval)
+
+	if not bar_is_running() then
+		os.exit(0)
+	end
 end
