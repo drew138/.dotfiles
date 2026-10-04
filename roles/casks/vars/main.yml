@@ -1,7 +1,5 @@
 ---
 casks_applications:
-  - name: marta
-    app: Marta
   - name: tailscale-app
     app: Tailscale
   - name: slack

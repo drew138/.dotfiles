@@ -1,0 +1,139 @@
+name "Nightfox"
+
+base {
+    appearance "dark"
+    background #192330
+    separator #29394f
+    text #cdcecf
+}
+
+actionBar {
+    separator #212e3f
+
+    button {
+        background #212e3f
+        hotkey #f4a261
+        text #71839b
+    }
+}
+
+asyncProgressBar {
+    border #39506d
+    progress #719cd6
+    itemProgress #63cdcf
+}
+
+breadcrumbs {
+    color1 #192330
+    color2 #212e3f
+    color3 #29394f
+    separator #39506d
+    text #aeafb0
+}
+
+files {
+    background {
+        alternate #161d29
+        current #3c5372
+        currentSelected #3c5372
+        selected #2b3b51
+    }
+
+    dragDropSelection {
+        color #719cd6
+        width 1
+    }
+
+    text {
+        current #d6d6d7
+        currentSelected #f4a261
+        hidden #71839b
+        matched #dbc074
+        selected #f4a261
+
+        highlighting1 #63cdcf
+        highlighting2 #81b29a
+        highlighting3 #d67ad2
+        highlighting4 #9d79d6
+    }
+}
+
+searchBar {
+    query {
+        background #131a24
+        border #39506d
+        placeholder #66cdcecf
+        text #cdcecf
+    }
+
+    results {
+        highlighting #f4a261
+        selection #3c5372
+        subtitle #71839b
+        text #cdcecf
+    }
+
+    rowSeparator {
+        color #29394f
+        show true
+    }
+}
+
+statusBar {
+    background #131a24
+    border #212e3f
+    text #aeafb0
+    quickSelectNoResultsHighlighting #c94f6d
+}
+
+tableHeader {
+    separator #29394f
+    text #aeafb0
+
+    pressed {
+        background #212e3f
+    }
+}
+
+tabs {
+    background #131a24
+
+    active {
+        text #cdcecf
+    }
+
+    inactive {
+        background #131a24
+        text #71839b
+    }
+}
+
+terminal {
+    caret {
+        background #2b3b51
+        text #cdcecf
+    }
+}
+
+textEditor {
+    error #c94f6d
+    warning #dbc074
+    keyword #9d79d6
+    comment #738091
+    identifier #cdcecf
+
+    literal {
+        string #81b29a
+        number #f4a261
+        color #63cdcf
+    }
+
+    gutter {
+        background #212e3f
+        text #99cdcecf
+    }
+}
+
+titleBar {
+    text #cdcecf
+}

@@ -1,0 +1,29 @@
+---
+- name: Install marta
+  community.general.homebrew_cask:
+    name: marta
+    state: present
+
+- name: Ensure marta support directories exist
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/Library/Application Support/org.yanex.marta/{{ item }}"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0755"
+  loop:
+    - ""
+    - Themes
+    - Plugins
+
+- name: Create marta symlinks
+  ansible.builtin.file:
+    src: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/marta/files/{{ item }}"
+    dest: "{{ ansible_facts['env']['HOME'] }}/Library/Application Support/org.yanex.marta/{{ item }}"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    state: link
+    force: true
+    follow: false
+  loop:
+    - conf.marco
+    - Themes/Nightfox.theme
+    - Plugins/CopyCdCommand.lua

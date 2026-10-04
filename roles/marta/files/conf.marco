@@ -1,0 +1,41 @@
+behavior {
+    theme "Nightfox"
+
+    actions {
+        core.lookup.mode "substring"
+    }
+
+    quickSelect {
+        activateOnAnyCharacter true
+        filterMatchedItems true
+        defaultMode "substring"
+    }
+}
+
+keyBindings {
+    "Cmd+Return" "core.open"
+    "Cmd+R" "core.rename"
+    "Cmd+F" "core.lookup"
+    "Cmd+N" "core.new.folder"
+    "Cmd+Z" "core.compress"
+    "Cmd+C" "core.copy"
+    "Cmd+V" "core.move"
+
+    "F4" null
+    "F5" null
+    "F6" null
+    "Shift+F6" null
+    "F7" null
+}
+
+setup {
+    actionBar [
+        "dotfiles.cdpath.copy"
+        "core.open"
+        "core.copy"
+        "core.move"
+        "core.rename"
+        "core.new.folder"
+        "core.delete"
+    ]
+}

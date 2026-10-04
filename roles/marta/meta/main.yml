@@ -1,16 +1,14 @@
 ---
 galaxy_info:
   author: drew138
-  description: changes dock preferences
+  description: installs the marta file manager
   license: MIT
   min_ansible_version: 2.16.1
-  role_name: dock
+  role_name: marta
   namespace: drew138
   platforms:
     - name: MacOSX
       versions:
         - all
 dependencies:
-  - role: casks
-  - role: wezterm
-  - role: marta
+  - role: repositories

@@ -1,0 +1,30 @@
+---
+- name: Check if the marta cask is installed
+  ansible.builtin.command: brew list --cask marta
+  register: marta_verify_brew_list
+  changed_when: false
+  failed_when: false
+
+- name: Assert the marta cask is reported as installed by Homebrew
+  ansible.builtin.assert:
+    that:
+      - marta_verify_brew_list.rc == 0
+    fail_msg: "Cask marta is not reported as installed by Homebrew"
+
+- name: Stat the marta symlinks
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/Library/Application Support/org.yanex.marta/{{ item }}"
+  loop:
+    - conf.marco
+    - Themes/Nightfox.theme
+    - Plugins/CopyCdCommand.lua
+  register: marta_verify_links
+
+- name: Assert the marta symlinks point at the repository
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+      - item.stat.islnk
+      - ansible_facts['env']['HOME'] + "/.dotfiles/roles/marta/files/" in item.stat.lnk_source
+    fail_msg: "{{ item.item }} is missing or does not point at the repository"
+  loop: "{{ marta_verify_links.results }}"
