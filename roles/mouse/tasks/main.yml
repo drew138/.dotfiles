@@ -5,3 +5,4 @@
     key: com.apple.swipescrolldirection
     type: bool
     value: false
+    check_type: false

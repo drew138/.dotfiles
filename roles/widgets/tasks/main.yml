@@ -5,6 +5,7 @@
     key: StandardHideWidgets
     type: int
     value: 1
+    check_type: false
   notify: Restart WindowManager
 
 - name: Disable click wallpaper to reveal desktop
@@ -13,4 +14,5 @@
     key: EnableStandardClickToShowDesktop
     type: bool
     value: false
+    check_type: false
   notify: Restart WindowManager

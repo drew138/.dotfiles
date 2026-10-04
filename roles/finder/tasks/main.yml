@@ -5,6 +5,7 @@
     key: AppleShowAllExtensions
     type: bool
     value: true
+    check_type: false
   notify: Restart Finder
 
 - name: Show hidden files
@@ -13,6 +14,7 @@
     key: AppleShowAllFiles
     type: bool
     value: true
+    check_type: false
   notify: Restart Finder
 
 - name: Disable extension change warning
@@ -21,6 +23,7 @@
     key: FXEnableExtensionChangeWarning
     type: bool
     value: false
+    check_type: false
   notify: Restart Finder
 
 - name: Show path bar
@@ -29,6 +32,7 @@
     key: ShowPathbar
     type: bool
     value: true
+    check_type: false
   notify: Restart Finder
 
 - name: Show status bar
@@ -37,6 +41,7 @@
     key: ShowStatusBar
     type: bool
     value: true
+    check_type: false
   notify: Restart Finder
 
 - name: Set default Finder view to list view
@@ -45,6 +50,7 @@
     key: FXPreferredViewStyle
     type: string
     value: Nlsv
+    check_type: false
   notify: Restart Finder
 
 - name: Open new Finder windows in home directory
@@ -53,6 +59,7 @@
     key: NewWindowTarget
     type: string
     value: PfHm
+    check_type: false
   notify: Restart Finder
 
 - name: Set Finder home directory path
@@ -61,6 +68,7 @@
     key: NewWindowTargetPath
     type: string
     value: "file://{{ ansible_facts['env']['HOME'] }}/"
+    check_type: false
   notify: Restart Finder
 
 - name: Keep folders on top in list view
@@ -69,6 +77,7 @@
     key: _FXSortFoldersFirst
     type: bool
     value: true
+    check_type: false
   notify: Restart Finder
 
 - name: Set Finder search scope to current folder
@@ -77,6 +86,7 @@
     key: FXDefaultSearchScope
     type: string
     value: SCcf
+    check_type: false
   notify: Restart Finder
 
 - name: Disable .DS_Store on network drives
@@ -85,6 +95,7 @@
     key: DSDontWriteNetworkStores
     type: bool
     value: true
+    check_type: false
   notify: Restart Finder
 
 - name: Disable .DS_Store on USB drives
@@ -93,6 +104,7 @@
     key: DSDontWriteUSBStores
     type: bool
     value: true
+    check_type: false
   notify: Restart Finder
 
 - name: Hide desktop icons
@@ -101,4 +113,5 @@
     key: CreateDesktop
     type: bool
     value: false
+    check_type: false
   notify: Restart Finder
