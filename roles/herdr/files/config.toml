@@ -32,9 +32,18 @@ split_horizontal = "prefix+x"
 split_vertical = "prefix+s"
 close_pane = "prefix+d"
 edit_scrollback = "prefix+]"
+new_worktree = ""
+new_workspace = "prefix+z"
+zoom = "prefix+shift+z"
+rename_workspace = "prefix+e"
+next_workspace = "prefix+shift+j"
+previous_workspace = "prefix+shift+k"
 
 [ui]
 status_indicators = "symbols"
 
 [ui.toast]
-delivery = "herdr"
+delivery = "off"
+
+[ui.toast.clipboard]
+enabled = false
