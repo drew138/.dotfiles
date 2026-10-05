@@ -4,6 +4,20 @@
     name: hashicorp/tap
     state: present
 
+- name: Read trusted homebrew entries
+  ansible.builtin.command: brew trust --json v1
+  register: terraform_trusted
+  changed_when: false
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+
+- name: Trust the terraform formula
+  ansible.builtin.command: brew trust --formula hashicorp/tap/terraform
+  when: "'hashicorp/tap/terraform' not in terraform_trusted.stdout"
+  changed_when: true
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+
 - name: Install terraform
   community.general.homebrew:
     name:

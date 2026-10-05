@@ -1,4 +1,18 @@
 ---
+- name: Read trusted homebrew entries
+  ansible.builtin.command: brew trust --json v1
+  register: packer_trusted
+  changed_when: false
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+
+- name: Trust the packer formula
+  ansible.builtin.command: brew trust --formula hashicorp/tap/packer
+  when: "'hashicorp/tap/packer' not in packer_trusted.stdout"
+  changed_when: true
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+
 - name: Install packer
   community.general.homebrew:
     name:

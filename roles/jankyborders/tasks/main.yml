@@ -4,6 +4,20 @@
     name: FelixKratz/formulae
     state: present
 
+- name: Read trusted homebrew entries
+  ansible.builtin.command: brew trust --json v1
+  register: jankyborders_trusted
+  changed_when: false
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+
+- name: Trust the borders formula
+  ansible.builtin.command: brew trust --formula felixkratz/formulae/borders
+  when: "'felixkratz/formulae/borders' not in jankyborders_trusted.stdout"
+  changed_when: true
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+
 - name: Install jankyborders
   community.general.homebrew:
     name:
