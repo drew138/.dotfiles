@@ -88,9 +88,9 @@ alias ..='cd ..'
 ### eza
 if command -v eza 1>/dev/null 2>&1; then
     export EZA_CONFIG_DIR="${HOME}/.config/eza"
-    alias l='eza --icons=always'
-    alias ls='eza --icons=always'
-    alias ll='eza -lah --icons=always --git'
+    alias l='eza --icons=auto'
+    alias ls='eza --icons=auto'
+    alias ll='eza -lah --icons=auto --git'
     alias lt='eza --tree'
 fi
 
