@@ -34,6 +34,16 @@ brew install git curl ansible molecule
 bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/install.sh)
 ```
 
+The script asks for the ansible vault password and the system password, then runs every role.
+Both are written to files only readable by the current user and removed when the run ends.
+
+To install a subset of the roles, pass them through to ansible:
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/install.sh) \
+    --extra-vars "selected_roles=['zsh','nvim','sketchybar']"
+```
+
 reminder: system reboot might be required for some programs to work as expected.
 
 ## macOS settings
