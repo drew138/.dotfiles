@@ -25,6 +25,11 @@ local M = {
 		desc = "open diagnostics finder",
 	},
 	{
+		"<leader>fs",
+		"<cmd>lua require'telescope.builtin'.git_status()<cr>",
+		desc = "open uncommitted changes picker",
+	},
+	{
 		"<leader>/",
 		function()
 			require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
