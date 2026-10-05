@@ -9,7 +9,7 @@
   args:
     creates: "{{ ansible_facts['env']['HOME'] }}/.clitools/bin/activate"
   environment:
-    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: Install python tooling in virtual environment
   ansible.builtin.pip:
@@ -17,7 +17,7 @@
     state: latest
     virtualenv: "{{ ansible_facts['env']['HOME'] }}/.clitools"
   environment:
-    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: Ensure zsh function directory exists
   ansible.builtin.file:

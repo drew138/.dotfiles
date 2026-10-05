@@ -4,14 +4,14 @@
   register: aerospace_trusted
   changed_when: false
   environment:
-    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: Trust the aerospace cask
   ansible.builtin.command: brew trust --cask nikitabobko/tap/aerospace
   when: "'nikitabobko/tap/aerospace' not in aerospace_trusted.stdout"
   changed_when: true
   environment:
-    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: Install aerospace
   community.general.homebrew_cask:

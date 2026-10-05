@@ -1,7 +1,7 @@
 config-version                                                  = 2
 after-startup-command                                           = [
-  'exec-and-forget /bin/bash -c "PATH=/opt/homebrew/bin:/usr/local/bin:$PATH sketchybar"',
-  'exec-and-forget /bin/bash -c "PATH=/opt/homebrew/bin:/usr/local/bin:$PATH borders"',
+  'exec-and-forget /bin/bash -c "PATH=/opt/homebrew/bin:$PATH sketchybar"',
+  'exec-and-forget /bin/bash -c "PATH=/opt/homebrew/bin:$PATH borders"',
 ]
 start-at-login                                                  = true
 enable-normalization-flatten-containers                         = true
@@ -16,7 +16,7 @@ automatically-unhide-macos-hidden-apps                          = false
 exec-on-workspace-change                                        = [
   "/bin/bash",
   "-c",
-  "PATH=/opt/homebrew/bin:/usr/local/bin:$PATH sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+  "PATH=/opt/homebrew/bin:$PATH sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
 ]
 persistent-workspaces                                           = [
   "1",

@@ -9,14 +9,14 @@
   register: sketchybar_trusted
   changed_when: false
   environment:
-    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: Trust the sketchybar formula
   ansible.builtin.command: brew trust --formula felixkratz/formulae/sketchybar
   when: "'felixkratz/formulae/sketchybar' not in sketchybar_trusted.stdout"
   changed_when: true
   environment:
-    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_facts['env']['PATH'] }}"
+    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
 - name: Install sketchybar
   community.general.homebrew:
