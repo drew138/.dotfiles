@@ -13,6 +13,7 @@ cli_brew_packages:
   - xclip
   - ansible
   - molecule
+  - yamllint
 
   # required by python for scikit
   # learn god knows why
