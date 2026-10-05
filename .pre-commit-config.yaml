@@ -5,3 +5,11 @@ repos:
     hooks:
       - id: detect-secrets
         exclude: roles/nvim/files/lazy-lock.json
+
+  - repo: local
+    hooks:
+      - id: yamllint
+        name: yamllint
+        entry: yamllint
+        language: system
+        types: [yaml]
