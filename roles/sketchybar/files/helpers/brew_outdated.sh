@@ -21,7 +21,7 @@ if [ -z "$(find "${stamp}" -newermt '-6 hours' 2>/dev/null)" ]; then
 fi
 
 {
-    run_brew outdated --verbose
+    run_brew outdated --verbose --formula
 } >"${staging}" 2>/dev/null
 
 mv "${staging}" "${cache}"
