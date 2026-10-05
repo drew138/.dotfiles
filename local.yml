@@ -2,8 +2,8 @@
 - name: Setup workstation
   hosts: localhost
   gather_facts: true
-  vars_files:
-    - ~/extra_vars.yml
+  vars:
+    selected_roles: "{{ lookup('ansible.builtin.pipe', 'ls ' ~ playbook_dir ~ '/roles') | split('\n') | sort }}"
   tasks:
     - name: Include roles
       ansible.builtin.include_role:
