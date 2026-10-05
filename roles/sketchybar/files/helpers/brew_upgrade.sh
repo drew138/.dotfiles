@@ -22,7 +22,7 @@ run_brew() {
 
 {
     run_brew update
-    run_brew upgrade --formula "$@"
+    run_brew upgrade "$@"
 } >"${log}" 2>&1
 
 status=$?
