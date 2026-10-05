@@ -1,5 +1,5 @@
 local icons = {
-	brew = "\u{10041b}",
+	brew = utf8.char(0x10041b),
 	clipboard = "􀉄",
 }
 

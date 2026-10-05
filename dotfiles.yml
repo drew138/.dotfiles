@@ -1,0 +1,16 @@
+---
+base: lua51
+lua_versions:
+  - luajit
+
+globals:
+  vim:
+    any: true
+  utf8:
+    any: true
+  plugin:
+    any: true
+  action:
+    any: true
+  martax:
+    any: true

@@ -22,11 +22,4 @@ return {
 	},
 	bg1 = 0xff212e3f,
 	bg2 = 0xff3c5372,
-
-	with_alpha = function(color, alpha)
-		if alpha > 1.0 or alpha < 0.0 then
-			return color
-		end
-		return (color & 0x00ffffff) | (math.floor(alpha * 255.0) << 24)
-	end,
 }

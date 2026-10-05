@@ -31,9 +31,9 @@ M.label_font = {
 }
 
 M.glyphs = {
-	uptime = "\u{f05f6}",
-	ram = "\u{f035b}",
-	swap = "\u{f04e1}",
+	uptime = utf8.char(0xf05f6),
+	ram = utf8.char(0xf035b),
+	swap = utf8.char(0xf04e1),
 }
 
 local function stat_properties(glyph, icon_color)

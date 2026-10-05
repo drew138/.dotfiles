@@ -21,14 +21,14 @@ M.spinner_font = {
 }
 
 M.spinner_frames = {
-	"\u{f0a9e}",
-	"\u{f0a9f}",
-	"\u{f0aa0}",
-	"\u{f0aa1}",
-	"\u{f0aa2}",
-	"\u{f0aa3}",
-	"\u{f0aa4}",
-	"\u{f0aa5}",
+	utf8.char(0xf0a9e),
+	utf8.char(0xf0a9f),
+	utf8.char(0xf0aa0),
+	utf8.char(0xf0aa1),
+	utf8.char(0xf0aa2),
+	utf8.char(0xf0aa3),
+	utf8.char(0xf0aa4),
+	utf8.char(0xf0aa5),
 }
 
 local helpers_directory = (os.getenv("HOME") or "") .. "/.config/sketchybar/helpers/"

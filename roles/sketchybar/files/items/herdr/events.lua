@@ -97,7 +97,7 @@ local function shorten(text)
 		return text
 	end
 
-	return text:sub(1, opts.label_max_length - 1) .. "\u{2026}"
+	return text:sub(1, opts.label_max_length - 1) .. "…"
 end
 
 local function parse_agents(result, workspaces, tabs)

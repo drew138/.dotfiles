@@ -25,12 +25,12 @@ M.disappear_seconds = 0.26
 M.icon_y_offset = 0
 
 M.glyphs = {
-	idle = "\u{f167a}",
-	done = "\u{f1719}",
-	blocked = "\u{f169f}",
+	idle = utf8.char(0xf167a),
+	done = utf8.char(0xf1719),
+	blocked = utf8.char(0xf169f),
 	thinking = {
-		"\u{f167a}",
-		"\u{f06a9}",
+		utf8.char(0xf167a),
+		utf8.char(0xf06a9),
 	},
 }
 

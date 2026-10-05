@@ -35,8 +35,17 @@ local function paint_all()
 	end
 end
 
+local bidi_marks = "["
+	.. utf8.char(0x200E)
+	.. utf8.char(0x200F)
+	.. utf8.char(0x202A)
+	.. "-"
+	.. utf8.char(0x202E)
+	.. utf8.char(0xFEFF)
+	.. "]"
+
 local function normalize(name)
-	return (name:gsub("[\u{200E}\u{200F}\u{202A}-\u{202E}\u{FEFF}]", ""):gsub("^%s+", ""):gsub("%s+$", ""))
+	return (name:gsub(bidi_marks, ""):gsub("^%s+", ""):gsub("%s+$", ""))
 end
 
 function M.refresh_open_state()
