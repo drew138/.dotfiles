@@ -1,6 +1,9 @@
 ---
 extends: default
 
+ignore: |
+  .ansible/
+
 rules:
   line-length:
     max: 200
