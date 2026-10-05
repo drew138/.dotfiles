@@ -34,19 +34,6 @@ local function transparent(color)
 	return math.floor(color) % 0x1000000
 end
 
-local function read_command(command)
-	local handle = io.popen(command)
-
-	if not handle then
-		return nil
-	end
-
-	local result = handle:read("a")
-	handle:close()
-
-	return result
-end
-
 local function parse_entities(result, collection, id_key)
 	local entities = {}
 	local payload = (result or ""):match('"' .. collection .. '"%s*:%s*%[(.*)%]')
