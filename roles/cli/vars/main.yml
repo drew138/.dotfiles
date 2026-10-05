@@ -10,7 +10,6 @@ cli_brew_packages:
   - curl
   - wget
   - gnu-tar
-  - xclip
   - ansible
   - molecule
   - yamllint

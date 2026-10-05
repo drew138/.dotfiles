@@ -8,7 +8,6 @@
 - name: Install dependencies
   community.general.homebrew:
     name:
-      - xclip
       - make
       - python
     state: latest

@@ -18,5 +18,3 @@ casks_applications:
     app: WhatsApp
   - name: google-chrome
     app: Google Chrome
-  - name: utm
-    app: UTM
