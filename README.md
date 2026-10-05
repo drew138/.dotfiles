@@ -12,18 +12,16 @@
 
 ## Installation
 
+Apple silicon only. Homebrew is expected at `/opt/homebrew`, and the roles assume it.
+
 Install homebrew and setup ansible.
 
 ```bash
-if [ ! -f /opt/homebrew/bin/brew ] && [ ! -f /usr/local/bin/brew ]; then
+if [ ! -f /opt/homebrew/bin/brew ]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-if [ -f /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [ -f /usr/local/bin/brew ]; then
-    export PATH="/usr/local/bin:$PATH"
-fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 brew install git curl ansible molecule
 ```
