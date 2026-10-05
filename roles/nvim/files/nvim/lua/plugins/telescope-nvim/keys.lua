@@ -25,7 +25,7 @@ local M = {
 		desc = "open diagnostics finder",
 	},
 	{
-		"<leader>fs",
+		"<leader>fu",
 		"<cmd>lua require'telescope.builtin'.git_status()<cr>",
 		desc = "open uncommitted changes picker",
 	},
