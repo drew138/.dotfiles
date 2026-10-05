@@ -1,21 +1,30 @@
 local M = {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
+	lazy = false,
+	build = ":TSUpdate",
 	dependencies = {
 		{ "EdenEast/nightfox.nvim" },
-		{ "nvim-treesitter/playground" },
 		{ "nvim-treesitter/nvim-treesitter-context" },
 	},
-	opts = function()
-		return require("plugins.nvim-treesitter.opts")
-	end,
 
-	config = function(_, opts)
-		require("nvim-treesitter.configs").setup(opts)
-		require("plugins.nvim-treesitter.directives").setup()
-	end,
+	config = function()
+		local opts = require("plugins.nvim-treesitter.opts")
 
-	build = function()
-		require("nvim-treesitter.install").update({ with_sync = true })
+		require("nvim-treesitter").install(opts.languages)
+
+		vim.api.nvim_create_autocmd("FileType", {
+			group = vim.api.nvim_create_augroup("treesitter_highlight", { clear = true }),
+			callback = function(args)
+				local language = vim.treesitter.language.get_lang(args.match)
+
+				if not language or not vim.treesitter.language.add(language) then
+					return
+				end
+
+				vim.treesitter.start(args.buf, language)
+			end,
+		})
 	end,
 }
 
