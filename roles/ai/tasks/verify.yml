@@ -1,4 +1,16 @@
 ---
+- name: Check the claude code binary
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/bin/claude"
+  register: ai_verify_claude
+
+- name: Assert claude code is installed
+  ansible.builtin.assert:
+    that:
+      - ai_verify_claude.stat.exists
+      - ai_verify_claude.stat.executable
+    fail_msg: "claude code was not found at ~/.local/bin/claude"
+
 - name: List installed homebrew packages
   ansible.builtin.command: brew list --formula
   register: ai_verify_brew_list

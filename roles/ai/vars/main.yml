@@ -1,4 +1,7 @@
 ---
+ai_claude_installer_url: https://claude.ai/install.sh
+ai_claude_installer_path: /tmp/claude-code-install.sh
+
 ai_harnesses:
   - gemini-cli
   - opencode
