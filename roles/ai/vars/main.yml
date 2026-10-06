@@ -1,0 +1,10 @@
+---
+ai_skills_source: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/ai/files/skills"
+ai_skill_targets:
+  - "{{ ansible_facts['env']['HOME'] }}/.claude/skills"
+  - "{{ ansible_facts['env']['HOME'] }}/.agents/skills"
+  - "{{ ansible_facts['env']['HOME'] }}/.gemini/skills"
+  - "{{ ansible_facts['env']['HOME'] }}/.cursor/skills"
+  - "{{ ansible_facts['env']['HOME'] }}/.copilot/skills"
+  - "{{ ansible_facts['env']['HOME'] }}/.config/opencode/skills"
+  - "{{ ansible_facts['env']['HOME'] }}/.dsh/skills"

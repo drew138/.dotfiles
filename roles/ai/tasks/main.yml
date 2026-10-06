@@ -1,0 +1,27 @@
+---
+- name: Ensure the skill directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0755"
+  loop: "{{ [ai_skills_source] + ai_skill_targets }}"
+
+- name: Find the skills in the repository
+  ansible.builtin.find:
+    paths: "{{ ai_skills_source }}"
+    file_type: directory
+    recurse: false
+  register: ai_skills
+
+- name: Create symbolic links for each skill in each harness
+  ansible.builtin.file:
+    src: "{{ item.0.path }}"
+    dest: "{{ item.1 }}/{{ item.0.path | basename }}"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    state: link
+    force: true
+    follow: false
+  loop: "{{ ai_skills.files | product(ai_skill_targets) | list }}"
+  loop_control:
+    label: "{{ item.0.path | basename }} -> {{ item.1 }}"
