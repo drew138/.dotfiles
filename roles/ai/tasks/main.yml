@@ -1,4 +1,9 @@
 ---
+- name: Install the agent harnesses
+  community.general.homebrew:
+    name: "{{ ai_harnesses }}"
+    state: latest
+
 - name: Ensure the skill directories exist
   ansible.builtin.file:
     path: "{{ item }}"

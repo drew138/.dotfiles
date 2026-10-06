@@ -1,4 +1,8 @@
 ---
+ai_harnesses:
+  - gemini-cli
+  - opencode
+
 ai_skills_source: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/ai/files/skills"
 ai_skill_targets:
   - "{{ ansible_facts['env']['HOME'] }}/.claude/skills"
