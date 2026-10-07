@@ -20,19 +20,22 @@
     owner: "{{ ansible_facts['env']['USER'] }}"
     mode: "0600"
 
-- name: Capture GitHub RSA key
-  ansible.builtin.command: ssh-keyscan -t rsa github.com
-  register: ssh_github_rsa_key
+- name: Capture the github host keys
+  ansible.builtin.command: ssh-keyscan github.com
+  register: ssh_github_host_keys
   changed_when: false
+  retries: 3
+  delay: 5
+  until: ssh_github_host_keys.rc == 0 and ssh_github_host_keys.stdout | length > 0
 
-- name: Add gitHub rsa key to known_hosts file
+- name: Add the github host keys to known_hosts
   ansible.builtin.lineinfile:
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
-    line: "{{ ssh_rsa_key_line }}"
+    line: "{{ ssh_host_key_line }}"
     create: true
     mode: "0644"
-  loop: "{{ ssh_github_rsa_key.stdout_lines }}"
+  loop: "{{ ssh_github_host_keys.stdout_lines | reject('match', '^#') | list }}"
   loop_control:
-    loop_var: ssh_rsa_key_line
+    loop_var: ssh_host_key_line
   no_log: true
   changed_when: false
