@@ -232,10 +232,13 @@ Hunk-level splitting is exactly where a series starts failing, so check the
 staged content rather than the working tree:
 
 ```bash
-git stash push --keep-index
+git stash push --keep-index --include-untracked
 go build ./...
 git stash pop
 ```
+
+`--include-untracked` matters whenever the commit adds files. Without it the
+untracked ones stay in the tree and the check sees more than the commit holds.
 
 `--keep-index` leaves only the staged hunks in the tree, so the check sees
 precisely what the commit will contain. Without this step it is the finished work
@@ -405,7 +408,16 @@ git rebase --autosquash origin/<target>
 
 `git rebase -i` opens an editor and cannot be driven here. Where a
 non-interactive rewrite is genuinely required, drive it through
-`GIT_SEQUENCE_EDITOR` rather than simulating the interactive flow.
+`GIT_SEQUENCE_EDITOR` to pick the action and `GIT_EDITOR` to supply the message:
+
+```bash
+GIT_SEQUENCE_EDITOR="sed -i '' 's/^pick <sha>/reword <sha>/'" \
+GIT_EDITOR="cp /path/to/newmsg" \
+git rebase -i --autostash <sha>~1
+```
+
+**`--autostash` is required**, not optional. A rebase refuses to start against a
+dirty tree, and this skill deliberately leaves unrelated files unstaged.
 
 ### What still applies
 
