@@ -4,6 +4,9 @@
 
 - Be brief. Give one short reason, not a paragraph.
 - Use a sequence diagram for any flow with more than two steps.
+- Draw it in plain ASCII inside a code block. The terminal cannot render mermaid
+  from a captured command, so mermaid in an answer is invisible. Mermaid belongs
+  in committed documents, which are rendered on demand.
 
 ## Changes
 

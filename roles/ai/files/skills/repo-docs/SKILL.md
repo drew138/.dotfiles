@@ -79,7 +79,44 @@ cmd/server         wiring only
 and `ls` does the job better. Describe what a package is responsible for, not
 what files it contains.
 
-One diagram only if it earns its place. Under two screens.
+**Diagrams are mermaid, written as code in the markdown.** Never an exported
+image — an image cannot be diffed, reviewed, or edited by whoever changes the
+flow next.
+
+Use a `flowchart` for structure and a `sequenceDiagram` for flows. **A sequence
+diagram must include the external participants, not only this service.** A
+diagram that stops at our own boundary hides the part most likely to surprise
+someone: who we call, in what order, and what happens when one of them fails.
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as This service
+    participant P as Provider API
+    participant D as Postgres
+
+    C->>S: POST /orders
+    S->>D: insert pending
+    S->>P: authorise
+    P-->>S: 402 declined
+    S->>D: mark declined
+    S-->>C: 422 with reason
+```
+
+Include at least one failure path. The happy path is the one everybody already
+knows.
+
+To view one in the terminal, render it and display it inline:
+
+```bash
+mmdc -i diagram.mmd -o diagram.png
+wezterm imgcat diagram.png
+```
+
+`mmdc` needs a headless browser. Set `PUPPETEER_EXECUTABLE_PATH` to an installed
+Chrome rather than letting puppeteer download its own.
+
+Under two screens, diagrams included.
 
 ### docs/API.md
 
