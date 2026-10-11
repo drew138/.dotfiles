@@ -50,3 +50,20 @@
   loop: "{{ ai_verify_links.results }}"
   loop_control:
     label: "{{ item.item[0].path | basename }} -> {{ item.item[1] }}"
+
+- name: Check the rules symlinks
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  loop: "{{ ai_rules_targets }}"
+  register: ai_verify_rules
+
+- name: Assert the rules are linked into every harness
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+      - item.stat.islnk
+      - item.stat.lnk_source == ai_rules_source
+    fail_msg: "{{ item.item }} is missing, is not a link, or points elsewhere"
+  loop: "{{ ai_verify_rules.results }}"
+  loop_control:
+    label: "{{ item.item }}"

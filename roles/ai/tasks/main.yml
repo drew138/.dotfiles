@@ -53,3 +53,23 @@
   loop: "{{ ai_skills.files | product(ai_skill_targets) | list }}"
   loop_control:
     label: "{{ item.0.path | basename }} -> {{ item.1 }}"
+
+- name: Ensure the rules directories exist
+  ansible.builtin.file:
+    path: "{{ item | dirname }}"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0755"
+  loop: "{{ ai_rules_targets }}"
+
+- name: Create symbolic links for the agent rules in each harness
+  ansible.builtin.file:
+    src: "{{ ai_rules_source }}"
+    dest: "{{ item }}"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    state: link
+    force: true
+    follow: false
+  loop: "{{ ai_rules_targets }}"
+  loop_control:
+    label: "{{ item }}"

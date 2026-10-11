@@ -15,3 +15,9 @@ ai_skill_targets:
   - "{{ ansible_facts['env']['HOME'] }}/.copilot/skills"
   - "{{ ansible_facts['env']['HOME'] }}/.config/opencode/skills"
   - "{{ ansible_facts['env']['HOME'] }}/.dsh/skills"
+
+ai_rules_source: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/ai/files/rules/AGENTS.md"
+ai_rules_targets:
+  - "{{ ansible_facts['env']['HOME'] }}/.claude/CLAUDE.md"
+  - "{{ ansible_facts['env']['HOME'] }}/.gemini/GEMINI.md"
+  - "{{ ansible_facts['env']['HOME'] }}/.config/opencode/AGENTS.md"
