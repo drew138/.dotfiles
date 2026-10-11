@@ -26,7 +26,9 @@ local M = {
 	},
 	{
 		"<leader>fu",
-		"<cmd>lua require'telescope.builtin'.git_status()<cr>",
+		function()
+			require("telescope.builtin").git_status(require("plugins.telescope-nvim.git_status").opts())
+		end,
 		desc = "open uncommitted changes picker",
 	},
 	{
