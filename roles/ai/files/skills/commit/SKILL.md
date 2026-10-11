@@ -223,6 +223,11 @@ git apply --cached /tmp/commit-1.patch
 Select **whole hunks**. Offsets stay valid as long as each hunk is kept intact;
 splitting one by hand produces a patch that fails to apply.
 
+Plan and apply with the same context setting. `git diff --unified=0` splits into
+more hunks than the default, so a plan made from one and applied with the other
+will not line up. Confirm the result by reading the index, never by counting
+hunks.
+
 For a file that belongs entirely to one commit, `git add <file>` is simpler and
 should be preferred — only reach for a patch when a file's hunks are split across
 commits.
