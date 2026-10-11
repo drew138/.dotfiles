@@ -1,4 +1,8 @@
 local M = {
+	attach_to_untracked = true,
+	signs = {
+		untracked = { text = "┋" },
+	},
 	on_attach = function(bufnr)
 		-- KEYS NEED TO BE SET HERE
 		local gs = package.loaded.gitsigns
