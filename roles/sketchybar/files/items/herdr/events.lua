@@ -349,7 +349,7 @@ local function show_slot(index, agent)
 
 	slot:set({
 		drawing = true,
-		click_script = opts.binary .. " agent focus " .. agent.pane,
+		click_script = opts.focus_command .. " " .. agent.workspace .. " " .. agent.pane,
 		icon = { string = glyph_for(agent.status), color = color },
 		label = { string = agent.slot, color = color },
 	})

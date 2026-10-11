@@ -43,6 +43,7 @@ M.binary = table.concat({
 
 M.cache_path = (os.getenv("HOME") or "") .. "/.cache/sketchybar/herdr.txt"
 M.poll_command = (os.getenv("HOME") or "") .. "/.config/sketchybar/helpers/herdr_poll.lua >/dev/null 2>&1 &"
+M.focus_command = (os.getenv("HOME") or "") .. "/.config/sketchybar/helpers/herdr_focus.sh"
 M.label_separator = " - "
 
 -- sketchybar reports no usable geometry per item, so slot widths are measured from

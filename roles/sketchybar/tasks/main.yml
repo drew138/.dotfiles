@@ -138,6 +138,7 @@
     - brew_upgrade.sh
     - clipboard_copy.lua
     - herdr_poll.lua
+    - herdr_focus.sh
 
 - name: Ensure config directory exists
   ansible.builtin.file:
