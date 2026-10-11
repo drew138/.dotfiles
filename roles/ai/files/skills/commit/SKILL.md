@@ -134,7 +134,8 @@ The diff already shows *what* changed. The body exists to say **why**.
 - **State what the verification does not prove.** This is the most useful line in
   a commit message and the one most often missing. A commit that says a test
   passed should say what the test could not cover.
-- A few lines. Most need between two and ten.
+- **At most two paragraphs, each at most two or three lines.** If it does not
+  fit, the commit is doing more than one thing.
 - Never a bullet list of files. Never a changelog.
 - Omit the body entirely when the subject says everything.
 
