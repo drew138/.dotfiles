@@ -240,7 +240,13 @@ the rest:
 `@@ -oldStart,oldCount +newStart,newCount @@` — adjust both counts to the lines
 you keep. This applies cleanly under `--unidiff-zero`.
 
-Confirm the result by reading the index, never by counting hunks.
+Whether a hunk needs splitting is a judgement call, not a rule: split when its
+contiguous lines serve different commits, and leave it whole otherwise. Splitting
+for tidiness buys nothing and risks a patch that applies wrongly.
+
+Confirm the result by reading the index, never by counting hunks. That check is
+what makes the judgement safe — a wrong split shows up there, not in the hunk
+count.
 
 For a file that belongs entirely to one commit, `git add <file>` is simpler and
 should be preferred — only reach for a patch when a file's hunks are split across
