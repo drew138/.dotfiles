@@ -216,17 +216,31 @@ the diff to a patch, removing the hunks that belong to other commits, and
 applying what remains to the index:
 
 ```bash
-git diff > /tmp/commit-1.patch
-git apply --cached /tmp/commit-1.patch
+git diff --unified=0 > /tmp/commit-1.patch
+git apply --cached --unidiff-zero /tmp/commit-1.patch
 ```
 
-Select **whole hunks**. Offsets stay valid as long as each hunk is kept intact;
-splitting one by hand produces a patch that fails to apply.
+**Always `--unified=0`.** A hunk must mean one contiguous run of changed lines.
+At the default three lines of context, two changes closer than that merge into a
+single hunk, so hunk numbering stops matching what you planned against.
 
-Plan and apply with the same context setting. `git diff --unified=0` splits into
-more hunks than the default, so a plan made from one and applied with the other
-will not line up. Confirm the result by reading the index, never by counting
-hunks.
+**`--unidiff-zero` is required** to apply a zero-context patch. Without it
+`git apply` rejects the patch for having no context to locate.
+
+**Split a hunk when contiguous deltas belong to different commits.** Contiguous
+lines are one hunk even at `--unified=0`, so an atomic commit sometimes needs the
+hunk broken up. Rewrite the header to cover only the lines being kept and drop
+the rest:
+
+```
+@@ -2,2 +2,2 @@        two unrelated line changes
+@@ -2,1 +2,1 @@        keep only the first
+```
+
+`@@ -oldStart,oldCount +newStart,newCount @@` — adjust both counts to the lines
+you keep. This applies cleanly under `--unidiff-zero`.
+
+Confirm the result by reading the index, never by counting hunks.
 
 For a file that belongs entirely to one commit, `git add <file>` is simpler and
 should be preferred — only reach for a patch when a file's hunks are split across
