@@ -28,6 +28,7 @@
     format = ssh
 [includeIf "gitdir:~/work/**/"]
     path = ~/.work.gitconfig
-# Enforce SSH
-; [url "git@github.com:"]
-;     insteadOf = https://github.com/
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[url "https://github.com/michaelbrusegard/tabline.wez"]
+	insteadOf = https://github.com/michaelbrusegard/tabline.wez

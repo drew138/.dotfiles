@@ -11,4 +11,4 @@ galaxy_info:
       versions:
         - all
 dependencies:
-  - ssh
+  - role: ssh

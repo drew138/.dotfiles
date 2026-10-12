@@ -15,3 +15,4 @@ dependencies:
   - role: repositories
   - role: zsh
   - role: nerdfonts
+  - role: ssh
