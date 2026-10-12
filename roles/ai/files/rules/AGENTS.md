@@ -4,9 +4,10 @@
 
 - Be brief. Give one short reason, not a paragraph.
 - Use a sequence diagram for any flow with more than two steps.
-- Draw it in plain ASCII inside a code block. The terminal cannot render mermaid
-  from a captured command, so mermaid in an answer is invisible. Mermaid belongs
-  in committed documents, which are rendered on demand.
+- Draw it as plain text in a code block. Terminal output is the default and it
+  cannot render mermaid, so a mermaid block in an answer is invisible.
+- Mermaid is only ever for a committed document, where a viewer renders it. Never
+  render a diagram to an image for terminal output.
 
 ## Changes
 

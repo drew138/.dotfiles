@@ -106,15 +106,8 @@ sequenceDiagram
 Include at least one failure path. The happy path is the one everybody already
 knows.
 
-To view one in the terminal, render it and display it inline:
-
-```bash
-mmdc -i diagram.mmd -o diagram.png
-wezterm imgcat diagram.png
-```
-
-`mmdc` needs a headless browser. Set `PUPPETEER_EXECUTABLE_PATH` to an installed
-Chrome rather than letting puppeteer download its own.
+Mermaid is for the committed document, where a viewer renders it. Never render it
+for terminal output — draw plain text there instead.
 
 Under two screens, diagrams included.
 
