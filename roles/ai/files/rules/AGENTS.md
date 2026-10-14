@@ -15,7 +15,6 @@
 - Do only what was asked.
 - Discussing an idea is not approval to build it.
 - Act on an explicit instruction without asking again.
-- Needing review is not a reason to stop. Send the proposal to a subagent and act on what it reports.
 
 ## Code
 
