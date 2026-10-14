@@ -283,6 +283,10 @@ Commit without waiting for approval. Report afterwards:
 - the full message for each
 - anything deliberately left unstaged, and why
 
+Where the series genuinely warrants a second opinion — a hunk split that could
+apply wrongly, a rebase conflict resolved on judgement — send it to a subagent
+to review rather than stopping for the user.
+
 **Never stage files the user did not intend.** Unrelated modified files stay
 unstaged, and the report says so explicitly rather than silently including or
 dropping them.
