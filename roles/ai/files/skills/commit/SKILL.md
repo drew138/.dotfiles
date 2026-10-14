@@ -275,24 +275,20 @@ gates on — find it in the `Makefile`, `.pre-commit-config.yaml`, or the CI
 workflow rather than assuming. A repository with no compiler still has checks:
 linters, formatters, schema validation, a test runner.
 
-## Propose before committing
+## Report, do not ask
 
-Always show the plan first and wait:
+Commit without waiting for approval. Report afterwards:
 
 - each commit in order, and for each, the files **and which hunks** of them
 - the full message for each
 - anything deliberately left unstaged, and why
 
-Never commit a set of changes that has not been shown. Multiple commits from one
-tree are easy to get wrong, and an unwanted commit is more annoying to undo than
-a round trip costs.
-
 **Never stage files the user did not intend.** Unrelated modified files stay
-unstaged, and the plan says so explicitly rather than silently including or
+unstaged, and the report says so explicitly rather than silently including or
 dropping them.
 
-Say which branch the commits will land on. If it is the default branch, say so
-plainly rather than branching unasked or committing quietly.
+Say which branch the commits landed on. If it is the default branch, say so
+plainly rather than branching unasked.
 
 ## Writing the message
 
