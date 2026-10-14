@@ -5,7 +5,7 @@ local M = {
 		{ "nvim-lua/plenary.nvim" },
 		{ "nvim-treesitter/nvim-treesitter" },
 		{ "antoinemadec/FixCursorHold.nvim" },
-		{ "nvim-neotest/neotest-go" },
+		{ "fredrikaverpil/neotest-golang" },
 		{ "nvim-neotest/neotest-python" },
 		{ "rouge8/neotest-rust" },
 	},
