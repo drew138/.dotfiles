@@ -1,4 +1,6 @@
 ---
 repositories_names:
   - algorithms
+  - dials
+  - homelab
   - notion-automation
