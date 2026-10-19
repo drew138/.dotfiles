@@ -2,3 +2,9 @@
 __pycache__/
 .ipynb_checkpoints/
 coverage.out
+node_modules/
+.venv/
+target/
+dist/
+build/
+vendor/

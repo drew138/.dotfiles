@@ -6,6 +6,12 @@
 	editor = nvim
 	symlinks = false
 	excludesfile = ~/.gitignore_global
+[advice]
+    addEmptyPathSpec = false
+[status]
+    branch = true
+    showStash = true
+    showUntrackedFiles = all
 [push]
 	default = current
 [pull]
