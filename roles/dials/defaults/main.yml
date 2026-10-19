@@ -1,0 +1,5 @@
+---
+dials_repo: drew138/dials
+dials_asset: Dials.zip
+dials_app: /Applications/Dials.app
+dials_launch_agent: "{{ ansible_facts['env']['HOME'] }}/Library/LaunchAgents/com.andressalazar.dials.plist"

@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: drew138
+  description: installs Dials, the per-app volume mixer for the menu bar
+  license: MIT
+  min_ansible_version: 2.16.1
+  role_name: dials
+  namespace: drew138
+  platforms:
+    - name: MacOSX
+      versions:
+        - all
+dependencies:
+  # Roles run alphabetically, so gh would otherwise be missing on a fresh machine.
+  - role: gh

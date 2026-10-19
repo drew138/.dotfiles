@@ -1,0 +1,33 @@
+---
+- name: Read the Dials bundle identifier
+  ansible.builtin.command: >
+    defaults read {{ dials_app }}/Contents/Info CFBundleIdentifier
+  register: dials_verify_bundle
+  changed_when: false
+  failed_when: false
+
+- name: Assert Dials is installed
+  ansible.builtin.assert:
+    that:
+      - dials_verify_bundle.rc == 0
+      - dials_verify_bundle.stdout == 'com.andressalazar.dials'
+    fail_msg: "{{ dials_app }} is missing or is not Dials."
+
+- name: Verify the app signature
+  ansible.builtin.command: codesign --verify --deep {{ dials_app }}
+  changed_when: false
+
+- name: Check the login agent
+  ansible.builtin.stat:
+    path: "{{ dials_launch_agent }}"
+  register: dials_verify_agent
+
+- name: Assert Dials opens at login
+  ansible.builtin.assert:
+    that:
+      - dials_verify_agent.stat.exists
+    fail_msg: "{{ dials_launch_agent }} is missing."
+
+- name: Validate the login agent
+  ansible.builtin.command: plutil -lint {{ dials_launch_agent }}
+  changed_when: false
