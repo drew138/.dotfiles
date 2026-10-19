@@ -3,14 +3,10 @@
   ansible.builtin.stat:
     path: "{{ dials_app }}"
   register: dials_app_stat
-
-# Each build carries a new ad-hoc signature, and macOS asks for audio access
-# again for every one, so an installed copy is left alone.
 - name: Install Dials from the latest release
   when: not dials_app_stat.stat.exists
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
-    # CI has no gh login; its token stands in. Locally gh's own login is used.
     GH_TOKEN: "{{ lookup('ansible.builtin.env', 'GH_TOKEN') or lookup('ansible.builtin.env', 'GHUB_ACCESS_TOKEN') }}"
   block:
     - name: Check gh can reach the release

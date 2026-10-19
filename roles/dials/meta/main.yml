@@ -11,5 +11,4 @@ galaxy_info:
       versions:
         - all
 dependencies:
-  # Roles run alphabetically, so gh would otherwise be missing on a fresh machine.
   - role: gh
