@@ -18,6 +18,33 @@ Integration tests exist where behaviour cannot be proven without real infra.
 Most rules here apply to both. The mock rules apply to unit tests only —
 integration tests have no mocks.
 
+## This skill versus the repository's existing tests
+
+Two cases, and they get opposite answers.
+
+**A test that already exists: leave its style alone.** Adding a case to a table
+that does not look like the tables below, extending a suite built on a different
+assertion library, or touching a file whose layout predates these rules — match
+what is there. A file written half in one style and half in another is worse than
+either style, and a pull request that restyles existing tests buries the change
+it was opened for. Note the divergence in the report; do not fix it unasked.
+
+**A test for a new function, method or struct: follow this skill exactly.** Not
+"broadly", not "in the spirit of" — the layout, the naming, the table shape, the
+assertion split, the mock argument rules, all of it. New code is where the
+convention is actually set, and the repo's existing style has no claim on a test
+that did not exist before.
+
+The dividing line is **the subject under test, not the file**. A new method on an
+existing struct is new: its test follows this skill even when it lands in a file
+written to older conventions. If placing it there would make the file
+incoherent, put it in a new file (`## File layout`) and say why.
+
+Where the repository's own `CLAUDE.md` or a committed testing guide states a rule
+that contradicts this skill, that document wins for that rule — and the report
+says which rule and where it came from. A style merely inferred from surrounding
+files is not such a document.
+
 ## What gets tested
 
 Test business logic: functions and methods with behaviour, branches, rules and
