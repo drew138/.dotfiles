@@ -3,7 +3,10 @@
 ## Answers
 
 - Be brief. Give one short reason, not a paragraph.
-- Use a sequence diagram for any flow with more than two steps.
+- Always explain a flow with a sequence diagram, and **one per answer** — a
+  second only when asked for one.
+- Keep it short: only the participants the point needs, and about six steps.
+  Collapse the rest into one labelled step instead of drawing them.
 - Draw it as plain text in a code block. Terminal output is the default and it
   cannot render mermaid, so a mermaid block in an answer is invisible.
 - Mermaid is only ever for a committed document, where a viewer renders it. Never
