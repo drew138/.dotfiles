@@ -17,6 +17,61 @@ Repository pull request templates are ignored deliberately. Most of what they
 contain is attestation about work a person did — DBA review, QA runs, approval
 from named people — and filling those in would be fabricating a claim.
 
+## Branch name
+
+[Conventional Branch](https://conventionalbranch.org/) v1.1.0 —
+`<type>/<description>`, with the ticket key as the whole description:
+
+```
+feature/TRU-196
+bugfix/C2-9147
+```
+
+The type follows the commit type the work carries:
+
+| commit type | branch type |
+|---|---|
+| `feat` | `feature` |
+| `fix` | `bugfix` |
+| a production incident being patched now | `hotfix` |
+| cutting a version | `release` |
+| `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci` | `chore` |
+
+**The ticket key alone, written exactly as the tracker writes it.** `TRU-196`,
+not `tru-196`. The spec restricts the description to lowercase; we deviate there
+on purpose, because the key is an identifier and changing its case makes the
+branch name and the tracker two different strings to reconcile.
+
+Nothing else in the description. The spec permits one after the key —
+`feature/issue-123-new-login` — and we do not use it. No username prefix, no
+title slug. Linear and Jira both offer a generated name like
+`andressalazar/tru-196-stop-pci-vgs-int-failing-on-unknown-vgs-card-ids`: do not
+use it, and do not shorten it either.
+
+The key therefore needs no translation when it is read back out of the branch
+name for the pull request title or a `Refs:` trailer — it is already the key.
+
+The spec's agent prefixes (`ai/`, `claude/`, `copilot/`, `cursor/`, `codex/`) are
+not used: a branch is named for the work, not for who typed it.
+
+`main`, `master` and `develop` are trunk branches and take no prefix. Never
+create a branch with one of those names — branch off them.
+
+**A branch on the wrong name gets renamed before the pull request is opened:**
+
+```bash
+git branch -m feature/TRU-196
+git push origin -u feature/TRU-196
+git push origin --delete <old-name>
+```
+
+The delete only applies if the wrong name was already pushed. **A pushed branch
+someone has already reviewed or commented on is not renamed without asking** —
+renaming orphans their comments.
+
+No ticket key anywhere — not in the tracker, not in the commits — means the
+description has no permitted form, so ask for the key rather than inventing one.
+
 ## Base branch
 
 **Ask which branch to target. Never infer it.**
@@ -59,6 +114,33 @@ adds nothing.
 run, say so rather than leaving it implied. Never claim a verification that did
 not happen, and never describe work that is not in the diff.
 
+### The ticket link
+
+**The body ends with a link to the ticket**, on its own line, above the
+attribution lines:
+
+```
+Refs: [TRU-196](https://linear.app/yunoprod/issue/TRU-196)
+```
+
+The key is the one already inferred for the title, from the branch name. **Use
+the ticket's real URL** — the one in the tracker, in a commit's `Refs:` trailer,
+or wherever it was read during the work — verbatim. Construct it only when you
+do not have it:
+
+| key prefix | URL |
+|---|---|
+| `TRU-` | `https://linear.app/yunoprod/issue/<KEY>` |
+| every other prefix | `https://yunopayments.atlassian.net/browse/<KEY>` |
+
+One link, never two, and never a second copy inside the prose. **The link is
+what keeps the body short** — the reason the summary can be a few sentences is
+that anyone who wants the requirement clicks through to it. So do not paste the
+ticket's description, acceptance criteria or comments into the body.
+
+No key in the branch and none in the commits means no line. Omit it, say so when
+reporting the body, and do not ask for one — the same rule as the title.
+
 ## Opening it
 
 The branch has to exist on the remote first:
@@ -87,3 +169,5 @@ after.
 - open against a base that was not confirmed
 - include a commit list, a template, or checkboxes
 - claim that tests passed, QA ran, or a review happened
+- open one with no ticket link when the branch carries a key
+- restate the ticket in the body instead of linking it
