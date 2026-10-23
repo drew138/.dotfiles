@@ -10,4 +10,9 @@ galaxy_info:
     - name: MacOSX
       versions:
         - all
-dependencies: []
+dependencies:
+  - role: casks
+    vars:
+      casks_applications:
+        - name: bitwarden
+          app: Bitwarden

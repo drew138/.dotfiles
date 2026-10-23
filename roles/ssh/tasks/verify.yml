@@ -5,9 +5,13 @@
   loop:
     - path: "{{ ansible_facts['env']['HOME'] }}/.ssh"
       mode: "0700"
-    - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/id_ed25519"
-      mode: "0600"
-    - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/id_ed25519.pub"
+    - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/github.pub"
+      mode: "0644"
+    - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/amaterasu.pub"
+      mode: "0644"
+    - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/signing.pub"
+      mode: "0644"
+    - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/config"
       mode: "0600"
     - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
       mode: "0644"
@@ -22,6 +26,19 @@
       SSH file check failed for {{ item.item.path }}.
       Ensure it exists and has mode {{ item.item.mode }}.
   loop: "{{ ssh_verify_file_stats.results }}"
+
+- name: Read the ssh settings for github.com
+  ansible.builtin.command: ssh -G github.com
+  register: ssh_verify_github_config
+  changed_when: false
+
+- name: Assert github.com uses the Bitwarden agent and the github key
+  ansible.builtin.assert:
+    that:
+      - ("identityagent " ~ ssh_agent_socket) in ssh_verify_github_config.stdout
+      - "'identitiesonly yes' in ssh_verify_github_config.stdout"
+      - "'identityfile ~/.ssh/github' in ssh_verify_github_config.stdout"
+    fail_msg: "~/.ssh/config does not route github.com through the Bitwarden agent."
 
 - name: Verify github.com is in known_hosts
   ansible.builtin.command: >

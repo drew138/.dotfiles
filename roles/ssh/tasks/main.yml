@@ -6,19 +6,36 @@
     owner: "{{ ansible_facts['env']['USER'] }}"
     mode: "0700"
 
-- name: Save decrypted private key variable to id_ed25519
+- name: Save the public keys
   ansible.builtin.copy:
-    content: "{{ ssh_github_private_key }}"
-    dest: "{{ ansible_facts['env']['HOME'] }}/.ssh/id_ed25519"
+    content: "{{ ssh_public_key.value }}\n"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.ssh/{{ ssh_public_key.key }}.pub"
     owner: "{{ ansible_facts['env']['USER'] }}"
-    mode: "0600"
+    mode: "0644"
+  loop: "{{ ssh_public_keys | dict2items }}"
+  loop_control:
+    loop_var: ssh_public_key
+    label: "{{ ssh_public_key.key }}"
 
-- name: Save decrypted public key variable to id_ed25519.pub
-  ansible.builtin.copy:
-    content: "{{ ssh_github_public_key }}"
-    dest: "{{ ansible_facts['env']['HOME'] }}/.ssh/id_ed25519.pub"
+- name: Route ssh through the Bitwarden agent
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_facts['env']['HOME'] }}/.ssh/config"
+    create: true
     owner: "{{ ansible_facts['env']['USER'] }}"
     mode: "0600"
+    block: |
+      Host github.com
+          IdentityFile ~/.ssh/github
+
+      Host amaterasu
+          HostName 192.168.78.167
+          HostKeyAlias amaterasu
+          User drew
+          IdentityFile ~/.ssh/amaterasu
+
+      Host *
+          IdentityAgent {{ ssh_agent_socket }}
+          IdentitiesOnly yes
 
 - name: Capture the github host keys
   ansible.builtin.command: ssh-keyscan github.com

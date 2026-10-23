@@ -100,17 +100,19 @@ jobs:
           ansible \
           molecule
 
-      - name: create password file
-        run: echo "${ANSIBLE_VAULT_PASSWORD}" > ./molecule/default/vaultpassword
+      - name: install the github ssh key
+        run: |
+          mkdir -p -m 700 ~/.ssh
+          printf '%s\n' "${SSH_GITHUB_KEY}" > ~/.ssh/github
+          chmod 600 ~/.ssh/github
         env:
-          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+          SSH_GITHUB_KEY: ${{ secrets.SSH_GITHUB_KEY }}
 
       - name: run molecule tests
         run: molecule test
         env:
           ROOT_DIR: ${{ github.workspace }}
           PY_COLORS: "1"
-          ANSIBLE_VAULT_PASSWORD_FILE: ./vaultpassword
           MOLECULE_ROLE: ${{ matrix.role }}
           GHUB_ACCESS_TOKEN: ${{ secrets.GHUB_ACCESS_TOKEN }}
 
