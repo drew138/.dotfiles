@@ -7,7 +7,7 @@
       mode: "0700"
     - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/github.pub"
       mode: "0644"
-    - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/amaterasu.pub"
+    - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/homelab.pub"
       mode: "0644"
     - path: "{{ ansible_facts['env']['HOME'] }}/.ssh/signing.pub"
       mode: "0644"

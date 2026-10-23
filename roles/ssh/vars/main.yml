@@ -2,5 +2,5 @@
 ssh_agent_socket: "{{ ansible_facts['env']['HOME'] }}/.bitwarden-ssh-agent.sock"
 ssh_public_keys:
   github: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMlwwWVyf6lreR5cN8/r7BnhgCjnVmcSrREk6CAnoSpV"
-  amaterasu: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4RIEzAkXKklYejfcQ2ljLvzTHn2lKvHeesjt09EnW/"
+  homelab: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4RIEzAkXKklYejfcQ2ljLvzTHn2lKvHeesjt09EnW/"
   signing: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINwfcQvHi11MBh2MT/D0i+cqKunTcdSW/fYalR04wLCc"
