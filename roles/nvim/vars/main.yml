@@ -1,5 +1,7 @@
 ---
 nvim_release_branch: stable
+nvim_mason_python: "3.14"
+nvim_mason_python_shim: "{{ ansible_facts['env']['HOME'] }}/.local/share/nvim/python-shim"
 nvim_tool_configs:
   - src: ".dotfiles/roles/nvim/files/nvim"
     dest: ".config/nvim"

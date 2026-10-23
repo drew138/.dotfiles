@@ -1,3 +1,5 @@
+vim.env.PATH = vim.fn.stdpath("data") .. "/python-shim:" .. vim.env.PATH
+
 local M = {
 	ui = {
 		icons = {

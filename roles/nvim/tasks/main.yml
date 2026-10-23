@@ -12,6 +12,23 @@
       - python
     state: latest
 
+- name: Install the python Mason builds its tools with
+  community.general.homebrew:
+    name: "python@{{ nvim_mason_python }}"
+    state: present
+
+- name: Create the Mason python shim directory
+  ansible.builtin.file:
+    path: "{{ nvim_mason_python_shim }}"
+    state: directory
+    mode: "0755"
+
+- name: Point the Mason python shim at the pinned python
+  ansible.builtin.file:
+    src: "/opt/homebrew/opt/python@{{ nvim_mason_python }}/bin/python{{ nvim_mason_python }}"
+    dest: "{{ nvim_mason_python_shim }}/python3"
+    state: link
+
 - name: Check if nvim is installed
   ansible.builtin.stat:
     path: /usr/local/bin/nvim

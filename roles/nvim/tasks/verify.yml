@@ -41,6 +41,17 @@
   changed_when: false
   failed_when: nvim_verify_pynvim.rc != 0
 
+- name: Read the Mason python shim version
+  ansible.builtin.command: "{{ nvim_mason_python_shim }}/python3 -c 'import sys; print(\"%d.%d\" % sys.version_info[:2])'"
+  register: nvim_verify_mason_python
+  changed_when: false
+
+- name: Assert the Mason python shim runs the pinned python
+  ansible.builtin.assert:
+    that:
+      - nvim_verify_mason_python.stdout == nvim_mason_python
+    fail_msg: "the Mason python shim does not run python {{ nvim_mason_python }}"
+
 - name: Verify tool config symlinks exist
   ansible.builtin.stat:
     path: "{{ ansible_facts.env.HOME }}/{{ item.dest }}"
