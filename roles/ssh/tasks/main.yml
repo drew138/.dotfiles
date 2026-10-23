@@ -37,6 +37,13 @@
           IdentityAgent {{ ssh_agent_socket }}
           IdentitiesOnly yes
 
+- name: Point every zsh at the Bitwarden agent
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_facts['env']['HOME'] }}/.zshenv"
+    line: 'export SSH_AUTH_SOCK="{{ ssh_agent_socket }}"'
+    create: true
+    mode: "0600"
+
 - name: Capture the github host keys
   ansible.builtin.command: ssh-keyscan github.com
   register: ssh_github_host_keys
