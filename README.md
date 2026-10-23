@@ -26,14 +26,28 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install git curl ansible molecule
 ```
 
+### SSH keys
+
+SSH keys live in Bitwarden, whose SSH agent signs for them; no private key is written to disk.
+Before the first run, install Bitwarden (`brew install --cask bitwarden`), log in, and turn on
+Settings → Enable SSH agent. Without it the roles that clone over SSH fail.
+
+| Bitwarden item | Used for |
+|---|---|
+| `SSH · GitHub auth keys` | GitHub over SSH; its private key is also the `SSH_GITHUB_KEY` CI secret |
+| `SSH · Homelab amaterasu keys` | logging in to the Pi |
+| `SSH · Git signing keys` | signing commits |
+
+Their public keys are in `roles/ssh/vars/main.yml`.
+
 ### Install
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/install.sh)
 ```
 
-The script asks for the ansible vault password and the system password, then runs every role.
-Both are written to files only readable by the current user and removed when the run ends.
+The script asks for the system password, then runs every role. The password is written to a file
+only readable by the current user and removed when the run ends.
 
 To install a subset of the roles, pass them through to ansible:
 
