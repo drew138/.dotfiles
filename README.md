@@ -53,7 +53,7 @@ To install a subset of the roles, pass them through to ansible:
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/install.sh) \
-    --extra-vars "selected_roles=['zsh','nvim','sketchybar']"
+    --extra-vars '{"selected_roles": ["zsh", "nvim", "sketchybar"]}'
 ```
 
 reminder: system reboot might be required for some programs to work as expected.
