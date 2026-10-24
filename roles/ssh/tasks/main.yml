@@ -24,15 +24,10 @@
     mode: "0600"
     content: |
       Include {{ ansible_facts['env']['HOME'] }}/.colima/ssh_config
+      Include {{ ansible_facts['env']['HOME'] }}/.ssh/config.d/*
 
       Host github.com
           IdentityFile ~/.ssh/github
-
-      Host amaterasu
-          HostName 192.168.78.167
-          HostKeyAlias amaterasu
-          User drew
-          IdentityFile ~/.ssh/homelab
 
       Host *
           IdentityAgent {{ ssh_agent_socket }}

@@ -35,7 +35,7 @@ Settings → Enable SSH agent. Without it the roles that clone over SSH fail.
 | Bitwarden item | Used for |
 |---|---|
 | `Github auth keys` | GitHub over SSH; its private key is also the `SSH_GITHUB_KEY` CI secret |
-| `Homelab keys` | logging in to the Pi |
+| `Homelab keys` | logging in to the Pi; set up by the homelab repo's `scripts/setup-ssh.sh` |
 | `Git signing keys` | signing commits |
 
 Their public keys are in `roles/ssh/vars/main.yml`.
