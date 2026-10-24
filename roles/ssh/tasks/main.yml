@@ -18,12 +18,13 @@
     label: "{{ ssh_public_key.key }}"
 
 - name: Route ssh through the Bitwarden agent
-  ansible.builtin.blockinfile:
-    path: "{{ ansible_facts['env']['HOME'] }}/.ssh/config"
-    create: true
+  ansible.builtin.copy:
+    dest: "{{ ansible_facts['env']['HOME'] }}/.ssh/config"
     owner: "{{ ansible_facts['env']['USER'] }}"
     mode: "0600"
-    block: |
+    content: |
+      Include {{ ansible_facts['env']['HOME'] }}/.colima/ssh_config
+
       Host github.com
           IdentityFile ~/.ssh/github
 
