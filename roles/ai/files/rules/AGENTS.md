@@ -33,3 +33,9 @@
 - Never print or commit a secret value.
 - Never undo a change you did not make.
 - Confirm anything outward-facing.
+
+## SSH
+
+- SSH keys live in Bitwarden. Before running anything that needs one (ssh, git
+  over SSH, a signed commit), start Bitwarden if it is not running:
+  `pgrep -x Bitwarden || open -g -a Bitwarden`.
