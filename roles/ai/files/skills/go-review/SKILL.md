@@ -140,6 +140,10 @@ package that exports an interface it also implements.
 - **exactly one config package per service.** Never a second one inside
   `internal/`.
 
+  > **Note (to revisit):** "service" here means the application. The `go-service`
+  > skill reads configuration in each entry point's `cmd/<entrypoint>/config.go`
+  > (a private struct, not a package); this rule will be reworded to match.
+
 ## No `init`
 
 No `func init()`, and no package-level variables that call functions or perform
