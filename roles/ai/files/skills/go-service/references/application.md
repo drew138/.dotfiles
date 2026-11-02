@@ -195,7 +195,7 @@ Three moves, in this order of preference:
 2. **Re-translate when the use case knows more than the port.** The customer
    repository says `ErrNotFound`, but to the client of `PlaceOrder` the order
    references a customer that does not exist. That is `domain.ErrCustomerNotFound`
-   (which wraps `ErrInvalid`: a 422 on `customer_id`), not a 404. Only the use case
+   (which wraps `ErrInvalid`: a 400 on `customer_id`), not a 404. Only the use case
    knows that.
 3. **Swallow deliberately**, for best-effort work, in a helper private to the method
    file:

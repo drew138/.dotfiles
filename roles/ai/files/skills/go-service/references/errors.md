@@ -70,7 +70,7 @@ Three moves:
 2. **Re-translate when the use case knows better.** The customer repository says
    `ErrNotFound`, but for `PlaceOrder` that means the order references a customer
    that does not exist: return `domain.ErrCustomerNotFound`, which wraps
-   `ErrInvalid` (422 on `customer_id`), not a 404.
+   `ErrInvalid` (400 on `customer_id`), not a 404.
 3. **Return broken business rules** from `validate<Method>`, joined.
 
 ## Inbound: REST
@@ -83,7 +83,7 @@ Every error response has the same body:
 {
   "type": "invalid_argument",
   "title": "The request is invalid.",
-  "status": 422,
+  "status": 400,
   "errors": [
     {"code": "max", "field": "username", "param": "32"},
     {"code": "reserved", "field": "username"},
@@ -112,6 +112,11 @@ A 404 is just:
 
 The content type is `application/json`.
 
+**All invalid input is a 400**: a body that cannot be read, a wrong type, a validator
+failure and a broken business rule alike. Callers, other services especially, need
+one status to handle; the `type` tells the cases apart (`malformed_request`,
+`invalid_argument`).
+
 ### Choosing it
 
 `mapErrorResponse(err)` in `rest/mappers.go` builds the body, status included; it is
@@ -123,8 +128,8 @@ the only place a status is chosen. It checks, in this order:
    |---|---|---|---|
    | body over 1 MiB (`*http.MaxBytesError`) | 413 | `body_too_large` | none |
    | invalid JSON (`errMalformedBody`) | 400 | `malformed_request` | none |
-   | wrong JSON type (`*json.UnmarshalTypeError`) | 422 | `invalid_argument` | `{code: type, field, param: integer}` |
-   | validator failure (`validator.ValidationErrors`) | 422 | `invalid_argument` | one per failed rule |
+   | wrong JSON type (`*json.UnmarshalTypeError`) | 400 | `invalid_argument` | `{code: type, field, param: integer}` |
+   | validator failure (`validator.ValidationErrors`) | 400 | `invalid_argument` | one per failed rule |
 
 2. **Specific domain errors**, from the adapter's table. Every row whose error
    matches with `errors.Is` adds an entry, so joined errors all appear:
@@ -137,8 +142,8 @@ the only place a status is chosen. It checks, in this order:
    	field  string
    }{
    	{domain.ErrUsernameTaken, http.StatusConflict, "taken", "username"},
-   	{domain.ErrCreditLimitExceeded, http.StatusUnprocessableEntity, "over_credit_limit", "total"},
-   	{domain.ErrSignupsClosed, http.StatusUnprocessableEntity, "signups_closed", ""},
+   	{domain.ErrCreditLimitExceeded, http.StatusBadRequest, "over_credit_limit", "total"},
+   	{domain.ErrSignupsClosed, http.StatusBadRequest, "signups_closed", ""},
    }
    ```
 
@@ -152,7 +157,7 @@ the only place a status is chosen. It checks, in this order:
    |---|---|---|
    | `ErrNotFound` | 404 | `not_found` |
    | `ErrConflict` | 409 | `conflict` |
-   | `ErrInvalid` | 422 | `invalid_argument` |
+   | `ErrInvalid` | 400 | `invalid_argument` |
    | `ErrUnavailable`, `context.DeadlineExceeded` | 503 | `unavailable` |
    | `ErrInternal`, anything else | 500 | `internal` |
 

@@ -134,7 +134,7 @@ var domainErrors = []struct {
 	field  string
 }{
 	{domain.ErrUsernameTaken, http.StatusConflict, "taken", "username"},
-	{domain.ErrSignupsClosed, http.StatusUnprocessableEntity, "signups_closed", ""},
+	{domain.ErrSignupsClosed, http.StatusBadRequest, "signups_closed", ""},
 }
 
 var errorKinds = []struct {
@@ -145,7 +145,7 @@ var errorKinds = []struct {
 }{
 	{domain.ErrNotFound, http.StatusNotFound, "not_found", "The resource does not exist."},
 	{domain.ErrConflict, http.StatusConflict, "conflict", "The request conflicts with existing data."},
-	{domain.ErrInvalid, http.StatusUnprocessableEntity, "invalid_argument", "The request is invalid."},
+	{domain.ErrInvalid, http.StatusBadRequest, "invalid_argument", "The request is invalid."},
 	{domain.ErrUnavailable, http.StatusServiceUnavailable, "unavailable", "The service is temporarily unavailable."},
 	{context.DeadlineExceeded, http.StatusServiceUnavailable, "unavailable", "The service is temporarily unavailable."},
 }
@@ -167,7 +167,7 @@ func mapErrorResponse(err error) ErrorResponse {
 	case errors.Is(err, errMalformedBody):
 		return ErrorResponse{Type: "malformed_request", Title: "The request body is not valid JSON.", Status: http.StatusBadRequest}
 	case errors.As(err, &failed):
-		return ErrorResponse{Type: "invalid_argument", Title: "The request has invalid fields.", Status: http.StatusUnprocessableEntity, Errors: mapErrorDetails(failed)}
+		return ErrorResponse{Type: "invalid_argument", Title: "The request has invalid fields.", Status: http.StatusBadRequest, Errors: mapErrorDetails(failed)}
 	}
 
 	var details []ErrorDetail
@@ -214,7 +214,7 @@ func mapErrorDetails(failed validator.ValidationErrors) []ErrorDetail {
 
 ```go
 func mapInvalidParamResponse(field, expected string) ErrorResponse {
-	return ErrorResponse{Type: "invalid_argument", Title: "The request has invalid fields.", Status: http.StatusUnprocessableEntity,
+	return ErrorResponse{Type: "invalid_argument", Title: "The request has invalid fields.", Status: http.StatusBadRequest,
 		Errors: []ErrorDetail{{Code: "type", Field: field, Param: expected}}}
 }
 ```
@@ -238,6 +238,5 @@ type ErrorDetail struct {
 
 ## Pending
 
-How 5xx errors are logged is not decided; `New` takes no logger yet. 422 versus 400
-for invalid input, and the vocabulary of `code` values, are also open (see "Not
-decided yet" in `SKILL.md`).
+How 5xx errors are logged is not decided; `New` takes no logger yet. The vocabulary
+of `code` values is also open (see "Not decided yet" in `SKILL.md`).

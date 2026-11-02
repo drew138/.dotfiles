@@ -113,7 +113,7 @@ still gets a 409, just without the field.
   predictable: `CONSTRAINT users_username_key UNIQUE (username)`.
 - **Column limits are a safety net.** The API's validator tags are what users hit
   (`max=32`). The database keeps its own limit so bad data can never be stored by
-  any path; if it fires, a tag is missing, and the client gets a generic 422.
+  any path; if it fires, a tag is missing, and the client gets a generic 400.
 - **Enum values are stored as plain text**; the API validates them.
 - MySQL must run in strict mode (`STRICT_TRANS_TABLES`). Without it, MySQL
   silently truncates long values instead of failing.
