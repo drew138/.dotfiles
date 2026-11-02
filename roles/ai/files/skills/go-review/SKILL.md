@@ -222,10 +222,14 @@ Simpler is better. Advisory unless it causes an actual collision.
 
 ## Comments in the code under review
 
-Flag comments that restate what the code does. A comment is justified only when
-an unconventional decision was taken that a reader could not infer and that
-cannot be expressed in the code itself. Build directives such as `//go:build` are
-not comments for this purpose.
+**No comments.** Flag every comment, doc comments included, except two:
+
+- compiler directives (`//go:build`, `//go:generate`, `//go:embed`);
+- a piece of logic that deliberately goes against how it would normally be done,
+  for a very specific reason the reader could not work out from the code.
+
+Names, small functions and wrapped error messages carry the meaning; a comment
+restating them drifts the first time the code changes.
 
 ## Output
 

@@ -43,8 +43,9 @@ field names, status codes and error bodies never leave the adapter.
 
 ## Shape
 
+`psp/adyen/adyen.go`:
+
 ```go
-// psp/adyen/adyen.go
 type PSP struct {
 	http    *http.Client
 	baseURL string
@@ -84,8 +85,9 @@ func (p *PSP) Charge(ctx context.Context, payment domain.Payment) (domain.Paymen
 }
 ```
 
+`psp/adyen/dto.go`:
+
 ```go
-// psp/adyen/dto.go
 type chargeRequest struct {
 	Amount    int64  `json:"amount"`
 	Currency  string `json:"currency"`
@@ -104,8 +106,9 @@ func (r chargeResponse) toDomain(payment domain.Payment) domain.Payment {
 }
 ```
 
+`psp/adyen/mappers.go`:
+
 ```go
-// psp/adyen/mappers.go
 func mapChargeRequest(payment domain.Payment) chargeRequest {
 	return chargeRequest{Amount: payment.Amount, Currency: payment.Currency, Reference: strconv.FormatInt(payment.ID, 10)}
 }

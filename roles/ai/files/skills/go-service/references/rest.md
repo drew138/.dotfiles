@@ -52,8 +52,9 @@ path parameters read with `chi.URLParam(r, "id")`.
 
 ## A route
 
+`create_user.go`:
+
 ```go
-// create_user.go
 func (h *Handler) createUser(w http.ResponseWriter, r *http.Request) {
 	var req CreateUserRequest
 	if err := h.validateRequest(w, r, &req); err != nil {

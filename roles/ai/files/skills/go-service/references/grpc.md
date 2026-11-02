@@ -41,8 +41,9 @@ Generated messages cannot carry tags, and methods cannot be added to them. So th
 adapter maps each request message into its own tagged struct and validates that,
 with the same validator setup as REST (`validation.md`):
 
+`dto.go`:
+
 ```go
-// dto.go
 type CreateUserRequest struct {
 	Username string `validate:"required,max=32"`
 	Email    string `validate:"required,email,max=254"`
@@ -52,8 +53,9 @@ type CreateUserRequest struct {
 func (r CreateUserRequest) toDomain() domain.User { … }
 ```
 
+`create_user.go`:
+
 ```go
-// create_user.go
 func (s *Server) CreateUser(ctx context.Context, msg *pb.CreateUserRequest) (*pb.User, error) {
 	req := mapCreateUserRequest(msg)
 	if err := s.validate.Struct(req); err != nil {

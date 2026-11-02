@@ -56,10 +56,11 @@ specific to each method.
 ### Why: the shared helper that breaks a use case nobody touched
 
 It starts reasonably. Both use cases clean the email the same way, so the helper
-lives in one file and the other calls it:
+is declared in `create_user.go` and `update_user.go` calls it:
+
+`create_user.go`:
 
 ```go
-// create_user.go
 func (a *Application) CreateUser(ctx context.Context, user domain.User) (domain.User, error) {
 	user.Email = normalizeEmail(user.Email)
 	…
@@ -70,10 +71,11 @@ func normalizeEmail(email string) string {
 }
 ```
 
+`update_user.go`:
+
 ```go
-// update_user.go
 func (a *Application) UpdateUser(ctx context.Context, user domain.User) (domain.User, error) {
-	user.Email = normalizeEmail(user.Email) // declared in create_user.go
+	user.Email = normalizeEmail(user.Email)
 	…
 }
 ```
@@ -98,8 +100,9 @@ working. `update_user.go` did not change, so nothing pointed anyone at it.
 
 With one helper per method file, each use case keeps its own rule:
 
+`create_user.go`:
+
 ```go
-// create_user.go
 func normalizeCreateUserEmail(email string) string {
 	email = strings.ToLower(strings.TrimSpace(email))
 	local, domainPart, _ := strings.Cut(email, "@")
@@ -108,8 +111,9 @@ func normalizeCreateUserEmail(email string) string {
 }
 ```
 
+`update_user.go`:
+
 ```go
-// update_user.go
 func normalizeUpdateUserEmail(email string) string {
 	return strings.ToLower(strings.TrimSpace(email))
 }
@@ -133,7 +137,6 @@ starts from well-formed domain values.
 
 ```go
 func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domain.Order, error) {
-	// 1. Load what the decision needs, through ports.
 	customer, err := a.customers.Find(ctx, order.CustomerID)
 	if errors.Is(err, domain.ErrNotFound) {
 		return domain.Order{}, domain.ErrCustomerNotFound
@@ -142,21 +145,17 @@ func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domai
 		return domain.Order{}, fmt.Errorf("finding customer %d: %w", order.CustomerID, err)
 	}
 
-	// 2. Check the stateful business rules, all at once.
 	if err := validatePlaceOrder(order, customer); err != nil {
 		return domain.Order{}, err
 	}
 
-	// 3. Decide, using domain methods.
 	order.Status = domain.OrderStatusPending
 
-	// 4. Persist: one port call per atomic change.
 	saved, err := a.orders.Save(ctx, order)
 	if err != nil {
 		return domain.Order{}, fmt.Errorf("saving order: %w", err)
 	}
 
-	// 5. Side effects after the state is safe.
 	a.notifyPlaceOrder(ctx, saved)
 	return saved, nil
 }
@@ -173,7 +172,13 @@ func validatePlaceOrder(order domain.Order, customer domain.Customer) error {
 }
 ```
 
-(The comments are here for the explanation only. Real method files carry none.)
+The blocks of the method, in order:
+
+1. **Load** what the decision needs, through ports (`a.customers.Find`).
+2. **Check the stateful business rules**, all at once (`validatePlaceOrder`).
+3. **Decide**, using domain methods (setting the status).
+4. **Persist**: one port call per atomic change (`a.orders.Save`).
+5. **Side effects** after the state is safe (`a.notifyPlaceOrder`).
 
 **Why this order**
 
