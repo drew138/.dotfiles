@@ -112,8 +112,23 @@ The full tree, the request flow and a "what goes where" table are in
   `application.New(repo)`. Never `NewPostgresRepository`.
 - **`init` is forbidden, always.** It runs at import time, in an order nobody chose,
   and cannot be tested or skipped. The work goes in `New` or in `main`.
-- **Every adapter owns its structs.** `dto.go` has tagged structs with `toDomain()`;
-  `mappers.go` has `map<Target>(domain…) Target` functions (`mapUserResponse`).
+- **Every adapter owns its structs.** `dto.go` has the adapter's tagged structs
+  with a `toDomain()` method; `mappers.go` has `map<Target>(domain…) Target`
+  functions for the other direction. **Target** is the adapter struct being built:
+  the DTO or struct that adapter sends or stores.
+
+  | Adapter | Target struct | Mapper |
+  |---|---|---|
+  | REST | `UserResponse` | `mapUserResponse(user domain.User) UserResponse` |
+  | gRPC | `*pb.User` (generated message) | `mapUserMessage(user domain.User) *pb.User` |
+  | repository | `userRow` | `mapUserRow(user domain.User) userRow` |
+  | cache | `userEntry` | `mapUserEntry(user domain.User) userEntry` |
+  | publisher | `userCreatedMessage` | `mapUserCreatedMessage(user domain.User) userCreatedMessage` |
+
+  The mapper is named after what it returns, not what it takes, so the call site
+  says what you get back: `mapUserResponse(user)` reads as "a UserResponse from
+  this user". A mapper may take several domain values:
+  `mapOrderResponse(order, customer) OrderResponse`.
 - **Secrets never reach output.** Leave them out of response DTOs and messages
   entirely; clear them from what a repository returns after a write.
 - **`ctx context.Context` comes first** in every port and service method.
