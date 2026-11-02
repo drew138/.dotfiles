@@ -30,7 +30,7 @@ actually run.
 4. Outbound adapters: `postgres.New(db)`, `catalog.New(httpClient, cfg.CatalogURL)`.
 5. Decorators around them: `redis.New(rdb, repo, cfg.CacheTTL, log)`.
 6. `application.New(...)` with every port.
-7. Inbound adapters: `rest.New(svc, log).Register(mux)`, `grpcapi.New(svc, log).Register(gs)`.
+7. Inbound adapters: `rest.New(app, log).Register(mux)`, `grpcapi.New(app, log).Register(gs)`.
 8. Serve each server in a goroutine, sending its error to one channel.
 9. Wait for a server error or the signal, then shut down with a timeout.
 

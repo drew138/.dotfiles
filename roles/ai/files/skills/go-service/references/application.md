@@ -8,7 +8,7 @@ implemented. Templates: `assets/templates/base/internal/application/`.
 
 Holds three things and nothing else:
 
-1. the `Service` struct, whose fields are ports
+1. the `Application` struct, whose fields are ports
 2. `New`, taking every port as a parameter
 3. the ports: the interfaces the use cases consume
 
@@ -22,14 +22,14 @@ type Mailer interface {
 	SendWelcome(ctx context.Context, user domain.User) error
 }
 
-type Service struct {
+type Application struct {
 	repo   Repository
 	mailer Mailer
 	log    *slog.Logger
 }
 
-func New(repo Repository, mailer Mailer, log *slog.Logger) *Service {
-	return &Service{repo: repo, mailer: mailer, log: log}
+func New(repo Repository, mailer Mailer, log *slog.Logger) *Application {
+	return &Application{repo: repo, mailer: mailer, log: log}
 }
 ```
 
@@ -50,26 +50,94 @@ One public method per file, named in snake_case: `PlaceOrder` lives in
 `place_order.go`. The file also holds that method's private helpers, and only that
 method's.
 
-**Never share a private helper between method files.** If `CreateUser` and
-`UpdateUser` both normalise an email, each file gets its own:
-`normalizeCreateUserEmail` and `normalizeUpdateUserEmail`. A shared helper couples two
-use cases: a change made for one silently changes the other, and nothing in either
-file says so. Duplication is the price of being able to change a use case by reading
-one file. `scripts/check` reports shared helpers.
+**Never share a private helper between method files.** Duplicate it, under a name
+specific to each method. `scripts/check` reports shared helpers.
+
+### Why: the shared helper that breaks a use case nobody touched
+
+It starts reasonably. Both use cases clean the email the same way, so the helper
+lives in one file and the other calls it:
+
+```go
+// create_user.go
+func (a *Application) CreateUser(ctx context.Context, user domain.User) (domain.User, error) {
+	user.Email = normalizeEmail(user.Email)
+	…
+}
+
+func normalizeEmail(email string) string {
+	return strings.ToLower(strings.TrimSpace(email))
+}
+```
+
+```go
+// update_user.go
+func (a *Application) UpdateUser(ctx context.Context, user domain.User) (domain.User, error) {
+	user.Email = normalizeEmail(user.Email) // declared in create_user.go
+	…
+}
+```
+
+Months later, signup needs to block duplicate accounts made with aliases:
+`ana+1@x.com` and `ana+2@x.com` both reach `ana@x.com`. The change is about
+creating users, so it is made in `create_user.go`:
+
+```go
+func normalizeEmail(email string) string {
+	email = strings.ToLower(strings.TrimSpace(email))
+	local, domainPart, _ := strings.Cut(email, "@")
+	local, _, _ = strings.Cut(local, "+")
+	return local + "@" + domainPart
+}
+```
+
+The pull request touches only `create_user.go`, and the reviewer checks signup.
+But `UpdateUser` now rewrites every address a user saves: someone who deliberately
+sets `ana+work@x.com` to filter their mail gets `ana@x.com`, and their filters stop
+working. `update_user.go` did not change, so nothing pointed anyone at it.
+
+With one helper per method file, each use case keeps its own rule:
+
+```go
+// create_user.go
+func normalizeCreateUserEmail(email string) string {
+	email = strings.ToLower(strings.TrimSpace(email))
+	local, domainPart, _ := strings.Cut(email, "@")
+	local, _, _ = strings.Cut(local, "+")
+	return local + "@" + domainPart
+}
+```
+
+```go
+// update_user.go
+func normalizeUpdateUserEmail(email string) string {
+	return strings.ToLower(strings.TrimSpace(email))
+}
+```
+
+The signup change is now visibly signup-only, and `UpdateUser` behaves exactly as it
+did. The cost is a few duplicated lines. In return, each use case can be read,
+changed and reviewed from its own file.
+
+The rule is about **private helpers in the application layer**, where each method
+is a separate business decision. Shared behaviour that genuinely belongs to the
+business (an email is valid when…) is a domain method or a domain function, used on
+purpose by both use cases. Adapters may share helpers within their own package
+(`domainError`, `writeJSON`), because they translate, not decide.
 
 ## Anatomy of a use case
 
 Most use cases follow the same order. Skip what does not apply, but keep the order.
 
 ```go
-func (s *Service) PlaceOrder(ctx context.Context, order domain.Order) (domain.Order, error) {
+func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domain.Order, error) {
 	// 1. Business rules that need no I/O, cheapest first.
 	if len(order.Items) == 0 {
 		return domain.Order{}, domain.Invalid(domain.Violation{Field: "items", Rule: "required"})
 	}
 
 	// 2. Load what the decision needs, through ports.
-	customer, err := s.customers.Find(ctx, order.CustomerID)
+	customer, err := a.customers.Find(ctx, order.CustomerID)
 	if errors.Is(err, domain.ErrNotFound) {
 		return domain.Order{}, domain.Invalid(domain.Violation{Field: "customer_id", Rule: "not_found"})
 	}
@@ -84,13 +152,13 @@ func (s *Service) PlaceOrder(ctx context.Context, order domain.Order) (domain.Or
 	}
 
 	// 4. Persist: one port call per atomic change.
-	saved, err := s.orders.Save(ctx, order)
+	saved, err := a.orders.Save(ctx, order)
 	if err != nil {
 		return domain.Order{}, fmt.Errorf("saving order: %w", err)
 	}
 
 	// 5. Side effects after the state is safe.
-	s.notifyPlaceOrder(ctx, saved)
+	a.notifyPlaceOrder(ctx, saved)
 	return saved, nil
 }
 ```
@@ -119,9 +187,9 @@ Three moves, in this order of preference:
    is logged where it stops (see `go-review`):
 
 ```go
-func (s *Service) notifyPlaceOrder(ctx context.Context, order domain.Order) {
-	if err := s.mailer.SendOrderPlaced(ctx, order); err != nil {
-		s.log.WarnContext(ctx, "sending order placed email", "order_id", order.ID, "error", err)
+func (a *Application) notifyPlaceOrder(ctx context.Context, order domain.Order) {
+	if err := a.mailer.SendOrderPlaced(ctx, order); err != nil {
+		a.log.WarnContext(ctx, "sending order placed email", "order_id", order.ID, "error", err)
 	}
 }
 ```
@@ -144,11 +212,11 @@ type Transactor interface {
 ```
 
 ```go
-err := s.tx.InTx(ctx, func(ctx context.Context) error {
-	if err := s.stock.Reserve(ctx, order.Items); err != nil {
+err := a.tx.InTx(ctx, func(ctx context.Context) error {
+	if err := a.stock.Reserve(ctx, order.Items); err != nil {
 		return fmt.Errorf("reserving stock: %w", err)
 	}
-	_, err := s.orders.Save(ctx, order)
+	_, err := a.orders.Save(ctx, order)
 	return err
 })
 ```
@@ -165,8 +233,8 @@ Independent loads may run concurrently with `golang.org/x/sync/errgroup`:
 
 ```go
 g, gctx := errgroup.WithContext(ctx)
-g.Go(func() (err error) { customer, err = s.customers.Find(gctx, id); return err })
-g.Go(func() (err error) { prices, err = s.catalog.Prices(gctx, skus); return err })
+g.Go(func() (err error) { customer, err = a.customers.Find(gctx, id); return err })
+g.Go(func() (err error) { prices, err = a.catalog.Prices(gctx, skus); return err })
 if err := g.Wait(); err != nil {
 	return domain.Order{}, fmt.Errorf("loading order inputs: %w", err)
 }
@@ -177,7 +245,7 @@ Sequential code is easier to read.
 
 ## Done when
 
-- `application.go` holds only `Service`, `New` and ports.
+- `application.go` holds only `Application`, `New` and ports.
 - The new method is alone in its snake_case file, with its own helpers.
 - Every port error is wrapped, re-translated or deliberately swallowed and logged.
 - `go -C <skill>/scripts run ./check "$PWD"` reports nothing for the application.

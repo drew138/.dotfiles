@@ -189,12 +189,12 @@ func (c *checker) application(files []sourceFile) {
 		})
 	}
 	if !hasApplicationFile {
-		c.findings = append(c.findings, "internal/application: missing application.go with the Service struct, New and the ports")
+		c.findings = append(c.findings, "internal/application: missing application.go with the Application struct, New and the ports")
 	}
 }
 
 func (c *checker) applicationFile(f sourceFile) {
-	var hasService, hasNew bool
+	var hasApplication, hasNew bool
 	for _, decl := range f.node.Decls {
 		switch d := decl.(type) {
 		case *ast.GenDecl:
@@ -203,8 +203,8 @@ func (c *checker) applicationFile(f sourceFile) {
 				if !ok {
 					continue
 				}
-				if ts.Name.Name == "Service" {
-					hasService = true
+				if ts.Name.Name == "Application" {
+					hasApplication = true
 				}
 				if iface, ok := ts.Type.(*ast.InterfaceType); ok {
 					for _, m := range iface.Methods.List {
@@ -218,13 +218,13 @@ func (c *checker) applicationFile(f sourceFile) {
 			if d.Recv == nil && d.Name.Name == "New" {
 				hasNew = true
 			}
-			if d.Recv != nil && d.Name.IsExported() && receiverName(d) == "Service" {
-				c.report(d.Pos(), "move %s to %s.go; application.go holds only Service, New and the ports", d.Name.Name, snake(d.Name.Name))
+			if d.Recv != nil && d.Name.IsExported() && receiverName(d) == "Application" {
+				c.report(d.Pos(), "move %s to %s.go; application.go holds only Application, New and the ports", d.Name.Name, snake(d.Name.Name))
 			}
 		}
 	}
-	if !hasService {
-		c.report(f.node.Package, "application.go must declare the Service struct")
+	if !hasApplication {
+		c.report(f.node.Package, "application.go must declare the Application struct")
 	}
 	if !hasNew {
 		c.report(f.node.Package, "application.go must declare func New")
@@ -236,10 +236,10 @@ func (c *checker) methodFile(f sourceFile, base string) {
 	for _, decl := range f.node.Decls {
 		switch d := decl.(type) {
 		case *ast.FuncDecl:
-			if d.Recv != nil && d.Name.IsExported() && receiverName(d) == "Service" {
+			if d.Recv != nil && d.Name.IsExported() && receiverName(d) == "Application" {
 				methods = append(methods, d)
 			} else if d.Recv == nil && d.Name.IsExported() {
-				c.report(d.Pos(), "exported function %s belongs in application.go or a method of Service", d.Name.Name)
+				c.report(d.Pos(), "exported function %s belongs in application.go or a method of Application", d.Name.Name)
 			}
 		case *ast.GenDecl:
 			for _, spec := range d.Specs {
@@ -250,7 +250,7 @@ func (c *checker) methodFile(f sourceFile, base string) {
 		}
 	}
 	if len(methods) != 1 {
-		c.report(f.node.Package, "%s must hold exactly one public Service method, found %d", base, len(methods))
+		c.report(f.node.Package, "%s must hold exactly one public Application method, found %d", base, len(methods))
 	}
 	for _, m := range methods {
 		if want := snake(m.Name.Name) + ".go"; want != base {

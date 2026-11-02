@@ -6,7 +6,7 @@ knows a cache exists. Template: `assets/templates/cache-redis/`.
 
 ```go
 repo := postgres.New(db)
-svc := application.New(redis.New(rdb, repo, cfg.CacheTTL, log))
+app := application.New(redis.New(rdb, repo, cfg.CacheTTL, log))
 ```
 
 ## Files

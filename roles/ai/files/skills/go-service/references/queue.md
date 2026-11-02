@@ -5,7 +5,7 @@ A queue touches a service from both sides, so it is two adapters:
 | Side | Direction | Folder | Implements / calls |
 |---|---|---|---|
 | **Publisher** | outbound | `internal/infrastructure/publisher/<broker>/` | implements a `Publisher` port |
-| **Consumer** | inbound | `internal/infrastructure/api/<broker>/` | calls use cases through its own `Service` interface, like a REST handler |
+| **Consumer** | inbound | `internal/infrastructure/api/<broker>/` | calls use cases through its own `Application` interface, like a REST handler |
 
 A consumer is an inbound adapter for the same reason a handler is: a message arrives
 from outside and asks the service to do something. It lives under `api/`.
@@ -98,24 +98,24 @@ the change. A separate relay reads unsent rows, publishes them, and marks them s
 
 | File | Holds |
 |---|---|
-| `rabbitmq.go` | `Service` interface, `Consumer`, `New`, `Run`, `handle`, one method per message type |
+| `rabbitmq.go` | `Application` interface, `Consumer`, `New`, `Run`, `handle`, one method per message type |
 | `dto.go` | message structs with `json` tags and `toDomain()` |
 | `validation.go` | `validate<Message>(msg) []domain.Violation` |
 
 ```go
-type Service interface {
+type Application interface {
 	CreateUser(ctx context.Context, user domain.User) (domain.User, error)
 }
 
 type Consumer struct {
 	ch    *amqp.Channel
 	queue string
-	svc   Service
+	app   Application
 	log   *slog.Logger
 }
 
-func New(ch *amqp.Channel, queue string, svc Service, log *slog.Logger) *Consumer {
-	return &Consumer{ch: ch, queue: queue, svc: svc, log: log}
+func New(ch *amqp.Channel, queue string, app Application, log *slog.Logger) *Consumer {
+	return &Consumer{ch: ch, queue: queue, app: app, log: log}
 }
 
 func (c *Consumer) Run(ctx context.Context) error {
@@ -149,7 +149,7 @@ func (c *Consumer) importUser(ctx context.Context, body []byte) error {
 	if violations := validateImportUserMessage(msg); len(violations) > 0 {
 		return domain.Invalid(violations...)
 	}
-	_, err := c.svc.CreateUser(ctx, msg.toDomain())
+	_, err := c.app.CreateUser(ctx, msg.toDomain())
 	return err
 }
 ```
@@ -215,9 +215,9 @@ consumeCh, err := conn.Channel()
 …
 if err := consumeCh.Qos(10, 0, false); err != nil { … }
 
-svc := application.New(repo, publisher.New(pubCh, cfg.Exchange))
-consumer := consumer.New(consumeCh, cfg.ImportQueue, svc, log)
-go func() { errCh <- consumer.Run(ctx) }()
+app := application.New(repo, publisher.New(pubCh, cfg.Exchange))
+importer := consumer.New(consumeCh, cfg.ImportQueue, app, log)
+go func() { errCh <- importer.Run(ctx) }()
 ```
 
 - **One channel per direction.** A channel is not safe for concurrent publishing, and a

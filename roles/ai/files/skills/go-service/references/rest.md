@@ -6,7 +6,7 @@ The inbound adapter for HTTP + JSON. Template: `assets/templates/base/internal/i
 
 | File | Holds |
 |---|---|
-| `rest.go` | `Service` interface, `Handler`, `New`, `Register`, one unexported handler per route, `writeError`, `writeJSON` |
+| `rest.go` | `Application` interface, `Handler`, `New`, `Register`, one unexported handler per route, `writeError`, `writeJSON` |
 | `dto.go` | request DTOs (`json` + `validate` tags, `toDomain()`), response DTOs, `ErrorResponse` |
 | `mappers.go` | `map<Response>(domain…)`, `mapErrorResponse`, `mapFieldResponses` |
 | `validation.go` | `decode`, `newValidator`, `mapViolations`, `ruleMessages` |
@@ -15,18 +15,18 @@ When `rest.go` holds more than one resource, split handlers by resource
 (`users.go`, `orders.go`) and keep `rest.go` for `Handler`, `New`, `Register` and the
 writers.
 
-## The Service interface
+## The Application interface
 
 The handler declares the methods it calls, in its own package:
 
 ```go
-type Service interface {
+type Application interface {
 	CreateUser(ctx context.Context, user domain.User) (domain.User, error)
 	GetUser(ctx context.Context, id int64) (domain.User, error)
 }
 ```
 
-`*application.Service` satisfies it without importing this package. Tests pass a
+`*application.Application` satisfies it without importing this package. Tests pass a
 fake. Add each new use case here as you add its route.
 
 ## A handler, step by step
@@ -39,7 +39,7 @@ func (h *Handler) createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := h.svc.CreateUser(r.Context(), req.toDomain())
+	user, err := h.app.CreateUser(r.Context(), req.toDomain())
 	if err != nil {
 		h.writeError(w, r, err)
 		return

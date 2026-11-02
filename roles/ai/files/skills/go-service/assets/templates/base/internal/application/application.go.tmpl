@@ -11,10 +11,10 @@ type Repository interface {
 	Find(ctx context.Context, id int64) (domain.{{.Entity}}, error)
 }
 
-type Service struct {
+type Application struct {
 	repo Repository
 }
 
-func New(repo Repository) *Service {
-	return &Service{repo: repo}
+func New(repo Repository) *Application {
+	return &Application{repo: repo}
 }

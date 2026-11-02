@@ -13,19 +13,19 @@ import (
 	"{{.Module}}/internal/domain"
 )
 
-type Service interface {
+type Application interface {
 	Create{{.Entity}}(ctx context.Context, {{.Var}} domain.{{.Entity}}) (domain.{{.Entity}}, error)
 	Get{{.Entity}}(ctx context.Context, id int64) (domain.{{.Entity}}, error)
 }
 
 type Handler struct {
-	svc      Service
+	app      Application
 	log      *slog.Logger
 	validate *validator.Validate
 }
 
-func New(svc Service, log *slog.Logger) *Handler {
-	return &Handler{svc: svc, log: log, validate: newValidator()}
+func New(app Application, log *slog.Logger) *Handler {
+	return &Handler{app: app, log: log, validate: newValidator()}
 }
 
 func (h *Handler) Register(mux *http.ServeMux) {
@@ -45,7 +45,7 @@ func (h *Handler) create{{.Entity}}(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	{{.Var}}, err := h.svc.Create{{.Entity}}(r.Context(), req.toDomain())
+	{{.Var}}, err := h.app.Create{{.Entity}}(r.Context(), req.toDomain())
 	if err != nil {
 		h.writeError(w, r, err)
 		return
@@ -60,7 +60,7 @@ func (h *Handler) get{{.Entity}}(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	{{.Var}}, err := h.svc.Get{{.Entity}}(r.Context(), id)
+	{{.Var}}, err := h.app.Get{{.Entity}}(r.Context(), id)
 	if err != nil {
 		h.writeError(w, r, err)
 		return

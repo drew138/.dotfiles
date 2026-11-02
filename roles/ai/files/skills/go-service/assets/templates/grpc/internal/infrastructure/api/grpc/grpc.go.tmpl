@@ -15,19 +15,19 @@ import (
 	"{{.Module}}/internal/infrastructure/api/grpc/pb"
 )
 
-type Service interface {
+type Application interface {
 	Create{{.Entity}}(ctx context.Context, {{.Var}} domain.{{.Entity}}) (domain.{{.Entity}}, error)
 	Get{{.Entity}}(ctx context.Context, id int64) (domain.{{.Entity}}, error)
 }
 
 type Server struct {
 	pb.Unimplemented{{.Entity}}ServiceServer
-	svc Service
+	app Application
 	log *slog.Logger
 }
 
-func New(svc Service, log *slog.Logger) *Server {
-	return &Server{svc: svc, log: log}
+func New(app Application, log *slog.Logger) *Server {
+	return &Server{app: app, log: log}
 }
 
 func (s *Server) Register(gs *grpc.Server) {
@@ -39,7 +39,7 @@ func (s *Server) Create{{.Entity}}(ctx context.Context, req *pb.Create{{.Entity}
 		return nil, s.toStatus(ctx, domain.Invalid(violations...))
 	}
 
-	{{.Var}}, err := s.svc.Create{{.Entity}}(ctx, mapDomain{{.Entity}}(req))
+	{{.Var}}, err := s.app.Create{{.Entity}}(ctx, mapDomain{{.Entity}}(req))
 	if err != nil {
 		return nil, s.toStatus(ctx, err)
 	}
@@ -47,7 +47,7 @@ func (s *Server) Create{{.Entity}}(ctx context.Context, req *pb.Create{{.Entity}
 }
 
 func (s *Server) Get{{.Entity}}(ctx context.Context, req *pb.Get{{.Entity}}Request) (*pb.{{.Entity}}, error) {
-	{{.Var}}, err := s.svc.Get{{.Entity}}(ctx, req.GetId())
+	{{.Var}}, err := s.app.Get{{.Entity}}(ctx, req.GetId())
 	if err != nil {
 		return nil, s.toStatus(ctx, err)
 	}

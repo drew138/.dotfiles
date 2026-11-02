@@ -4,45 +4,36 @@
 
 ```mermaid
 flowchart TB
-    subgraph cmd["cmd/service"]
-        main["main.go<br/>wiring only"]
-    end
-    subgraph infra["internal/infrastructure — adapters"]
-        direction LR
-        subgraph inbound["inbound (driving)"]
-            rest["api/rest"]
-            grpc["api/grpc"]
-            consumer["api/rabbitmq<br/>queue consumer"]
-        end
-        subgraph outbound["outbound (driven)"]
-            repo["repository/postgres · mysql"]
-            cache["cache/redis"]
-            client["client/&lt;name&gt;"]
-            publisher["publisher/rabbitmq"]
-        end
-    end
-    subgraph app["internal/application — use cases"]
-        appgo["application.go<br/>Service · New · ports"]
-        methods["create_user.go · get_user.go · …"]
-    end
-    subgraph dom["internal/domain"]
-        domgo["domain.go — models"]
-        errs["errors.go — error vocabulary"]
-    end
-    config["internal/config"]
+    main["cmd/service/main.go<br/>builds and connects everything"]
+    inbound["Inbound adapters<br/>api/rest · api/grpc · api/rabbitmq"]
+    outbound["Outbound adapters<br/>repository · cache · client · publisher"]
+    app["Application<br/>internal/application"]
+    domain["Domain<br/>internal/domain"]
 
-    main --> config
-    main -->|"New(...)"| rest & grpc & consumer & repo & cache & client & publisher & appgo
-    rest & grpc & consumer -->|"call through their own Service interface"| methods
-    methods --> appgo
-    repo & cache & client & publisher -.->|"implement a port"| appgo
-    cache -.->|"decorates"| repo
-    appgo & methods --> dom
-    rest & grpc & consumer & repo & cache & client & publisher --> dom
+    main --> inbound
+    main --> app
+    main --> outbound
+    inbound --> domain
+    app --> domain
+    outbound --> domain
 ```
 
-Arrows are imports. Every arrow points inward or sideways into `domain`; nothing in
-`domain` or `application` imports an adapter. `scripts/check` enforces this.
+Arrows are **imports**: "A → B" means A's code imports B. This is a different view
+from the request flow below, where arrows are calls.
+
+- **Everything imports `domain`**, because domain types are the shared language.
+- **`domain` imports nothing** from the service.
+- **`application` imports only `domain`.** It declares ports (interfaces) and never
+  names an adapter.
+- **Inbound adapters do not import `application`.** Each declares its own small
+  `Application` interface with the use cases it calls, and `*application.Application`
+  satisfies it.
+- **Outbound adapters do not import `application` either**, except a decorator such
+  as the cache, which takes the port type (`application.Repository`) it wraps.
+- **Only `main.go` imports everything**, to build each piece with `New` and pass it
+  to the next.
+
+`scripts/check` enforces the domain and application rules.
 
 ## Request flow
 
@@ -50,7 +41,7 @@ Arrows are imports. Every arrow points inward or sideways into `domain`; nothing
 sequenceDiagram
     participant C as Client
     participant H as rest handler
-    participant S as application.Service
+    participant S as application.Application
     participant R as repository adapter
     participant DB as Database
 
@@ -81,13 +72,13 @@ my-service/
 │   │   ├── domain.go                        models, no tags
 │   │   └── errors.go                        ErrNotFound, ErrConflict, ErrInvalid, ErrUnavailable, ViolationError
 │   ├── application/
-│   │   ├── application.go                   Service, New, ports (consumed interfaces)
+│   │   ├── application.go                   Application, New, ports (consumed interfaces)
 │   │   ├── create_user.go                   one public method + its private helpers
 │   │   └── get_user.go
 │   └── infrastructure/
 │       ├── api/
 │       │   ├── rest/
-│       │   │   ├── rest.go                  Handler, New, Register, handlers, Service interface
+│       │   │   ├── rest.go                  Handler, New, Register, handlers, Application interface
 │       │   │   ├── dto.go                   request/response/error structs, toDomain()
 │       │   │   ├── mappers.go               map<Target> functions, error → response
 │       │   │   └── validation.go            decoding, validator setup, violation mapping

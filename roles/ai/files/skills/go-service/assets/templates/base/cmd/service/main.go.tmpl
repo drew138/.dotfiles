@@ -66,18 +66,18 @@ func run(log *slog.Logger) error {
 
 	rdb := goredis.NewClient(&goredis.Options{Addr: cfg.RedisAddr})
 	defer rdb.Close()
-	svc := application.New(redis.New(rdb, repo, cfg.CacheTTL, log))
+	app := application.New(redis.New(rdb, repo, cfg.CacheTTL, log))
 {{- else}}
-	svc := application.New(repo)
+	app := application.New(repo)
 {{- end}}
 
 	mux := http.NewServeMux()
-	rest.New(svc, log).Register(mux)
+	rest.New(app, log).Register(mux)
 	httpServer := &http.Server{Addr: cfg.HTTPAddr, Handler: mux, ReadHeaderTimeout: 10 * time.Second}
 {{- if .GRPC}}
 
 	grpcServer := grpc.NewServer()
-	grpcapi.New(svc, log).Register(grpcServer)
+	grpcapi.New(app, log).Register(grpcServer)
 	listener, err := net.Listen("tcp", cfg.GRPCAddr)
 	if err != nil {
 		return fmt.Errorf("listening on %s: %w", cfg.GRPCAddr, err)

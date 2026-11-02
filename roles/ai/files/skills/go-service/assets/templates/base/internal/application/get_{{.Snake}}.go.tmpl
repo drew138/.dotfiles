@@ -7,8 +7,8 @@ import (
 	"{{.Module}}/internal/domain"
 )
 
-func (s *Service) Get{{.Entity}}(ctx context.Context, id int64) (domain.{{.Entity}}, error) {
-	{{.Var}}, err := s.repo.Find(ctx, id)
+func (a *Application) Get{{.Entity}}(ctx context.Context, id int64) (domain.{{.Entity}}, error) {
+	{{.Var}}, err := a.repo.Find(ctx, id)
 	if err != nil {
 		return domain.{{.Entity}}{}, fmt.Errorf("finding {{.Snake}} %d: %w", id, err)
 	}

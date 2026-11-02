@@ -7,8 +7,8 @@ import (
 	"{{.Module}}/internal/domain"
 )
 
-func (s *Service) Create{{.Entity}}(ctx context.Context, {{.Var}} domain.{{.Entity}}) (domain.{{.Entity}}, error) {
-	saved, err := s.repo.Save(ctx, {{.Var}})
+func (a *Application) Create{{.Entity}}(ctx context.Context, {{.Var}} domain.{{.Entity}}) (domain.{{.Entity}}, error) {
+	saved, err := a.repo.Save(ctx, {{.Var}})
 	if err != nil {
 		return domain.{{.Entity}}{}, fmt.Errorf("saving {{.Snake}}: %w", err)
 	}

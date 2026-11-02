@@ -26,30 +26,63 @@ Paths below are relative to this skill's directory, written `<skill>` in command
 
 ## Structure
 
+A request travels left to right and the answer comes back the same way:
+
 ```mermaid
 flowchart LR
-    main["cmd/service<br/>main.go"] --> inbound & outbound & app
-    subgraph inbound["inbound adapters"]
-        rest["api/rest"] ~~~ grpc["api/grpc"] ~~~ consumer["api/rabbitmq"]
+    caller(["HTTP client<br/>gRPC client<br/>queue message"])
+
+    subgraph inbound["Inbound adapters<br/>internal/infrastructure/api/"]
+        direction TB
+        rest["rest/"]
+        grpc["grpc/"]
+        consumer["rabbitmq/"]
     end
-    subgraph app["application"]
-        appgo["application.go<br/>Service · New · ports"] ~~~ methods["one file per method"]
+
+    subgraph core["Core"]
+        direction TB
+        app["Application<br/>internal/application/<br/>use cases + ports"]
+        domain["Domain<br/>internal/domain/<br/>models + errors"]
+        app --- domain
     end
-    subgraph outbound["outbound adapters"]
-        repo["repository"] ~~~ cache["cache"] ~~~ client["client"] ~~~ pub["publisher"]
+
+    subgraph outbound["Outbound adapters<br/>internal/infrastructure/"]
+        direction TB
+        repo["repository/"]
+        cache["cache/"]
+        client["client/"]
+        pub["publisher/"]
     end
-    domain["domain<br/>models · errors"]
-    inbound -->|"own Service interface"| app
-    outbound -.->|"implement ports"| app
-    app --> domain
-    inbound & outbound --> domain
+
+    world[("database<br/>redis<br/>other services<br/>broker")]
+
+    caller -->|"1. JSON / proto / message"| inbound
+    inbound -->|"2. domain values"| app
+    app -->|"3. calls a port"| outbound
+    outbound -->|"4. SQL / commands / HTTP"| world
 ```
+
+1. An **inbound adapter** receives the request, validates its shape and converts it
+   into domain values.
+2. It calls a use case on the **Application**.
+3. The use case does its work by calling **ports**: interfaces it declares in
+   `application.go`. It never knows which adapter is behind one.
+4. An **outbound adapter** implements the port, talking to the database, cache,
+   other service or broker, and converts the result back into domain values.
+
+On the way back, each layer converts again: rows → domain → response DTO, and driver
+errors → domain errors → status codes.
+
+**Imports point the other way: always toward the core.** Adapters import `domain`;
+the core imports no adapter. So any adapter can be replaced without touching the
+core. `cmd/service/main.go` is the one place that knows every piece, and it plugs
+them together.
 
 ```
 cmd/service/main.go                     wiring only
 internal/config/config.go               the one config package
 internal/domain/{domain,errors}.go      models; error vocabulary
-internal/application/application.go     Service, New, ports
+internal/application/application.go     Application, New, ports
 internal/application/<method>.go        one public method per file
 internal/infrastructure/api/<proto>/    rest, grpc, rabbitmq: inbound
 internal/infrastructure/<kind>/<tech>/  repository, cache, client, publisher: outbound
@@ -64,12 +97,17 @@ The full tree, the request flow and a "what goes where" table are in
 - **Dependencies point inward.** Infrastructure → application → domain. The domain
   imports nothing from the service; the application imports only the domain.
 - **Domain structs carry no tags.** Serialisation belongs to the adapter that needs it.
-- **`application.go` holds only** `Service`, `New` and the ports it consumes.
+- **`application.go` holds only** the `Application` struct, `New` and the ports it consumes. Use cases are methods on `*Application`.
 - **One public method per file**, in snake_case: `CreateUser` lives in
   `create_user.go` with its private helpers.
 - **Never share a private helper between method files.** Duplicate it under a name
-  specific to each (`normalizeCreateUserEmail`). A shared helper couples two use
-  cases: changing one silently changes the other.
+  specific to each method. Example: `CreateUser` and `UpdateUser` both use a shared
+  `normalizeEmail` that trims and lowercases. Signup then has to strip `+alias` parts
+  to stop people opening duplicate accounts, so someone edits `normalizeEmail`, and
+  `UpdateUser` now silently rewrites the address of every user who saves
+  `me+work@x.com`. Nothing in `update_user.go` changed, so no reviewer looks there.
+  With `normalizeCreateUserEmail` and `normalizeUpdateUserEmail`, the change stays
+  in the one file it was meant for. Full code in `references/application.md`.
 - **Every package exposes `New`**: `postgres.New(db)`, `redis.New(client, repo)`,
   `application.New(repo)`. Never `NewPostgresRepository`.
 - **`init` is forbidden, always.** It runs at import time, in an order nobody chose,
@@ -127,7 +165,7 @@ name, a rule, a status, which store.
 5. **Inbound adapter** (`rest.md`, `grpc.md` or `queue.md`; `validation.md`,
    `errors.md`). Request DTO with validation tags and `toDomain()`, response DTO
    without secrets and its `map<Response>`, the handler, the method added to the
-   adapter's `Service` interface, the route. Errors go through the adapter's single
+   adapter's `Application` interface, the route. Errors go through the adapter's single
    error mapper.
 6. **Wiring** (`wiring.md`). Construct each new adapter in `main.go` with `New` and
    pass it to whatever consumes it. New config goes in `internal/config`.
