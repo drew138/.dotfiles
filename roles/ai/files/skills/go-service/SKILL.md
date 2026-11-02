@@ -270,9 +270,8 @@ behaviour and do not invent new rules for them:
 
 - **Logging**: how the logger is built and handed to adapters, and how 5xx errors
   are logged. The PII/PCI rule above already applies.
-- **The error body's shape**, including whether to adopt RFC 9457 Problem Details.
-- **422 or 400** for invalid fields.
-- **Rule codes**: validator tag names (`max`, `eqfield`) or our own words.
+- **422 or 400** for invalid input.
+- **`code` values**: validator tag names (`max`, `eqfield`) or our own words.
 - **Configuration**: where values come from (environment, files, a secrets
   manager), how they are loaded and validated, how secrets are handled, and how
   adapters receive their settings. `references/wiring.md` shows the current

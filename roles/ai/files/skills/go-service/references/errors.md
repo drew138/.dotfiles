@@ -75,40 +75,80 @@ Three moves:
 
 ## Inbound: REST
 
-`mapErrorResponse(err)` in `rest/mappers.go` is the only place a status is chosen.
-It checks, in this order:
+### The error body
+
+Every error response has the same body:
+
+```json
+{
+  "type": "invalid_argument",
+  "title": "The request is invalid.",
+  "status": 422,
+  "errors": [
+    {"code": "max", "field": "username", "param": "32"},
+    {"code": "reserved", "field": "username"},
+    {"code": "signups_closed"}
+  ]
+}
+```
+
+| Member | Holds | Present |
+|---|---|---|
+| `type` | the kind of failure, a stable word clients switch on: `invalid_argument`, `not_found`, `conflict`, … | always |
+| `title` | the fixed human summary for that type | always |
+| `status` | the HTTP status, repeated so the body stands alone in logs and queues | always |
+| `errors` | each individual failure: a `code`, plus `field` when it is about one field and `param` when the rule has a value | only when there is something to list |
+
+Field and non-field failures share the list: a failure about one field carries
+`field`, one about the request as a whole (signups closed, credit limit exceeded)
+carries only `code`. Several failures from `errors.Join` all appear, in the order of
+the adapter's table.
+
+A 404 is just:
+
+```json
+{"type": "not_found", "title": "The resource does not exist.", "status": 404}
+```
+
+The content type is `application/json`.
+
+### Choosing it
+
+`mapErrorResponse(err)` in `rest/mappers.go` builds the body, status included; it is
+the only place a status is chosen. It checks, in this order:
 
 1. **The request itself**, errors that never reached the application:
 
-   | Error | Status | `code` |
-   |---|---|---|
-   | body over 1 MiB (`*http.MaxBytesError`) | 413 | `body_too_large` |
-   | wrong JSON type (`*json.UnmarshalTypeError`) | 422 | `invalid_argument` + the field, expected type |
-   | invalid JSON (`errMalformedBody`) | 400 | `malformed_request` |
-   | validator failure (`validator.ValidationErrors`) | 422 | `invalid_argument` + every field |
+   | Error | Status | `type` | `errors` |
+   |---|---|---|---|
+   | body over 1 MiB (`*http.MaxBytesError`) | 413 | `body_too_large` | none |
+   | invalid JSON (`errMalformedBody`) | 400 | `malformed_request` | none |
+   | wrong JSON type (`*json.UnmarshalTypeError`) | 422 | `invalid_argument` | `{code: type, field, param: integer}` |
+   | validator failure (`validator.ValidationErrors`) | 422 | `invalid_argument` | one per failed rule |
 
 2. **Specific domain errors**, from the adapter's table. Every row whose error
-   matches with `errors.Is` adds its field, so joined errors all appear:
+   matches with `errors.Is` adds an entry, so joined errors all appear:
 
    ```go
    var domainErrors = []struct {
    	err    error
    	status int
+   	code   string
    	field  string
-   	rule   string
    }{
-   	{domain.ErrUsernameTaken, http.StatusConflict, "username", "taken"},
-   	{domain.ErrCreditLimitExceeded, http.StatusUnprocessableEntity, "total", "over_credit_limit"},
-   	{domain.ErrSignupsClosed, http.StatusUnprocessableEntity, "", "signups_closed"},
+   	{domain.ErrUsernameTaken, http.StatusConflict, "taken", "username"},
+   	{domain.ErrCreditLimitExceeded, http.StatusUnprocessableEntity, "over_credit_limit", "total"},
+   	{domain.ErrSignupsClosed, http.StatusUnprocessableEntity, "signups_closed", ""},
    }
    ```
 
    Field names live here, in the adapter, because only the adapter knows the names
-   its clients use. A rule that is not about one field leaves `field` empty.
+   its clients use. A failure about the request as a whole has an empty `field`.
 
-3. **Generic kinds**, which choose the status when no row matched:
+3. **Generic kinds**, which give the `type` and `title`, and the status when no row
+   matched:
 
-   | Kind | Status | `code` |
+   | Kind | Status | `type` |
    |---|---|---|
    | `ErrNotFound` | 404 | `not_found` |
    | `ErrConflict` | 409 | `conflict` |
@@ -116,31 +156,12 @@ It checks, in this order:
    | `ErrUnavailable`, `context.DeadlineExceeded` | 503 | `unavailable` |
    | `ErrInternal`, anything else | 500 | `internal` |
 
-**Fields from the validator** carry the JSON name, the rule (the tag: `required`,
-`max`, `email`, `enum`) and the parameter only for value rules (`max` → `32`).
-Rules that compare fields (`eqfield`, `required_if`) would expose a Go field name as
-their parameter, so they are sent without one.
+**Entries from the validator** carry the JSON field name, the rule as `code` (the
+tag: `required`, `max`, `email`, `enum`) and `param` only for value rules (`max` →
+`32`). Rules that compare fields (`eqfield`, `required_if`) would expose a Go field
+name as their parameter, so they are sent without one.
 
-The current error body:
-
-```json
-{
-  "error": {
-    "code": "invalid_argument",
-    "message": "The request has invalid fields.",
-    "fields": [
-      {"field": "username", "rule": "max", "param": "32"},
-      {"field": "username", "rule": "taken"},
-      {"rule": "signups_closed"}
-    ]
-  }
-}
-```
-
-**Not settled yet:** the body's exact shape (including whether to adopt RFC 9457
-Problem Details), 422 versus 400 for invalid fields, whether rule codes should be
-our own words instead of validator tag names, and how 5xx errors are logged. Keep
-the current behaviour until those are decided.
+The code is in `rest.md`.
 
 ## Inbound: gRPC and queues
 

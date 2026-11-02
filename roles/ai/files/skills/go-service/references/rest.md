@@ -95,8 +95,8 @@ func (h *Handler) writeError(w http.ResponseWriter, err error) {
 	if errors.Is(err, context.Canceled) {
 		return
 	}
-	status, body := mapErrorResponse(err)
-	h.writeJSON(w, status, body)
+	body := mapErrorResponse(err)
+	h.writeJSON(w, body.Status, body)
 }
 
 func (h *Handler) writeJSON(w http.ResponseWriter, status int, body any) {
@@ -122,29 +122,30 @@ func (h *Handler) writeJSON(w http.ResponseWriter, status int, body any) {
 `map` + the type produced: `mapUserResponse(user domain.User) UserResponse`.
 Several domain values in is fine: `mapOrderResponse(order, customer) OrderResponse`.
 
-`mappers.go` also holds the error tables and `mapErrorResponse`, the only place a
-status is chosen (`errors.md` explains the order):
+`mappers.go` also holds the error tables and `mapErrorResponse`, which builds the
+error body and is the only place a status is chosen (`errors.md` explains the body
+and the order):
 
 ```go
 var domainErrors = []struct {
 	err    error
 	status int
+	code   string
 	field  string
-	rule   string
 }{
-	{domain.ErrUsernameTaken, http.StatusConflict, "username", "taken"},
-	{domain.ErrSignupsClosed, http.StatusUnprocessableEntity, "", "signups_closed"},
+	{domain.ErrUsernameTaken, http.StatusConflict, "taken", "username"},
+	{domain.ErrSignupsClosed, http.StatusUnprocessableEntity, "signups_closed", ""},
 }
 
 var errorKinds = []struct {
-	err     error
-	status  int
-	code    string
-	message string
+	err    error
+	status int
+	typ    string
+	title  string
 }{
 	{domain.ErrNotFound, http.StatusNotFound, "not_found", "The resource does not exist."},
 	{domain.ErrConflict, http.StatusConflict, "conflict", "The request conflicts with existing data."},
-	{domain.ErrInvalid, http.StatusUnprocessableEntity, "invalid_argument", "The request has invalid fields."},
+	{domain.ErrInvalid, http.StatusUnprocessableEntity, "invalid_argument", "The request is invalid."},
 	{domain.ErrUnavailable, http.StatusServiceUnavailable, "unavailable", "The service is temporarily unavailable."},
 	{context.DeadlineExceeded, http.StatusServiceUnavailable, "unavailable", "The service is temporarily unavailable."},
 }
@@ -154,29 +155,29 @@ var valueParams = map[string]bool{
 	"gt": true, "gte": true, "lt": true, "lte": true, "oneof": true,
 }
 
-func mapErrorResponse(err error) (int, ErrorResponse) {
+func mapErrorResponse(err error) ErrorResponse {
 	var tooLarge *http.MaxBytesError
 	var wrongType *json.UnmarshalTypeError
 	var failed validator.ValidationErrors
 	switch {
 	case errors.As(err, &tooLarge):
-		return http.StatusRequestEntityTooLarge, ErrorResponse{Error: ErrorBody{Code: "body_too_large", Message: "The request body is too large."}}
+		return ErrorResponse{Type: "body_too_large", Title: "The request body is too large.", Status: http.StatusRequestEntityTooLarge}
 	case errors.As(err, &wrongType):
-		return http.StatusUnprocessableEntity, mapInvalidParamResponse(wrongType.Field, jsonType(wrongType.Type))
+		return mapInvalidParamResponse(wrongType.Field, jsonType(wrongType.Type))
 	case errors.Is(err, errMalformedBody):
-		return http.StatusBadRequest, ErrorResponse{Error: ErrorBody{Code: "malformed_request", Message: "The request body is not valid JSON."}}
+		return ErrorResponse{Type: "malformed_request", Title: "The request body is not valid JSON.", Status: http.StatusBadRequest}
 	case errors.As(err, &failed):
-		return http.StatusUnprocessableEntity, ErrorResponse{Error: ErrorBody{Code: "invalid_argument", Message: "The request has invalid fields.", Fields: mapFieldResponses(failed)}}
+		return ErrorResponse{Type: "invalid_argument", Title: "The request has invalid fields.", Status: http.StatusUnprocessableEntity, Errors: mapErrorDetails(failed)}
 	}
 
-	var fields []FieldResponse
+	var details []ErrorDetail
 	status := 0
 	for _, d := range domainErrors {
 		if errors.Is(err, d.err) {
 			if status == 0 {
 				status = d.status
 			}
-			fields = append(fields, FieldResponse{Field: d.field, Rule: d.rule})
+			details = append(details, ErrorDetail{Code: d.code, Field: d.field})
 		}
 	}
 	for _, k := range errorKinds {
@@ -184,14 +185,14 @@ func mapErrorResponse(err error) (int, ErrorResponse) {
 			if status == 0 {
 				status = k.status
 			}
-			return status, ErrorResponse{Error: ErrorBody{Code: k.code, Message: k.message, Fields: fields}}
+			return ErrorResponse{Type: k.typ, Title: k.title, Status: status, Errors: details}
 		}
 	}
-	return http.StatusInternalServerError, ErrorResponse{Error: ErrorBody{Code: "internal", Message: "Something went wrong."}}
+	return ErrorResponse{Type: "internal", Title: "Something went wrong.", Status: http.StatusInternalServerError}
 }
 
-func mapFieldResponses(failed validator.ValidationErrors) []FieldResponse {
-	fields := make([]FieldResponse, 0, len(failed))
+func mapErrorDetails(failed validator.ValidationErrors) []ErrorDetail {
+	details := make([]ErrorDetail, 0, len(failed))
 	for _, fe := range failed {
 		field := fe.Field()
 		if _, path, ok := strings.Cut(fe.Namespace(), "."); ok {
@@ -201,20 +202,20 @@ func mapFieldResponses(failed validator.ValidationErrors) []FieldResponse {
 		if valueParams[fe.Tag()] {
 			param = fe.Param()
 		}
-		fields = append(fields, FieldResponse{Field: field, Rule: fe.Tag(), Param: param})
+		details = append(details, ErrorDetail{Code: fe.Tag(), Field: field, Param: param})
 	}
-	return fields
+	return details
 }
 ```
 
 `jsonType` (in `handler.go`) turns a Go type into a JSON one (`integer`, `string`,
 `boolean`, `number`, `array`, `object`), so a wrong-type error never names a Go type.
-`mapInvalidParamResponse` builds the same body for a bad path or query parameter:
+`mapInvalidParamResponse` builds the body for a bad path or query parameter:
 
 ```go
 func mapInvalidParamResponse(field, expected string) ErrorResponse {
-	return ErrorResponse{Error: ErrorBody{Code: "invalid_argument", Message: "The request has invalid fields.",
-		Fields: []FieldResponse{{Field: field, Rule: "type", Param: expected}}}}
+	return ErrorResponse{Type: "invalid_argument", Title: "The request has invalid fields.", Status: http.StatusUnprocessableEntity,
+		Errors: []ErrorDetail{{Code: "type", Field: field, Param: expected}}}
 }
 ```
 
@@ -222,23 +223,21 @@ The error DTOs in `dto.go`:
 
 ```go
 type ErrorResponse struct {
-	Error ErrorBody `json:"error"`
+	Type   string        `json:"type"`
+	Title  string        `json:"title"`
+	Status int           `json:"status"`
+	Errors []ErrorDetail `json:"errors,omitempty"`
 }
 
-type ErrorBody struct {
-	Code    string          `json:"code"`
-	Message string          `json:"message"`
-	Fields  []FieldResponse `json:"fields,omitempty"`
-}
-
-type FieldResponse struct {
+type ErrorDetail struct {
+	Code  string `json:"code"`
 	Field string `json:"field,omitempty"`
-	Rule  string `json:"rule"`
 	Param string `json:"param,omitempty"`
 }
 ```
 
 ## Pending
 
-How 5xx errors are logged is not decided; `New` takes no logger yet. The error
-body's shape and 422 versus 400 are also open. See `errors.md`.
+How 5xx errors are logged is not decided; `New` takes no logger yet. 422 versus 400
+for invalid input, and the vocabulary of `code` values, are also open (see "Not
+decided yet" in `SKILL.md`).
