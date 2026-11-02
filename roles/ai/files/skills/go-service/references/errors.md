@@ -173,6 +173,11 @@ understandable (`greater_than_or_equal`). Generic, so the same code fits any ser
 `value_taken`, not `username_taken`. A new code is added only when no existing one
 describes the problem.
 
+**`param` is optional**: include it only when the extra value makes the error
+clearer than the code alone. A limit, a bound or an expected type does (`max_length`
+with `32`); a code that already says everything does not (`invalid_email`,
+`value_required`, `invalid_option`).
+
 `type` values:
 
 | `type` | When |
