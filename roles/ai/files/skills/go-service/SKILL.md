@@ -26,7 +26,8 @@ Paths below are relative to this skill's directory, written `<skill>` in command
 
 ## Structure
 
-A request travels left to right and the answer comes back the same way:
+A request travels left to right (solid arrows, 1–4) and the response comes back right
+to left (dashed arrows, 5–8):
 
 ```mermaid
 flowchart LR
@@ -60,18 +61,36 @@ flowchart LR
     inbound -->|"2. domain values"| app
     app -->|"3. calls a port"| outbound
     outbound -->|"4. SQL / commands / HTTP"| world
+
+    world -.->|"5. rows / replies / driver errors"| outbound
+    outbound -.->|"6. domain values / domain errors"| app
+    app -.->|"7. result / wrapped domain error"| inbound
+    inbound -.->|"8. response DTO / status + error JSON / ack"| caller
 ```
 
-1. An **inbound adapter** receives the request, validates its shape and converts it
-   into domain values.
+**Request**
+
+1. An **inbound adapter** receives the request, validates its shape, and converts it
+   into domain values with the request DTO's `toDomain()`.
 2. It calls a use case on the **Application**.
 3. The use case does its work by calling **ports**: interfaces it declares in
    `application.go`. It never knows which adapter is behind one.
-4. An **outbound adapter** implements the port, talking to the database, cache,
-   other service or broker, and converts the result back into domain values.
+4. An **outbound adapter** implements the port: it maps domain values into its own
+   struct (`mapUserRow`) and talks to the database, cache, other service or broker.
 
-On the way back, each layer converts again: rows → domain → response DTO, and driver
-errors → domain errors → status codes.
+**Response**
+
+5. The outside world answers: rows, a cached entry, an upstream reply, or a driver
+   error such as `sql.ErrNoRows` or a unique violation.
+6. The outbound adapter converts the answer back into domain values (`toDomain()`),
+   and any error into a domain error (`domain.ErrNotFound`,
+   `domain.Conflict(username taken)`). The core never sees a driver type.
+7. The use case returns the domain result, or the domain error wrapped with what it
+   was doing (`fmt.Errorf("saving user: %w", err)`), or re-translated when it knows
+   better.
+8. The inbound adapter maps the result into its response DTO (`mapUserResponse`),
+   or maps the error into a status and a client-safe error body
+   (`mapErrorResponse`); a queue consumer acks, dead-letters or requeues instead.
 
 **Imports point the other way: always toward the core.** Adapters import `domain`;
 the core imports no adapter. So any adapter can be replaced without touching the
