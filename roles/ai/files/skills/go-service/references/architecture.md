@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart TB
-    main["cmd/service/main.go<br/>builds and connects everything"]
+    main["cmd/&lt;entrypoint&gt;/main.go<br/>builds and connects what it uses"]
     inbound["Inbound adapters<br/>api/rest · api/grpc · queue/rabbitmq"]
     outbound["Outbound adapters<br/>repository · cache · publisher · psp · auth"]
     app["Application<br/>internal/application"]
@@ -30,7 +30,7 @@ from the request flow below, where arrows are calls.
   satisfies it.
 - **Outbound adapters do not import `application` either**, except a decorator such
   as the cache, which takes the port type (`application.Repository`) it wraps.
-- **Only `main.go` imports everything**, to build each piece with `New` and pass it
+- **Only the entry points' `main.go` import the adapters**, to build each piece with `New` and pass it
   to the next.
 
 
@@ -113,9 +113,14 @@ piece of infra**: `migration/` for the database, `api/` for the API contracts,
 
 ```
 my-service/
-├── cmd/service/main.go                      wiring: config, connections, New, serve, shutdown
+├── cmd/
+│   ├── rest/
+│   │   ├── main.go                          wiring: connections, New, serve, shutdown
+│   │   └── config.go                        private config: only what rest uses
+│   └── consumer/
+│       ├── main.go
+│       └── config.go
 ├── internal/
-│   ├── config/config.go                     the only config package
 │   ├── domain/
 │   │   ├── domain.go                        models and their methods, no tags
 │   │   ├── enums.go                         string enums, each with Valid()
@@ -174,8 +179,9 @@ Only the infra folders the service actually uses exist.
 | Unique, foreign keys, not null | the store enforces it; the repository translates the error |
 | Anything with SQL, JSON, HTTP, Redis, proto | an adapter |
 | Config for a piece of infra (migrations, broker topology, cache config) | its own folder at the repository root |
-| Building and connecting things | `cmd/service/main.go` |
+| Building and connecting things | `cmd/<entrypoint>/main.go` |
+| A setting an entry point needs | that entry point's `config.go` |
 | Code another repository imports | `pkg/`, and only then |
 
-Banned anywhere: `func init()`, `iota` enums, `utils`/`helpers`/`common` packages, a
-second config package. See `go-review` for the reasons.
+Banned anywhere: `func init()`, `panic`, `iota` enums, `utils`/`helpers`/`common`
+packages. See `go-review` for the reasons.

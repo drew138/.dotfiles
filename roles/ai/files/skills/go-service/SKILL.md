@@ -94,12 +94,13 @@ flowchart LR
 
 **Imports point the other way: always toward the core.** Adapters import `domain`;
 the core imports no adapter. So any adapter can be replaced without touching the
-core. `cmd/service/main.go` is the one place that knows every piece, and it plugs
+core. Each entry point's `cmd/<entrypoint>/main.go` is the one place that knows the
+pieces it uses, and it plugs
 them together.
 
 ```
-cmd/service/main.go                     wiring only
-internal/config/config.go               the one config package
+cmd/<entrypoint>/main.go                wiring for one entry point: rest, grpc, consumer, cli
+cmd/<entrypoint>/config.go              its private config, only what it uses
 internal/domain/{domain,enums,errors}.go  models; string enums; error values
 internal/application/application.go     Application, New, ports
 internal/application/<method>.go        one public method per file
@@ -151,6 +152,10 @@ The full tree, the request flow and a "what goes where" table are in
   `application.New(repo)`. Never `NewPostgresRepository`.
 - **`init` is forbidden, always.** It runs at import time, in an order nobody chose,
   and cannot be tested or skipped. The work goes in `New` or in `main`.
+- **`panic` is forbidden, always.** Every failure is returned as an error. The one
+  place the program may stop is `main`, at startup: when config is invalid or a
+  connection cannot be made, `run` returns the error and `main` logs it and exits
+  (`os.Exit(1)`, or `log.Fatal`).
 - **Every adapter owns its structs.** `dto.go` has the adapter's tagged structs
   with a `toDomain()` method; `mappers.go` has `map<Target>(domain…) Target`
   functions for the other direction. **Target** is the adapter struct being built:
@@ -176,6 +181,9 @@ The full tree, the request flow and a "what goes where" table are in
   errors end up in logs: wrap with IDs (`fmt.Errorf("saving user %d: %w", id, err)`),
   never with the value (`"saving user ana@x.com"`). Never log a request body, a DTO
   or a domain struct whole. If a value is needed to debug, log its ID.
+- **Each entry point reads only its own config.** `cmd/<entrypoint>/config.go`
+  holds a private `config` struct loaded from environment variables with the
+  standard library; it lists only the values that entry point uses.
 - **`ctx context.Context` comes first** in every port and service method.
 - **Every layer validates what only it can know.** The API checks the request's
   format with go-playground/validator tags on its DTO (types, required, lengths,
@@ -204,7 +212,7 @@ The full tree, the request flow and a "what goes where" table are in
 | calling another service or provider (payments, auth, …) | `references/providers.md` |
 | a REST handler | `references/rest.md` |
 | a gRPC service | `references/grpc.md` |
-| `main.go` or config | `references/wiring.md` |
+| an entry point, `main.go` or config | `references/wiring.md` |
 
 ## Adding an endpoint
 
@@ -236,7 +244,8 @@ name, a rule, a status, which store.
    registered in `New` and the use case added to the `Application` interface in
    `handler.go`; a row in the error table for each new specific error.
 6. **Wiring** (`wiring.md`). Construct each new adapter in `main.go` with `New` and
-   pass it to whatever consumes it. New config goes in `internal/config`.
+   pass it to whatever consumes it. New config goes in that entry point's
+   `config.go`, and only in the entry points that use it.
 7. **Tests.** Follow `go-tests`: unit tests for the use case and the handler,
    integration tests for the repository. Assert errors with `ErrorIs`/`ErrorAs`.
 8. **Check.** `go build ./...`, `go vet ./...`, `go test ./...`, then the
@@ -256,6 +265,7 @@ the work done with an item failing.
 - [ ] No private helper is called from a method file other than its own.
 - [ ] Stateful rules are in a pure `validate<Method>`, joined with `errors.Join`.
 - [ ] No `func init()` anywhere, `cmd/` included.
+- [ ] No `panic` anywhere; startup failures return to `main`, which logs and exits.
 - [ ] Constructors are `New`, never `NewSomething`.
 - [ ] `dto.go` holds structs and their `toDomain()` only; conversions the other way
       are `map<Target>` functions in `mappers.go`.
@@ -275,7 +285,3 @@ behaviour and do not invent new rules for them:
 
 - **Logging**: how the logger is built and handed to adapters, and how 5xx errors
   are logged. The PII/PCI rule above already applies.
-- **Configuration**: where values come from (environment, files, a secrets
-  manager), how they are loaded and validated, how secrets are handled, and how
-  adapters receive their settings. `references/wiring.md` shows the current
-  environment-variable shape.

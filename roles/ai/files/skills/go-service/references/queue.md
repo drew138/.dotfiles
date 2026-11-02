@@ -88,8 +88,7 @@ the change. A separate relay reads unsent rows, publishes them, and marks them s
 
 - The use case calls one port method, `users.SaveWithEvent(ctx, user, event)`, and
   never touches the publisher.
-- The relay is its own small inbound loop, started from `main.go` beside the servers,
-  using the `Publisher` adapter.
+- The relay is its own entry point (`cmd/relay/`), using the `Publisher` adapter.
 - Delivery becomes at-least-once, so consumers must be idempotent. They should be
   anyway.
 
@@ -216,8 +215,10 @@ twice:
 
 ## Wiring
 
+The consumer is its own entry point, `cmd/consumer/`, with its own `config.go`.
+
 ```go
-conn, err := amqp.Dial(cfg.AMQPURL)
+conn, err := amqp.Dial(cfg.amqpURL)
 if err != nil {
 	return fmt.Errorf("connecting to rabbitmq: %w", err)
 }
@@ -229,8 +230,8 @@ consumeCh, err := conn.Channel()
 …
 if err := consumeCh.Qos(10, 0, false); err != nil { … }
 
-app := application.New(repo, publisher.New(pubCh, cfg.Exchange))
-importer := consumer.New(consumeCh, cfg.ImportQueue, app, log)
+app := application.New(repo, publisher.New(pubCh, cfg.exchange))
+importer := consumer.New(consumeCh, cfg.importQueue, app, log)
 go func() { errCh <- importer.Run(ctx) }()
 ```
 
@@ -238,7 +239,7 @@ go func() { errCh <- importer.Run(ctx) }()
   slow consumer must not stall publishes.
 - `Qos` sets the prefetch: how many unacked messages the consumer holds at once.
 - Both broker packages are named `rabbitmq`. Import them as `publisher` and
-  `consumer` in `main.go`.
+  `consumer` in the entry point's `main.go`.
 - `Run` returns when `ctx` is cancelled, so shutdown is the same signal context as the
   servers.
 - Exchange, queue and binding definitions live at the repository root in

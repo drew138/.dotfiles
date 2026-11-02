@@ -27,7 +27,7 @@ The kind names the port and the struct, as with `repository` → `Repository`:
 |---|---|
 | port in `application.go` | `type PSP interface { Charge(ctx context.Context, payment domain.Payment) (domain.Payment, error) }` |
 | struct | `adyen.PSP`, `stripe.PSP` |
-| constructor | `adyen.New(httpClient, cfg.AdyenURL, cfg.AdyenAPIKey)` |
+| constructor | `adyen.New(httpClient, cfg.adyenURL, cfg.adyenAPIKey)` |
 | auth example | port `Auth`, struct `cognito.Auth` |
 
 The port speaks domain types only. The provider's request and response shapes,

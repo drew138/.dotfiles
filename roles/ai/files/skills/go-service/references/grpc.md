@@ -115,5 +115,5 @@ Commit the generated files.
 
 ## Serving
 
-`main.go` listens on `GRPC_ADDR`, runs the gRPC server beside HTTP, and calls
-`GracefulStop` on shutdown (`wiring.md`).
+`cmd/grpc/main.go` listens on `GRPC_ADDR`, serves, and calls `GracefulStop` on
+shutdown (`wiring.md`).

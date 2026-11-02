@@ -8,7 +8,7 @@ config the cache needs (a `redis.conf`) lives at the repository root in `redis/`
 
 ```go
 repo := postgres.New(db)
-app := application.New(redis.New(rdb, repo, cfg.CacheTTL, log))
+app := application.New(redis.New(rdb, repo, cfg.cacheTTL, log))
 ```
 
 ## Files
