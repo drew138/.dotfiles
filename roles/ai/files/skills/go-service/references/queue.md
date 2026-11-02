@@ -232,7 +232,7 @@ if err := consumeCh.Qos(10, 0, false); err != nil { … }
 
 app := application.New(repo, publisher.New(pubCh, cfg.exchange))
 importer := consumer.New(consumeCh, cfg.importQueue, app)
-go func() { errCh <- importer.Run(ctx) }()
+return importer.Run(ctx)
 ```
 
 - **One channel per direction.** A channel is not safe for concurrent publishing, and a
@@ -240,8 +240,9 @@ go func() { errCh <- importer.Run(ctx) }()
 - `Qos` sets the prefetch: how many unacked messages the consumer holds at once.
 - Both broker packages are named `rabbitmq`. Import them as `publisher` and
   `consumer` in the entry point's `main.go`.
-- `Run` returns when `ctx` is cancelled, so shutdown is the same signal context as the
-  servers.
+- `Run` is the consumer's main path, as `ListenAndServe` is the REST server's: it
+  blocks until the signal context is cancelled, and returns once the message in
+  hand is settled.
 - Exchange, queue and binding definitions live at the repository root in
   `rabbitmq/` (for example `rabbitmq/definitions.json`), applied by the deploy, not
   declared at service startup.

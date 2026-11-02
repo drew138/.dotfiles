@@ -12,7 +12,7 @@ guess a module path.
 
 ## Steps
 
-1. **Module.** `go mod init <module>`. Create only the folders the first endpoint
+1. **Module.** `go mod init <module>`, with `go 1.27` in `go.mod`. Create only the folders the first endpoint
    needs (`architecture.md`). Add a `pkg/` package when the service needs
    library-like code (`architecture.md`).
 2. **Domain** (`domain.md`). `domain.go` with the first model, `enums.go` if it has a
@@ -31,7 +31,7 @@ guess a module path.
    service uses (`rabbitmq/`, `redis/`).
 8. **Dockerfile.** Multi-stage: build the entry point as a static binary
    (`go build ./cmd/rest` with `CGO_ENABLED=0`, `-trimpath`)
-   in the Go image, run it from a minimal non-root image such as
+   in `golang:1.27`, run it from a minimal non-root image such as
    `gcr.io/distroless/static-debian12:nonroot`.
 9. **Check.** `go build ./...`, `go vet ./...`, `go test ./...`, then
    the checklist in `SKILL.md`.

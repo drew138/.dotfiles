@@ -65,8 +65,9 @@ Every request produces exactly one log line, written by the inbound adapter when
 the request finishes:
 
 ```json
-{"level":"INFO","msg":"request handled","route":"GET /users/{id}","status":404,"duration_ms":3}
-{"level":"ERROR","msg":"request failed","route":"GET /users/{id}","status":503,"duration_ms":2,
+{"level":"INFO","msg":"request handled","method":"GET","route":"/users/{id}","status":404,"duration_ms":3}
+{"level":"INFO","msg":"request cancelled","method":"GET","route":"/users/{id}","status":499,"duration_ms":40}
+{"level":"ERROR","msg":"request failed","method":"GET","route":"/users/{id}","status":503,"duration_ms":2,
  "error":"finding user 42: selecting user 42: unavailable: dial tcp 10.0.0.5:5432: connect: connection refused"}
 ```
 
@@ -75,6 +76,8 @@ the request finishes:
 - A 5xx carries the error: it is a failure of ours.
 - A 4xx carries no error text: it is a normal client mistake, answered in the
   response.
+- A request whose client went away is logged as `request cancelled` with status
+  `499` ("client closed request"), never as a success.
 
 The REST adapter does this with a wrapper registered on every route (`rest.md`).
 

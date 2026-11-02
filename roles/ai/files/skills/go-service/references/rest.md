@@ -35,10 +35,10 @@ type Handler struct {
 	validate *validator.Validate
 }
 
-func New(router *http.ServeMux, app Application) *Handler {
+func New(router chi.Router, app Application) *Handler {
 	h := &Handler{app: app, validate: newValidator()}
-	router.HandleFunc("POST /users", h.logged(h.createUser))
-	router.HandleFunc("GET /users/{id}", h.logged(h.getUser))
+	router.Post("/users", h.logged(h.createUser))
+	router.Get("/users/{id}", h.logged(h.getUser))
 	return h
 }
 ```
@@ -47,9 +47,8 @@ func New(router *http.ServeMux, app Application) *Handler {
 route. `main.go` only calls `rest.New(router, app)`. The routes are listed in one
 place, so the whole API surface reads at a glance.
 
-Go 1.22+ patterns on `http.ServeMux` (`"GET /users/{id}"`, read with
-`r.PathValue("id")`). If the service already uses another router, keep it; the files
-are the same.
+The router is `chi` (`github.com/go-chi/chi/v5`): `router.Post`, `router.Get`, and
+path parameters read with `chi.URLParam(r, "id")`.
 
 ## A route
 
@@ -92,10 +91,14 @@ translates. Shared ones live in `handler.go`, next to the struct that carries th
 
 ```go
 func (h *Handler) writeError(w http.ResponseWriter, err error) {
+	rr, recorded := w.(*responseRecorder)
 	if errors.Is(err, context.Canceled) {
+		if recorded {
+			rr.status = statusClientClosedRequest
+		}
 		return
 	}
-	if rr, ok := w.(*responseRecorder); ok {
+	if recorded {
 		rr.err = err
 	}
 	body := mapErrorResponse(err)
@@ -116,6 +119,8 @@ request when it finishes (`logging.md`). `writeError` hands it the error, so a 5
 line carries it:
 
 ```go
+const statusClientClosedRequest = 499
+
 type responseRecorder struct {
 	http.ResponseWriter
 	status int
@@ -133,8 +138,12 @@ func (h *Handler) logged(next http.HandlerFunc) http.HandlerFunc {
 		rr := &responseRecorder{ResponseWriter: w, status: http.StatusOK}
 		next(rr, r)
 
-		attrs := []any{"route", r.Pattern, "status", rr.status, "duration_ms", time.Since(start).Milliseconds()}
-		if rr.status >= http.StatusInternalServerError {
+		attrs := []any{"method", r.Method, "route", chi.RouteContext(r.Context()).RoutePattern(), "status", rr.status, "duration_ms", time.Since(start).Milliseconds()}
+		switch {
+		case rr.status == statusClientClosedRequest:
+			slog.InfoContext(r.Context(), "request cancelled", attrs...)
+			return
+		case rr.status >= http.StatusInternalServerError:
 			slog.ErrorContext(r.Context(), "request failed", append(attrs, "error", rr.err)...)
 			return
 		}
@@ -143,8 +152,10 @@ func (h *Handler) logged(next http.HandlerFunc) http.HandlerFunc {
 }
 ```
 
-`r.Pattern` is the route pattern (`GET /users/{id}`), so values in the URL never
-reach the logs.
+The line logs the method and the route **pattern** (`/users/{id}`), so values in the
+URL never reach the logs. A request whose client went away is recorded as `499`
+("client closed request") and logged as `request cancelled`, so it never shows up
+as a success.
 
 ## DTOs
 

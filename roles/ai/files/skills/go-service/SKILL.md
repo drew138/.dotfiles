@@ -192,9 +192,15 @@ The full tree, the request flow and a "what goes where" table are in
   Structured lines with named fields. Every error is logged once, where it stops;
   never logged and returned. Every request produces one line when it finishes.
 - **Each entry point loads its config in `cmd/<entrypoint>/config.go`**: a private
-  `config` struct read from environment variables with the standard library. There
+  `config` struct read inline from environment variables with the standard
+  library, every variable required, stopping at the first missing or invalid one. There
   is one `Application`, and every entry point builds all of it, so each reads the
   settings the application needs plus its own server settings.
+- **Go 1.27 by default** (`go 1.27` in `go.mod`, `golang:1.27` to build), and
+  **`chi`** (`github.com/go-chi/chi/v5`) as the HTTP router.
+- **Code carries no comments that restate it.** A comment is only for a decision a
+  reader could not work out from the code itself. This holds everywhere: domain,
+  application, adapters, `pkg/`, tests.
 - **`ctx context.Context` comes first** in every port and service method.
 - **Every layer validates what only it can know.** The API checks the request's
   format with go-playground/validator tags on its DTO (types, required, lengths,
@@ -278,6 +284,7 @@ the work done with an item failing.
 - [ ] Stateful rules are in a pure `validate<Method>`, joined with `errors.Join`.
 - [ ] No `func init()` anywhere, `cmd/` included.
 - [ ] No `panic` anywhere; startup failures return to `main`, which logs and exits.
+- [ ] No comment restates what the code does.
 - [ ] Constructors are `New`, never `NewSomething`.
 - [ ] `dto.go` holds structs and their `toDomain()` only; conversions the other way
       are `map<Target>` functions in `mappers.go`.
