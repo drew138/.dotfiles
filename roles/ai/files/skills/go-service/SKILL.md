@@ -107,6 +107,7 @@ internal/application/<method>.go        one public method per file
 internal/infrastructure/<kind>/<tech>/  every adapter, inbound and outbound:
     inbound:  api/rest, api/grpc, queue/rabbitmq
     outbound: repository/postgres, cache/redis, publisher/rabbitmq, psp/adyen, auth/cognito
+pkg/<name>/                             library-like code the service needs, one package per purpose
 migration/                              database migrations, at the root
 api/  rabbitmq/  redis/  …               other infra config, one root folder each
 ```
@@ -125,6 +126,11 @@ The full tree, the request flow and a "what goes where" table are in
   and examples: "Kinds and techs" in `references/architecture.md`.
 - **Dependencies point inward.** Infrastructure → application → domain. The domain
   imports nothing from the service; the application imports only the domain.
+- **`pkg/` holds library-like code**: logic the service needs that stands on its
+  own and could be exported, small libraries we write ourselves, and everything
+  that would otherwise be a "utility". Each lives in its own package named for what
+  it does (`pkg/retry`, `pkg/money`), never `pkg/utils`. A `pkg/` package imports
+  nothing from `internal/`, so any layer may import it.
 - **Domain structs carry no tags.** Serialisation belongs to the adapter that needs it.
 - **The domain holds business concepts only:** models and their methods, enums,
   errors.

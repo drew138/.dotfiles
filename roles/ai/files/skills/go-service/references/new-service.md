@@ -13,8 +13,8 @@ guess a module path.
 ## Steps
 
 1. **Module.** `go mod init <module>`. Create only the folders the first endpoint
-   needs (`architecture.md`). Add `pkg/` only for code another repository will
-   import.
+   needs (`architecture.md`). Add a `pkg/` package when the service needs
+   library-like code (`architecture.md`).
 2. **Domain** (`domain.md`). `domain.go` with the first model, `enums.go` if it has a
    fixed set of values, and `errors.go` with the five generic kinds.
 3. **Application** (`application.md`). `application.go` with `Application`, `New`

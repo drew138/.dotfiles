@@ -22,7 +22,9 @@ Arrows are **imports**: "A → B" means A's code imports B. This is a different 
 from the request flow below, where arrows are calls.
 
 - **Everything imports `domain`**, because domain types are the shared language.
-- **`domain` imports nothing** from the service.
+- **`domain` imports nothing** from the service except `pkg/`.
+- **`pkg/` imports nothing from `internal/`.** It is library code: standard library
+  and third-party packages only, so every layer may import it.
 - **`application` imports only `domain`.** It declares ports (interfaces) and never
   names an adapter.
 - **Inbound adapters do not import `application`.** Each declares its own small
@@ -154,6 +156,8 @@ my-service/
 │       ├── psp/adyen/                       payments through Adyen: implements the PSP port
 │       ├── auth/cognito/                    authentication through Cognito: implements the Auth port
 │       └── publisher/rabbitmq/              Publisher port: one method per domain event
+├── pkg/
+│   └── retry/                               library-like code, one package per purpose
 ├── migration/000001_<name>.{up,down}.sql    database migrations (golang-migrate)
 ├── api/
 │   ├── openapi.yaml                         REST contract
@@ -181,7 +185,7 @@ Only the infra folders the service actually uses exist.
 | Config for a piece of infra (migrations, broker topology, cache config) | its own folder at the repository root |
 | Building and connecting things | `cmd/<entrypoint>/main.go` |
 | A setting an entry point needs | that entry point's `config.go` |
-| Code another repository imports | `pkg/`, and only then |
+| Library-like logic: exportable, a small library we write, anything that would be a "utility" | its own package under `pkg/`, named for what it does |
 
-Banned anywhere: `func init()`, `panic`, `iota` enums, `utils`/`helpers`/`common`
-packages. See `go-review` for the reasons.
+Banned anywhere: `func init()`, `panic`, `iota` enums, packages named
+`utils`/`helpers`/`common` (in `pkg/` too: name the package for what it does). See `go-review` for the reasons.

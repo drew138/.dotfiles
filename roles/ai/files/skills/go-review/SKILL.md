@@ -139,6 +139,10 @@ package that exports an interface it also implements.
 - `cmd/` holds entrypoints only, no logic
 - `internal/` holds everything not meant for external import
 - `pkg/` only for code genuinely intended to be imported by other repositories
+  > **Note (to revisit):** the `go-service` skill uses `pkg/` more broadly: for
+  > library-like code the service needs (exportable logic, libraries we write,
+  > anything that would be a "utility"), one named package per purpose, importing
+  > nothing from `internal/`. This rule will be reworded to match.
 - **`utils`, `helpers`, `common`, `shared` and `misc` packages are banned.** If
   something needs a home, give it a named package describing what it does. A
   grab-bag package has no boundary, so it accumulates forever and everything
