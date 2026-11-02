@@ -133,8 +133,9 @@ var domainErrors = []struct {
 	code   string
 	field  string
 }{
-	{domain.ErrUsernameTaken, http.StatusConflict, "taken", "username"},
-	{domain.ErrSignupsClosed, http.StatusBadRequest, "signups_closed", ""},
+	{domain.ErrUsernameTaken, http.StatusConflict, "value_taken", "username"},
+	{domain.ErrOrderAlreadyShipped, http.StatusBadRequest, "invalid_state", "status"},
+	{domain.ErrCreditLimitExceeded, http.StatusBadRequest, "limit_exceeded", ""},
 }
 
 var errorKinds = []struct {
@@ -144,15 +145,45 @@ var errorKinds = []struct {
 	title  string
 }{
 	{domain.ErrNotFound, http.StatusNotFound, "not_found", "The resource does not exist."},
-	{domain.ErrConflict, http.StatusConflict, "conflict", "The request conflicts with existing data."},
+	{domain.ErrConflict, http.StatusConflict, "resource_conflict", "The request conflicts with existing data."},
 	{domain.ErrInvalid, http.StatusBadRequest, "invalid_argument", "The request is invalid."},
-	{domain.ErrUnavailable, http.StatusServiceUnavailable, "unavailable", "The service is temporarily unavailable."},
-	{context.DeadlineExceeded, http.StatusServiceUnavailable, "unavailable", "The service is temporarily unavailable."},
+	{domain.ErrUnavailable, http.StatusServiceUnavailable, "service_unavailable", "The service is temporarily unavailable."},
+	{context.DeadlineExceeded, http.StatusServiceUnavailable, "service_unavailable", "The service is temporarily unavailable."},
 }
 
-var valueParams = map[string]bool{
-	"min": true, "max": true, "len": true, "eq": true, "ne": true,
-	"gt": true, "gte": true, "lt": true, "lte": true, "oneof": true,
+var tagCodes = map[string]string{
+	"required":         "value_required",
+	"required_if":      "value_required",
+	"required_unless":  "value_required",
+	"required_with":    "value_required",
+	"required_without": "value_required",
+	"oneof":            "invalid_option",
+	"enum":             "invalid_option",
+	"email":            "invalid_email",
+	"url":              "invalid_url",
+	"uri":              "invalid_url",
+	"uuid":             "invalid_uuid",
+	"e164":             "invalid_phone",
+	"datetime":         "invalid_date",
+	"eqfield":          "field_mismatch",
+	"unique":           "duplicate_value",
+}
+
+var lengthCodes = map[string]string{
+	"max": "max_length",
+	"lte": "max_length",
+	"min": "min_length",
+	"gte": "min_length",
+	"len": "length_mismatch",
+}
+
+var numberCodes = map[string]string{
+	"max": "less_than_or_equal",
+	"lte": "less_than_or_equal",
+	"lt":  "less_than",
+	"min": "greater_than_or_equal",
+	"gte": "greater_than_or_equal",
+	"gt":  "greater_than",
 }
 
 func mapErrorResponse(err error) ErrorResponse {
@@ -161,7 +192,7 @@ func mapErrorResponse(err error) ErrorResponse {
 	var failed validator.ValidationErrors
 	switch {
 	case errors.As(err, &tooLarge):
-		return ErrorResponse{Type: "body_too_large", Title: "The request body is too large.", Status: http.StatusRequestEntityTooLarge}
+		return ErrorResponse{Type: "payload_too_large", Title: "The request body is too large.", Status: http.StatusRequestEntityTooLarge}
 	case errors.As(err, &wrongType):
 		return mapInvalidParamResponse(wrongType.Field, jsonType(wrongType.Type))
 	case errors.Is(err, errMalformedBody):
@@ -188,7 +219,7 @@ func mapErrorResponse(err error) ErrorResponse {
 			return ErrorResponse{Type: k.typ, Title: k.title, Status: status, Errors: details}
 		}
 	}
-	return ErrorResponse{Type: "internal", Title: "Something went wrong.", Status: http.StatusInternalServerError}
+	return ErrorResponse{Type: "internal_error", Title: "Something went wrong.", Status: http.StatusInternalServerError}
 }
 
 func mapErrorDetails(failed validator.ValidationErrors) []ErrorDetail {
@@ -198,13 +229,28 @@ func mapErrorDetails(failed validator.ValidationErrors) []ErrorDetail {
 		if _, path, ok := strings.Cut(fe.Namespace(), "."); ok {
 			field = path
 		}
-		param := ""
-		if valueParams[fe.Tag()] {
-			param = fe.Param()
-		}
-		details = append(details, ErrorDetail{Code: fe.Tag(), Field: field, Param: param})
+		details = append(details, mapErrorDetail(fe, field))
 	}
 	return details
+}
+
+func mapErrorDetail(fe validator.FieldError, field string) ErrorDetail {
+	switch fe.Kind() {
+	case reflect.String, reflect.Slice, reflect.Array, reflect.Map:
+		if code, ok := lengthCodes[fe.Tag()]; ok {
+			return ErrorDetail{Code: code, Field: field, Param: fe.Param()}
+		}
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+		reflect.Float32, reflect.Float64:
+		if code, ok := numberCodes[fe.Tag()]; ok {
+			return ErrorDetail{Code: code, Field: field, Param: fe.Param()}
+		}
+	}
+	if code, ok := tagCodes[fe.Tag()]; ok {
+		return ErrorDetail{Code: code, Field: field}
+	}
+	return ErrorDetail{Code: "invalid_value", Field: field}
 }
 ```
 
@@ -215,7 +261,7 @@ func mapErrorDetails(failed validator.ValidationErrors) []ErrorDetail {
 ```go
 func mapInvalidParamResponse(field, expected string) ErrorResponse {
 	return ErrorResponse{Type: "invalid_argument", Title: "The request has invalid fields.", Status: http.StatusBadRequest,
-		Errors: []ErrorDetail{{Code: "type", Field: field, Param: expected}}}
+		Errors: []ErrorDetail{{Code: "invalid_type", Field: field, Param: expected}}}
 }
 ```
 
@@ -238,5 +284,5 @@ type ErrorDetail struct {
 
 ## Pending
 
-How 5xx errors are logged is not decided; `New` takes no logger yet. The vocabulary
-of `code` values is also open (see "Not decided yet" in `SKILL.md`).
+How 5xx errors are logged is not decided; `New` takes no logger yet (see "Not
+decided yet" in `SKILL.md`).

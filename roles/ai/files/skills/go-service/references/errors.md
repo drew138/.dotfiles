@@ -85,23 +85,23 @@ Every error response has the same body:
   "title": "The request is invalid.",
   "status": 400,
   "errors": [
-    {"code": "max", "field": "username", "param": "32"},
-    {"code": "reserved", "field": "username"},
-    {"code": "signups_closed"}
+    {"code": "max_length", "field": "username", "param": "32"},
+    {"code": "invalid_state", "field": "status"},
+    {"code": "limit_exceeded"}
   ]
 }
 ```
 
 | Member | Holds | Present |
 |---|---|---|
-| `type` | the kind of failure, a stable word clients switch on: `invalid_argument`, `not_found`, `conflict`, … | always |
+| `type` | the kind of failure, a stable code clients switch on: `invalid_argument`, `not_found`, `resource_conflict`, … | always |
 | `title` | the fixed human summary for that type | always |
 | `status` | the HTTP status, repeated so the body stands alone in logs and queues | always |
 | `errors` | each individual failure: a `code`, plus `field` when it is about one field and `param` when the rule has a value | only when there is something to list |
 
 Field and non-field failures share the list: a failure about one field carries
-`field`, one about the request as a whole (signups closed, credit limit exceeded)
-carries only `code`. Several failures from `errors.Join` all appear, in the order of
+`field`, one about the request as a whole (a limit reached, a state that forbids
+the operation) carries only `code`. Several failures from `errors.Join` all appear, in the order of
 the adapter's table.
 
 A 404 is just:
@@ -126,9 +126,9 @@ the only place a status is chosen. It checks, in this order:
 
    | Error | Status | `type` | `errors` |
    |---|---|---|---|
-   | body over 1 MiB (`*http.MaxBytesError`) | 413 | `body_too_large` | none |
+   | body over 1 MiB (`*http.MaxBytesError`) | 413 | `payload_too_large` | none |
    | invalid JSON (`errMalformedBody`) | 400 | `malformed_request` | none |
-   | wrong JSON type (`*json.UnmarshalTypeError`) | 400 | `invalid_argument` | `{code: type, field, param: integer}` |
+   | wrong JSON type (`*json.UnmarshalTypeError`) | 400 | `invalid_argument` | `{code: invalid_type, field, param: integer}` |
    | validator failure (`validator.ValidationErrors`) | 400 | `invalid_argument` | one per failed rule |
 
 2. **Specific domain errors**, from the adapter's table. Every row whose error
@@ -141,9 +141,9 @@ the only place a status is chosen. It checks, in this order:
    	code   string
    	field  string
    }{
-   	{domain.ErrUsernameTaken, http.StatusConflict, "taken", "username"},
-   	{domain.ErrCreditLimitExceeded, http.StatusBadRequest, "over_credit_limit", "total"},
-   	{domain.ErrSignupsClosed, http.StatusBadRequest, "signups_closed", ""},
+   	{domain.ErrUsernameTaken, http.StatusConflict, "value_taken", "username"},
+   	{domain.ErrOrderAlreadyShipped, http.StatusBadRequest, "invalid_state", "status"},
+   	{domain.ErrCreditLimitExceeded, http.StatusBadRequest, "limit_exceeded", ""},
    }
    ```
 
@@ -156,15 +156,64 @@ the only place a status is chosen. It checks, in this order:
    | Kind | Status | `type` |
    |---|---|---|
    | `ErrNotFound` | 404 | `not_found` |
-   | `ErrConflict` | 409 | `conflict` |
+   | `ErrConflict` | 409 | `resource_conflict` |
    | `ErrInvalid` | 400 | `invalid_argument` |
-   | `ErrUnavailable`, `context.DeadlineExceeded` | 503 | `unavailable` |
-   | `ErrInternal`, anything else | 500 | `internal` |
+   | `ErrUnavailable`, `context.DeadlineExceeded` | 503 | `service_unavailable` |
+   | `ErrInternal`, anything else | 500 | `internal_error` |
 
-**Entries from the validator** carry the JSON field name, the rule as `code` (the
-tag: `required`, `max`, `email`, `enum`) and `param` only for value rules (`max` →
-`32`). Rules that compare fields (`eqfield`, `required_if`) would expose a Go field
-name as their parameter, so they are sent without one.
+### Codes
+
+Every `type` and every `code` is our own word. The validator's tags, driver codes
+and provider codes are all translated in the adapter, so a response never reveals
+which libraries or providers the service uses.
+
+**Naming rule:** snake_case, formal, and naming the problem. Two words when two are
+enough (`value_taken`, `max_length`); up to five or six when that is what makes it
+understandable (`greater_than_or_equal`). Generic, so the same code fits any service:
+`value_taken`, not `username_taken`. A new code is added only when no existing one
+describes the problem.
+
+`type` values:
+
+| `type` | When |
+|---|---|
+| `invalid_argument` | the request breaks a rule |
+| `malformed_request` | the body cannot be read |
+| `payload_too_large` | the body is over the limit |
+| `not_found` | the resource does not exist |
+| `resource_conflict` | the request clashes with existing data |
+| `service_unavailable` | a dependency is down |
+| `internal_error` | anything unexpected |
+
+`code` values from the validator, translated in the adapter:
+
+| Validator tag | `code` | `param` |
+|---|---|---|
+| `required`, `required_if`, `required_unless`, `required_with`, `required_without` | `value_required` | |
+| `max`, `lte` on text, lists, maps | `max_length` | the limit |
+| `min`, `gte` on text, lists, maps | `min_length` | the limit |
+| `len` | `length_mismatch` | the length |
+| `max`, `lte` on numbers | `less_than_or_equal` | the bound |
+| `lt` on numbers | `less_than` | the bound |
+| `min`, `gte` on numbers | `greater_than_or_equal` | the bound |
+| `gt` on numbers | `greater_than` | the bound |
+| `oneof`, `enum` | `invalid_option` | |
+| `email` | `invalid_email` | |
+| `url`, `uri` | `invalid_url` | |
+| `uuid` | `invalid_uuid` | |
+| `e164` | `invalid_phone` | |
+| `datetime` | `invalid_date` | |
+| `eqfield` | `field_mismatch` | |
+| `unique` | `duplicate_value` | |
+| a JSON value of the wrong type | `invalid_type` | the JSON type expected |
+| any tag not in the table | `invalid_value` | |
+
+A tag that keeps showing up as `invalid_value` needs its own row.
+
+`code` values from the domain are chosen in the adapter's `domainErrors` table, by
+the same rule: `value_taken` for a unique value already in use, and generic codes
+such as `limit_exceeded` or `invalid_state` for business rules. Each service adds
+the codes its rules need.
 
 The code is in `rest.md`.
 
