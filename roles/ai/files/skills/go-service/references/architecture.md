@@ -5,7 +5,7 @@
 ```mermaid
 flowchart TB
     main["cmd/service/main.go<br/>builds and connects everything"]
-    inbound["Inbound adapters<br/>api/rest · api/grpc · api/rabbitmq"]
+    inbound["Inbound adapters<br/>api/rest · api/grpc · queue/rabbitmq"]
     outbound["Outbound adapters<br/>repository · cache · client · publisher"]
     app["Application<br/>internal/application"]
     domain["Domain<br/>internal/domain"]
@@ -63,6 +63,12 @@ Errors change shape the same way: driver error → domain error → status code 
 
 ## Full tree
 
+Every adapter lives at `internal/infrastructure/<kind>/<tech>/`, inbound and
+outbound alike. The kind says what role it plays (`api`, `queue`, `repository`,
+`cache`, `client`, `publisher`); the tech says how (`rest`, `grpc`, `rabbitmq`,
+`postgres`, `redis`). REST and gRPC share the kind `api`: both are APIs, gRPC through
+RPCs.
+
 ```
 my-service/
 ├── cmd/service/main.go                      wiring: config, connections, New, serve, shutdown
@@ -82,11 +88,12 @@ my-service/
 │       │   │   ├── dto.go                   request/response/error structs, toDomain()
 │       │   │   ├── mappers.go               map<Target> functions, error → response
 │       │   │   └── validation.go            decoding, validator setup, violation mapping
-│       │   ├── grpc/
-│       │   │   ├── grpc.go                  Server, New, Register, RPCs, error → status
-│       │   │   ├── mappers.go               proto ↔ domain, violations → BadRequest
-│       │   │   ├── validation.go            request shape checks
-│       │   │   └── pb/                      generated, never edited
+│       │   └── grpc/
+│       │       ├── grpc.go                  Server, New, Register, RPCs, error → status
+│       │       ├── mappers.go               proto ↔ domain, violations → BadRequest
+│       │       ├── validation.go            request shape checks
+│       │       └── pb/                      generated, never edited
+│       ├── queue/
 │       │   └── rabbitmq/                    queue consumer: Consumer, Run, ack/nack by error kind
 │       ├── repository/
 │       │   └── postgres/                    or mysql/

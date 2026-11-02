@@ -5,10 +5,11 @@ A queue touches a service from both sides, so it is two adapters:
 | Side | Direction | Folder | Implements / calls |
 |---|---|---|---|
 | **Publisher** | outbound | `internal/infrastructure/publisher/<broker>/` | implements a `Publisher` port |
-| **Consumer** | inbound | `internal/infrastructure/api/<broker>/` | calls use cases through its own `Application` interface, like a REST handler |
+| **Consumer** | inbound | `internal/infrastructure/queue/<broker>/` | calls use cases through its own `Application` interface, like a REST handler |
 
 A consumer is an inbound adapter for the same reason a handler is: a message arrives
-from outside and asks the service to do something. It lives under `api/`.
+from outside and asks the service to do something. It follows the same
+`<kind>/<tech>` rule as every adapter: the kind is `queue`, the tech is the broker.
 
 The code below uses RabbitMQ (`github.com/rabbitmq/amqp091-go`). For Kafka, SQS or NATS
 the files, ports and error handling are the same; only the client calls change. Ask
@@ -94,7 +95,7 @@ the change. A separate relay reads unsent rows, publishes them, and marks them s
 
 ## Consumer
 
-`api/rabbitmq/` has the same files as `api/rest/`:
+`queue/rabbitmq/` has the same files as `api/rest/`:
 
 | File | Holds |
 |---|---|

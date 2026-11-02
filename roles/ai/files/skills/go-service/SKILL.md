@@ -33,11 +33,11 @@ to left (dashed arrows, 5–8):
 flowchart LR
     caller(["HTTP client<br/>gRPC client<br/>queue message"])
 
-    subgraph inbound["Inbound adapters<br/>internal/infrastructure/api/"]
+    subgraph inbound["Inbound adapters<br/>internal/infrastructure/"]
         direction TB
-        rest["rest/"]
-        grpc["grpc/"]
-        consumer["rabbitmq/"]
+        rest["api/rest/"]
+        grpc["api/grpc/"]
+        consumer["queue/rabbitmq/"]
     end
 
     subgraph core["Core"]
@@ -49,10 +49,10 @@ flowchart LR
 
     subgraph outbound["Outbound adapters<br/>internal/infrastructure/"]
         direction TB
-        repo["repository/"]
-        cache["cache/"]
-        client["client/"]
-        pub["publisher/"]
+        repo["repository/postgres/"]
+        cache["cache/redis/"]
+        client["client/&lt;service&gt;/"]
+        pub["publisher/rabbitmq/"]
     end
 
     world[("database<br/>redis<br/>other services<br/>broker")]
@@ -103,8 +103,9 @@ internal/config/config.go               the one config package
 internal/domain/{domain,errors}.go      models; error vocabulary
 internal/application/application.go     Application, New, ports
 internal/application/<method>.go        one public method per file
-internal/infrastructure/api/<proto>/    rest, grpc, rabbitmq: inbound
-internal/infrastructure/<kind>/<tech>/  repository, cache, client, publisher: outbound
+internal/infrastructure/<kind>/<tech>/  every adapter, inbound and outbound:
+    inbound:  api/rest, api/grpc, queue/rabbitmq
+    outbound: repository/postgres, cache/redis, client/<service>, publisher/rabbitmq
 migration/                              golang-migrate SQL
 ```
 
@@ -233,7 +234,7 @@ go -C <skill>/scripts run ./check "$PWD"
   domain, wrong dependency direction, a missing `application.go`, more than one
   public method per file or a misnamed one, private helpers shared across method
   files, `init`, `NewX` constructors, misnamed mappers, functions in `dto.go`,
-  secret-looking fields in response DTOs, port and service methods without `ctx`
+  secret-looking fields in response DTOs and published messages, port and service methods without `ctx`
   first, and `TODO` left in migrations. Exit 1 on findings. Fix every finding before
   reporting the work done.
 

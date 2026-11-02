@@ -120,7 +120,7 @@ func (c *checker) inspect(files []sourceFile) {
 			c.forbidImport(f, "/internal/infrastructure", "the application layer must not import infrastructure")
 		case strings.HasPrefix(dir, "internal/infrastructure/"):
 			if base == "dto.go" {
-				c.dto(f, strings.HasPrefix(dir, "internal/infrastructure/api/"))
+				c.dto(f, outgoingStruct(dir))
 			}
 			if base == "mappers.go" {
 				c.mappers(f)
@@ -262,7 +262,20 @@ func (c *checker) methodFile(f sourceFile, base string) {
 	}
 }
 
-func (c *checker) dto(f sourceFile, inbound bool) {
+// outgoingStruct reports which dto.go structs leave the service and so must not carry
+// secrets: response DTOs of an API, and every message a publisher sends.
+func outgoingStruct(dir string) func(name string) bool {
+	switch {
+	case strings.HasPrefix(dir, "internal/infrastructure/api/"):
+		return func(name string) bool { return strings.HasSuffix(name, "Response") }
+	case strings.HasPrefix(dir, "internal/infrastructure/publisher/"):
+		return func(string) bool { return true }
+	default:
+		return func(string) bool { return false }
+	}
+}
+
+func (c *checker) dto(f sourceFile, outgoing func(name string) bool) {
 	for _, decl := range f.node.Decls {
 		switch d := decl.(type) {
 		case *ast.FuncDecl:
@@ -272,12 +285,9 @@ func (c *checker) dto(f sourceFile, inbound bool) {
 				c.report(d.Pos(), "name it toDomain; conversions are not part of the adapter's API")
 			}
 		case *ast.GenDecl:
-			if !inbound {
-				continue
-			}
 			for _, spec := range d.Specs {
 				ts, ok := spec.(*ast.TypeSpec)
-				if !ok || !strings.HasSuffix(ts.Name.Name, "Response") {
+				if !ok || !outgoing(ts.Name.Name) {
 					continue
 				}
 				st, ok := ts.Type.(*ast.StructType)
@@ -287,7 +297,7 @@ func (c *checker) dto(f sourceFile, inbound bool) {
 				for _, field := range st.Fields.List {
 					for _, name := range field.Names {
 						if sensitiveName.MatchString(name.Name) {
-							c.report(name.Pos(), "%s.%s looks sensitive; leave it out of the response DTO", ts.Name.Name, name.Name)
+							c.report(name.Pos(), "%s.%s looks sensitive; leave it out of anything that leaves the service", ts.Name.Name, name.Name)
 						}
 					}
 				}
