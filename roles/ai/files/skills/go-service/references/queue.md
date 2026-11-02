@@ -99,9 +99,11 @@ the change. A separate relay reads unsent rows, publishes them, and marks them s
 
 | File | Holds |
 |---|---|
-| `rabbitmq.go` | `Application` interface, `Consumer`, `New`, `Run`, `handle`, one method per message type |
-| `dto.go` | message structs with `json` tags and `toDomain()` |
-| `validation.go` | `validate<Message>(msg) []domain.Violation` |
+| `rabbitmq.go` | `Application` interface, `Consumer`, `New`, `Run`, `handle`, one method per message type, validator setup |
+| `dto.go` | message structs with `json` and `validate` tags and `toDomain()` |
+
+Incoming messages are validated exactly like REST requests: tags on the message DTO,
+the same validator setup (`validation.md`).
 
 ```go
 type Application interface {
@@ -109,14 +111,15 @@ type Application interface {
 }
 
 type Consumer struct {
-	ch    *amqp.Channel
-	queue string
-	app   Application
-	log   *slog.Logger
+	ch       *amqp.Channel
+	queue    string
+	app      Application
+	validate *validator.Validate
+	log      *slog.Logger
 }
 
 func New(ch *amqp.Channel, queue string, app Application, log *slog.Logger) *Consumer {
-	return &Consumer{ch: ch, queue: queue, app: app, log: log}
+	return &Consumer{ch: ch, queue: queue, app: app, validate: newValidator(), log: log}
 }
 
 func (c *Consumer) Run(ctx context.Context) error {
@@ -138,8 +141,15 @@ func (c *Consumer) Run(ctx context.Context) error {
 }
 ```
 
-Each message type gets a method shaped like a REST handler: decode, validate shape,
-call the use case.
+Each message type gets a method shaped like a REST route: decode, validate, call the
+use case.
+
+```go
+type ImportUserMessage struct {
+	Username string `json:"username" validate:"required,max=32"`
+	Email    string `json:"email" validate:"required,email,max=254"`
+}
+```
 
 ```go
 func (c *Consumer) importUser(ctx context.Context, body []byte) error {
@@ -147,13 +157,15 @@ func (c *Consumer) importUser(ctx context.Context, body []byte) error {
 	if err := json.Unmarshal(body, &msg); err != nil {
 		return fmt.Errorf("%w: %w", errMalformedMessage, err)
 	}
-	if violations := validateImportUserMessage(msg); len(violations) > 0 {
-		return domain.Invalid(violations...)
+	if err := c.validate.Struct(msg); err != nil {
+		return fmt.Errorf("%w: %w", errMalformedMessage, err)
 	}
 	_, err := c.app.CreateUser(ctx, msg.toDomain())
 	return err
 }
 ```
+
+A message that fails decoding or validation is malformed: no retry will fix it.
 
 ### Errors become acknowledgements
 
@@ -179,8 +191,8 @@ func (c *Consumer) handle(ctx context.Context, d amqp.Delivery) {
 | Error | Fate | Why |
 |---|---|---|
 | none | ack | done |
-| `ErrConflict` | ack | already applied: a redelivery of something that succeeded. This is what makes the consumer idempotent |
-| malformed, `ErrInvalid` | nack without requeue → dead-letter queue | will never succeed; retrying blocks the queue |
+| `ErrConflict`, including specific ones such as `ErrUsernameTaken` | ack | already applied: a redelivery of something that succeeded. This is what makes the consumer idempotent |
+| malformed or failed validation, `ErrInvalid` | nack without requeue → dead-letter queue | will never succeed; retrying blocks the queue |
 | `ErrNotFound` | depends: dead-letter if the message is wrong, requeue if the referenced data may still arrive | decide per message type, write it in the switch |
 | `ErrUnavailable`, anything else | nack with requeue | may succeed later |
 
@@ -188,8 +200,9 @@ Requeueing forever turns one poison message into a hot loop. Give the queue a
 delivery limit and a dead-letter exchange (quorum queues: `x-delivery-limit`,
 `x-dead-letter-exchange`), so a message that keeps failing ends up in the DLQ.
 
-Logging follows the usual rule: the consumer is where the error stops, so it logs here,
-once. An ack or nack that fails is logged too, since the broker will redeliver.
+The consumer is where the error stops, so it is where the error is logged, once. An
+ack or nack that fails is logged too, since the broker will redeliver. How the
+logger is passed in is part of the logging design, which is not settled yet.
 
 ### Idempotency
 
@@ -227,6 +240,8 @@ go func() { errCh <- importer.Run(ctx) }()
 - Both broker packages are named `rabbitmq`. Import them as `publisher` and
   `consumer` in `main.go`.
 - `Run` returns when `ctx` is cancelled, so shutdown is the same signal context as the
-  servers. Queue and exchange declarations belong to infrastructure-as-code or a
-  migration-like step, not to service startup.
+  servers.
+- Exchange, queue and binding definitions live at the repository root in
+  `rabbitmq/` (for example `rabbitmq/definitions.json`), applied by the deploy, not
+  declared at service startup.
 - `AMQP_URL`, the exchange and queue names come from config.

@@ -46,8 +46,9 @@ sequenceDiagram
     participant DB as Database
 
     C->>H: POST /users {json}
-    H->>H: decode + validate CreateUserRequest
+    H->>H: validateRequest(CreateUserRequest)
     H->>S: CreateUser(ctx, req.toDomain())
+    S->>S: validateCreateUser (stateful rules)
     S->>R: Save(ctx, domain.User) via Repository port
     R->>R: mapUserRow(user)
     R->>DB: INSERT … RETURNING id
@@ -69,58 +70,74 @@ outbound alike. The kind says what role it plays (`api`, `queue`, `repository`,
 `postgres`, `redis`). REST and gRPC share the kind `api`: both are APIs, gRPC through
 RPCs.
 
+Configuration for infrastructure lives **at the repository root, one folder per
+piece of infra**, never inside `internal/`: `migration/` for the database, `api/` for
+the API contracts, `rabbitmq/` for exchanges and queues, `redis/` for its config.
+
 ```
 my-service/
 ├── cmd/service/main.go                      wiring: config, connections, New, serve, shutdown
 ├── internal/
 │   ├── config/config.go                     the only config package
 │   ├── domain/
-│   │   ├── domain.go                        models, no tags
-│   │   └── errors.go                        ErrNotFound, ErrConflict, ErrInvalid, ErrUnavailable, ViolationError
+│   │   ├── domain.go                        models and their methods, no tags
+│   │   ├── enums.go                         string enums, each with Valid()
+│   │   └── errors.go                        generic kinds + specific errors that wrap them
 │   ├── application/
 │   │   ├── application.go                   Application, New, ports (consumed interfaces)
-│   │   ├── create_user.go                   one public method + its private helpers
+│   │   ├── create_user.go                   one public method + its private helpers (validateCreateUser)
 │   │   └── get_user.go
 │   └── infrastructure/
 │       ├── api/
 │       │   ├── rest/
-│       │   │   ├── rest.go                  Handler, New, Register, handlers, Application interface
-│       │   │   ├── dto.go                   request/response/error structs, toDomain()
-│       │   │   ├── mappers.go               map<Target> functions, error → response
-│       │   │   └── validation.go            decoding, validator setup, violation mapping
+│       │   │   ├── handler.go               Application interface, Handler, New(router, app), shared helpers, validator
+│       │   │   ├── create_user.go           one route per file
+│       │   │   ├── get_user.go
+│       │   │   ├── dto.go                   request (json + validate tags, toDomain), response, error DTOs
+│       │   │   └── mappers.go               map<Target>, error tables, mapErrorResponse
 │       │   └── grpc/
-│       │       ├── grpc.go                  Server, New, Register, RPCs, error → status
-│       │       ├── mappers.go               proto ↔ domain, violations → BadRequest
-│       │       ├── validation.go            request shape checks
+│       │       ├── server.go                Application interface, Server, New(server, app), validator
+│       │       ├── create_user.go           one RPC per file
+│       │       ├── dto.go                   tagged request structs, toDomain
+│       │       ├── mappers.go               proto ↔ DTO/domain, error tables, mapStatus
 │       │       └── pb/                      generated, never edited
 │       ├── queue/
-│       │   └── rabbitmq/                    queue consumer: Consumer, Run, ack/nack by error kind
+│       │   └── rabbitmq/                    consumer: tagged message DTOs, ack/nack by error kind
 │       ├── repository/
-│       │   └── postgres/                    or mysql/
-│       │       ├── postgres.go              Repository, New, port methods, error translation
+│       │   └── postgres/
+│       │       ├── postgres.go              Repository, New, port methods, domainError, constraintErrors
 │       │       ├── dto.go                   row structs, toDomain()
 │       │       └── mappers.go               map<Entity>Row
 │       ├── cache/redis/                     decorator over a repository port
-│       ├── client/<name>/                   outbound calls to other services
+│       ├── client/<service>/                outbound calls to other services
 │       └── publisher/rabbitmq/              Publisher port: one method per domain event
-├── api/proto/<service>/v1/*.proto           contracts (OpenAPI specs live in api/ too)
-├── migration/000001_<name>.{up,down}.sql    golang-migrate files
+├── migration/000001_<name>.{up,down}.sql    database migrations (golang-migrate)
+├── api/
+│   ├── openapi.yaml                         REST contract
+│   └── proto/<service>/v1/*.proto           gRPC contract
+├── rabbitmq/definitions.json                exchanges, queues, bindings
+├── redis/redis.conf                         cache server config
 ├── Dockerfile
 └── go.mod
 ```
+
+Only the infra folders the service actually uses exist.
 
 ## What goes where
 
 | Question | Answer |
 |---|---|
-| A new entity or field | `domain.go` |
-| A new kind of failure | a sentinel in `errors.go`, only if a caller must react differently to it |
-| A rule that needs no I/O | a method on the domain entity |
-| A rule that needs state (exists, unique, limits) | the application method |
-| Request shape (required, format, length) | the inbound adapter's DTO tags or validation.go |
+| A new entity or field | `domain/domain.go` |
+| A value with a fixed set of options | a string enum in `domain/enums.go`, with `Valid()` |
+| Logic that depends only on an entity's own data | a method on it in `domain/domain.go` |
+| Something a caller must be told precisely | a specific error in `domain/errors.go`, wrapping a kind |
+| The request's format (types, required, lengths, enums, cross-field) | validator tags on the inbound adapter's DTO |
+| A stateful business rule | `validate<Method>` in the use case's file |
+| Unique, foreign keys, not null | the store enforces it; the repository translates the error |
 | Anything with SQL, JSON, HTTP, Redis, proto | an adapter |
-| Building and connecting things | `main.go` |
+| Config for a piece of infra (migrations, broker topology, cache config) | its own folder at the repository root |
+| Building and connecting things | `cmd/service/main.go` |
 | Code another repository imports | `pkg/`, and only then |
 
-Banned anywhere: `func init()`, `utils`/`helpers`/`common` packages, a second config
-package. See `go-review` for the reasons.
+Banned anywhere: `func init()`, `iota` enums, `utils`/`helpers`/`common` packages, a
+second config package. See `go-review` for the reasons.

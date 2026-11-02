@@ -1,0 +1,13 @@
+package tech
+
+import "module/internal/domain"
+
+type entityRow struct {
+	ID     int64  `db:"id"`
+	Name   string `db:"name"`
+	Status string `db:"status"`
+}
+
+func (r entityRow) toDomain() domain.Entity {
+	return domain.Entity{ID: r.ID, Name: r.Name, Status: domain.EntityStatus(r.Status)}
+}

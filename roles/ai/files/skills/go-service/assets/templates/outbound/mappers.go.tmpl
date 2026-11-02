@@ -1,0 +1,7 @@
+package tech
+
+import "module/internal/domain"
+
+func mapEntityRow(entity domain.Entity) entityRow {
+	return entityRow{ID: entity.ID, Name: entity.Name, Status: string(entity.Status)}
+}

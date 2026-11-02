@@ -137,11 +137,49 @@ func (c *checker) domain(f sourceFile) {
 	c.forbidImport(f, "/internal/application", "the domain must not import the application layer")
 	c.forbidImport(f, "/internal/infrastructure", "the domain must not import infrastructure")
 	ast.Inspect(f.node, func(n ast.Node) bool {
-		if field, ok := n.(*ast.Field); ok && field.Tag != nil {
-			c.report(field.Pos(), "domain structs carry no tags; put %s on the adapter's DTO", field.Tag.Value)
+		switch x := n.(type) {
+		case *ast.Field:
+			if x.Tag != nil {
+				c.report(x.Pos(), "domain structs carry no tags; put %s on the adapter's DTO", x.Tag.Value)
+			}
+		case *ast.Ident:
+			if x.Name == "iota" {
+				c.report(x.Pos(), "enums are string-based; give each value its string instead of iota")
+			}
 		}
 		return true
 	})
+	if filepath.Base(f.rel) == "enums.go" {
+		c.enums(f)
+	}
+}
+
+func (c *checker) enums(f sourceFile) {
+	hasValid := map[string]bool{}
+	for _, decl := range f.node.Decls {
+		if fn, ok := decl.(*ast.FuncDecl); ok && fn.Recv != nil && fn.Name.Name == "Valid" {
+			hasValid[receiverName(fn)] = true
+		}
+	}
+	for _, decl := range f.node.Decls {
+		gd, ok := decl.(*ast.GenDecl)
+		if !ok {
+			continue
+		}
+		for _, spec := range gd.Specs {
+			ts, ok := spec.(*ast.TypeSpec)
+			if !ok {
+				continue
+			}
+			if base, ok := ts.Type.(*ast.Ident); !ok || base.Name != "string" {
+				c.report(ts.Pos(), "enum %s must be a string type; enums.go holds only enums", ts.Name.Name)
+				continue
+			}
+			if !hasValid[ts.Name.Name] {
+				c.report(ts.Pos(), "enum %s needs a Valid() bool method listing its values", ts.Name.Name)
+			}
+		}
+	}
 }
 
 func (c *checker) application(files []sourceFile) {

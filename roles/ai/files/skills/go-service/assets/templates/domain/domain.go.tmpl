@@ -1,0 +1,11 @@
+package domain
+
+type Entity struct {
+	ID     int64
+	Name   string
+	Status EntityStatus
+}
+
+func (e Entity) CanArchive() bool {
+	return e.Status == EntityStatusActive
+}

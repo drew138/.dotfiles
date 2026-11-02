@@ -1,19 +1,22 @@
 # Repository adapters
 
-An outbound adapter that implements a persistence port.
-Templates: `assets/templates/postgres/` and `assets/templates/mysql/`.
+An outbound adapter that implements a persistence port, at
+`internal/infrastructure/repository/<tech>/`. Templates: `assets/templates/outbound/`.
+
+The templates are the shape, not an implementation: write the store-specific code
+for the store the service uses, following the shape and the rules here.
 
 ## Files
 
 | File | Holds |
 |---|---|
-| `<store>.go` | `Repository`, `New(db *sql.DB)`, one method per port method, `domainError`, `uniqueFields` |
-| `dto.go` | row structs with `db` tags and `toDomain()` |
+| `<tech>.go` | `Repository`, `New`, one method per port method, `domainError`, `constraintErrors` |
+| `dto.go` | row structs with the store's tags and `toDomain()` |
 | `mappers.go` | `map<Entity>Row(domain.Entity) <entity>Row` |
 
-The package is named for the store (`postgres`, `mysql`), so the constructor reads
-`postgres.New(db)`. When the driver's package has the same name, alias the driver:
-`driver "github.com/go-sql-driver/mysql"`.
+The package is named for the tech (`postgres`, `mysql`, `mongo`), so the
+constructor reads `postgres.New(db)`. When the driver's package has the same name,
+alias the driver: `driver "github.com/go-sql-driver/mysql"`.
 
 ## Rows
 
@@ -21,54 +24,98 @@ The package is named for the store (`postgres`, `mysql`), so the constructor rea
 type userRow struct {
 	ID       int64  `db:"id"`
 	Username string `db:"username"`
-	Password string `db:"password"`
+	Status   string `db:"status"`
 }
 
-func (r userRow) toDomain() domain.User { … }
+func (r userRow) toDomain() domain.User {
+	return domain.User{ID: r.ID, Username: r.Username, Status: domain.UserStatus(r.Status)}
+}
 ```
 
-Rows mirror the table, not the domain. When they differ (a JSON column, a nullable
-column, a joined field) the difference is resolved in `toDomain` and the mapper,
+Rows mirror the table, not the domain. Differences (nullable columns, JSON columns,
+joined fields, enums stored as text) are resolved in `toDomain` and the mapper,
 never by tagging the domain struct.
-
-Nullable columns use `sql.Null*` in the row and a zero value or pointer in the domain,
-decided in `toDomain`.
 
 ## Methods
 
-- Take `ctx` and pass it to every `…Context` call. Never use `db.Exec` without it.
-- Convert with the mapper first, query with the row's fields.
+- Take `ctx` and pass it to every call.
+- Map with the mapper first; query with the row's fields.
 - Send every error through `domainError(err, "<what you were doing>")`.
-- Clear secrets from what you return after a write (`saved.Password = ""`), so the
-  hash travels no further than it must. Reads return what the use case needs: login
-  needs the hash.
-- One method = one statement, or one transaction for an atomic change. Open the
-  transaction, `defer tx.Rollback()`, commit at the end; the rollback after a
-  commit is a no-op.
+- Clear secrets from what you return after a write (`saved.Password = ""`). Reads
+  return what the use case needs: login needs the hash.
+- One method is one statement, or one transaction for an atomic change: begin,
+  `defer tx.Rollback()`, commit at the end.
 
 ## Error translation
 
-Covered in `errors.md`. When you add a `UNIQUE` constraint, add it to
-`uniqueFields` in the same change, or duplicates come back as a field-less conflict.
+Every error that leaves the repository is a domain error (`errors.md`):
+
+```go
+var constraintErrors = map[string]error{
+	"users_username_key": domain.ErrUsernameTaken,
+}
+
+func domainError(err error, doing string) error {
+	switch {
+	case isNotFound(err):
+		return domain.ErrNotFound
+	case constraintName(err) != "":
+		if mapped, ok := constraintErrors[constraintName(err)]; ok {
+			return fmt.Errorf("%s: %w", doing, mapped)
+		}
+		return fmt.Errorf("%s: %w: %w", doing, constraintKind(err), err)
+	case isUnavailable(err):
+		return fmt.Errorf("%s: %w: %w", doing, domain.ErrUnavailable, err)
+	default:
+		return fmt.Errorf("%s: %w: %w", doing, domain.ErrInternal, err)
+	}
+}
+```
+
+`isNotFound`, `constraintName`, `constraintKind` and `isUnavailable` are what each
+store provides differently. Where to find them:
+
+| | Postgres (pgx) | MySQL (go-sql-driver) |
+|---|---|---|
+| not found | `errors.Is(err, sql.ErrNoRows)` | same |
+| the error type | `*pgconn.PgError` | `*mysql.MySQLError` |
+| constraint name | `pgErr.ConstraintName` | not a field: parse the key name from the message (`for key 'users.username'`) |
+| unique violation → `ErrConflict` | code `23505` | number `1062` |
+| other integrity or data errors → `ErrInvalid` | code class `23` (FK `23503`, not null `23502`) and `22` (too long `22001`) | `1452` (FK), `1048` (not null), `1406` (too long) |
+| unavailable | code classes `08`, `53`, `57P`; any `net.Error` | `driver.ErrInvalidConn`; any `net.Error` |
+
+When you add a unique constraint, add it to `constraintErrors` and add its specific
+error to `domain/errors.go` in the same change. If one is forgotten, the client
+still gets a 409, just without the field.
+
+## Constraints and limits
+
+- **Name constraints explicitly** in migrations, so `constraintErrors` keys are
+  predictable: `CONSTRAINT users_username_key UNIQUE (username)`.
+- **Column limits are a safety net.** The API's validator tags are what users hit
+  (`max=32`). The database keeps its own limit so bad data can never be stored by
+  any path; if it fires, a tag is missing, and the client gets a generic 422.
+- **No database enums and no checks for enum values.** Store them as text.
+- MySQL must run in strict mode (`STRICT_TRANS_TABLES`). Without it, MySQL
+  silently truncates long values instead of failing.
 
 ## Migrations
 
-`migration/` at the repository root, golang-migrate format:
-`000002_add_users_email.up.sql` and `.down.sql`. The rules (one per pull request,
-backwards compatible, never edit an applied one, every column described, indices for
-lookups) are in `go-review`. The scaffold writes `TODO: describe` comments and
-`scripts/check` fails until they are replaced.
+At the repository root in `migration/`, never inside `internal/`. golang-migrate
+format: `000002_add_users_email.up.sql` and `.down.sql`. The rules (one per pull
+request, backwards compatible, never edit an applied one, every column described,
+indices for lookups) are in `go-review`.
 
-Migrations run as a deploy step (`migrate -path migration -database "$DATABASE_URL" up`),
-not at service startup, so a broken migration stops the deploy instead of every
-replica.
+Migrations run as a deploy step
+(`migrate -path migration -database "$DATABASE_URL" up`), not at service startup, so
+a broken migration stops the deploy instead of every replica.
 
 ## Integration tests
 
 Per `go-tests`: testcontainers, the service's own migrations, a reset between tests,
 no `t.Parallel()`.
 
-## Adding a second store
+## A second store
 
-A new folder beside the first (`repository/mysql/` next to `repository/postgres/`),
+A new folder beside the first (`repository/mongo/` next to `repository/postgres/`),
 implementing the same port. `main.go` picks one. The application does not change.

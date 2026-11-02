@@ -49,12 +49,13 @@ func (c *Client) Product(ctx context.Context, sku string) (domain.Product, error
 | 404, when "not there" means the same to our caller | `ErrNotFound` |
 | 409 | `ErrConflict` |
 | 429, 502, 503, 504, timeouts, refused connections | `ErrUnavailable`, wrapped with the cause |
-| other 4xx | wrapped, a 500: we sent something wrong, which is our bug |
+| other 4xx | `ErrInternal`, wrapped with the cause: we sent something wrong, which is our bug |
 | other 5xx | `ErrUnavailable` |
 
 The upstream's error body never reaches our client. Its field names, codes and
-messages belong to someone else's API. If a field-level error matters, map it to a
-`domain.Violation` on **our** field name.
+messages belong to someone else's API. If a specific failure matters to our caller,
+map it to a specific domain error (`domain.ErrProductDiscontinued`, wrapping a kind)
+and let the inbound adapter's table give it **our** field name.
 
 ## Behaviour
 

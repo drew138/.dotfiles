@@ -1,37 +1,54 @@
 # Validation
 
-Three layers, each checking what only it can check. Every layer reports problems as
-`domain.Violation`s, so the client gets one format whatever layer caught them.
+**Every layer validates what only it can know.** An API adapter is infrastructure
+too, just facing inward.
 
-| Layer | Checks | Example | Produces |
-|---|---|---|---|
-| Inbound adapter | request shape | missing field, bad email, wrong JSON type, body too large | `domain.Invalid(...)` or a transport error |
-| Application | rules needing state | username taken, customer exists, credit limit | `domain.Invalid(...)` / `domain.Conflict(...)` |
-| Domain | invariants needing no I/O | a shipped order cannot be cancelled | `domain.Invalid(...)` |
+| Layer | Validates | How |
+|---|---|---|
+| **Inbound adapter** (REST, gRPC) | the request's format: types, required fields, formats, lengths, enum values, rules between fields | go-playground/validator tags on the request DTO |
+| **Application** | **stateful business rules**: what the business allows given the current state, or the order of operations | a private `validate<Method>` function, plain Go |
+| **Domain** | rules about an entity's own data | methods on the entity |
+| **Outbound adapter** (repository) | **relational and integrity rules** the store enforces: unique, foreign keys, not null | the store rejects it; the adapter translates the error |
 
-Do not repeat a check in a lower layer "to be safe". Each rule lives in one place, so
-changing it means changing one place.
+Each rule lives in one layer. Do not repeat a rule lower down "to be safe".
 
-## Request shape: go-playground/validator
+## Inbound: go-playground/validator
 
-Tags go on the **request DTO** in `dto.go`, never on the domain:
+Tags go on the **request DTO**, never on the domain:
 
 ```go
-type CreateUserRequest struct {
-	Username string `json:"username" validate:"required,min=3,max=32"`
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required,min=8"`
-	Items    []Item `json:"items" validate:"required,min=1,dive"`
+type CreateOrderRequest struct {
+	CustomerID int64       `json:"customer_id" validate:"required,gt=0"`
+	Email      string      `json:"email" validate:"required,email,max=254"`
+	Status     string      `json:"status" validate:"required,enum=order_status"`
+	Type       string      `json:"type" validate:"required,oneof=personal company"`
+	TaxID      string      `json:"tax_id" validate:"required_if=Type company,max=20"`
+	Items      []OrderItem `json:"items" validate:"required,min=1,dive"`
 }
 ```
 
-The library stays in the inbound adapter: `rest/validation.go` is the only file that
-imports it. Swapping libraries touches one file.
+- **Lengths are validator tags** (`max=254`). The validator reports the field, the
+  rule and the limit with no extra code. The database's own limit stays as a safety
+  net (`repository.md`); if it ever fires, a tag is missing, which is a bug.
+- **Cross-field rules** use the built-ins (`required_if`, `required_unless`,
+  `eqfield`, `gtfield`, …) or a custom rule. A test for whether a cross-field rule
+  belongs here: *would it still have to hold if the data arrived another way, by
+  import or from another service?* If not, it is about this API's input and belongs
+  here. If so, it is a business rule. It may live here while REST is the only entry
+  point; when a second one arrives, it moves to the application.
+- **Enum values** use the custom `enum` rule, which asks the domain's `Valid()`.
+  Never `oneof` for a domain enum: that repeats the values. `oneof` is fine for
+  values only this API knows (`personal company` above).
 
-**Setup.** One validator per handler, built in `New`, never as a package variable. It
-reports JSON names instead of Go names:
+### The validator
+
+Built once, in the handler's `New`, never as a package variable:
 
 ```go
+var enums = map[string]func(string) bool{
+	"order_status": func(v string) bool { return domain.OrderStatus(v).Valid() },
+}
+
 func newValidator() *validator.Validate {
 	v := validator.New(validator.WithRequiredStructEnabled())
 	v.RegisterTagNameFunc(func(f reflect.StructField) string {
@@ -41,98 +58,98 @@ func newValidator() *validator.Validate {
 		}
 		return name
 	})
+	_ = v.RegisterValidation("enum", func(fl validator.FieldLevel) bool {
+		valid, ok := enums[fl.Param()]
+		return ok && valid(fl.Field().String())
+	})
 	return v
 }
 ```
 
-**Normalising.** `validator.ValidationErrors` never leaves the adapter. Each
-`FieldError` becomes a `domain.Violation`:
+- `RegisterTagNameFunc` makes errors name the JSON field (`customer_id`), not the Go
+  one (`CustomerID`).
+- Each domain enum gets one line in `enums`. Its key is the tag's parameter
+  (`enum=order_status`).
+- Custom rules are registered here too, with `RegisterValidation` for one field or
+  `RegisterStructValidation` for a whole struct.
+
+### validateRequest
+
+One private method on the handler, in `handler.go`, used by every route. It reads,
+decodes and validates:
 
 ```go
-for _, fe := range errs {
-	field := fe.Field()
-	if _, path, ok := strings.Cut(fe.Namespace(), "."); ok {
-		field = path
+func (h *Handler) validateRequest(w http.ResponseWriter, r *http.Request, dst any) error {
+	r.Body = http.MaxBytesReader(w, r.Body, maxBodyBytes)
+	if err := json.NewDecoder(r.Body).Decode(dst); err != nil {
+		var tooLarge *http.MaxBytesError
+		var wrongType *json.UnmarshalTypeError
+		if errors.As(err, &tooLarge) || errors.As(err, &wrongType) {
+			return err
+		}
+		return fmt.Errorf("%w: %w", errMalformedBody, err)
 	}
-	violations = append(violations, domain.Violation{Field: field, Rule: fe.Tag(), Param: fe.Param()})
+	return h.validate.Struct(dst)
 }
 ```
 
-`Namespace()` is `CreateUserRequest.items[0].sku`. Dropping the first segment removes
-the Go type name and keeps the path the client sent.
+It returns the library's own errors untouched. They never leave the REST package:
+`mapErrorResponse` turns them into the response (`errors.md`), and nothing else ever
+sees them. The library's raw message (`Key: 'CreateOrderRequest.Email' Error:Field
+validation for 'Email' failed on the 'email' tag`) names a Go type and the library,
+so it is never shown.
 
-The validator's own message (`Key: 'CreateUserRequest.Email' Error:Field validation
-for 'Email' failed on the 'email' tag`) names a Go type and the library. It is never
-shown. The client sees:
+## Application: stateful business rules
 
-```json
-{"field": "email", "rule": "email", "message": "must be a valid email address"}
-```
-
-**Decoding errors** are shape errors too, and leak just as much if passed through:
-
-| Decoder error | Becomes |
-|---|---|
-| `*http.MaxBytesError` | 413 `body_too_large` |
-| `*json.UnmarshalTypeError` | violation `{field, "type", "integer"}`, with JSON type names, not Go ones |
-| anything else (syntax, EOF) | 400 `malformed_request` |
-
-`rest/validation.go` in the templates does all of this in `decode`; handlers call
-`h.decode(w, r, &req)` and pass any error to `h.writeError`.
-
-**Custom rules.** Register them on the validator in `newValidator`, and add their
-message to `ruleMessages`:
+Each use case that has rules gets a private function in its own file, named after
+it: `PlaceOrder` → `validatePlaceOrder`. **The method loads; the function decides.**
 
 ```go
-v.RegisterValidation("slug", func(fl validator.FieldLevel) bool {
-	return slugPattern.MatchString(fl.Field().String())
-})
+func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domain.Order, error) {
+	customer, err := a.customers.Find(ctx, order.CustomerID)
+	if err != nil {
+		return domain.Order{}, fmt.Errorf("finding customer %d: %w", order.CustomerID, err)
+	}
+	if err := validatePlaceOrder(order, customer); err != nil {
+		return domain.Order{}, err
+	}
+	…
+}
+
+func validatePlaceOrder(order domain.Order, customer domain.Customer) error {
+	var errs []error
+	if !customer.Active {
+		errs = append(errs, domain.ErrCustomerInactive)
+	}
+	if order.Total() > customer.CreditLimit {
+		errs = append(errs, domain.ErrCreditLimitExceeded)
+	}
+	return errors.Join(errs...)
+}
 ```
 
-A rule with no entry in `ruleMessages` falls back to "is invalid". Add the entry.
+- **No I/O in the function.** It receives what the method loaded, so every rule is
+  testable with plain values and no mocks.
+- **Report every broken rule at once** with `errors.Join`, so the client fixes them
+  all in one round trip. `errors.Join` returns nil for an empty list, and
+  `errors.Is` finds each joined error even after the use case wraps it.
+- **No validator package here.** Stateful rules need loaded data and business
+  decisions, which is plain code.
+- **Inline is fine for a single trivial check.** Two or more go in the function, so
+  the method keeps reading as orchestration.
+- The function is private to its method's file, like every helper
+  (`application.md`).
+
+## Outbound: relational and integrity rules
+
+Unique, foreign keys and not null are enforced by the store and reported as errors.
+The repository turns each into a domain error: a known constraint into a specific
+error (`ErrUsernameTaken`), anything else into its kind. See `repository.md` and
+`errors.md`.
 
 ## gRPC
 
-Generated messages cannot carry validator tags, and methods cannot be added to them.
-Check shape in `grpc/validation.go` with plain code, returning the same violations:
-
-```go
-func validateCreateUserRequest(req *pb.CreateUserRequest) []domain.Violation {
-	var violations []domain.Violation
-	if req.GetUsername() == "" {
-		violations = append(violations, domain.Violation{Field: "username", Rule: "required"})
-	}
-	return violations
-}
-```
-
-For large proto surfaces, `buf.build/go/protovalidate` with rules in the `.proto` is
-the alternative. Normalise its errors into violations the same way.
-
-## Business rules in the application
-
-A rule that needs state is checked in the use case, after loading:
-
-```go
-if existing, err := s.repo.FindByEmail(ctx, user.Email); err == nil && existing.ID != user.ID {
-	return domain.User{}, domain.Conflict(domain.Violation{Field: "email", Rule: "taken"})
-}
-```
-
-For uniqueness, prefer the database's unique constraint over a read-then-write check:
-two concurrent requests both pass the read. The repository translates the constraint
-violation into the same `domain.Conflict` (see `repository.md`), so the use case can
-simply save.
-
-Collect every violation you can before returning, so the client fixes everything in
-one round trip:
-
-```go
-var violations []domain.Violation
-if order.Total > customer.CreditLimit {
-	violations = append(violations, domain.Violation{Field: "total", Rule: "lte", Param: strconv.FormatInt(customer.CreditLimit, 10)})
-}
-if len(violations) > 0 {
-	return domain.Order{}, domain.Invalid(violations...)
-}
-```
+Generated messages cannot carry tags. To keep one validation style, the gRPC
+adapter has its own `dto.go` request struct with validator tags, maps the generated
+message into it, validates it with the same validator setup, then calls
+`toDomain()`. See `grpc.md`.

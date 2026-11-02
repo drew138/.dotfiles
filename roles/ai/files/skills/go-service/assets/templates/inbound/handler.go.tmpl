@@ -1,0 +1,101 @@
+package rest
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"net/http"
+	"reflect"
+	"strings"
+
+	"github.com/go-playground/validator/v10"
+
+	"module/internal/domain"
+)
+
+const maxBodyBytes = 1 << 20
+
+var errMalformedBody = errors.New("malformed request body")
+
+var enums = map[string]func(string) bool{
+	"entity_status": func(v string) bool { return domain.EntityStatus(v).Valid() },
+}
+
+type Application interface {
+	CreateEntity(ctx context.Context, entity domain.Entity) (domain.Entity, error)
+	GetEntity(ctx context.Context, id int64) (domain.Entity, error)
+}
+
+type Handler struct {
+	app      Application
+	validate *validator.Validate
+}
+
+func New(router *http.ServeMux, app Application) *Handler {
+	h := &Handler{app: app, validate: newValidator()}
+	router.HandleFunc("POST /entities", h.createEntity)
+	router.HandleFunc("GET /entities/{id}", h.getEntity)
+	return h
+}
+
+func newValidator() *validator.Validate {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	v.RegisterTagNameFunc(func(f reflect.StructField) string {
+		name, _, _ := strings.Cut(f.Tag.Get("json"), ",")
+		if name == "-" {
+			return ""
+		}
+		return name
+	})
+	_ = v.RegisterValidation("enum", func(fl validator.FieldLevel) bool {
+		valid, ok := enums[fl.Param()]
+		return ok && valid(fl.Field().String())
+	})
+	return v
+}
+
+func (h *Handler) validateRequest(w http.ResponseWriter, r *http.Request, dst any) error {
+	r.Body = http.MaxBytesReader(w, r.Body, maxBodyBytes)
+	if err := json.NewDecoder(r.Body).Decode(dst); err != nil {
+		var tooLarge *http.MaxBytesError
+		var wrongType *json.UnmarshalTypeError
+		if errors.As(err, &tooLarge) || errors.As(err, &wrongType) {
+			return err
+		}
+		return fmt.Errorf("%w: %w", errMalformedBody, err)
+	}
+	return h.validate.Struct(dst)
+}
+
+func (h *Handler) writeError(w http.ResponseWriter, err error) {
+	if errors.Is(err, context.Canceled) {
+		return
+	}
+	status, body := mapErrorResponse(err)
+	h.writeJSON(w, status, body)
+}
+
+func (h *Handler) writeJSON(w http.ResponseWriter, status int, body any) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	_ = json.NewEncoder(w).Encode(body)
+}
+
+func jsonType(t reflect.Type) string {
+	switch t.Kind() {
+	case reflect.String:
+		return "string"
+	case reflect.Bool:
+		return "boolean"
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		return "integer"
+	case reflect.Float32, reflect.Float64:
+		return "number"
+	case reflect.Slice, reflect.Array:
+		return "array"
+	default:
+		return "object"
+	}
+}

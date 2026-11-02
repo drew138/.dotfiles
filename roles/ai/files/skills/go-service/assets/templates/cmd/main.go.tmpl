@@ -1,0 +1,64 @@
+package main
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"log/slog"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	"module/internal/application"
+	"module/internal/config"
+	"module/internal/infrastructure/api/rest"
+	"module/internal/infrastructure/repository/tech"
+)
+
+func main() {
+	if err := run(); err != nil {
+		slog.Error("service stopped", "error", err)
+		os.Exit(1)
+	}
+}
+
+func run() error {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	cfg, err := config.Load()
+	if err != nil {
+		return fmt.Errorf("loading config: %w", err)
+	}
+
+	client, err := tech.Connect(ctx, cfg.DatabaseURL)
+	if err != nil {
+		return fmt.Errorf("connecting to the database: %w", err)
+	}
+	defer client.Close()
+
+	repo := tech.New(client)
+	app := application.New(repo)
+
+	router := http.NewServeMux()
+	rest.New(router, app)
+	server := &http.Server{Addr: cfg.HTTPAddr, Handler: router, ReadHeaderTimeout: 10 * time.Second}
+
+	errCh := make(chan error, 1)
+	go func() { errCh <- fmt.Errorf("serving http: %w", server.ListenAndServe()) }()
+
+	select {
+	case err := <-errCh:
+		return err
+	case <-ctx.Done():
+	}
+
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if err := server.Shutdown(shutdownCtx); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		return fmt.Errorf("shutting down http: %w", err)
+	}
+	return nil
+}

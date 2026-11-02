@@ -1,0 +1,18 @@
+package rest
+
+import "net/http"
+
+func (h *Handler) createEntity(w http.ResponseWriter, r *http.Request) {
+	var req CreateEntityRequest
+	if err := h.validateRequest(w, r, &req); err != nil {
+		h.writeError(w, err)
+		return
+	}
+
+	entity, err := h.app.CreateEntity(r.Context(), req.toDomain())
+	if err != nil {
+		h.writeError(w, err)
+		return
+	}
+	h.writeJSON(w, http.StatusCreated, mapEntityResponse(entity))
+}

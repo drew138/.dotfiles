@@ -1,0 +1,34 @@
+package application
+
+import (
+	"context"
+	"errors"
+	"fmt"
+
+	"module/internal/domain"
+)
+
+func (a *Application) ArchiveEntity(ctx context.Context, id int64) (domain.Entity, error) {
+	entity, err := a.repo.Find(ctx, id)
+	if err != nil {
+		return domain.Entity{}, fmt.Errorf("finding entity %d: %w", id, err)
+	}
+	if err := validateArchiveEntity(entity); err != nil {
+		return domain.Entity{}, err
+	}
+
+	entity.Status = domain.EntityStatusArchived
+	saved, err := a.repo.Save(ctx, entity)
+	if err != nil {
+		return domain.Entity{}, fmt.Errorf("saving entity %d: %w", id, err)
+	}
+	return saved, nil
+}
+
+func validateArchiveEntity(entity domain.Entity) error {
+	var errs []error
+	if !entity.CanArchive() {
+		errs = append(errs, domain.ErrEntityAlreadyArchived)
+	}
+	return errors.Join(errs...)
+}

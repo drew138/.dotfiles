@@ -1,0 +1,34 @@
+package rest
+
+import "module/internal/domain"
+
+type CreateEntityRequest struct {
+	Name   string `json:"name" validate:"required,max=100"`
+	Status string `json:"status" validate:"required,enum=entity_status"`
+}
+
+func (r CreateEntityRequest) toDomain() domain.Entity {
+	return domain.Entity{Name: r.Name, Status: domain.EntityStatus(r.Status)}
+}
+
+type EntityResponse struct {
+	ID     int64  `json:"id"`
+	Name   string `json:"name"`
+	Status string `json:"status"`
+}
+
+type ErrorResponse struct {
+	Error ErrorBody `json:"error"`
+}
+
+type ErrorBody struct {
+	Code    string          `json:"code"`
+	Message string          `json:"message"`
+	Fields  []FieldResponse `json:"fields,omitempty"`
+}
+
+type FieldResponse struct {
+	Field string `json:"field,omitempty"`
+	Rule  string `json:"rule"`
+	Param string `json:"param,omitempty"`
+}

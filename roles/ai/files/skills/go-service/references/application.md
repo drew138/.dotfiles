@@ -2,7 +2,7 @@
 
 `internal/application` holds the use cases. A use case **orchestrates**: it decides
 what happens, in what order, and through which ports. It never knows how a port is
-implemented. Templates: `assets/templates/base/internal/application/`.
+implemented. Templates: `assets/templates/application/`.
 
 ## application.go
 
@@ -128,28 +128,27 @@ purpose by both use cases. Adapters may share helpers within their own package
 ## Anatomy of a use case
 
 Most use cases follow the same order. Skip what does not apply, but keep the order.
+The request's format was already validated by the inbound adapter, so the use case
+starts from well-formed domain values.
 
 ```go
 func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domain.Order, error) {
-	// 1. Business rules that need no I/O, cheapest first.
-	if len(order.Items) == 0 {
-		return domain.Order{}, domain.Invalid(domain.Violation{Field: "items", Rule: "required"})
-	}
-
-	// 2. Load what the decision needs, through ports.
+	// 1. Load what the decision needs, through ports.
 	customer, err := a.customers.Find(ctx, order.CustomerID)
 	if errors.Is(err, domain.ErrNotFound) {
-		return domain.Order{}, domain.Invalid(domain.Violation{Field: "customer_id", Rule: "not_found"})
+		return domain.Order{}, domain.ErrCustomerNotFound
 	}
 	if err != nil {
 		return domain.Order{}, fmt.Errorf("finding customer %d: %w", order.CustomerID, err)
 	}
 
-	// 3. Decide, using domain methods.
-	order, err = order.PriceFor(customer)
-	if err != nil {
+	// 2. Check the stateful business rules, all at once.
+	if err := validatePlaceOrder(order, customer); err != nil {
 		return domain.Order{}, err
 	}
+
+	// 3. Decide, using domain methods.
+	order.Status = domain.OrderStatusPending
 
 	// 4. Persist: one port call per atomic change.
 	saved, err := a.orders.Save(ctx, order)
@@ -161,15 +160,27 @@ func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domai
 	a.notifyPlaceOrder(ctx, saved)
 	return saved, nil
 }
+
+func validatePlaceOrder(order domain.Order, customer domain.Customer) error {
+	var errs []error
+	if !customer.Active {
+		errs = append(errs, domain.ErrCustomerInactive)
+	}
+	if order.Total() > customer.CreditLimit {
+		errs = append(errs, domain.ErrCreditLimitExceeded)
+	}
+	return errors.Join(errs...)
+}
 ```
 
 (The comments are here for the explanation only. Real method files carry none.)
 
 **Why this order**
 
-- Rules first, because they are free and a request that fails them should cost nothing.
-- Loads before decisions, so the decision is made on real state, not on the request's
-  claims.
+- Loads first, so rules are checked against real state, not the request's claims.
+- Rules before any change, and all of them at once, so a rejected request costs
+  nothing and the client fixes everything in one round trip. How
+  `validate<Method>` works is in `validation.md`.
 - Persist before side effects. An email sent for an order that then failed to save is
   a lie that cannot be taken back. A saved order whose email failed can be retried.
 
@@ -177,14 +188,16 @@ func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domai
 
 Three moves, in this order of preference:
 
-1. **Pass through with context.** `fmt.Errorf("saving order: %w", err)`. The kind
-   survives the wrap, so the inbound adapter still maps it. This is the default.
+1. **Wrap and pass through.** `fmt.Errorf("saving order: %w", err)`. The kind and
+   any specific error survive the wrap, so the inbound adapter still maps them.
+   This is the default.
 2. **Re-translate when the use case knows more than the port.** The customer
-   repository says `ErrNotFound`, but to the client of `PlaceOrder` the order is
-   fine and the `customer_id` field is wrong. That is a 422 on a field, not a 404.
-   Only the use case knows that.
-3. **Swallow deliberately**, for best-effort work, and log it, because a handled error
-   is logged where it stops (see `go-review`):
+   repository says `ErrNotFound`, but to the client of `PlaceOrder` the order
+   references a customer that does not exist. That is `domain.ErrCustomerNotFound`
+   (which wraps `ErrInvalid`: a 422 on `customer_id`), not a 404. Only the use case
+   knows that.
+3. **Swallow deliberately**, for best-effort work, in a helper private to the method
+   file:
 
 ```go
 func (a *Application) notifyPlaceOrder(ctx context.Context, order domain.Order) {
@@ -194,8 +207,11 @@ func (a *Application) notifyPlaceOrder(ctx context.Context, order domain.Order) 
 }
 ```
 
-Never log and return the same error. Never return a raw adapter error type; ports
-return domain errors, so the application never imports a driver.
+A swallowed error must still be logged, because that is where it stops. How the
+application gets its logger is part of the logging design, which is not settled yet.
+
+Never log and return the same error. Never return a raw adapter error; ports return
+domain errors, so the application never imports a driver.
 
 ## Atomic changes across ports
 
@@ -247,5 +263,6 @@ Sequential code is easier to read.
 
 - `application.go` holds only `Application`, `New` and ports.
 - The new method is alone in its snake_case file, with its own helpers.
+- Stateful rules are in `validate<Method>`, pure and joined.
 - Every port error is wrapped, re-translated or deliberately swallowed and logged.
 - `go -C <skill>/scripts run ./check "$PWD"` reports nothing for the application.
