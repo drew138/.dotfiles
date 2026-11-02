@@ -12,8 +12,8 @@ cmd/consumer/main.go   cmd/consumer/config.go   consumes the queue
 cmd/cli/main.go        cmd/cli/config.go        a command-line tool
 ```
 
-Each `main.go` builds only what its entry point uses: it is the only place that
-knows those concrete types. Each builds into its own binary
+Every entry point builds the one `Application`, with all its ports, and then its own
+inbound adapter. Its `main.go` is the only place that knows those concrete types. Each builds into its own binary
 (`go build ./cmd/rest`) and is deployed on its own.
 
 ## Shape of main.go
@@ -64,9 +64,9 @@ part of the logging design, which is not settled yet.
 Each entry point reads its own configuration in `cmd/<entrypoint>/config.go`: a
 private `config` struct and `loadConfig()`, using only the standard library.
 
-**An entry point reads only what it uses.** `cmd/cli/config.go` has no `HTTP_ADDR`
-because `cmd/rest` needs one; each struct lists exactly the values its `main.go`
-passes on.
+Every entry point reads the settings the application's ports need (the database,
+providers, the cache), since each builds the whole application, plus the settings of
+its own inbound adapter: `HTTP_ADDR` in `cmd/rest`, `GRPC_ADDR` in `cmd/grpc`.
 
 ```go
 // cmd/rest/config.go

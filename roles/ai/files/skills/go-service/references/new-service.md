@@ -20,7 +20,7 @@ guess a module path.
 3. **Application** (`application.md`). `application.go` with `Application`, `New`
    and the first port.
 4. **Entry point** (`wiring.md`). `cmd/rest/config.go` with a private `config` and
-   `loadConfig()`, reading only what `cmd/rest` uses.
+   `loadConfig()`.
 5. **First endpoint.** Follow **Adding an endpoint** in `SKILL.md`: the outbound
    adapter, the use case, the REST adapter (`handler.go`, the route file, `dto.go`,
    `mappers.go`), then wiring.

@@ -116,7 +116,7 @@ my-service/
 ├── cmd/
 │   ├── rest/
 │   │   ├── main.go                          wiring: connections, New, serve, shutdown
-│   │   └── config.go                        private config: only what rest uses
+│   │   └── config.go                        private config
 │   └── consumer/
 │       ├── main.go
 │       └── config.go

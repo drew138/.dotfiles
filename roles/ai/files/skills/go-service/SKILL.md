@@ -100,7 +100,7 @@ them together.
 
 ```
 cmd/<entrypoint>/main.go                wiring for one entry point: rest, grpc, consumer, cli
-cmd/<entrypoint>/config.go              its private config, only what it uses
+cmd/<entrypoint>/config.go              its private config
 internal/domain/{domain,enums,errors}.go  models; string enums; error values
 internal/application/application.go     Application, New, ports
 internal/application/<method>.go        one public method per file
@@ -181,9 +181,10 @@ The full tree, the request flow and a "what goes where" table are in
   errors end up in logs: wrap with IDs (`fmt.Errorf("saving user %d: %w", id, err)`),
   never with the value (`"saving user ana@x.com"`). Never log a request body, a DTO
   or a domain struct whole. If a value is needed to debug, log its ID.
-- **Each entry point reads only its own config.** `cmd/<entrypoint>/config.go`
-  holds a private `config` struct loaded from environment variables with the
-  standard library; it lists only the values that entry point uses.
+- **Each entry point loads its config in `cmd/<entrypoint>/config.go`**: a private
+  `config` struct read from environment variables with the standard library. There
+  is one `Application`, and every entry point builds all of it, so each reads the
+  settings the application needs plus its own server settings.
 - **`ctx context.Context` comes first** in every port and service method.
 - **Every layer validates what only it can know.** The API checks the request's
   format with go-playground/validator tags on its DTO (types, required, lengths,
@@ -244,8 +245,8 @@ name, a rule, a status, which store.
    registered in `New` and the use case added to the `Application` interface in
    `handler.go`; a row in the error table for each new specific error.
 6. **Wiring** (`wiring.md`). Construct each new adapter in `main.go` with `New` and
-   pass it to whatever consumes it. New config goes in that entry point's
-   `config.go`, and only in the entry points that use it.
+   pass it to whatever consumes it. A new setting for the application goes in every
+   entry point's `config.go`.
 7. **Tests.** Follow `go-tests`: unit tests for the use case and the handler,
    integration tests for the repository. Assert errors with `ErrorIs`/`ErrorAs`.
 8. **Check.** `go build ./...`, `go vet ./...`, `go test ./...`, then the
