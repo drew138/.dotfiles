@@ -24,11 +24,18 @@ flowchart LR
    with `%w` so `errors.Is` and `errors.As` see through it. When translating and
    keeping the cause for the logs, wrap both:
    `fmt.Errorf("%s: %w: %w", doing, domain.ErrUnavailable, err)`.
-3. **Log once, where the error stops.** For a request that is the inbound adapter,
+3. **No PII or PCI in an error, ever.** Error messages are logged, so a wrap that
+   names an email, a name or a card number leaks it into the logs. Identify things
+   by ID: `fmt.Errorf("finding user %d: %w", id, err)`, `fmt.Errorf("charging order
+   %d: %w", orderID, err)`. Also check what a *driver* puts in its message before
+   logging it: MySQL's duplicate-key message contains the duplicated value
+   (`Duplicate entry 'ana@x.com' for key …`). That is fine here only because
+   conflicts become a 409 and are never logged; never log such an error.
+4. **Log once, where the error stops.** For a request that is the inbound adapter,
    and only for 5xx: a 404 is an answer, not an incident. Never log and return.
-4. **Never show `err.Error()` to a client.** Messages come from fixed strings and
+5. **Never show `err.Error()` to a client.** Messages come from fixed strings and
    `ruleMessages`, keyed by kind and rule.
-5. **Cancelled requests are not errors.** `context.Canceled` means the client went
+6. **Cancelled requests are not errors.** `context.Canceled` means the client went
    away: write nothing over REST, return `Canceled` over gRPC, log nothing.
    `context.DeadlineExceeded` is treated as unavailable.
 

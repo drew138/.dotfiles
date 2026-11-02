@@ -131,6 +131,12 @@ The full tree, the request flow and a "what goes where" table are in
   `mapOrderResponse(order, customer) OrderResponse`.
 - **Secrets never reach output.** Leave them out of response DTOs and messages
   entirely; clear them from what a repository returns after a write.
+- **Logging PII or PCI data is absolutely forbidden. No exceptions.** No names,
+  emails, phone numbers, addresses, national IDs, card numbers, CVVs, passwords or
+  tokens, in any log line, at any level. This includes **error messages**, because
+  errors end up in logs: wrap with IDs (`fmt.Errorf("saving user %d: %w", id, err)`),
+  never with the value (`"saving user ana@x.com"`). Never log a request body, a DTO
+  or a domain struct whole. If a value is needed to debug, log its ID.
 - **`ctx context.Context` comes first** in every port and service method.
 - **Errors are translated at every boundary.** Adapters turn driver, library and
   upstream errors into domain errors; inbound adapters turn domain errors into a
