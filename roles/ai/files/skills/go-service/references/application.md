@@ -25,11 +25,10 @@ type Mailer interface {
 type Application struct {
 	repo   Repository
 	mailer Mailer
-	log    *slog.Logger
 }
 
-func New(repo Repository, mailer Mailer, log *slog.Logger) *Application {
-	return &Application{repo: repo, mailer: mailer, log: log}
+func New(repo Repository, mailer Mailer) *Application {
+	return &Application{repo: repo, mailer: mailer}
 }
 ```
 
@@ -203,13 +202,13 @@ Three moves, in this order of preference:
 ```go
 func (a *Application) notifyPlaceOrder(ctx context.Context, order domain.Order) {
 	if err := a.mailer.SendOrderPlaced(ctx, order); err != nil {
-		a.log.WarnContext(ctx, "sending order placed email", "order_id", order.ID, "error", err)
+		slog.WarnContext(ctx, "sending order placed email", "order_id", order.ID, "error", err)
 	}
 }
 ```
 
-A swallowed error must still be logged, because that is where it stops. How the
-application gets its logger is part of the logging design, which is not settled yet.
+A swallowed error must still be logged, as a warning, because that is where it stops
+(`logging.md`).
 
 Never log and return the same error. Never return a raw adapter error; ports return
 domain errors, so the application never imports a driver.

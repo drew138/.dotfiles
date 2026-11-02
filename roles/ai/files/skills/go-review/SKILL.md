@@ -83,8 +83,14 @@ always blocking.
 
 Volume:
 
-- at least one log per complete flow, at its boundary, carrying a correlation id
+- **one log line per request or message**, written by the inbound adapter when
+  it finishes: the route, the status and the duration; the error only when the
+  failure is ours (5xx, or a message failing unexpectedly). A 4xx line carries no
+  error text
 - every error logged exactly **once**, where it is handled
+- log calls use the context variants (`slog.InfoContext(ctx, …)`), so a logging
+  library that adds correlation IDs from the context can. Correlation headers
+  belong to the infrastructure; the code neither reads nor sets them
 
 A function that logs an error and also returns it is the anti-pattern — the same
 failure then appears at every level it passes through, and none of the entries

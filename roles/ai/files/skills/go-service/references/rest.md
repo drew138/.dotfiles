@@ -6,7 +6,7 @@ The inbound adapter for HTTP + JSON, at `internal/infrastructure/api/rest/`.
 
 | File | Holds |
 |---|---|
-| `handler.go` | the `Application` interface, the `Handler` struct, `New`, and the private methods every route shares: `validateRequest`, `writeError`, `writeJSON`; the validator setup |
+| `handler.go` | the `Application` interface, the `Handler` struct, `New`, and the private methods every route shares: `validateRequest`, `logged`, `writeError`, `writeJSON`; the validator setup |
 | `<route_name>.go` | one route method per file, in snake_case: `createUser` lives in `create_user.go` |
 | `dto.go` | request DTOs (`json` + `validate` tags, `toDomain()`), response DTOs, error response DTOs |
 | `mappers.go` | `map<Target>` functions, the error tables and `mapErrorResponse` |
@@ -37,8 +37,8 @@ type Handler struct {
 
 func New(router *http.ServeMux, app Application) *Handler {
 	h := &Handler{app: app, validate: newValidator()}
-	router.HandleFunc("POST /users", h.createUser)
-	router.HandleFunc("GET /users/{id}", h.getUser)
+	router.HandleFunc("POST /users", h.logged(h.createUser))
+	router.HandleFunc("GET /users/{id}", h.logged(h.getUser))
 	return h
 }
 ```
@@ -95,6 +95,9 @@ func (h *Handler) writeError(w http.ResponseWriter, err error) {
 	if errors.Is(err, context.Canceled) {
 		return
 	}
+	if rr, ok := w.(*responseRecorder); ok {
+		rr.err = err
+	}
 	body := mapErrorResponse(err)
 	h.writeJSON(w, body.Status, body)
 }
@@ -105,6 +108,43 @@ func (h *Handler) writeJSON(w http.ResponseWriter, status int, body any) {
 	_ = json.NewEncoder(w).Encode(body)
 }
 ```
+
+### The line for each request
+
+Every route is registered through `h.logged`, which writes the one log line per
+request when it finishes (`logging.md`). `writeError` hands it the error, so a 5xx
+line carries it:
+
+```go
+type responseRecorder struct {
+	http.ResponseWriter
+	status int
+	err    error
+}
+
+func (rr *responseRecorder) WriteHeader(status int) {
+	rr.status = status
+	rr.ResponseWriter.WriteHeader(status)
+}
+
+func (h *Handler) logged(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		rr := &responseRecorder{ResponseWriter: w, status: http.StatusOK}
+		next(rr, r)
+
+		attrs := []any{"route", r.Pattern, "status", rr.status, "duration_ms", time.Since(start).Milliseconds()}
+		if rr.status >= http.StatusInternalServerError {
+			slog.ErrorContext(r.Context(), "request failed", append(attrs, "error", rr.err)...)
+			return
+		}
+		slog.InfoContext(r.Context(), "request handled", attrs...)
+	}
+}
+```
+
+`r.Pattern` is the route pattern (`GET /users/{id}`), so values in the URL never
+reach the logs.
 
 ## DTOs
 
@@ -281,8 +321,3 @@ type ErrorDetail struct {
 	Param string `json:"param,omitempty"`
 }
 ```
-
-## Pending
-
-How 5xx errors are logged is not decided; `New` takes no logger yet (see "Not
-decided yet" in `SKILL.md`).

@@ -8,14 +8,14 @@ config the cache needs (a `redis.conf`) lives at the repository root in `redis/`
 
 ```go
 repo := postgres.New(db)
-app := application.New(redis.New(rdb, repo, cfg.cacheTTL, log))
+app := application.New(redis.New(rdb, repo, cfg.cacheTTL))
 ```
 
 ## Files
 
 | File | Holds |
 |---|---|
-| `redis.go` | `Cache`, `New(client, repo, ttl, log)`, every port method, `read`, `write`, key builders |
+| `redis.go` | `Cache`, `New(client, repo, ttl)`, every port method, `read`, `write`, key builders |
 | `dto.go` | entry structs with `json` tags and `toDomain()` |
 | `mappers.go` | `map<Entity>Entry` |
 
@@ -39,7 +39,7 @@ value behind if two writes race; an update can.
 ## Failure
 
 **A cache never fails a request.** Redis down, a timeout, an entry that no longer
-decodes: log a warning and fall through to the repository. The cache makes things
+decodes: log a warning (`slog.WarnContext`) and fall through to the repository. The cache makes things
 faster; it is not a source of truth.
 
 Repository errors pass through unwrapped (`return err`). The repository already

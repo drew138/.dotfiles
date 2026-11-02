@@ -175,12 +175,16 @@ The full tree, the request flow and a "what goes where" table are in
   `mapOrderResponse(order, customer) OrderResponse`.
 - **Secrets never reach output.** Leave them out of response DTOs and messages
   entirely; clear them from what a repository returns after a write.
-- **Logging PII or PCI data is absolutely forbidden. No exceptions.** No names,
-  emails, phone numbers, addresses, national IDs, card numbers, CVVs, passwords or
-  tokens, in any log line, at any level. This includes **error messages**, because
+- **Logging PII or PCI data is absolutely forbidden.** No names, emails, phone
+  numbers, addresses, national IDs, card numbers, CVVs, passwords or tokens, in any
+  log line, at any level; a masked value is allowed. This includes **error messages**, because
   errors end up in logs: wrap with IDs (`fmt.Errorf("saving user %d: %w", id, err)`),
   never with the value (`"saving user ana@x.com"`). Never log a request body, a DTO
   or a domain struct whole. If a value is needed to debug, log its ID.
+- **Logging** (`references/logging.md`): the logger is set once in `main` as the
+  default, and code calls the context variants (`slog.InfoContext(ctx, …)`).
+  Structured lines with named fields. Every error is logged once, where it stops;
+  never logged and returned. Every request produces one line when it finishes.
 - **Each entry point loads its config in `cmd/<entrypoint>/config.go`**: a private
   `config` struct read from environment variables with the standard library. There
   is one `Application`, and every entry point builds all of it, so each reads the
@@ -214,6 +218,7 @@ The full tree, the request flow and a "what goes where" table are in
 | a REST handler | `references/rest.md` |
 | a gRPC service | `references/grpc.md` |
 | an entry point, `main.go` or config | `references/wiring.md` |
+| what to log, where, at which level | `references/logging.md` |
 
 ## Adding an endpoint
 
@@ -275,14 +280,7 @@ the work done with an item failing.
 - [ ] Every error leaving an outbound adapter is a domain error; new named
       constraints are in `constraintErrors`; new specific errors have a row in the
       inbound adapter's error table.
-- [ ] No PII or PCI in any log line or error message.
+- [ ] No PII or PCI in any log line or error message (masked values allowed).
+- [ ] Log calls use the context variants; no error is both logged and returned.
 - [ ] Queries are plain SQL; no ORM in `go.mod`.
 - [ ] Every new migration column is described; nothing left as `TODO`.
-
-## Not decided yet
-
-These are still open and will be settled together. Until then, keep the current
-behaviour and do not invent new rules for them:
-
-- **Logging**: how the logger is built and handed to adapters, and how 5xx errors
-  are logged. The PII/PCI rule above already applies.

@@ -100,6 +100,11 @@ generic kinds. Kinds become codes:
 Field-level detail goes in `errdetails.BadRequest` field violations attached with
 `status.WithDetails`, so gRPC clients get the same detail as REST clients.
 
+Like REST, every RPC produces one log line when it finishes (`logging.md`): a unary
+server interceptor, registered once when the server is built, logs the method, the
+code and the duration, and the error when the code is `Internal`, `Unknown` or
+`Unavailable`.
+
 ## The proto
 
 - At the repository root: `api/proto/<service>/v1/`. A breaking change is a new `v2`.

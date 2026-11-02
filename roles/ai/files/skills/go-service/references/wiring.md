@@ -20,6 +20,7 @@ inbound adapter. Its `main.go` is the only place that knows those concrete types
 
 ```go
 func main() {
+	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
 	if err := run(); err != nil {
 		slog.Error("service stopped", "error", err)
 		os.Exit(1)
@@ -33,8 +34,8 @@ func run() error { … }
 `os.Exit`, so its `defer`s (closing the database, the broker connection) actually
 run. This is the only place the program stops on purpose: invalid config or a
 connection that cannot be made at startup ends here, with a log line and exit code 1.
-Nothing anywhere calls `panic`. How the logger is built and handed to adapters is
-part of the logging design, which is not settled yet.
+Nothing anywhere calls `panic`. `main` also sets the default logger, before anything
+else runs (`logging.md`).
 
 ## Order inside run
 
@@ -43,7 +44,7 @@ part of the logging design, which is not settled yet.
 3. Connections: open, `defer Close`, ping. An entry point that cannot reach its
    database fails at start, not at its first request.
 4. Outbound adapters: `postgres.New(db)`, `adyen.New(httpClient, cfg.adyenURL, cfg.adyenAPIKey)`.
-5. Decorators around them: `redis.New(rdb, repo, cfg.cacheTTL, log)`.
+5. Decorators around them: `redis.New(rdb, repo, cfg.cacheTTL)`.
 6. `application.New(...)` with every port.
 7. The inbound adapter: `rest.New(router, app)` builds it and registers its routes.
 8. Serve in a goroutine, sending its error to a channel.

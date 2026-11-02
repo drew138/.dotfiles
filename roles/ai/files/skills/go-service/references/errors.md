@@ -22,7 +22,7 @@ flowchart LR
 2. **Wrap with what you were doing**, using `%w`:
    `fmt.Errorf("saving order %d: %w", id, err)`. To translate and keep the cause,
    wrap both: `fmt.Errorf("%s: %w: %w", doing, domain.ErrUnavailable, err)`.
-3. **No PII or PCI in an error, ever.** Errors get logged, so a wrap that names an
+3. **No PII or PCI in an error.** Errors get logged, so a wrap that names an
    email, a name or a card number leaks it. Identify things by ID. Check what a
    driver puts in its own message too: MySQL's duplicate-key message contains the
    duplicated value.

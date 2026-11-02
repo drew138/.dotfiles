@@ -114,11 +114,10 @@ type Consumer struct {
 	queue    string
 	app      Application
 	validate *validator.Validate
-	log      *slog.Logger
 }
 
-func New(ch *amqp.Channel, queue string, app Application, log *slog.Logger) *Consumer {
-	return &Consumer{ch: ch, queue: queue, app: app, validate: newValidator(), log: log}
+func New(ch *amqp.Channel, queue string, app Application) *Consumer {
+	return &Consumer{ch: ch, queue: queue, app: app, validate: newValidator()}
 }
 
 func (c *Consumer) Run(ctx context.Context) error {
@@ -178,10 +177,10 @@ func (c *Consumer) handle(ctx context.Context, d amqp.Delivery) {
 	case err == nil, errors.Is(err, domain.ErrConflict):
 		c.settle(ctx, d, d.Ack(false))
 	case errors.Is(err, errMalformedMessage), errors.Is(err, domain.ErrInvalid):
-		c.log.WarnContext(ctx, "dead-lettering message", "queue", c.queue, "message_id", d.MessageId, "error", err)
+		slog.WarnContext(ctx, "dead-lettering message", "queue", c.queue, "message_id", d.MessageId, "error", err)
 		c.settle(ctx, d, d.Nack(false, false))
 	default:
-		c.log.ErrorContext(ctx, "handling message", "queue", c.queue, "message_id", d.MessageId, "error", err)
+		slog.ErrorContext(ctx, "handling message", "queue", c.queue, "message_id", d.MessageId, "error", err)
 		c.settle(ctx, d, d.Nack(false, true))
 	}
 }
@@ -199,9 +198,10 @@ Requeueing forever turns one poison message into a hot loop. Give the queue a
 delivery limit and a dead-letter exchange (quorum queues: `x-delivery-limit`,
 `x-dead-letter-exchange`), so a message that keeps failing ends up in the DLQ.
 
-The consumer is where the error stops, so it is where the error is logged, once. An
-ack or nack that fails is logged too, since the broker will redeliver. How the
-logger is passed in is part of the logging design, which is not settled yet.
+The consumer is where the error stops, so it is where the error is logged, once:
+`WARN` for a malformed message dead-lettered, `ERROR` for an unexpected failure
+(`logging.md`). An ack or nack that fails is logged too, since the broker will
+redeliver.
 
 ### Idempotency
 
@@ -231,7 +231,7 @@ consumeCh, err := conn.Channel()
 if err := consumeCh.Qos(10, 0, false); err != nil { … }
 
 app := application.New(repo, publisher.New(pubCh, cfg.exchange))
-importer := consumer.New(consumeCh, cfg.importQueue, app, log)
+importer := consumer.New(consumeCh, cfg.importQueue, app)
 go func() { errCh <- importer.Run(ctx) }()
 ```
 
