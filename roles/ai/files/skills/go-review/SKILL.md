@@ -1,7 +1,7 @@
 ---
 name: go-review
 description: |
-  Review Go changes against house conventions: delta-scoped findings, structured
+  Review Go changes against our team's conventions: delta-scoped findings, structured
   logging, no PII/PCI or credentials in logs, consumer-defined interfaces, no init,
   no utils packages, simple naming. Reports locally for your own changes; posts
   inline comments on someone else's pull request after confirmation.

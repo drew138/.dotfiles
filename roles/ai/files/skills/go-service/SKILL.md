@@ -1,7 +1,8 @@
 ---
 name: go-service
 description: |
-  Build Go microservices in the house hexagonal layout, step by step: scaffold a
+  Build Go microservices with ports-and-adapters (hexagonal) architecture,
+  following our team's folder layout and conventions, step by step: scaffold a
   new service from templates, or add an endpoint, use case, repository, cache,
   queue publisher or consumer, client or gRPC adapter to an existing one. Covers
   how application methods orchestrate ports, three-layer validation with
