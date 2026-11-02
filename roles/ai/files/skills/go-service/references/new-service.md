@@ -17,17 +17,15 @@ guess a module path.
    needs (`architecture.md`). Add `pkg/` only for code another repository will
    import.
 2. **Domain** (`domain.md`). `domain.go` with the first model, `enums.go` if it has a
-   fixed set of values, and `errors.go` with the five generic kinds. Templates:
-   `assets/templates/domain/`.
+   fixed set of values, and `errors.go` with the five generic kinds.
 3. **Application** (`application.md`). `application.go` with `Application`, `New`
-   and the first port. Template: `assets/templates/application/`.
-4. **Config** (`wiring.md`). `internal/config/config.go` with `Load()`. Template:
-   `assets/templates/config/`.
+   and the first port.
+4. **Config** (`wiring.md`). `internal/config/config.go` with `Load()`.
 5. **First endpoint.** Follow **Adding an endpoint** in `SKILL.md`: the outbound
    adapter, the use case, the REST adapter (`handler.go`, the route file, `dto.go`,
    `mappers.go`), then wiring.
 6. **main.go** (`wiring.md`). Load config, connect, build each adapter with `New`,
-   serve, shut down on SIGTERM. Template: `assets/templates/cmd/`.
+   serve, shut down on SIGTERM.
 7. **Infra config at the root.** `migration/` with the first migration (constraints
    named, every column described), and a folder per other piece of infra the
    service uses (`rabbitmq/`, `redis/`).
@@ -35,4 +33,4 @@ guess a module path.
    in the Go image, run it from a minimal non-root image such as
    `gcr.io/distroless/static-debian12:nonroot`.
 9. **Check.** `go build ./...`, `go vet ./...`, `go test ./...`, then
-   `go -C <skill>/scripts run ./check "$PWD"`.
+   the checklist in `SKILL.md`.

@@ -1,7 +1,7 @@
 # Domain
 
 `internal/domain` is the service's business language. Every other layer translates
-into it and out of it. Templates: `assets/templates/domain/`.
+into it and out of it.
 
 | File | Holds |
 |---|---|
@@ -79,9 +79,6 @@ func (s OrderStatus) Valid() bool {
   plain string, with no custom type.
 - **No enums in the database.** Store the string in a text column, with no database
   enum type and no check constraint. The API validates, and the domain owns the list.
-
-`scripts/check` reports `iota`, non-string types in `enums.go`, and enums without
-`Valid()`.
 
 ## errors.go: errors
 

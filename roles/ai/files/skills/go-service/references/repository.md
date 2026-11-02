@@ -1,10 +1,12 @@
 # Repository adapters
 
 An outbound adapter that implements a persistence port, at
-`internal/infrastructure/repository/<tech>/`. Templates: `assets/templates/outbound/`.
+`internal/infrastructure/repository/<tech>/`. Its files are the shape every outbound
+adapter follows: caches, clients and publishers too.
 
-The templates are the shape, not an implementation: write the store-specific code
-for the store the service uses, following the shape and the rules here.
+The code here shows the shape, not an implementation to copy: write the
+store-specific code for the store the service uses, following the shape and the
+rules.
 
 ## Files
 

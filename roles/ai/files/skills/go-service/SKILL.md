@@ -8,7 +8,7 @@ description: |
   methods orchestrate ports, where each kind of validation lives (go-playground
   validator in the API, stateful business rules in the application), string
   enums, and translating driver and upstream errors into domain errors and a
-  client-safe error body. Bundles shape templates and a convention checker.
+  client-safe error body.
   Triggers: "new service", "start a microservice", "add an endpoint", "add a
   use case", "add a repository", "add a cache", "publish an event", "consume a
   queue", "call another service", "add gRPC", "wire this up", "how should this
@@ -21,8 +21,6 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 Interfaces, naming, logging and migrations follow `go-review`. Tests follow
 `go-tests`. Read both; this skill does not restate them.
-
-Paths below are relative to this skill's directory, written `<skill>` in commands.
 
 ## Structure
 
@@ -201,8 +199,8 @@ The full tree, the request flow and a "what goes where" table are in
 ## Adding an endpoint
 
 Work through the steps in order. **Read each step's reference when you reach it**,
-not before. Open the matching template in `assets/templates/` before writing a file:
-it is the canonical shape, not code to copy. Run `go build ./...` at the end of every step; the next
+not before. The code in each reference shows the shape every file takes; write the
+real code for the service's tech following it, not by copying it. Run `go build ./...` at the end of every step; the next
 step starts from code that compiles. After each step, say in one line what was added.
 Stop and ask only when a step needs a decision the request did not make: a field
 name, a rule, a status, which store.
@@ -231,41 +229,33 @@ name, a rule, a status, which store.
    pass it to whatever consumes it. New config goes in `internal/config`.
 7. **Tests.** Follow `go-tests`: unit tests for the use case and the handler,
    integration tests for the repository. Assert errors with `ErrorIs`/`ErrorAs`.
-8. **Check.** `go build ./...`, `go vet ./...`, `go test ./...`, then
-   `go -C <skill>/scripts run ./check "$PWD"`, then the diff against `go-review`.
+8. **Check.** `go build ./...`, `go vet ./...`, `go test ./...`, then the
+   checklist below, then the diff against `go-review`.
 
-## The checker
+## Checklist before reporting done
 
-`scripts/check` uses only the standard library and runs with the Go toolchain the
-service already needs. `go -C` runs it in its own module, so pass an absolute path:
+Walk through every item against the changed code. Fix what fails; do not report
+the work done with an item failing.
 
-```bash
-go -C <skill>/scripts run ./check "$PWD"
-```
-
-It parses the service and reports, as `file:line: message`: tags in the domain,
-`iota` or non-string enums, enums without `Valid()`, wrong dependency direction, a
-missing `application.go` or `Application` struct, more than one public method per
-file or a misnamed one, private helpers shared across method files, `init`, `NewX`
-constructors, misnamed mappers, functions in `dto.go`, secret-looking fields in
-response DTOs and published messages, port and use case methods without `ctx`
-first, and `TODO` left in migrations. Exit 1 on findings. Fix every finding before
-reporting the work done.
-
-## Templates
-
-`assets/templates/` holds one template per file role, tech-agnostic. They show the
-shape every file takes, with `Entity` as the placeholder name; they are not code to
-copy or render. Write the real code for the real tech, following the shape.
-
-| Template | Shape of |
-|---|---|
-| `domain/domain.go.tmpl`, `enums.go.tmpl`, `errors.go.tmpl` | the domain files |
-| `application/application.go.tmpl` | `Application`, `New`, ports |
-| `application/method.go.tmpl` | a use case file with its `validate<Method>` |
-| `inbound/handler.go.tmpl`, `route.go.tmpl`, `dto.go.tmpl`, `mappers.go.tmpl` | an API adapter, REST shown |
-| `outbound/adapter.go.tmpl`, `dto.go.tmpl`, `mappers.go.tmpl` | any outbound adapter; the store-specific pieces are named functions explained in `references/repository.md` |
-| `config/config.go.tmpl`, `cmd/main.go.tmpl` | config and wiring |
+- [ ] No struct tags on anything in `internal/domain`.
+- [ ] Enums are string types in `domain/enums.go`, no `iota`, each with `Valid()`.
+- [ ] `domain` imports nothing from the service; `application` imports only `domain`.
+- [ ] `application.go` holds only `Application`, `New` and the ports.
+- [ ] Each method file holds exactly one public method on `*Application`, and its
+      snake_case name matches the method.
+- [ ] No private helper is called from a method file other than its own.
+- [ ] Stateful rules are in a pure `validate<Method>`, joined with `errors.Join`.
+- [ ] No `func init()` anywhere, `cmd/` included.
+- [ ] Constructors are `New`, never `NewSomething`.
+- [ ] `dto.go` holds structs and their `toDomain()` only; conversions the other way
+      are `map<Target>` functions in `mappers.go`.
+- [ ] No secret fields in response DTOs or published messages.
+- [ ] `ctx context.Context` first in every port and use case method.
+- [ ] Every error leaving an outbound adapter is a domain error; new named
+      constraints are in `constraintErrors`; new specific errors have a row in the
+      inbound adapter's error table.
+- [ ] No PII or PCI in any log line or error message.
+- [ ] Every new migration column is described; nothing left as `TODO`.
 
 ## Not decided yet
 

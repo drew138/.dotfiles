@@ -1,7 +1,6 @@
 # REST adapter
 
 The inbound adapter for HTTP + JSON, at `internal/infrastructure/api/rest/`.
-Templates: `assets/templates/inbound/`.
 
 ## Files
 
@@ -89,7 +88,24 @@ itself; `mapErrorResponse` does, so every route answers the same way
 
 Helpers shared by routes are fine here: the rule against shared helpers is for
 application use cases, which are separate business decisions. An adapter only
-translates. Shared ones live in `handler.go`, next to the struct that carries them.
+translates. Shared ones live in `handler.go`, next to the struct that carries them:
+`validateRequest` and the validator setup (`validation.md`), and the two writers:
+
+```go
+func (h *Handler) writeError(w http.ResponseWriter, err error) {
+	if errors.Is(err, context.Canceled) {
+		return
+	}
+	status, body := mapErrorResponse(err)
+	h.writeJSON(w, status, body)
+}
+
+func (h *Handler) writeJSON(w http.ResponseWriter, status int, body any) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	_ = json.NewEncoder(w).Encode(body)
+}
+```
 
 ## DTOs
 
@@ -99,7 +115,6 @@ translates. Shared ones live in `handler.go`, next to the struct that carries th
   converted in `toDomain()`.
 - **Response**: what the client may see. `json` tags only. **No secret fields**:
   leave `Password` out of the struct entirely, so no later change can leak it.
-  `scripts/check` flags response fields named like secrets.
 - Exported names (`CreateUserRequest`, `UserResponse`), so they can be documented.
   `toDomain` and the mappers stay unexported.
 
@@ -107,8 +122,122 @@ translates. Shared ones live in `handler.go`, next to the struct that carries th
 
 `map` + the type produced: `mapUserResponse(user domain.User) UserResponse`.
 Several domain values in is fine: `mapOrderResponse(order, customer) OrderResponse`.
-`mappers.go` also holds the two error tables (`domainErrors`, `errorKinds`) and
-`mapErrorResponse`.
+
+`mappers.go` also holds the error tables and `mapErrorResponse`, the only place a
+status is chosen (`errors.md` explains the order):
+
+```go
+var domainErrors = []struct {
+	err    error
+	status int
+	field  string
+	rule   string
+}{
+	{domain.ErrUsernameTaken, http.StatusConflict, "username", "taken"},
+	{domain.ErrSignupsClosed, http.StatusUnprocessableEntity, "", "signups_closed"},
+}
+
+var errorKinds = []struct {
+	err     error
+	status  int
+	code    string
+	message string
+}{
+	{domain.ErrNotFound, http.StatusNotFound, "not_found", "The resource does not exist."},
+	{domain.ErrConflict, http.StatusConflict, "conflict", "The request conflicts with existing data."},
+	{domain.ErrInvalid, http.StatusUnprocessableEntity, "invalid_argument", "The request has invalid fields."},
+	{domain.ErrUnavailable, http.StatusServiceUnavailable, "unavailable", "The service is temporarily unavailable."},
+	{context.DeadlineExceeded, http.StatusServiceUnavailable, "unavailable", "The service is temporarily unavailable."},
+}
+
+var valueParams = map[string]bool{
+	"min": true, "max": true, "len": true, "eq": true, "ne": true,
+	"gt": true, "gte": true, "lt": true, "lte": true, "oneof": true,
+}
+
+func mapErrorResponse(err error) (int, ErrorResponse) {
+	var tooLarge *http.MaxBytesError
+	var wrongType *json.UnmarshalTypeError
+	var failed validator.ValidationErrors
+	switch {
+	case errors.As(err, &tooLarge):
+		return http.StatusRequestEntityTooLarge, ErrorResponse{Error: ErrorBody{Code: "body_too_large", Message: "The request body is too large."}}
+	case errors.As(err, &wrongType):
+		return http.StatusUnprocessableEntity, mapInvalidParamResponse(wrongType.Field, jsonType(wrongType.Type))
+	case errors.Is(err, errMalformedBody):
+		return http.StatusBadRequest, ErrorResponse{Error: ErrorBody{Code: "malformed_request", Message: "The request body is not valid JSON."}}
+	case errors.As(err, &failed):
+		return http.StatusUnprocessableEntity, ErrorResponse{Error: ErrorBody{Code: "invalid_argument", Message: "The request has invalid fields.", Fields: mapFieldResponses(failed)}}
+	}
+
+	var fields []FieldResponse
+	status := 0
+	for _, d := range domainErrors {
+		if errors.Is(err, d.err) {
+			if status == 0 {
+				status = d.status
+			}
+			fields = append(fields, FieldResponse{Field: d.field, Rule: d.rule})
+		}
+	}
+	for _, k := range errorKinds {
+		if errors.Is(err, k.err) {
+			if status == 0 {
+				status = k.status
+			}
+			return status, ErrorResponse{Error: ErrorBody{Code: k.code, Message: k.message, Fields: fields}}
+		}
+	}
+	return http.StatusInternalServerError, ErrorResponse{Error: ErrorBody{Code: "internal", Message: "Something went wrong."}}
+}
+
+func mapFieldResponses(failed validator.ValidationErrors) []FieldResponse {
+	fields := make([]FieldResponse, 0, len(failed))
+	for _, fe := range failed {
+		field := fe.Field()
+		if _, path, ok := strings.Cut(fe.Namespace(), "."); ok {
+			field = path
+		}
+		param := ""
+		if valueParams[fe.Tag()] {
+			param = fe.Param()
+		}
+		fields = append(fields, FieldResponse{Field: field, Rule: fe.Tag(), Param: param})
+	}
+	return fields
+}
+```
+
+`jsonType` (in `handler.go`) turns a Go type into a JSON one (`integer`, `string`,
+`boolean`, `number`, `array`, `object`), so a wrong-type error never names a Go type.
+`mapInvalidParamResponse` builds the same body for a bad path or query parameter:
+
+```go
+func mapInvalidParamResponse(field, expected string) ErrorResponse {
+	return ErrorResponse{Error: ErrorBody{Code: "invalid_argument", Message: "The request has invalid fields.",
+		Fields: []FieldResponse{{Field: field, Rule: "type", Param: expected}}}}
+}
+```
+
+The error DTOs in `dto.go`:
+
+```go
+type ErrorResponse struct {
+	Error ErrorBody `json:"error"`
+}
+
+type ErrorBody struct {
+	Code    string          `json:"code"`
+	Message string          `json:"message"`
+	Fields  []FieldResponse `json:"fields,omitempty"`
+}
+
+type FieldResponse struct {
+	Field string `json:"field,omitempty"`
+	Rule  string `json:"rule"`
+	Param string `json:"param,omitempty"`
+}
+```
 
 ## Pending
 

@@ -3,7 +3,7 @@
 A cache is a **decorator**: it implements the same port as the repository, wraps one,
 and `main.go` hands the wrapped value to `application.New`. The application never
 knows a cache exists. It lives at `internal/infrastructure/cache/<tech>/`, and its
-files follow the outbound templates in `assets/templates/outbound/`. Any server
+files follow the same shape as every outbound adapter (`repository.md`). Any server
 config the cache needs (a `redis.conf`) lives at the repository root in `redis/`.
 
 ```go

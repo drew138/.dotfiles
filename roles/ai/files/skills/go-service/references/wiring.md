@@ -1,7 +1,7 @@
 # Wiring
 
 `cmd/service/main.go` builds the service: it is the only place that knows every
-concrete type. Template: `assets/templates/cmd/main.go.tmpl`.
+concrete type.
 
 ## Shape
 
@@ -50,6 +50,31 @@ which is not settled yet.
 environment variables, applies defaults, validates required values and parses
 durations. Adapters receive plain values (`cfg.CacheTTL`), never the `Config` struct,
 so they do not depend on the config package.
+
+```go
+type Config struct {
+	HTTPAddr    string
+	DatabaseURL string
+}
+
+func Load() (Config, error) {
+	cfg := Config{
+		HTTPAddr:    env("HTTP_ADDR", ":8080"),
+		DatabaseURL: os.Getenv("DATABASE_URL"),
+	}
+	if cfg.DatabaseURL == "" {
+		return Config{}, errors.New("DATABASE_URL is required")
+	}
+	return cfg, nil
+}
+
+func env(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
+}
+```
 
 | Variable | Default | Used by |
 |---|---|---|

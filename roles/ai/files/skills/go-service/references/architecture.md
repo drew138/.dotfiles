@@ -33,7 +33,6 @@ from the request flow below, where arrows are calls.
 - **Only `main.go` imports everything**, to build each piece with `New` and pass it
   to the next.
 
-`scripts/check` enforces the domain and application rules.
 
 ## Request flow
 

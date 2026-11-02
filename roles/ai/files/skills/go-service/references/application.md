@@ -2,7 +2,7 @@
 
 `internal/application` holds the use cases. A use case **orchestrates**: it decides
 what happens, in what order, and through which ports. It never knows how a port is
-implemented. Templates: `assets/templates/application/`.
+implemented.
 
 ## application.go
 
@@ -51,7 +51,7 @@ One public method per file, named in snake_case: `PlaceOrder` lives in
 method's.
 
 **Never share a private helper between method files.** Duplicate it, under a name
-specific to each method. `scripts/check` reports shared helpers.
+specific to each method.
 
 ### Why: the shared helper that breaks a use case nobody touched
 
@@ -265,4 +265,3 @@ Sequential code is easier to read.
 - The new method is alone in its snake_case file, with its own helpers.
 - Stateful rules are in `validate<Method>`, pure and joined.
 - Every port error is wrapped, re-translated or deliberately swallowed and logged.
-- `go -C <skill>/scripts run ./check "$PWD"` reports nothing for the application.
