@@ -6,7 +6,7 @@
 flowchart TB
     main["cmd/service/main.go<br/>builds and connects everything"]
     inbound["Inbound adapters<br/>api/rest · api/grpc · queue/rabbitmq"]
-    outbound["Outbound adapters<br/>repository · cache · client · publisher"]
+    outbound["Outbound adapters<br/>repository · cache · publisher · psp · auth"]
     app["Application<br/>internal/application"]
     domain["Domain<br/>internal/domain"]
 
@@ -61,17 +61,56 @@ sequenceDiagram
 Data changes shape at each boundary: JSON → request DTO → domain → row → SQL, and back.
 Errors change shape the same way: driver error → domain error → status code + JSON body.
 
-## Full tree
+## Kinds and techs
 
-Every adapter lives at `internal/infrastructure/<kind>/<tech>/`, inbound and
-outbound alike. The kind says what role it plays (`api`, `queue`, `repository`,
-`cache`, `client`, `publisher`); the tech says how (`rest`, `grpc`, `rabbitmq`,
-`postgres`, `redis`). REST and gRPC share the kind `api`: both are APIs, gRPC through
-RPCs.
+Every adapter lives at `internal/infrastructure/<kind>/<tech>/`, inbound and outbound
+alike.
+
+- **Kind**: the **role** the adapter plays for the service, named for **what it does
+  for us**, never for how it does it. `repository` stores our data, `psp` takes
+  payments, `auth` authenticates users, `api` receives requests.
+- **Tech**: the **concrete technology or provider** that plays the role: `postgres`,
+  `adyen`, `cognito`, `rest`. The package is named after the tech.
+
+| Path | Kind | Tech | Package | Struct | Port it implements |
+|---|---|---|---|---|---|
+| `api/rest/` | `api` | `rest` | `rest` | `Handler` | (inbound: calls `Application`) |
+| `api/grpc/` | `api` | `grpc` | `grpc` | `Server` | (inbound: calls `Application`) |
+| `queue/rabbitmq/` | `queue` | `rabbitmq` | `rabbitmq` | `Consumer` | (inbound: calls `Application`) |
+| `repository/postgres/` | `repository` | `postgres` | `postgres` | `Repository` | `Repository` |
+| `cache/redis/` | `cache` | `redis` | `redis` | `Cache` | the port it decorates |
+| `publisher/rabbitmq/` | `publisher` | `rabbitmq` | `rabbitmq` | `Publisher` | `Publisher` |
+| `psp/adyen/` | `psp` | `adyen` | `adyen` | `PSP` | `PSP` |
+| `psp/stripe/` | `psp` | `stripe` | `stripe` | `PSP` | `PSP` |
+| `auth/cognito/` | `auth` | `cognito` | `cognito` | `Auth` | `Auth` |
+
+**Rules**
+
+1. **The kind is a capability, not a mechanism.** Never `client/`, `gateway/`,
+   `external/`, `service/`, `http/` or `sdk/`: they say how we talk to something,
+   not what it is for. A payment provider is `psp/`, even though it is called over
+   HTTP.
+2. **The tech is the concrete thing.** A protocol for inbound adapters (`rest`,
+   `grpc`), a product for infrastructure (`postgres`, `redis`, `rabbitmq`), a
+   provider for services we call (`adyen`, `stripe`, `cognito`).
+3. **Outbound: the kind names the port and the struct.** The port in
+   `application.go` is `PSP`; `adyen.PSP` and `stripe.PSP` both implement it, and
+   `main.go` picks one. Swapping providers never touches the application.
+4. **Inbound: the struct is named for what it is**: `Handler` for REST, `Server` for
+   gRPC, `Consumer` for a queue. It calls the use cases through its own
+   `Application` interface.
+5. **One folder per tech.** Two providers of the same kind are two folders under the
+   same kind, never one package with a switch.
+6. **Kind and tech are lowercase single words**, as Go package names must be: `psp`,
+   not `payment_provider`; `cognito`, not `aws-cognito`.
+7. **A new kind is fine.** When a service needs a capability not listed here, name
+   it for what it does (`storage/s3/`, `mailer/sendgrid/`, `geocoder/google/`).
 
 Configuration for infrastructure lives **at the repository root, one folder per
 piece of infra**, never inside `internal/`: `migration/` for the database, `api/` for
 the API contracts, `rabbitmq/` for exchanges and queues, `redis/` for its config.
+
+## Full tree
 
 ```
 my-service/
@@ -108,7 +147,8 @@ my-service/
 │       │       ├── dto.go                   row structs, toDomain()
 │       │       └── mappers.go               map<Entity>Row
 │       ├── cache/redis/                     decorator over a repository port
-│       ├── client/<service>/                outbound calls to other services
+│       ├── psp/adyen/                       payments through Adyen: implements the PSP port
+│       ├── auth/cognito/                    authentication through Cognito: implements the Auth port
 │       └── publisher/rabbitmq/              Publisher port: one method per domain event
 ├── migration/000001_<name>.{up,down}.sql    database migrations (golang-migrate)
 ├── api/

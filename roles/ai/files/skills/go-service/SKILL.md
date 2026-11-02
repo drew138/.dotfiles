@@ -4,7 +4,7 @@ description: |
   Build Go microservices with ports-and-adapters (hexagonal) architecture,
   following our team's folder layout and conventions, step by step: start a new
   service, or add an endpoint, use case, repository, cache, queue publisher or
-  consumer, client or gRPC adapter to an existing one. Covers how application
+  consumer, provider (psp, auth, …) or gRPC adapter to an existing one. Covers how application
   methods orchestrate ports, where each kind of validation lives (go-playground
   validator in the API, stateful business rules in the application), string
   enums, and translating driver and upstream errors into domain errors and a
@@ -49,11 +49,11 @@ flowchart LR
         direction TB
         repo["repository/postgres/"]
         cache["cache/redis/"]
-        client["client/&lt;service&gt;/"]
+        psp["psp/adyen/"]
         pub["publisher/rabbitmq/"]
     end
 
-    world[("database<br/>redis<br/>other services<br/>broker")]
+    world[("database<br/>redis<br/>providers<br/>broker")]
 
     caller -->|"1. JSON / proto / message"| inbound
     inbound -->|"2. domain values"| app
@@ -76,7 +76,7 @@ flowchart LR
    calling **ports**: interfaces it declares in `application.go`. It never knows
    which adapter is behind one.
 4. An **outbound adapter** implements the port: it maps domain values into its own
-   struct (`mapUserRow`) and talks to the database, cache, other service or broker.
+   struct (`mapUserRow`) and talks to the database, cache, provider or broker.
 
 **Response**
 
@@ -105,7 +105,7 @@ internal/application/application.go     Application, New, ports
 internal/application/<method>.go        one public method per file
 internal/infrastructure/<kind>/<tech>/  every adapter, inbound and outbound:
     inbound:  api/rest, api/grpc, queue/rabbitmq
-    outbound: repository/postgres, cache/redis, client/<service>, publisher/rabbitmq
+    outbound: repository/postgres, cache/redis, publisher/rabbitmq, psp/adyen, auth/cognito
 migration/                              database migrations, at the root
 api/  rabbitmq/  redis/  …               other infra config, one root folder each
 ```
@@ -115,6 +115,14 @@ The full tree, the request flow and a "what goes where" table are in
 
 ## Rules
 
+- **Adapters live at `internal/infrastructure/<kind>/<tech>/`.** The **kind** is the
+  role the adapter plays, named for what it does for us (`repository`, `cache`,
+  `publisher`, `psp`, `auth`, `api`, `queue`). The **tech** is the concrete
+  technology or provider (`postgres`, `redis`, `rabbitmq`, `adyen`, `stripe`,
+  `cognito`, `rest`, `grpc`). Never a mechanism as the kind: no `client/`,
+  `gateway/`, `external/` or `http/`. Outbound, the kind names the port and the
+  struct: `psp/adyen` implements the `PSP` port with `adyen.PSP`. Full definitions
+  and examples: "Kinds and techs" in `references/architecture.md`.
 - **Dependencies point inward.** Infrastructure → application → domain. The domain
   imports nothing from the service; the application imports only the domain.
 - **Domain structs carry no tags.** Serialisation belongs to the adapter that needs it.
@@ -191,7 +199,7 @@ The full tree, the request flow and a "what goes where" table are in
 | a database store | `references/repository.md` |
 | a cache | `references/cache.md` |
 | publishing or consuming messages | `references/queue.md` |
-| calling another service | `references/clients.md` |
+| calling another service or provider (payments, auth, …) | `references/providers.md` |
 | a REST handler | `references/rest.md` |
 | a gRPC service | `references/grpc.md` |
 | `main.go` or config | `references/wiring.md` |
@@ -211,7 +219,7 @@ name, a rule, a status, which store.
 2. **Port** (`application.md`). Add the method the use case needs to the consumed
    interface in `application.go`, in domain types, `ctx` first. Add a new interface
    only for a new kind of dependency.
-3. **Outbound adapter** (`repository.md`, `cache.md`, `clients.md` or `queue.md`).
+3. **Outbound adapter** (`repository.md`, `cache.md`, `providers.md` or `queue.md`).
    Implement the port: structs in `dto.go`, `mappers.go`, the method, and error
    translation into domain errors. Add each new named constraint to
    `constraintErrors`. If a decorator wraps the port, implement the method there

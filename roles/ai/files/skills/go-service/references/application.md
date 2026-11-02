@@ -36,7 +36,8 @@ func New(repo Repository, mailer Mailer, log *slog.Logger) *Application {
 **Ports**
 
 - One interface per kind of dependency, named for what it does: `Repository`,
-  `Mailer`, `Catalog`, `Publisher`, `Clock`.
+  `Mailer`, `Publisher`, `PSP`, `Auth`, `Clock`. For an outbound adapter the port is
+  named after its kind (see "Kinds and techs" in `architecture.md`).
 - Methods speak domain types. No `*sql.Tx`, `*http.Response` or proto message ever
   appears in a port. If one would have to, the port is drawn at the wrong place.
 - `ctx context.Context` first, always.
@@ -250,7 +251,7 @@ Independent loads may run concurrently with `golang.org/x/sync/errgroup`:
 ```go
 g, gctx := errgroup.WithContext(ctx)
 g.Go(func() (err error) { customer, err = a.customers.Find(gctx, id); return err })
-g.Go(func() (err error) { prices, err = a.catalog.Prices(gctx, skus); return err })
+g.Go(func() (err error) { prices, err = a.pricing.Prices(gctx, skus); return err })
 if err := g.Wait(); err != nil {
 	return domain.Order{}, fmt.Errorf("loading order inputs: %w", err)
 }

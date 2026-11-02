@@ -6,7 +6,7 @@ themselves are in `domain.md`.
 ```mermaid
 flowchart LR
     db["driver error<br/>unique · FK · no rows · connection"] -->|"repository: domainError"| dom["domain error<br/>ErrUsernameTaken · ErrInvalid · …"]
-    up["upstream reply<br/>404 · 503 · timeout"] -->|"client adapter"| dom
+    up["provider reply<br/>404 · 503 · timeout"] -->|"provider adapter"| dom
     rules["broken business rule"] -->|"application: validate&lt;Method&gt;"| dom
     dom -->|"application: wrap %w"| wrapped["wrapped domain error"]
     wrapped -->|"inbound: mapErrorResponse"| out["status + error body"]
@@ -57,10 +57,10 @@ would tell them the resource they asked for is missing.
 
 The store-specific checks are in `repository.md`.
 
-## Outbound: caches and other services
+## Outbound: caches and providers
 
-A cache never fails a request (`cache.md`). A client adapter translates upstream
-replies the same way a repository translates drivers (`clients.md`).
+A cache never fails a request (`cache.md`). A provider adapter translates provider
+replies the same way a repository translates drivers (`providers.md`).
 
 ## Application
 

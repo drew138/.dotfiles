@@ -27,7 +27,7 @@ which is not settled yet.
 2. `config.Load()`. Fail fast on a missing required value.
 3. Connections: open, `defer Close`, ping. A service that cannot reach its database
    should fail at start, not at its first request.
-4. Outbound adapters: `postgres.New(db)`, `catalog.New(httpClient, cfg.CatalogURL)`.
+4. Outbound adapters: `postgres.New(db)`, `adyen.New(httpClient, cfg.AdyenURL, cfg.AdyenAPIKey)`.
 5. Decorators around them: `redis.New(rdb, repo, cfg.CacheTTL, log)`.
 6. `application.New(...)` with every port.
 7. Inbound adapters: `rest.New(router, app)` and `grpcapi.New(grpcServer, app)` build
