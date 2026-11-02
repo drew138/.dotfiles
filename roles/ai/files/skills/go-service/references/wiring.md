@@ -46,6 +46,9 @@ which is not settled yet.
 
 ## Config
 
+The configuration design is not settled yet (see "Not decided yet" in `SKILL.md`).
+This is the current shape; keep to it until then.
+
 `internal/config` is the only config package. `Load() (Config, error)` reads
 environment variables, applies defaults, validates required values and parses
 durations. Adapters receive plain values (`cfg.CacheTTL`), never the `Config` struct,
