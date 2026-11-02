@@ -4,9 +4,8 @@ An outbound adapter that implements a persistence port, at
 `internal/infrastructure/repository/<tech>/`. Its files are the shape every outbound
 adapter follows: caches, clients and publishers too.
 
-The code here shows the shape, not an implementation to copy: write the
-store-specific code for the store the service uses, following the shape and the
-rules.
+The code here shows the shape. Write the store-specific code for the store the
+service uses, following that shape and the rules.
 
 ## Files
 
@@ -97,13 +96,13 @@ still gets a 409, just without the field.
 - **Column limits are a safety net.** The API's validator tags are what users hit
   (`max=32`). The database keeps its own limit so bad data can never be stored by
   any path; if it fires, a tag is missing, and the client gets a generic 422.
-- **No database enums and no checks for enum values.** Store them as text.
+- **Enum values are stored as plain text**; the API validates them.
 - MySQL must run in strict mode (`STRICT_TRANS_TABLES`). Without it, MySQL
   silently truncates long values instead of failing.
 
 ## Migrations
 
-At the repository root in `migration/`, never inside `internal/`. golang-migrate
+At the repository root, in `migration/`. golang-migrate
 format: `000002_add_users_email.up.sql` and `.down.sql`. The rules (one per pull
 request, backwards compatible, never edit an applied one, every column described,
 indices for lookups) are in `go-review`.

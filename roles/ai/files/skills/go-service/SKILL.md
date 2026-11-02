@@ -119,16 +119,14 @@ The full tree, the request flow and a "what goes where" table are in
   role the adapter plays, named for what it does for us (`repository`, `cache`,
   `publisher`, `psp`, `auth`, `api`, `queue`). The **tech** is the concrete
   technology or provider (`postgres`, `redis`, `rabbitmq`, `adyen`, `stripe`,
-  `cognito`, `rest`, `grpc`). Never a mechanism as the kind: no `client/`,
-  `gateway/`, `external/` or `http/`. Outbound, the kind names the port and the
+  `cognito`, `rest`, `grpc`). Outbound, the kind names the port and the
   struct: `psp/adyen` implements the `PSP` port with `adyen.PSP`. Full definitions
   and examples: "Kinds and techs" in `references/architecture.md`.
 - **Dependencies point inward.** Infrastructure → application → domain. The domain
   imports nothing from the service; the application imports only the domain.
 - **Domain structs carry no tags.** Serialisation belongs to the adapter that needs it.
 - **The domain holds business concepts only:** models and their methods, enums,
-  errors. A struct that only carries data between layers is not domain, even
-  though it is a struct.
+  errors.
 - **Enums are strings, never `iota`**, in `domain/enums.go`, each with a `Valid()`
   method that is the only list of its values. Values that matter to one adapter
   only stay in that adapter as plain strings.
@@ -208,7 +206,7 @@ The full tree, the request flow and a "what goes where" table are in
 
 Work through the steps in order. **Read each step's reference when you reach it**,
 not before. The code in each reference shows the shape every file takes; write the
-real code for the service's tech following it, not by copying it. Run `go build ./...` at the end of every step; the next
+real code for the service's tech following that shape. Run `go build ./...` at the end of every step; the next
 step starts from code that compiles. After each step, say in one line what was added.
 Stop and ask only when a step needs a decision the request did not make: a field
 name, a rule, a status, which store.

@@ -2,9 +2,8 @@
 
 An outbound adapter for another service the application depends on: a payment
 provider, an identity provider, another team's API. It is **our abstraction of that
-service**, the calls we make to it, not an HTTP client. It receives an
-`*http.Client` (or a gRPC connection) and the endpoints it needs; how the requests
-travel is its own detail.
+service: the calls we make to it.** It receives an `*http.Client` (or a gRPC
+connection) and the endpoints it needs; how the requests travel is its own detail.
 
 ## Where it lives
 
@@ -17,9 +16,8 @@ internal/infrastructure/psp/stripe/       payments through Stripe
 internal/infrastructure/auth/cognito/     authentication through Cognito
 ```
 
-Never a generic `client/` or `gateway/` folder: the kind says what the service does
-for us. Two providers of the same kind implement the same port, and `main.go` picks
-one; the application does not change.
+The kind says what the service does for us. Two providers of the same kind
+implement the same port, and `main.go` picks one; the application stays the same.
 
 ## Naming
 

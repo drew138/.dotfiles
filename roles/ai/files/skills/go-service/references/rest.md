@@ -11,8 +11,7 @@ The inbound adapter for HTTP + JSON, at `internal/infrastructure/api/rest/`.
 | `dto.go` | request DTOs (`json` + `validate` tags, `toDomain()`), response DTOs, error response DTOs |
 | `mappers.go` | `map<Target>` functions, the error tables and `mapErrorResponse` |
 
-The struct is `Handler`, not `Rest`. A `rest.Rest` would follow the "name the type
-after the package" habit, but `Handler` says what it is.
+The struct is `Handler`: it says what it is.
 
 ## The Application interface
 

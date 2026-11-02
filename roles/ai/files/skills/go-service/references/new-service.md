@@ -1,8 +1,7 @@
 # Starting a new service
 
-There is no generator. A new service is built by hand in a fixed order, so each step
-compiles before the next and nothing is created that the first endpoint does not
-need.
+A new service is built by hand, in a fixed order, so each step compiles before the
+next and every file exists because the first endpoint needs it.
 
 ## Ask first
 

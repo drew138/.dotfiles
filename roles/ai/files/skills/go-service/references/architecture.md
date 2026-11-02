@@ -86,10 +86,9 @@ alike.
 
 **Rules**
 
-1. **The kind is a capability, not a mechanism.** Never `client/`, `gateway/`,
-   `external/`, `service/`, `http/` or `sdk/`: they say how we talk to something,
-   not what it is for. A payment provider is `psp/`, even though it is called over
-   HTTP.
+1. **The kind is the capability the adapter gives the service**: what it is for.
+   A payment provider is `psp/`, an identity provider is `auth/`, a database is
+   `repository/`.
 2. **The tech is the concrete thing.** A protocol for inbound adapters (`rest`,
    `grpc`), a product for infrastructure (`postgres`, `redis`, `rabbitmq`), a
    provider for services we call (`adyen`, `stripe`, `cognito`).
@@ -107,8 +106,8 @@ alike.
    it for what it does (`storage/s3/`, `mailer/sendgrid/`, `geocoder/google/`).
 
 Configuration for infrastructure lives **at the repository root, one folder per
-piece of infra**, never inside `internal/`: `migration/` for the database, `api/` for
-the API contracts, `rabbitmq/` for exchanges and queues, `redis/` for its config.
+piece of infra**: `migration/` for the database, `api/` for the API contracts,
+`rabbitmq/` for exchanges and queues, `redis/` for its config.
 
 ## Full tree
 

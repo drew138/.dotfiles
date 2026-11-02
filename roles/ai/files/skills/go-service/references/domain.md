@@ -9,8 +9,7 @@ into it and out of it.
 | `enums.go` | domain enums, string-based, each with `Valid()` |
 | `errors.go` | the error values every layer returns |
 
-Nothing else lives here. A struct that only carries data between layers for control
-flow is not domain, even though it is a struct.
+These three files are the whole domain: business concepts, and only those.
 
 ## domain.go: models
 
@@ -77,12 +76,13 @@ func (s OrderStatus) Valid() bool {
 - **Only domain enums.** A value that matters to one adapter only (a broker's
   delivery mode, a provider's status code) stays in that adapter's package as a
   plain string, with no custom type.
-- **No enums in the database.** Store the string in a text column, with no database
-  enum type and no check constraint. The API validates, and the domain owns the list.
+- **The database stores enum values as plain text.** The API validates them, and
+  `Valid()` in the domain owns the list.
 
 ## errors.go: errors
 
-Plain error values, nothing else: no error structs, no fields.
+Errors are plain values: generic kinds declared with `errors.New`, and specific
+errors that wrap a kind with `fmt.Errorf`.
 
 ```go
 var (

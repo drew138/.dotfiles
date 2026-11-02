@@ -133,8 +133,8 @@ func validatePlaceOrder(order domain.Order, customer domain.Customer) error {
 - **Report every broken rule at once** with `errors.Join`, so the client fixes them
   all in one round trip. `errors.Join` returns nil for an empty list, and
   `errors.Is` finds each joined error even after the use case wraps it.
-- **No validator package here.** Stateful rules need loaded data and business
-  decisions, which is plain code.
+- **Plain Go code.** Stateful rules need loaded data and business decisions, which
+  plain code expresses directly.
 - **Inline is fine for a single trivial check.** Two or more go in the function, so
   the method keeps reading as orchestration.
 - The function is private to its method's file, like every helper
