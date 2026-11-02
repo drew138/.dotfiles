@@ -37,6 +37,24 @@ Rows mirror the table, not the domain. Differences (nullable columns, JSON colum
 joined fields, enums stored as text) are resolved in `toDomain` and the mapper,
 never by tagging the domain struct.
 
+## Plain SQL
+
+Every query is SQL written in the repository method, run through `database/sql` or
+the driver (`pgx`). **Never GORM or any other ORM.** With AI writing the code, SQL
+costs nothing extra, and every query stays visible in the method that runs it:
+reviewable, explainable with `EXPLAIN`, and tunable without fighting a library.
+
+```go
+err := r.db.QueryRowContext(ctx,
+	"INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id",
+	row.Username, row.Email, row.Password).Scan(&row.ID)
+```
+
+- Parameters always go through placeholders (`$1`, `?`), never string formatting,
+  so input can never become SQL.
+- Select the columns by name, never `SELECT *`, so a new column cannot silently
+  shift a `Scan`.
+
 ## Methods
 
 - Take `ctx` and pass it to every call.

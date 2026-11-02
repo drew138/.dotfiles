@@ -143,6 +143,10 @@ The full tree, the request flow and a "what goes where" table are in
   `me+work@x.com`. Nothing in `update_user.go` changed, so no reviewer looks there.
   With `normalizeCreateUserEmail` and `normalizeUpdateUserEmail`, the change stays
   in the one file it was meant for. Full code in `references/application.md`.
+- **Databases are queried with plain SQL. Never GORM or any other ORM.** Each
+  repository method writes its SQL directly through `database/sql` or the driver
+  (`pgx`). With AI writing the code, SQL costs nothing extra, and every query stays
+  visible, reviewable and tunable in the repository that runs it.
 - **Every package exposes `New`**: `postgres.New(db)`, `redis.New(client, repo)`,
   `application.New(repo)`. Never `NewPostgresRepository`.
 - **`init` is forbidden, always.** It runs at import time, in an order nobody chose,
@@ -261,6 +265,7 @@ the work done with an item failing.
       constraints are in `constraintErrors`; new specific errors have a row in the
       inbound adapter's error table.
 - [ ] No PII or PCI in any log line or error message.
+- [ ] Queries are plain SQL; no ORM in `go.mod`.
 - [ ] Every new migration column is described; nothing left as `TODO`.
 
 ## Not decided yet
