@@ -1,0 +1,20 @@
+package application
+
+import (
+	"context"
+
+	"{{.Module}}/internal/domain"
+)
+
+type Repository interface {
+	Save(ctx context.Context, {{.Var}} domain.{{.Entity}}) (domain.{{.Entity}}, error)
+	Find(ctx context.Context, id int64) (domain.{{.Entity}}, error)
+}
+
+type Service struct {
+	repo Repository
+}
+
+func New(repo Repository) *Service {
+	return &Service{repo: repo}
+}

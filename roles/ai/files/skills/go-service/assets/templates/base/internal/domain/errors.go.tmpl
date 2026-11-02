@@ -1,0 +1,44 @@
+package domain
+
+import (
+	"errors"
+	"strings"
+)
+
+var (
+	ErrNotFound    = errors.New("not found")
+	ErrConflict    = errors.New("conflict")
+	ErrInvalid     = errors.New("invalid")
+	ErrUnavailable = errors.New("unavailable")
+)
+
+type Violation struct {
+	Field string
+	Rule  string
+	Param string
+}
+
+type ViolationError struct {
+	Kind       error
+	Violations []Violation
+}
+
+func Invalid(violations ...Violation) error {
+	return &ViolationError{Kind: ErrInvalid, Violations: violations}
+}
+
+func Conflict(violations ...Violation) error {
+	return &ViolationError{Kind: ErrConflict, Violations: violations}
+}
+
+func (e *ViolationError) Error() string {
+	parts := make([]string, 0, len(e.Violations))
+	for _, v := range e.Violations {
+		parts = append(parts, v.Field+" "+v.Rule)
+	}
+	return e.Kind.Error() + ": " + strings.Join(parts, ", ")
+}
+
+func (e *ViolationError) Unwrap() error {
+	return e.Kind
+}

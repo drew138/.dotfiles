@@ -1,0 +1,88 @@
+package rest
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"log/slog"
+	"net/http"
+	"strconv"
+
+	"github.com/go-playground/validator/v10"
+
+	"{{.Module}}/internal/domain"
+)
+
+type Service interface {
+	Create{{.Entity}}(ctx context.Context, {{.Var}} domain.{{.Entity}}) (domain.{{.Entity}}, error)
+	Get{{.Entity}}(ctx context.Context, id int64) (domain.{{.Entity}}, error)
+}
+
+type Handler struct {
+	svc      Service
+	log      *slog.Logger
+	validate *validator.Validate
+}
+
+func New(svc Service, log *slog.Logger) *Handler {
+	return &Handler{svc: svc, log: log, validate: newValidator()}
+}
+
+func (h *Handler) Register(mux *http.ServeMux) {
+	mux.HandleFunc("GET /healthz", h.health)
+	mux.HandleFunc("POST /{{.Table}}", h.create{{.Entity}})
+	mux.HandleFunc("GET /{{.Table}}/{id}", h.get{{.Entity}})
+}
+
+func (h *Handler) health(w http.ResponseWriter, _ *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *Handler) create{{.Entity}}(w http.ResponseWriter, r *http.Request) {
+	var req Create{{.Entity}}Request
+	if err := h.decode(w, r, &req); err != nil {
+		h.writeError(w, r, err)
+		return
+	}
+
+	{{.Var}}, err := h.svc.Create{{.Entity}}(r.Context(), req.toDomain())
+	if err != nil {
+		h.writeError(w, r, err)
+		return
+	}
+	h.writeJSON(w, r, http.StatusCreated, map{{.Entity}}Response({{.Var}}))
+}
+
+func (h *Handler) get{{.Entity}}(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(r.PathValue("id"), 10, 64)
+	if err != nil {
+		h.writeError(w, r, domain.Invalid(domain.Violation{Field: "id", Rule: "type", Param: "integer"}))
+		return
+	}
+
+	{{.Var}}, err := h.svc.Get{{.Entity}}(r.Context(), id)
+	if err != nil {
+		h.writeError(w, r, err)
+		return
+	}
+	h.writeJSON(w, r, http.StatusOK, map{{.Entity}}Response({{.Var}}))
+}
+
+func (h *Handler) writeError(w http.ResponseWriter, r *http.Request, err error) {
+	if errors.Is(err, context.Canceled) {
+		return
+	}
+	status, body := mapErrorResponse(err)
+	if status >= http.StatusInternalServerError {
+		h.log.ErrorContext(r.Context(), "handling request", "method", r.Method, "path", r.URL.Path, "error", err)
+	}
+	h.writeJSON(w, r, status, body)
+}
+
+func (h *Handler) writeJSON(w http.ResponseWriter, r *http.Request, status int, body any) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	if err := json.NewEncoder(w).Encode(body); err != nil {
+		h.log.ErrorContext(r.Context(), "writing response", "path", r.URL.Path, "error", err)
+	}
+}

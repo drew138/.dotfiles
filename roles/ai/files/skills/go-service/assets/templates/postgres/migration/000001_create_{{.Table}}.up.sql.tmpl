@@ -1,0 +1,10 @@
+CREATE TABLE {{.Table}} (
+    id BIGSERIAL PRIMARY KEY{{range .Fields}},
+    {{.Column}} {{.SQLType}}{{if .Unique}} UNIQUE{{end}}{{end}}
+);
+
+COMMENT ON TABLE {{.Table}} IS 'TODO: describe';
+COMMENT ON COLUMN {{.Table}}.id IS 'TODO: describe';
+{{- range .Fields}}
+COMMENT ON COLUMN {{$.Table}}.{{.Column}} IS 'TODO: describe';
+{{- end}}

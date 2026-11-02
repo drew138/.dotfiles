@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package {{.ProtoPackage}}.v1;
+{{if .HasTime}}
+import "google/protobuf/timestamp.proto";
+{{end}}
+option go_package = "{{.Module}}/internal/infrastructure/api/grpc/pb";
+
+service {{.Entity}}Service {
+  rpc Create{{.Entity}}(Create{{.Entity}}Request) returns ({{.Entity}});
+  rpc Get{{.Entity}}(Get{{.Entity}}Request) returns ({{.Entity}});
+}
+
+message {{.Entity}} {
+  int64 id = 1;
+{{- range .Fields}}{{if not .Secret}}
+  {{.ProtoType}} {{.Column}} = {{.MsgNum}};
+{{- end}}{{end}}
+}
+
+message Create{{.Entity}}Request {
+{{- range .Fields}}
+  {{.ProtoType}} {{.Column}} = {{.ReqNum}};
+{{- end}}
+}
+
+message Get{{.Entity}}Request {
+  int64 id = 1;
+}

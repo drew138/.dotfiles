@@ -1,0 +1,109 @@
+package main
+
+import (
+	"context"
+	"database/sql"
+	"errors"
+	"fmt"
+	"log/slog"
+{{- if .GRPC}}
+	"net"
+{{- end}}
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	{{if eq .Store "mysql"}}_ "github.com/go-sql-driver/mysql"{{else}}_ "github.com/jackc/pgx/v5/stdlib"{{end}}
+{{- if .Cache}}
+	goredis "github.com/redis/go-redis/v9"
+{{- end}}
+{{- if .GRPC}}
+	"google.golang.org/grpc"
+{{- end}}
+
+	"{{.Module}}/internal/application"
+	"{{.Module}}/internal/config"
+{{- if .GRPC}}
+	grpcapi "{{.Module}}/internal/infrastructure/api/grpc"
+{{- end}}
+	"{{.Module}}/internal/infrastructure/api/rest"
+{{- if .Cache}}
+	"{{.Module}}/internal/infrastructure/cache/redis"
+{{- end}}
+	"{{.Module}}/internal/infrastructure/repository/{{.Store}}"
+)
+
+func main() {
+	log := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	if err := run(log); err != nil {
+		log.Error("service stopped", "error", err)
+		os.Exit(1)
+	}
+}
+
+func run(log *slog.Logger) error {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	cfg, err := config.Load()
+	if err != nil {
+		return fmt.Errorf("loading config: %w", err)
+	}
+
+	db, err := sql.Open("{{if eq .Store "mysql"}}mysql{{else}}pgx{{end}}", cfg.DatabaseURL)
+	if err != nil {
+		return fmt.Errorf("opening database: %w", err)
+	}
+	defer db.Close()
+	if err := db.PingContext(ctx); err != nil {
+		return fmt.Errorf("reaching database: %w", err)
+	}
+
+	repo := {{.Store}}.New(db)
+{{- if .Cache}}
+
+	rdb := goredis.NewClient(&goredis.Options{Addr: cfg.RedisAddr})
+	defer rdb.Close()
+	svc := application.New(redis.New(rdb, repo, cfg.CacheTTL, log))
+{{- else}}
+	svc := application.New(repo)
+{{- end}}
+
+	mux := http.NewServeMux()
+	rest.New(svc, log).Register(mux)
+	httpServer := &http.Server{Addr: cfg.HTTPAddr, Handler: mux, ReadHeaderTimeout: 10 * time.Second}
+{{- if .GRPC}}
+
+	grpcServer := grpc.NewServer()
+	grpcapi.New(svc, log).Register(grpcServer)
+	listener, err := net.Listen("tcp", cfg.GRPCAddr)
+	if err != nil {
+		return fmt.Errorf("listening on %s: %w", cfg.GRPCAddr, err)
+	}
+{{- end}}
+
+	errCh := make(chan error, 2)
+	go func() { errCh <- fmt.Errorf("serving http: %w", httpServer.ListenAndServe()) }()
+{{- if .GRPC}}
+	go func() { errCh <- fmt.Errorf("serving grpc: %w", grpcServer.Serve(listener)) }()
+{{- end}}
+	log.InfoContext(ctx, "service started", "http_addr", cfg.HTTPAddr{{if .GRPC}}, "grpc_addr", cfg.GRPCAddr{{end}})
+
+	select {
+	case err := <-errCh:
+		return err
+	case <-ctx.Done():
+	}
+
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+{{- if .GRPC}}
+	grpcServer.GracefulStop()
+{{- end}}
+	if err := httpServer.Shutdown(shutdownCtx); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		return fmt.Errorf("shutting down http: %w", err)
+	}
+	return nil
+}

@@ -1,0 +1,12 @@
+package redis
+
+import "{{.Module}}/internal/domain"
+
+func map{{.Entity}}Entry({{.Var}} domain.{{.Entity}}) {{.Var}}Entry {
+	return {{.Var}}Entry{
+		ID: {{.Var}}.ID,
+{{- range .Fields}}
+		{{.Name}}: {{$.Var}}.{{.Name}},
+{{- end}}
+	}
+}

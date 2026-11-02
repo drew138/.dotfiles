@@ -1,0 +1,25 @@
+package redis
+
+import (
+{{- if .HasTime}}
+	"time"
+{{- end}}
+
+	"{{.Module}}/internal/domain"
+)
+
+type {{.Var}}Entry struct {
+	ID int64 `json:"id"`
+{{- range .Fields}}
+	{{.Name}} {{.Type}} `json:"{{.JSON}}"`
+{{- end}}
+}
+
+func (e {{.Var}}Entry) toDomain() domain.{{.Entity}} {
+	return domain.{{.Entity}}{
+		ID: e.ID,
+{{- range .Fields}}
+		{{.Name}}: e.{{.Name}},
+{{- end}}
+	}
+}

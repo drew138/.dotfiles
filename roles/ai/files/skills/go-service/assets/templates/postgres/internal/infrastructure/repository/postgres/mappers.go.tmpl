@@ -1,0 +1,12 @@
+package postgres
+
+import "{{.Module}}/internal/domain"
+
+func map{{.Entity}}Row({{.Var}} domain.{{.Entity}}) {{.Var}}Row {
+	return {{.Var}}Row{
+		ID: {{.Var}}.ID,
+{{- range .Fields}}
+		{{.Name}}: {{$.Var}}.{{.Name}},
+{{- end}}
+	}
+}

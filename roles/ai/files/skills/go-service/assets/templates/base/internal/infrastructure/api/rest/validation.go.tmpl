@@ -1,0 +1,116 @@
+package rest
+
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"net/http"
+	"reflect"
+	"strings"
+
+	"github.com/go-playground/validator/v10"
+
+	"{{.Module}}/internal/domain"
+)
+
+const maxBodyBytes = 1 << 20
+
+var (
+	errMalformedBody = errors.New("malformed request body")
+	errBodyTooLarge  = errors.New("request body too large")
+)
+
+var ruleMessages = map[string]string{
+	"required":  "is required",
+	"email":     "must be a valid email address",
+	"url":       "must be a valid URL",
+	"uuid":      "must be a valid UUID",
+	"min":       "must be at least %s",
+	"max":       "must be at most %s",
+	"len":       "must have a length of %s",
+	"gte":       "must be greater than or equal to %s",
+	"lte":       "must be less than or equal to %s",
+	"oneof":     "must be one of: %s",
+	"type":      "must be of type %s",
+	"taken":     "is already taken",
+	"not_found": "does not exist",
+}
+
+func newValidator() *validator.Validate {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	v.RegisterTagNameFunc(func(f reflect.StructField) string {
+		name, _, _ := strings.Cut(f.Tag.Get("json"), ",")
+		if name == "-" {
+			return ""
+		}
+		return name
+	})
+	return v
+}
+
+func (h *Handler) decode(w http.ResponseWriter, r *http.Request, dst any) error {
+	r.Body = http.MaxBytesReader(w, r.Body, maxBodyBytes)
+	if err := json.NewDecoder(r.Body).Decode(dst); err != nil {
+		var tooLarge *http.MaxBytesError
+		var wrongType *json.UnmarshalTypeError
+		switch {
+		case errors.As(err, &tooLarge):
+			return errBodyTooLarge
+		case errors.As(err, &wrongType):
+			return domain.Invalid(domain.Violation{Field: wrongType.Field, Rule: "type", Param: jsonType(wrongType.Type)})
+		default:
+			return errMalformedBody
+		}
+	}
+
+	var invalid validator.ValidationErrors
+	err := h.validate.Struct(dst)
+	if errors.As(err, &invalid) {
+		return domain.Invalid(mapViolations(invalid)...)
+	}
+	if err != nil {
+		return fmt.Errorf("validating request: %w", err)
+	}
+	return nil
+}
+
+func mapViolations(errs validator.ValidationErrors) []domain.Violation {
+	violations := make([]domain.Violation, 0, len(errs))
+	for _, fe := range errs {
+		field := fe.Field()
+		if _, path, ok := strings.Cut(fe.Namespace(), "."); ok {
+			field = path
+		}
+		violations = append(violations, domain.Violation{Field: field, Rule: fe.Tag(), Param: fe.Param()})
+	}
+	return violations
+}
+
+func ruleMessage(v domain.Violation) string {
+	msg, ok := ruleMessages[v.Rule]
+	if !ok {
+		return "is invalid"
+	}
+	if strings.Contains(msg, "%s") {
+		return fmt.Sprintf(msg, v.Param)
+	}
+	return msg
+}
+
+func jsonType(t reflect.Type) string {
+	switch t.Kind() {
+	case reflect.String:
+		return "string"
+	case reflect.Bool:
+		return "boolean"
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		return "integer"
+	case reflect.Float32, reflect.Float64:
+		return "number"
+	case reflect.Slice, reflect.Array:
+		return "array"
+	default:
+		return "object"
+	}
+}

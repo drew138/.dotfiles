@@ -1,0 +1,4 @@
+CREATE TABLE {{.Table}} (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'TODO: describe'{{range .Fields}},
+    {{.Column}} {{.SQLType}}{{if .Unique}} UNIQUE{{end}} COMMENT 'TODO: describe'{{end}}
+) COMMENT 'TODO: describe';

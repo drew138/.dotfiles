@@ -1,0 +1,86 @@
+package grpc
+
+//go:generate protoc --proto_path=../../../../api/proto --go_out=../../../.. --go_opt=module={{.Module}} --go-grpc_out=../../../.. --go-grpc_opt=module={{.Module}} {{.ProtoPackage}}/v1/{{.Snake}}.proto
+
+import (
+	"context"
+	"errors"
+	"log/slog"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	"{{.Module}}/internal/domain"
+	"{{.Module}}/internal/infrastructure/api/grpc/pb"
+)
+
+type Service interface {
+	Create{{.Entity}}(ctx context.Context, {{.Var}} domain.{{.Entity}}) (domain.{{.Entity}}, error)
+	Get{{.Entity}}(ctx context.Context, id int64) (domain.{{.Entity}}, error)
+}
+
+type Server struct {
+	pb.Unimplemented{{.Entity}}ServiceServer
+	svc Service
+	log *slog.Logger
+}
+
+func New(svc Service, log *slog.Logger) *Server {
+	return &Server{svc: svc, log: log}
+}
+
+func (s *Server) Register(gs *grpc.Server) {
+	pb.Register{{.Entity}}ServiceServer(gs, s)
+}
+
+func (s *Server) Create{{.Entity}}(ctx context.Context, req *pb.Create{{.Entity}}Request) (*pb.{{.Entity}}, error) {
+	if violations := validateCreate{{.Entity}}Request(req); len(violations) > 0 {
+		return nil, s.toStatus(ctx, domain.Invalid(violations...))
+	}
+
+	{{.Var}}, err := s.svc.Create{{.Entity}}(ctx, mapDomain{{.Entity}}(req))
+	if err != nil {
+		return nil, s.toStatus(ctx, err)
+	}
+	return map{{.Entity}}Message({{.Var}}), nil
+}
+
+func (s *Server) Get{{.Entity}}(ctx context.Context, req *pb.Get{{.Entity}}Request) (*pb.{{.Entity}}, error) {
+	{{.Var}}, err := s.svc.Get{{.Entity}}(ctx, req.GetId())
+	if err != nil {
+		return nil, s.toStatus(ctx, err)
+	}
+	return map{{.Entity}}Message({{.Var}}), nil
+}
+
+func (s *Server) toStatus(ctx context.Context, err error) error {
+	var violations *domain.ViolationError
+	code, message := codes.Internal, "something went wrong"
+	switch {
+	case errors.As(err, &violations) && errors.Is(err, domain.ErrConflict):
+		code, message = codes.AlreadyExists, "the request conflicts with existing data"
+	case errors.As(err, &violations):
+		code, message = codes.InvalidArgument, "the request has invalid fields"
+	case errors.Is(err, domain.ErrConflict):
+		code, message = codes.AlreadyExists, "the request conflicts with existing data"
+	case errors.Is(err, domain.ErrInvalid):
+		code, message = codes.InvalidArgument, "the request is invalid"
+	case errors.Is(err, domain.ErrNotFound):
+		code, message = codes.NotFound, "the resource does not exist"
+	case errors.Is(err, domain.ErrUnavailable), errors.Is(err, context.DeadlineExceeded):
+		code, message = codes.Unavailable, "the service is temporarily unavailable"
+	case errors.Is(err, context.Canceled):
+		code, message = codes.Canceled, "the request was cancelled"
+	default:
+		s.log.ErrorContext(ctx, "handling request", "error", err)
+	}
+
+	st := status.New(code, message)
+	if violations != nil {
+		if detailed, detailErr := st.WithDetails(mapBadRequest(violations.Violations)); detailErr == nil {
+			st = detailed
+		}
+	}
+	return st.Err()
+}

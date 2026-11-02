@@ -1,0 +1,10 @@
+package domain
+{{if .HasTime}}
+import "time"
+{{end}}
+type {{.Entity}} struct {
+	ID int64
+{{- range .Fields}}
+	{{.Name}} {{.Type}}
+{{- end}}
+}

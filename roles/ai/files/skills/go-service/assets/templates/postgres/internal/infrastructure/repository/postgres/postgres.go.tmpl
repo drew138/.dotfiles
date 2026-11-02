@@ -1,0 +1,74 @@
+package postgres
+
+import (
+	"context"
+	"database/sql"
+	"errors"
+	"fmt"
+	"net"
+
+	"github.com/jackc/pgx/v5/pgconn"
+
+	"{{.Module}}/internal/domain"
+)
+
+const uniqueViolation = "23505"
+
+var uniqueFields = map[string]string{
+{{- range .Fields}}{{if .Unique}}
+	"{{$.Table}}_{{.Column}}_key": "{{.JSON}}",
+{{- end}}{{end}}
+}
+
+type Repository struct {
+	db *sql.DB
+}
+
+func New(db *sql.DB) *Repository {
+	return &Repository{db: db}
+}
+
+func (r *Repository) Save(ctx context.Context, {{.Var}} domain.{{.Entity}}) (domain.{{.Entity}}, error) {
+	row := map{{.Entity}}Row({{.Var}})
+	err := r.db.QueryRowContext(ctx,
+		"INSERT INTO {{.Table}} ({{.Columns}}) VALUES ({{.Placeholders}}) RETURNING id",
+		{{.InsertArgs}}).Scan(&row.ID)
+	if err != nil {
+		return domain.{{.Entity}}{}, domainError(err, "inserting {{.Snake}}")
+	}
+
+	saved := row.toDomain()
+{{- range .Fields}}{{if .Secret}}
+	saved.{{.Name}} = ""
+{{- end}}{{end}}
+	return saved, nil
+}
+
+func (r *Repository) Find(ctx context.Context, id int64) (domain.{{.Entity}}, error) {
+	var row {{.Var}}Row
+	err := r.db.QueryRowContext(ctx,
+		"SELECT id, {{.Columns}} FROM {{.Table}} WHERE id = $1", id).
+		Scan({{.ScanArgs}})
+	if err != nil {
+		return domain.{{.Entity}}{}, domainError(err, fmt.Sprintf("selecting {{.Snake}} %d", id))
+	}
+	return row.toDomain(), nil
+}
+
+func domainError(err error, doing string) error {
+	var pgErr *pgconn.PgError
+	var netErr net.Error
+	switch {
+	case errors.Is(err, sql.ErrNoRows):
+		return domain.ErrNotFound
+	case errors.As(err, &pgErr) && pgErr.Code == uniqueViolation:
+		if field, ok := uniqueFields[pgErr.ConstraintName]; ok {
+			return domain.Conflict(domain.Violation{Field: field, Rule: "taken"})
+		}
+		return fmt.Errorf("%s: %w: %w", doing, domain.ErrConflict, err)
+	case errors.As(err, &netErr):
+		return fmt.Errorf("%s: %w: %w", doing, domain.ErrUnavailable, err)
+	default:
+		return fmt.Errorf("%s: %w", doing, err)
+	}
+}

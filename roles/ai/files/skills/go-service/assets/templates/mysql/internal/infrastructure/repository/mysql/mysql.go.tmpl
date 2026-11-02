@@ -1,0 +1,90 @@
+package mysql
+
+import (
+	"context"
+	"database/sql"
+	"errors"
+	"fmt"
+	"net"
+	"strings"
+
+	driver "github.com/go-sql-driver/mysql"
+
+	"{{.Module}}/internal/domain"
+)
+
+const errDuplicateEntry = 1062
+
+var uniqueFields = map[string]string{
+{{- range .Fields}}{{if .Unique}}
+	"{{.Column}}": "{{.JSON}}",
+{{- end}}{{end}}
+}
+
+type Repository struct {
+	db *sql.DB
+}
+
+func New(db *sql.DB) *Repository {
+	return &Repository{db: db}
+}
+
+func (r *Repository) Save(ctx context.Context, {{.Var}} domain.{{.Entity}}) (domain.{{.Entity}}, error) {
+	row := map{{.Entity}}Row({{.Var}})
+	res, err := r.db.ExecContext(ctx,
+		"INSERT INTO {{.Table}} ({{.Columns}}) VALUES ({{.Placeholders}})",
+		{{.InsertArgs}})
+	if err != nil {
+		return domain.{{.Entity}}{}, domainError(err, "inserting {{.Snake}}")
+	}
+	if row.ID, err = res.LastInsertId(); err != nil {
+		return domain.{{.Entity}}{}, domainError(err, "reading {{.Snake}} id")
+	}
+
+	saved := row.toDomain()
+{{- range .Fields}}{{if .Secret}}
+	saved.{{.Name}} = ""
+{{- end}}{{end}}
+	return saved, nil
+}
+
+func (r *Repository) Find(ctx context.Context, id int64) (domain.{{.Entity}}, error) {
+	var row {{.Var}}Row
+	err := r.db.QueryRowContext(ctx,
+		"SELECT id, {{.Columns}} FROM {{.Table}} WHERE id = ?", id).
+		Scan({{.ScanArgs}})
+	if err != nil {
+		return domain.{{.Entity}}{}, domainError(err, fmt.Sprintf("selecting {{.Snake}} %d", id))
+	}
+	return row.toDomain(), nil
+}
+
+func domainError(err error, doing string) error {
+	var mysqlErr *driver.MySQLError
+	var netErr net.Error
+	switch {
+	case errors.Is(err, sql.ErrNoRows):
+		return domain.ErrNotFound
+	case errors.As(err, &mysqlErr) && mysqlErr.Number == errDuplicateEntry:
+		if field, ok := uniqueFields[duplicateKey(mysqlErr.Message)]; ok {
+			return domain.Conflict(domain.Violation{Field: field, Rule: "taken"})
+		}
+		return fmt.Errorf("%s: %w: %w", doing, domain.ErrConflict, err)
+	case errors.Is(err, driver.ErrInvalidConn), errors.As(err, &netErr):
+		return fmt.Errorf("%s: %w: %w", doing, domain.ErrUnavailable, err)
+	default:
+		return fmt.Errorf("%s: %w", doing, err)
+	}
+}
+
+func duplicateKey(message string) string {
+	_, key, ok := strings.Cut(message, "for key '")
+	if !ok {
+		return ""
+	}
+	key = strings.TrimSuffix(key, "'")
+	if _, index, ok := strings.Cut(key, "."); ok {
+		return index
+	}
+	return key
+}
