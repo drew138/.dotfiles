@@ -192,8 +192,9 @@ The full tree, the request flow and a "what goes where" table are in
   Structured lines with named fields. Every error is logged once, where it stops;
   never logged and returned. Every request produces one line when it finishes.
 - **Each entry point loads its config in `cmd/<entrypoint>/config.go`**: a private
-  `config` struct read inline from environment variables with the standard
-  library, every variable required, stopping at the first missing or invalid one. There
+  `config` struct read from environment variables with the standard library and
+  small helpers. Defaults where they make sense, required otherwise, and startup
+  stops at the first missing or invalid value. There
   is one `Application`, and every entry point builds all of it, so each reads the
   settings the application needs plus its own server settings.
 - **Go 1.27 by default** (`go 1.27` in `go.mod`, `golang:1.27` to build), and

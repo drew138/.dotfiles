@@ -131,40 +131,70 @@ type config struct {
 }
 
 func loadConfig() (config, error) {
-	httpAddr := os.Getenv("HTTP_ADDR")
-	if httpAddr == "" {
-		return config{}, errors.New("HTTP_ADDR is required")
+	databaseURL, err := required("DATABASE_URL")
+	if err != nil {
+		return config{}, err
 	}
-	databaseURL := os.Getenv("DATABASE_URL")
-	if databaseURL == "" {
-		return config{}, errors.New("DATABASE_URL is required")
+	maxBodyBytes, err := positiveInt("MAX_BODY_BYTES", 10<<20)
+	if err != nil {
+		return config{}, err
 	}
-	maxBodyBytes, err := strconv.ParseInt(os.Getenv("MAX_BODY_BYTES"), 10, 64)
-	if err != nil || maxBodyBytes <= 0 {
-		return config{}, errors.New("MAX_BODY_BYTES must be a positive integer")
+	return config{
+		httpAddr:     envOr("HTTP_ADDR", ":8080"),
+		databaseURL:  databaseURL,
+		maxBodyBytes: maxBodyBytes,
+	}, nil
+}
+
+func envOr(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
 	}
-	return config{httpAddr: httpAddr, databaseURL: databaseURL, maxBodyBytes: maxBodyBytes}, nil
+	return fallback
+}
+
+func required(key string) (string, error) {
+	v := os.Getenv(key)
+	if v == "" {
+		return "", fmt.Errorf("%s is required", key)
+	}
+	return v, nil
+}
+
+func positiveInt(key string, fallback int64) (int64, error) {
+	v := os.Getenv(key)
+	if v == "" {
+		return fallback, nil
+	}
+	n, err := strconv.ParseInt(v, 10, 64)
+	if err != nil || n <= 0 {
+		return 0, fmt.Errorf("%s must be a positive integer", key)
+	}
+	return n, nil
 }
 ```
 
-- **Read inline, one value after another.** Each value is read and checked where
-  it is declared; there are no helper wrappers around `os.Getenv`.
-- **Stop at the first problem.** The first missing or invalid value returns its
-  error, and the entry point does not start.
-- **Every variable is required.** Values come from the deploy (or a local `.env`);
-  the code holds no defaults.
+- **Stop at the first problem.** Each helper returns an error, and `loadConfig`
+  returns the first one, so the entry point never starts with a missing or invalid
+  value; the same as a connection that cannot be made at startup.
+- **Defaults where they make sense, required otherwise.** A listen address or a
+  limit can have a default (`envOr`, `positiveInt` with a fallback); a database
+  URL, a provider key or anything without a sensible default is `required`.
+- **Small helpers, in the entry point's `config.go`.** Each returns its value and
+  an error, and only the helpers the config uses exist.
 - **Errors name the variable, never its value.** A malformed `DATABASE_URL` still
   carries a password.
 - **Adapters receive plain values** (`cfg.maxBodyBytes`), never the `config` struct.
 
 Common variables:
 
-| Variable | Used by |
-|---|---|
-| `HTTP_ADDR` | `cmd/rest` |
-| `GRPC_ADDR` | `cmd/grpc` |
-| `DATABASE_URL` | any entry point with a repository. Postgres: `postgres://user:pass@host:5432/db?sslmode=disable`. MySQL: `user:pass@tcp(host:3306)/db?parseTime=true` |
-| `REDIS_ADDR`, `CACHE_TTL` | any entry point with a cache |
+| Variable | Default | Used by |
+|---|---|---|
+| `HTTP_ADDR` | `:8080` | `cmd/rest` |
+| `GRPC_ADDR` | `:9090` | `cmd/grpc` |
+| `DATABASE_URL` | required | any entry point with a repository. Postgres: `postgres://user:pass@host:5432/db?sslmode=disable`. MySQL: `user:pass@tcp(host:3306)/db?parseTime=true` |
+| `REDIS_ADDR` | required | any entry point with a cache |
+| `CACHE_TTL` | `5m` | any entry point with a cache |
 
 MySQL needs `parseTime=true` to scan `DATETIME` into `time.Time`.
 
