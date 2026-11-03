@@ -167,14 +167,12 @@ Every `type` and every `code` is our own word. The validator's tags, driver code
 and provider codes are all translated in the adapter, so a response never reveals
 which libraries or providers the service uses.
 
-**Naming rule:** snake_case, formal, and naming the problem. Two words when two are
-enough (`value_taken`, `max_length`); up to five or six when that is what makes it
-understandable (`greater_than_or_equal`). Generic, so the same code fits any service:
-`value_taken`, not `username_taken`. When no existing code describes the problem, add a
-new one that follows this rule.
+**Naming rule:** snake_case, formal and descriptive: the code names the problem in
+as few words as make it clear (`value_taken`, `max_length`, `too_many_pixels`; up to
+five or six when needed, `greater_than_or_equal`). Reuse an existing code when it
+describes the problem; otherwise add one, generic or specific to the service.
 
-**`param` is optional**: include it only when the extra value makes the error
-clearer than the code alone. A limit, a bound or an expected type does (`max_length`
+**`param` is optional**: include it only when it is necessary to understand the error. A limit, a bound or an expected type does (`max_length`
 with `32`); a code that already says everything does not (`invalid_email`,
 `value_required`, `invalid_option`).
 
@@ -216,9 +214,9 @@ with `32`); a code that already says everything does not (`invalid_email`,
 A tag that keeps showing up as `invalid_value` needs its own row.
 
 `code` values from the domain are chosen in the adapter's `domainErrors` table, by
-the same rule: `value_taken` for a unique value already in use, and generic codes
-such as `limit_exceeded` or `invalid_state` for business rules. Each service adds
-the codes its rules need.
+the same rule: `value_taken` for a unique value already in use, `limit_exceeded` or
+`invalid_state` for business rules, and codes of the service's own where those do not
+describe it.
 
 The code is in `rest.md`.
 
