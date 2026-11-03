@@ -41,6 +41,31 @@
   changed_when: false
   failed_when: nvim_verify_pynvim.rc != 0
 
+- name: Read the neovim virtual environment python version
+  ansible.builtin.command: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/python -c 'import sys; print(\"%d.%d\" % sys.version_info[:2])'"
+  register: nvim_verify_venv_python
+  changed_when: false
+
+- name: Assert the neovim virtual environment uses the pinned python
+  ansible.builtin.assert:
+    that:
+      - nvim_verify_venv_python.stdout == nvim_mason_python
+    fail_msg: "~/.nvimvenv runs python {{ nvim_verify_venv_python.stdout }}, not the pinned {{ nvim_mason_python }}"
+
+- name: Read the tree-sitter cli version
+  ansible.builtin.command: /opt/homebrew/bin/tree-sitter --version
+  register: nvim_verify_tree_sitter
+  changed_when: false
+  failed_when: nvim_verify_tree_sitter.rc != 0
+
+- name: Read the neovim npm package
+  ansible.builtin.command: "{{ nvim_node_bin }}/npm ls -g neovim --depth=0"
+  environment:
+    PATH: "{{ nvim_node_bin }}:{{ ansible_facts['env']['PATH'] }}"
+  register: nvim_verify_npm_neovim
+  changed_when: false
+  failed_when: "nvim_verify_npm_neovim.rc != 0 or 'neovim@' not in nvim_verify_npm_neovim.stdout"
+
 - name: Read the Mason python shim version
   ansible.builtin.command: "{{ nvim_mason_python_shim }}/python3 -c 'import sys; print(\"%d.%d\" % sys.version_info[:2])'"
   register: nvim_verify_mason_python

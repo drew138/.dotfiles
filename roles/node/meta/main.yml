@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: drew138
-  description: installs the node runtime
+  description: installs the latest node LTS as the default node
   license: MIT
   min_ansible_version: 2.16.1
   role_name: node
@@ -11,4 +11,4 @@ galaxy_info:
       versions:
         - all
 dependencies:
-  - role: nvm
+  - role: fnm

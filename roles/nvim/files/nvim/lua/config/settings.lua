@@ -4,6 +4,9 @@ function M.load_globals()
 	-- Global Variables (vim.g)
 	vim.g.mapleader = " "
 	vim.g.python3_host_prog = vim.fn.expand("~/.nvimvenv/bin/python")
+	-- Mason's npm tools, the node provider and plugin builds always use the default
+	-- node, never one a project pins through .nvmrc
+	vim.env.PATH = vim.fn.expand("~/.local/share/fnm/aliases/default/bin") .. ":" .. vim.env.PATH
 	vim.g.loaded_netrw = 1
 	vim.g.loaded_netrwPlugin = 1
 end

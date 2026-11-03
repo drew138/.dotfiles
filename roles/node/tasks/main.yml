@@ -1,6 +1,28 @@
 ---
-- name: Install node
-  ansible.builtin.shell: "source {{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh && nvm install --lts"
+- name: Find the latest node LTS
+  ansible.builtin.shell: "/opt/homebrew/bin/fnm list-remote --lts --latest | awk '{print $1}'"
+  environment:
+    FNM_DIR: "{{ node_fnm_dir }}"
+  register: node_latest_lts
   changed_when: false
-  args:
-    executable: /bin/bash
+  failed_when: node_latest_lts.stdout is not match("^v[0-9]+\\.")
+
+- name: Install the latest node LTS
+  ansible.builtin.command: "/opt/homebrew/bin/fnm install {{ node_latest_lts.stdout }}"
+  environment:
+    FNM_DIR: "{{ node_fnm_dir }}"
+  register: node_install
+  changed_when: "'already installed' not in (node_install.stdout + node_install.stderr)"
+
+- name: Read the default node
+  ansible.builtin.command: "{{ node_default_bin }}/node --version"
+  register: node_current_default
+  changed_when: false
+  failed_when: false
+
+- name: Make the latest node LTS the default
+  ansible.builtin.command: "/opt/homebrew/bin/fnm default {{ node_latest_lts.stdout }}"
+  environment:
+    FNM_DIR: "{{ node_fnm_dir }}"
+  when: node_current_default.stdout != node_latest_lts.stdout
+  changed_when: true

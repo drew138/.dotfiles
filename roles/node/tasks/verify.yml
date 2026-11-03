@@ -1,19 +1,28 @@
 ---
-- name: Verify node runs when nvm is sourced
-  ansible.builtin.shell: |
-    source "{{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh"
-    node --version
-  args:
-    executable: /bin/bash
+- name: Read the default node version
+  ansible.builtin.command: "{{ node_default_bin }}/node --version"
   register: node_verify_version
   changed_when: false
   failed_when: false
 
-- name: Assert node is available via nvm
+- name: Assert the default node runs
   ansible.builtin.assert:
     that:
       - node_verify_version.rc == 0
       - node_verify_version.stdout is match("^v[0-9]+\\.")
     fail_msg: >
-      Node is not available after sourcing nvm.
+      The default node at {{ node_default_bin }} does not run.
       Output: {{ node_verify_version.stdout }}
+
+- name: Read the latest node LTS
+  ansible.builtin.shell: "/opt/homebrew/bin/fnm list-remote --lts --latest | awk '{print $1}'"
+  environment:
+    FNM_DIR: "{{ node_fnm_dir }}"
+  register: node_verify_latest_lts
+  changed_when: false
+
+- name: Assert the default node is the latest LTS
+  ansible.builtin.assert:
+    that:
+      - node_verify_version.stdout == node_verify_latest_lts.stdout
+    fail_msg: "default node is {{ node_verify_version.stdout }}, latest LTS is {{ node_verify_latest_lts.stdout }}"

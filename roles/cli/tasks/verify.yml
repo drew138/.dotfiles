@@ -11,58 +11,14 @@
     fail_msg: "homebrew package '{{ item }}' is not installed"
   loop: "{{ cli_brew_packages }}"
 
-- name: Verify virtualenv directory exists
-  ansible.builtin.stat:
-    path: "{{ ansible_facts['env']['HOME'] }}/.clitools"
-  register: cli_verify_clitools_dir
-
-- name: Assert virtualenv directory exists
-  ansible.builtin.assert:
-    that:
-      - cli_verify_clitools_dir.stat.exists
-      - cli_verify_clitools_dir.stat.isdir
-    fail_msg: "virtualenv ~/.clitools does not exist"
-
-- name: List installed python packages in virtualenv
-  ansible.builtin.command: "{{ ansible_facts['env']['HOME'] }}/.clitools/bin/pip list --format=freeze"
-  register: cli_verify_clitools_pip
+- name: List python tools installed with uv
+  ansible.builtin.command: /opt/homebrew/bin/uv tool list
+  register: cli_verify_uv_tools
   changed_when: false
 
-- name: Normalize installed python package names
-  ansible.builtin.set_fact:
-    cli_verify_clitools_installed_packages: >-
-      {{
-        cli_verify_clitools_pip.stdout_lines
-        | map('regex_replace', '==.*$', '')
-        | map('lower')
-        | map('regex_replace', '[-_.]+', '-')
-        | list
-      }}
-
-- name: Assert required python packages are installed
+- name: Assert python tools are installed with uv
   ansible.builtin.assert:
     that:
-      - >-
-        {{
-          (
-            item
-            | regex_replace('==.*$', '')
-            | lower
-            | regex_replace('[-_.]+', '-')
-          )
-          in cli_verify_clitools_installed_packages
-        }}
-    fail_msg: "python package '{{ item }}' is missing from the virtualenv"
-  loop: "{{ cli_python_packages }}"
-
-- name: Stat poetry zsh completions
-  ansible.builtin.stat:
-    path: "{{ ansible_facts['env']['HOME'] }}/.zfunc/_poetry"
-  register: cli_verify_poetry_completions
-
-- name: Assert poetry zsh completions are generated
-  ansible.builtin.assert:
-    that:
-      - cli_verify_poetry_completions.stat.exists
-      - cli_verify_poetry_completions.stat.size > 0
-    fail_msg: "poetry zsh completions are missing from ~/.zfunc/_poetry"
+      - cli_verify_uv_tools.stdout is search('(?m)^' ~ item ~ ' v')
+    fail_msg: "python tool '{{ item }}' is not installed with uv"
+  loop: "{{ cli_uv_tools }}"

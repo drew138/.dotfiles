@@ -1,14 +1,14 @@
 ---
 galaxy_info:
   author: drew138
-  description: installs the node version manager
+  description: installs uv and the latest python as the default python
   license: MIT
   min_ansible_version: 2.16.1
-  role_name: nvm
+  role_name: uv
   namespace: drew138
   platforms:
     - name: MacOSX
       versions:
         - all
 dependencies:
-  - role: ssh
+  - role: zsh

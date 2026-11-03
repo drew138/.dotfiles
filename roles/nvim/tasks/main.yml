@@ -10,6 +10,7 @@
     name:
       - make
       - python
+      - tree-sitter-cli
     state: latest
 
 - name: Install the python Mason builds its tools with
@@ -59,30 +60,24 @@
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
-- name: Ensure virtual environment is created
-  ansible.builtin.command: python3 -m venv "{{ ansible_facts['env']['HOME'] }}/.nvimvenv"
+- name: Create the neovim python virtual environment from the pinned python
+  ansible.builtin.command: >-
+    /opt/homebrew/bin/uv venv --python "{{ nvim_mason_python_shim }}/python3"
+    "{{ ansible_facts['env']['HOME'] }}/.nvimvenv"
   args:
     creates: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/activate"
-  environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
 
-- name: Install pynvim in virtual environment
-  ansible.builtin.pip:
-    name: pynvim
-    state: latest
-    virtualenv: "{{ ansible_facts['env']['HOME'] }}/.nvimvenv"
-  environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
+- name: Install pynvim in the neovim virtual environment
+  ansible.builtin.command: >-
+    /opt/homebrew/bin/uv pip install --upgrade pynvim
+    --python "{{ ansible_facts['env']['HOME'] }}/.nvimvenv/bin/python"
+  register: nvim_pynvim_install
+  changed_when: "'Installed' in nvim_pynvim_install.stderr"
 
-- name: Install global npm packages required by neovim
-  ansible.builtin.shell: "source {{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh && npm install -g {{ npm_package }}"
-  args:
-    executable: /bin/bash
-  loop:
-    - "tree-sitter-cli"
-    - "neovim"
-  loop_control:
-    loop_var: npm_package
+- name: Install the neovim npm package with the default node
+  ansible.builtin.command: "{{ nvim_node_bin }}/npm install -g neovim"
+  environment:
+    PATH: "{{ nvim_node_bin }}:/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
   changed_when: false
 
 - name: Install luajit

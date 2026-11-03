@@ -1,0 +1,22 @@
+---
+- name: Install fnm
+  community.general.homebrew:
+    name: fnm
+    state: latest
+
+- name: Ensure the fnm directory exists
+  ansible.builtin.file:
+    path: "{{ fnm_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Ensure zsh function directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.zfunc"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+
+- name: Generate fnm zsh completions
+  ansible.builtin.shell: "/opt/homebrew/bin/fnm completions --shell zsh > {{ ansible_facts['env']['HOME'] }}/.zfunc/_fnm"
+  changed_when: false

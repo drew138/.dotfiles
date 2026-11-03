@@ -4,30 +4,13 @@
     name: "{{ cli_brew_packages }}"
     state: latest
 
-- name: Ensure virtual environment is created
-  ansible.builtin.command: python3 -m venv "{{ ansible_facts['env']['HOME'] }}/.clitools"
-  args:
-    creates: "{{ ansible_facts['env']['HOME'] }}/.clitools/bin/activate"
-  environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
+- name: Install python tools with uv
+  ansible.builtin.command: "/opt/homebrew/bin/uv tool install {{ item }}"
+  loop: "{{ cli_uv_tools }}"
+  register: cli_uv_tool_install
+  changed_when: "'Installed' in cli_uv_tool_install.stderr"
 
-- name: Install python tooling in virtual environment
-  ansible.builtin.pip:
-    name: "{{ cli_python_packages }}"
-    state: latest
-    virtualenv: "{{ ansible_facts['env']['HOME'] }}/.clitools"
-  environment:
-    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
-
-- name: Ensure zsh function directory exists
-  ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/.zfunc"
-    state: directory
-    mode: "0755"
-    owner: "{{ ansible_facts['env']['USER'] }}"
-
-- name: Generate poetry zsh completions
-  ansible.builtin.shell: >
-    {{ ansible_facts['env']['HOME'] }}/.clitools/bin/poetry completions zsh
-    > {{ ansible_facts['env']['HOME'] }}/.zfunc/_poetry
-  changed_when: false
+- name: Upgrade python tools installed with uv
+  ansible.builtin.command: /opt/homebrew/bin/uv tool upgrade --all
+  register: cli_uv_tool_upgrade
+  changed_when: "'Updated' in cli_uv_tool_upgrade.stderr"

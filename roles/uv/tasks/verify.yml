@@ -1,0 +1,44 @@
+---
+- name: Read the uv version
+  ansible.builtin.command: /opt/homebrew/bin/uv --version
+  register: uv_verify_version
+  changed_when: false
+  failed_when: false
+
+- name: Assert uv is installed
+  ansible.builtin.assert:
+    that:
+      - uv_verify_version.rc == 0
+      - uv_verify_version.stdout is match("^uv [0-9]+\\.")
+    fail_msg: "uv is not installed at /opt/homebrew/bin/uv"
+
+- name: Read the default python version
+  ansible.builtin.command: "{{ ansible_facts['env']['HOME'] }}/.local/bin/python --version"
+  register: uv_verify_python
+  changed_when: false
+  failed_when: false
+
+- name: Assert the default python runs
+  ansible.builtin.assert:
+    that:
+      - uv_verify_python.rc == 0
+      - uv_verify_python.stdout is match("^Python 3\\.")
+    fail_msg: "~/.local/bin/python does not run. Output: {{ uv_verify_python.stdout }}{{ uv_verify_python.stderr }}"
+
+- name: Stat uv and uvx zsh completions
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.zfunc/{{ item }}"
+  loop:
+    - _uv
+    - _uvx
+  register: uv_verify_completions
+
+- name: Assert uv and uvx zsh completions are generated
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+      - item.stat.size > 0
+    fail_msg: "zsh completions are missing from ~/.zfunc/{{ item.item }}"
+  loop: "{{ uv_verify_completions.results }}"
+  loop_control:
+    label: "{{ item.item }}"

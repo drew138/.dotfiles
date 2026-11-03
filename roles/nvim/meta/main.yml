@@ -12,6 +12,7 @@ galaxy_info:
         - all
 dependencies:
   - role: node
+  - role: uv
   - role: repositories
   - role: zsh
   - role: nerdfonts

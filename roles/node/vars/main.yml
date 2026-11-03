@@ -1,0 +1,3 @@
+---
+node_fnm_dir: "{{ ansible_facts['env']['HOME'] }}/.local/share/fnm"
+node_default_bin: "{{ node_fnm_dir }}/aliases/default/bin"

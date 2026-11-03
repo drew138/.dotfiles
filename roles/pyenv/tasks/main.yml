@@ -1,7 +1,0 @@
----
-- name: Install dependencies
-  community.general.homebrew:
-    name:
-      - pyenv
-      - xz
-    state: latest

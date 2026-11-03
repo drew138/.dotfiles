@@ -1,0 +1,26 @@
+---
+- name: Install uv
+  community.general.homebrew:
+    name: uv
+    state: latest
+
+- name: Install the latest python as the default python
+  ansible.builtin.command: /opt/homebrew/bin/uv python install --default --preview
+  register: uv_python_install
+  changed_when: "'Installed' in uv_python_install.stderr"
+
+- name: Ensure zsh function directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.zfunc"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+
+- name: Generate uv and uvx zsh completions
+  ansible.builtin.shell: "{{ item.command }} > {{ ansible_facts['env']['HOME'] }}/.zfunc/{{ item.file }}"
+  loop:
+    - { command: "/opt/homebrew/bin/uv generate-shell-completion zsh", file: "_uv" }
+    - { command: "/opt/homebrew/bin/uvx --generate-shell-completion zsh", file: "_uvx" }
+  loop_control:
+    label: "{{ item.file }}"
+  changed_when: false

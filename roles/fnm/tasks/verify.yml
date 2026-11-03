@@ -1,0 +1,25 @@
+---
+- name: Read the fnm version
+  ansible.builtin.command: /opt/homebrew/bin/fnm --version
+  register: fnm_verify_version
+  changed_when: false
+  failed_when: false
+
+- name: Assert fnm is installed
+  ansible.builtin.assert:
+    that:
+      - fnm_verify_version.rc == 0
+      - fnm_verify_version.stdout is match("^fnm [0-9]+\\.")
+    fail_msg: "fnm is not installed at /opt/homebrew/bin/fnm"
+
+- name: Stat fnm zsh completions
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.zfunc/_fnm"
+  register: fnm_verify_completions
+
+- name: Assert fnm zsh completions are generated
+  ansible.builtin.assert:
+    that:
+      - fnm_verify_completions.stat.exists
+      - fnm_verify_completions.stat.size > 0
+    fail_msg: "fnm zsh completions are missing from ~/.zfunc/_fnm"
