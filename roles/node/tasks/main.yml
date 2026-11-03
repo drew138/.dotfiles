@@ -1,6 +1,8 @@
 ---
 - name: Find the latest node LTS
-  ansible.builtin.shell: "/opt/homebrew/bin/fnm list-remote --lts --latest | awk '{print $1}'"
+  ansible.builtin.shell: "set -o pipefail && /opt/homebrew/bin/fnm list-remote --lts --latest | awk '{print $1}'"
+  args:
+    executable: /bin/bash
   environment:
     FNM_DIR: "{{ node_fnm_dir }}"
   register: node_latest_lts
