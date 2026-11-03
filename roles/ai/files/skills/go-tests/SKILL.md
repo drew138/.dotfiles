@@ -57,6 +57,7 @@ Never write tests for:
 - anything under `cmd/` or `config/`
 - plain getters and setters
 - generated code
+- log output: tests assert responses, returned values and calls, never log lines
 
 Calling a constructor to build the subject is normal. `NewService(repo, clock)` in
 the arrange step is correct; `TestNewService` is not.

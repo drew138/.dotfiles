@@ -129,11 +129,6 @@ Migrations run as a deploy step
 (`migrate -path migration -database "$DATABASE_URL" up`), not at service startup, so
 a broken migration stops the deploy instead of every replica.
 
-## Integration tests
-
-Per `go-tests`: testcontainers, the service's own migrations, a reset between tests,
-no `t.Parallel()`.
-
 ## A second store
 
 A new folder beside the first (`repository/mongo/` next to `repository/postgres/`),

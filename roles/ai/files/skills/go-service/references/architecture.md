@@ -24,8 +24,9 @@ from the request flow below, where arrows are calls.
 - **Everything imports `domain`**, because domain types are the shared language.
 - **`domain` imports nothing** from the service except `pkg/`.
 - **`pkg/` imports nothing from `internal/`.** It is library code: standard library
-  and third-party packages only, so every layer may import it.
-- **`application` imports only `domain`.** It declares ports (interfaces) and never
+  and third-party packages only, so every layer may import it. Most often it is the
+  application that does.
+- **`application` imports only `domain` and `pkg/`.** It declares ports (interfaces) and never
   names an adapter.
 - **Inbound adapters do not import `application`.** Each declares its own small
   `Application` interface with the use cases it calls, and `*application.Application`

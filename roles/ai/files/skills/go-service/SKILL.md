@@ -19,8 +19,9 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 # Building a Go service
 
-Interfaces, naming, logging and migrations follow `go-review`. Tests follow
-`go-tests`. Read both; this skill does not restate them.
+Interfaces, naming, logging and migrations follow `go-review`; read it, this skill
+does not restate it. Tests are the `go-tests` skill's job: this skill builds the
+code and hands the tests to it.
 
 ## Structure
 
@@ -125,12 +126,13 @@ The full tree, the request flow and a "what goes where" table are in
   struct: `psp/adyen` implements the `PSP` port with `adyen.PSP`. Full definitions
   and examples: "Kinds and techs" in `references/architecture.md`.
 - **Dependencies point inward.** Infrastructure → application → domain. The domain
-  imports nothing from the service; the application imports only the domain.
+  imports nothing from the service; the application imports only the domain and `pkg/`.
 - **`pkg/` holds library-like code**: logic the service needs that stands on its
   own and could be exported, small libraries we write ourselves, and everything
   that would otherwise be a "utility". Each lives in its own package named for what
   it does (`pkg/retry`, `pkg/money`), never `pkg/utils`. A `pkg/` package imports
-  nothing from `internal/`, so any layer may import it.
+  nothing from `internal/`, so any layer may import it; most often it is the
+  application that does.
 - **Domain structs carry no tags.** Serialisation belongs to the adapter that needs it.
 - **The domain holds business concepts only:** models and their methods, enums,
   errors.
@@ -204,7 +206,11 @@ The full tree, the request flow and a "what goes where" table are in
   - compiler directives (`//go:build`, `//go:generate`, `//go:embed`);
   - a piece of logic that deliberately goes against how it would normally be done,
     for a very specific reason the reader could not work out from the code.
-  This holds everywhere: domain, application, adapters, `pkg/`, tests.
+  This holds everywhere: domain, application, adapters, `pkg/`.
+- **Timeouts and concurrency limits are set by the user, never by this skill.** Add
+  a server or client timeout, a deadline, a semaphore or any other limit on time or
+  concurrent work only when the request asks for it, with the value it gives. When one seems needed, mention it in
+  the summary instead.
 - **`ctx context.Context` comes first** in every port and service method.
 - **Every layer validates what only it can know.** The API checks the request's
   format with go-playground/validator tags on its DTO (types, required, lengths,
@@ -268,8 +274,7 @@ name, a rule, a status, which store.
 6. **Wiring** (`wiring.md`). Construct each new adapter in `main.go` with `New` and
    pass it to whatever consumes it. A new setting for the application goes in every
    entry point's `config.go`.
-7. **Tests.** Follow `go-tests`: unit tests for the use case and the handler,
-   integration tests for the repository. Assert errors with `ErrorIs`/`ErrorAs`.
+7. **Tests.** Use the `go-tests` skill to write them; it owns every testing rule.
 8. **Check.** `go build ./...`, `go vet ./...`, `go test ./...`, then the
    checklist below, then the diff against `go-review`.
 
@@ -280,7 +285,9 @@ the work done with an item failing.
 
 - [ ] No struct tags on anything in `internal/domain`.
 - [ ] Enums are string types in `domain/enums.go`, no `iota`, each with `Valid()`.
-- [ ] `domain` imports nothing from the service; `application` imports only `domain`.
+- [ ] `domain` imports nothing from the service but `pkg/`; `application` imports only
+      `domain` and `pkg/`.
+- [ ] Every timeout and concurrency limit was asked for, with the value asked for.
 - [ ] `application.go` holds only `Application`, `New` and the ports.
 - [ ] Each method file holds exactly one public method on `*Application`, and its
       snake_case name matches the method.

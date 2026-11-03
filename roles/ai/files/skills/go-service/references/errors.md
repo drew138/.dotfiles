@@ -170,8 +170,8 @@ which libraries or providers the service uses.
 **Naming rule:** snake_case, formal, and naming the problem. Two words when two are
 enough (`value_taken`, `max_length`); up to five or six when that is what makes it
 understandable (`greater_than_or_equal`). Generic, so the same code fits any service:
-`value_taken`, not `username_taken`. A new code is added only when no existing one
-describes the problem.
+`value_taken`, not `username_taken`. When no existing code describes the problem, add a
+new one that follows this rule.
 
 **`param` is optional**: include it only when the extra value makes the error
 clearer than the code alone. A limit, a bound or an expected type does (`max_length`
@@ -226,8 +226,3 @@ The code is in `rest.md`.
 
 gRPC maps the same kinds to status codes (`grpc.md`). A queue consumer maps them to
 ack, dead-letter or requeue (`queue.md`).
-
-## Testing
-
-Assert with `require.ErrorIs(t, err, domain.ErrUsernameTaken)` per `go-tests`.
-Never assert on message text.

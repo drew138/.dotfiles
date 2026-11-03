@@ -19,8 +19,6 @@ Each builds into its own binary (`go build ./cmd/rest`) and is deployed on its o
 ## main.go
 
 ```go
-const shutdownTimeout = 30 * time.Second
-
 func main() {
 	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
 	if err := run(); err != nil {
@@ -50,14 +48,12 @@ func run() error {
 	app := application.New(postgres.New(db))
 	router := chi.NewRouter()
 	rest.New(router, app)
-	server := &http.Server{Addr: cfg.httpAddr, Handler: router, ReadHeaderTimeout: 10 * time.Second}
+	server := &http.Server{Addr: cfg.httpAddr, Handler: router}
 
 	shutdownErr := make(chan error, 1)
 	go func() {
 		<-ctx.Done()
-		shutdownCtx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
-		defer cancel()
-		shutdownErr <- server.Shutdown(shutdownCtx)
+		shutdownErr <- server.Shutdown(context.Background())
 	}()
 
 	slog.InfoContext(ctx, "service started", "addr", cfg.httpAddr)

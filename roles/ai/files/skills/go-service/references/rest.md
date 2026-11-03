@@ -7,7 +7,7 @@ The inbound adapter for HTTP + JSON, at `internal/infrastructure/api/rest/`.
 | File | Holds |
 |---|---|
 | `handler.go` | the `Application` interface, the `Handler` struct, `New`, and the private methods every route shares: `validateRequest`, `logged`, `writeError`, `writeJSON`; the validator setup |
-| `<route_name>.go` | one route method per file, in snake_case: `createUser` lives in `create_user.go` |
+| `<route_name>.go` | one route method per file, in snake_case: `createUser` lives in `create_user.go`, with the private helpers only that route uses (reading a multipart body, for example) |
 | `dto.go` | request DTOs (`json` + `validate` tags, `toDomain()`), response DTOs, error response DTOs |
 | `mappers.go` | `map<Target>` functions, the error tables and `mapErrorResponse` |
 

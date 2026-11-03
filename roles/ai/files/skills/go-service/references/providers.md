@@ -146,8 +146,8 @@ someone else's API, and they would also tell a caller which provider we use.
 
 ## Behaviour
 
-- The `*http.Client` comes from `main.go`, with a timeout set; `http.DefaultClient`
-  has none. Several provider adapters can share one.
+- The `*http.Client` comes from `main.go`, built there with whatever timeout the
+  user sets. Several provider adapters can share one.
 - Endpoints, keys and credentials come from config. Never log them, and never log a
   request or response body: provider payloads are full of PII and PCI data.
 - Retry only idempotent calls, only on `ErrUnavailable`, with backoff, inside the
