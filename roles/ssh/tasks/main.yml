@@ -1,10 +1,4 @@
 ---
-- name: Install Bitwarden, which holds the ssh keys
-  community.general.homebrew_cask:
-    name: bitwarden
-    state: present
-  when: not (ssh_in_ci | bool)
-
 - name: Check that the Bitwarden ssh agent holds the github key
   ansible.builtin.command: ssh-add -L
   environment:
