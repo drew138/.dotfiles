@@ -2,5 +2,5 @@
 ssh_agent_socket: "{{ ansible_facts['env']['HOME'] }}/.bitwarden-ssh-agent.sock"
 # set by the ci workflow, which provides its own github key instead of Bitwarden
 ssh_in_ci: "{{ lookup('ansible.builtin.env', 'DOTFILES_CI') == 'true' }}"
-ssh_public_keys:
-  github: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMlwwWVyf6lreR5cN8/r7BnhgCjnVmcSrREk6CAnoSpV"
+# the Bitwarden item whose key signs in to github; the role reads its public half from the agent
+ssh_github_key_name: "Github auth keys"

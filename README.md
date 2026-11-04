@@ -39,7 +39,7 @@ skipped there.
 
 | Bitwarden item | Used for |
 |---|---|
-| `Github auth keys` | GitHub over SSH; its private key is also the `SSH_GITHUB_KEY` CI secret |
+| `Github auth keys` | GitHub over SSH; the `ssh` role finds its public key in the agent by this name, and its private key is also the `SSH_GITHUB_KEY` CI secret |
 | `Homelab keys` | logging in to the Pi; set up by the homelab repo's `scripts/setup-ssh.sh` |
 | `Git signing keys` | signing commits |
 
