@@ -39,14 +39,24 @@
     - install_neovim_development_tools
 
 - name: Clone nvim repository
-  ansible.builtin.git:
-    repo: "https://github.com/neovim/neovim.git"
-    dest: "{{ ansible_facts['env']['HOME'] }}/dev/neovim"
-    version: "{{ nvim_release_branch }}"
-    depth: 1
-    clone: true
-    update: true
-    force: true
+  ansible.builtin.command: >- # noqa: command-instead-of-module the git module fails updating a shallow tag checkout
+    git clone --depth 1 --branch "{{ nvim_release_branch }}"
+    https://github.com/neovim/neovim.git "{{ ansible_facts['env']['HOME'] }}/dev/neovim"
+  args:
+    creates: "{{ ansible_facts['env']['HOME'] }}/dev/neovim/.git"
+
+- name: Update nvim repository to the latest {{ nvim_release_branch }}
+  ansible.builtin.shell: | # noqa: command-instead-of-module the git module fails updating a shallow tag checkout
+    set -euo pipefail
+    before=$(git rev-parse HEAD)
+    git fetch --quiet --depth 1 --force origin "{{ nvim_release_branch }}"
+    git checkout --quiet --force --detach FETCH_HEAD
+    [ "$before" = "$(git rev-parse HEAD)" ] || echo updated
+  args:
+    chdir: "{{ ansible_facts['env']['HOME'] }}/dev/neovim"
+    executable: /bin/bash
+  register: nvim_repo_update
+  changed_when: "'updated' in nvim_repo_update.stdout"
 
 - name: Build and install nvim
   become: true
