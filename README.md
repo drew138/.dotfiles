@@ -29,8 +29,9 @@ brew install git curl ansible molecule
 ### SSH keys
 
 SSH keys live in Bitwarden, whose SSH agent signs for them; no private key is written to disk.
-Before the first run, install Bitwarden (`brew install --cask bitwarden`), log in, and turn on
-Settings → Enable SSH agent. Without it the roles that clone over SSH fail.
+The `ssh` role, which runs before every role that clones over SSH, installs Bitwarden. When the
+agent does not hold the github key yet, it opens Bitwarden and pauses: log in, unlock, turn on
+Settings → Enable SSH agent the first time, and press Enter to continue.
 
 | Bitwarden item | Used for |
 |---|---|
