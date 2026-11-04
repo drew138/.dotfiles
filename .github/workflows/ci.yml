@@ -44,18 +44,30 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
-      - name: install jq
-        run: sudo apt-get install jq
-
-      - name: list ansible roles
+      # pushes that only touch roles/<name>/ test those roles; everything else tests all of them
+      - name: choose the roles to test
         id: roles
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
         run: |
-          echo 'roles<<EOF' >> "${GITHUB_OUTPUT}"
-          roles=$(ls -1 -d */ | sed 's:/$::' | jq -R -s 'split("\n")[:-1]')
-          echo $roles>> "${GITHUB_OUTPUT}"
-          echo 'EOF' >> "${GITHUB_OUTPUT}"
-        working-directory: ./roles/
+          all=$(find roles -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort | jq -R -s -c 'split("\n")[:-1]')
+          roles="${all}"
+          if [ "${EVENT}" = "push" ] && git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+            changed=$(git diff --name-only "${BEFORE}" "${AFTER}" | grep -v -E '\.md$|^assets/|^LICENSE$' || true)
+            if [ -n "${changed}" ] && ! grep -q -v '^roles/' <<< "${changed}"; then
+              picked=$(cut -d/ -f2 <<< "${changed}" | sort -u | while read -r role; do
+                [ -d "roles/${role}" ] && echo "${role}"
+              done | jq -R -s -c 'split("\n")[:-1]')
+              [ "${picked}" != "[]" ] && roles="${picked}"
+            fi
+          fi
+          echo "roles=${roles}" >> "${GITHUB_OUTPUT}"
+          echo "Testing roles: ${roles}" >> "${GITHUB_STEP_SUMMARY}"
 
   test-macos:
     needs: check-roles
