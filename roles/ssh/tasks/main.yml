@@ -1,4 +1,38 @@
 ---
+- name: Check that the Bitwarden ssh agent holds the github key
+  ansible.builtin.command: ssh-add -L
+  environment:
+    SSH_AUTH_SOCK: "{{ ssh_agent_socket }}"
+  register: ssh_agent_keys
+  changed_when: false
+  failed_when: false
+  when: not (ssh_in_ci | bool)
+
+- name: Wait for Bitwarden to be unlocked
+  when: not (ssh_in_ci | bool) and ssh_public_keys.github not in ssh_agent_keys.stdout
+  block:
+    - name: Open Bitwarden
+      ansible.builtin.command: open -a Bitwarden
+      changed_when: false
+
+    - name: Say what to do in Bitwarden
+      ansible.builtin.debug:
+        msg:
+          - "Bitwarden holds the ssh keys the next roles need. Waiting until it is unlocked:"
+          - "1. Log in to Bitwarden and unlock it."
+          - "2. The first time only: Settings -> Enable SSH agent."
+
+    - name: Wait until the Bitwarden ssh agent holds the github key
+      ansible.builtin.command: ssh-add -L
+      environment:
+        SSH_AUTH_SOCK: "{{ ssh_agent_socket }}"
+      register: ssh_agent_keys_unlocked
+      changed_when: false
+      failed_when: ssh_public_keys.github not in ssh_agent_keys_unlocked.stdout
+      retries: 180
+      delay: 5
+      until: ssh_public_keys.github in ssh_agent_keys_unlocked.stdout
+
 - name: Ensure .ssh directory exists
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh"

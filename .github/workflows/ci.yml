@@ -125,6 +125,7 @@ jobs:
       - name: run molecule tests
         run: molecule test
         env:
+          DOTFILES_CI: "true"
           ROOT_DIR: ${{ github.workspace }}
           PY_COLORS: "1"
           MOLECULE_ROLE: ${{ matrix.role }}

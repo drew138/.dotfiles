@@ -30,8 +30,12 @@ brew install git curl ansible molecule
 
 SSH keys live in Bitwarden, whose SSH agent signs for them; no private key is written to disk.
 The `ssh` role installs Bitwarden through its `casks` dependency, before any role that clones over
-SSH. Log in, unlock it, and turn on Settings → Enable SSH agent once; the roles that clone over SSH
-need the agent unlocked.
+SSH. When the agent does not hold the github key yet, the role opens Bitwarden and waits: log in,
+unlock it, and turn on Settings → Enable SSH agent the first time. It checks every 5 seconds,
+continues as soon as the key is there, and stops after 15 minutes if it never is.
+
+CI sets `DOTFILES_CI=true` and writes its own github key to `~/.ssh/github`, so these steps are
+skipped there.
 
 | Bitwarden item | Used for |
 |---|---|
