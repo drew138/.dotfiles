@@ -74,13 +74,22 @@
     create: true
     mode: "0600"
 
-- name: Trust github's published host keys
+- name: Read github's host keys from its API over https
+  ansible.builtin.uri:
+    url: https://api.github.com/meta
+    return_content: true
+  register: ssh_github_meta
+  retries: 3
+  delay: 5
+  until: ssh_github_meta.status == 200 and ssh_github_meta.json.ssh_keys | default([]) | length > 0
+
+- name: Trust github's host keys
   ansible.builtin.lineinfile:
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
     line: "github.com {{ ssh_github_host_key }}"
     create: true
     mode: "0644"
-  loop: "{{ ssh_github_host_keys }}"
+  loop: "{{ ssh_github_meta.json.ssh_keys }}"
   loop_control:
     loop_var: ssh_github_host_key
     label: "{{ ssh_github_host_key.split()[0] }}"
