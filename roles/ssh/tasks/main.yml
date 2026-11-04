@@ -74,22 +74,13 @@
     create: true
     mode: "0600"
 
-- name: Capture the github host keys
-  ansible.builtin.command: ssh-keyscan github.com
-  register: ssh_github_host_keys
-  changed_when: false
-  retries: 3
-  delay: 5
-  until: ssh_github_host_keys.rc == 0 and ssh_github_host_keys.stdout | length > 0
-
-- name: Add the github host keys to known_hosts
+- name: Trust github's published host keys
   ansible.builtin.lineinfile:
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh/known_hosts"
-    line: "{{ ssh_host_key_line }}"
+    line: "github.com {{ ssh_github_host_key }}"
     create: true
     mode: "0644"
-  loop: "{{ ssh_github_host_keys.stdout_lines | reject('match', '^#') | list }}"
+  loop: "{{ ssh_github_host_keys }}"
   loop_control:
-    loop_var: ssh_host_key_line
-  no_log: true
-  changed_when: false
+    loop_var: ssh_github_host_key
+    label: "{{ ssh_github_host_key.split()[0] }}"
