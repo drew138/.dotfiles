@@ -1,4 +1,9 @@
 ---
+- name: Ensure hashicorp Homebrew tap is available
+  community.general.homebrew_tap:
+    name: hashicorp/tap
+    state: present
+
 - name: Read trusted homebrew entries
   ansible.builtin.command: brew trust --json v1
   register: packer_trusted

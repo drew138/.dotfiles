@@ -1,4 +1,9 @@
 ---
+- name: Ensure nikitabobko Homebrew tap is available
+  community.general.homebrew_tap:
+    name: nikitabobko/tap
+    state: present
+
 - name: Read trusted homebrew entries
   ansible.builtin.command: brew trust --json v1
   register: aerospace_trusted
