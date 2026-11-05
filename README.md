@@ -75,10 +75,10 @@ changes the machine's behaviour.
 
 #### Homebrew Casks
 
-Some packages like `logitech-g-hub` and `tailscale-app` impede automatic installation
+Some packages like `logitech-g-hub`, `tailscale-app` and Apple's `sf-symbols`, `font-sf-mono` and `font-sf-pro` impede automatic installation
 without password prompting. For that reason, they are not included in the role.
 They can be installed manually using the following command:
 
 ```bash
-brew install --cask logitech-g-hub tailscale-app
+brew install --cask logitech-g-hub tailscale-app sf-symbols font-sf-mono font-sf-pro
 ```
