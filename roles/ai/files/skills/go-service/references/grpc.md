@@ -11,7 +11,8 @@ in both.
 | `api/proto/<service>/v1/<entity>.proto` | the contract, at the repository root |
 | `grpc/server.go` | `Application` interface, `Server`, `New`, shared private methods, validator setup, `//go:generate` |
 | `grpc/<rpc_name>.go` | one RPC per file: `CreateUser` lives in `create_user.go` |
-| `grpc/dto.go` | request structs with `validate` tags and `toDomain()` |
+| `grpc/<rpc_name>_dto.go` | that RPC's request struct with `validate` tags and `toDomain()` |
+| `grpc/dto.go` | request structs several RPCs share |
 | `grpc/mappers.go` | `map<Target>` functions both ways, the error tables, `mapStatus` |
 | `grpc/pb/` | generated; never edited, never checked |
 

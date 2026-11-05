@@ -137,26 +137,30 @@ my-service/
 │       │   ├── rest/
 │       │   │   ├── handler.go               Application interface, Handler, New(router, app), shared helpers, validator
 │       │   │   ├── create_user.go           one route per file
+│       │   │   ├── create_user_dto.go       that route's own request and response DTOs
 │       │   │   ├── get_user.go
-│       │   │   ├── dto.go                   request (json + validate tags, toDomain), response, error DTOs
+│       │   │   ├── dto.go                   DTOs several routes share, error DTOs
 │       │   │   └── mappers.go               map<Target>, error tables, mapErrorResponse
 │       │   └── grpc/
 │       │       ├── server.go                Application interface, Server, New(server, app), validator
 │       │       ├── create_user.go           one RPC per file
-│       │       ├── dto.go                   tagged request structs, toDomain
+│       │       ├── create_user_dto.go       that RPC's own request struct
+│       │       ├── dto.go                   request structs several RPCs share
 │       │       ├── mappers.go               proto ↔ DTO/domain, error tables, mapStatus
 │       │       └── pb/                      generated, never edited
 │       ├── queue/
 │       │   └── rabbitmq/                    consumer: tagged message DTOs, ack/nack by error kind
 │       ├── repository/
 │       │   └── postgres/
-│       │       ├── postgres.go              Repository, New, port methods, domainError, constraintErrors
-│       │       ├── dto.go                   row structs, toDomain()
+│       │       ├── postgres.go              Repository, New, domainError, constraintErrors
+│       │       ├── find_user.go             one port method per file
+│       │       ├── find_user_dao.go         that method's own row structs
+│       │       ├── dao.go                   row structs several methods share, toDomain()
 │       │       └── mappers.go               map<Entity>Row
 │       ├── cache/redis/                     decorator over a repository port
 │       ├── psp/adyen/                       payments through Adyen: implements the PSP port
 │       ├── auth/cognito/                    authentication through Cognito: implements the Auth port
-│       └── publisher/rabbitmq/              Publisher port: one method per domain event
+│       └── publisher/rabbitmq/              Publisher port: one method per domain event, one file each
 ├── pkg/
 │   └── retry/                               library-like code, one package per purpose
 ├── migration/000001_<name>.{up,down}.sql    database migrations (golang-migrate)

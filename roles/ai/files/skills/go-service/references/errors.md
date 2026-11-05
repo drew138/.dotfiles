@@ -126,7 +126,6 @@ the only place a status is chosen. It checks, in this order:
 
    | Error | Status | `type` | `errors` |
    |---|---|---|---|
-   | body over 1 MiB (`*http.MaxBytesError`) | 413 | `payload_too_large` | none |
    | invalid JSON (`errMalformedBody`) | 400 | `malformed_request` | none |
    | wrong JSON type (`*json.UnmarshalTypeError`) | 400 | `invalid_argument` | `{code: invalid_type, field, param: integer}` |
    | validator failure (`validator.ValidationErrors`) | 400 | `invalid_argument` | one per failed rule |
@@ -182,7 +181,6 @@ with `32`); a code that already says everything does not (`invalid_email`,
 |---|---|
 | `invalid_argument` | the request breaks a rule |
 | `malformed_request` | the body cannot be read |
-| `payload_too_large` | the body is over the limit |
 | `not_found` | the resource does not exist |
 | `resource_conflict` | the request clashes with existing data |
 | `service_unavailable` | a dependency is down |

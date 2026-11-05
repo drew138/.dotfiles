@@ -59,7 +59,7 @@ Never write tests for:
 - generated code
 - log output: tests assert responses, returned values and calls, never log lines
 
-Calling a constructor to build the subject is normal. `NewService(repo, clock)` in
+Calling a constructor to build the subject is normal. `NewService(repo)` in
 the arrange step is correct; `TestNewService` is not.
 
 ## Coverage
@@ -151,25 +151,23 @@ func TestService_CreateUser(t *testing.T) {
 	tests := []struct {
 		name       string
 		input      CreateUserInput
-		setupMocks func(*MockRepo, *MockClock)
+		setupMocks func(*MockRepo)
 		want       User
 		wantErr    error
 	}{
 		{
 			name:  "persists the user",
 			input: CreateUserInput{Email: "a@b.c"},
-			setupMocks: func(repo *MockRepo, clock *MockClock) {
-				clock.On("Now").Return(fixedTime)
-				repo.On("Save", anyCtx, User{Email: "a@b.c", CreatedAt: fixedTime}).Return(nil)
+			setupMocks: func(repo *MockRepo) {
+				repo.On("Save", anyCtx, User{Email: "a@b.c"}).Return(User{ID: 1, Email: "a@b.c", CreatedAt: fixedTime}, nil)
 			},
-			want: User{Email: "a@b.c", CreatedAt: fixedTime},
+			want: User{ID: 1, Email: "a@b.c", CreatedAt: fixedTime},
 		},
 		{
 			name:  "returns ErrDuplicate when the email is taken",
 			input: CreateUserInput{Email: "taken@b.c"},
-			setupMocks: func(repo *MockRepo, clock *MockClock) {
-				clock.On("Now").Return(fixedTime)
-				repo.On("Save", anyCtx, User{Email: "taken@b.c", CreatedAt: fixedTime}).Return(ErrDuplicate)
+			setupMocks: func(repo *MockRepo) {
+				repo.On("Save", anyCtx, User{Email: "taken@b.c"}).Return(User{}, ErrDuplicate)
 			},
 			wantErr: ErrDuplicate,
 		},
@@ -180,10 +178,9 @@ func TestService_CreateUser(t *testing.T) {
 			t.Parallel()
 
 			repo := newMockRepo(t)
-			clock := newMockClock(t)
-			tt.setupMocks(repo, clock)
+			tt.setupMocks(repo)
 
-			svc := NewService(repo, clock)
+			svc := NewService(repo)
 			got, err := svc.CreateUser(t.Context(), tt.input)
 
 			if tt.wantErr != nil {
@@ -261,7 +258,7 @@ var anyCtx any = mock.Anything
 ```
 
 ```go
-repo.On("Save", anyCtx, expectedUser).Return(nil)
+repo.On("Save", anyCtx, expectedUser).Return(savedUser, nil)
 ```
 
 A context is derived by the callee, so the value a mock receives never equals the
@@ -269,16 +266,11 @@ one the test passed. Every other argument is knowable and must be pinned.
 
 ### When an argument looks unknowable
 
-Timestamps and generated identifiers are the usual case, and the moment the
-banned matchers get reached for. Inject the source instead:
-
-```go
-type Clock interface { Now() time.Time }
-type IDGen interface { New() string }
-```
-
-The mock then receives `fixedTime` and `"id-1"`, both asserted exactly. Reaching
-for a matcher is the signal that a dependency is hidden.
+Timestamps, generated identifiers, tokens and salted hashes are the usual case. They
+are made where they are stored: the repository generates them and returns them, so the
+mock receives only values the test knows and returns the generated ones (`fixedTime`,
+`"id-1"`) for the result to be asserted exactly. Reaching for a matcher is the signal that
+such a value is being made in the wrong place.
 
 ## The mock file
 
@@ -306,9 +298,9 @@ func newMockRepo(t *testing.T) *MockRepo {
 	return m
 }
 
-func (m *MockRepo) Save(ctx context.Context, u User) error {
+func (m *MockRepo) Save(ctx context.Context, u User) (User, error) {
 	args := m.Called(ctx, u)
-	return args.Error(0)
+	return args.Get(0).(User), args.Error(1)
 }
 ```
 

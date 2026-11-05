@@ -1,6 +1,8 @@
 # REST adapter
 
-The inbound adapter for HTTP + JSON, at `internal/infrastructure/api/rest/`.
+The inbound adapter for HTTP, at `internal/infrastructure/api/rest/`. Every HTTP route
+the service exposes lives here, under one `Handler`: JSON endpoints, and server-rendered
+pages (htmx or plain HTML) when the service has a web interface.
 
 ## Files
 
@@ -8,8 +10,10 @@ The inbound adapter for HTTP + JSON, at `internal/infrastructure/api/rest/`.
 |---|---|
 | `handler.go` | the `Application` interface, the `Handler` struct, `New`, and the private methods every route shares: `validateRequest`, `logged`, `writeError`, `writeJSON`; the validator setup |
 | `<route_name>.go` | one route method per file, in snake_case: `createUser` lives in `create_user.go`, with the private helpers only that route uses (reading a multipart body, for example) |
-| `dto.go` | request DTOs (`json` + `validate` tags, `toDomain()`), response DTOs, error response DTOs |
-| `mappers.go` | `map<Target>` functions, the error tables and `mapErrorResponse` |
+| `<route_name>_dto.go` | that route's own request and response DTOs (`json` + `validate` tags, `toDomain()`) and the mappers only it uses |
+| `dto.go` | DTOs several routes share, such as the error response DTOs |
+| `mappers.go` | shared `map<Target>` functions, the error tables and `mapErrorResponse` |
+| `web/` | templates and static files for server-rendered pages, embedded with `//go:embed web` |
 
 The struct is `Handler`: it says what it is.
 
@@ -57,7 +61,7 @@ path parameters read with `chi.URLParam(r, "id")`.
 ```go
 func (h *Handler) createUser(w http.ResponseWriter, r *http.Request) {
 	var req CreateUserRequest
-	if err := h.validateRequest(w, r, &req); err != nil {
+	if err := h.validateRequest(r, &req); err != nil {
 		h.writeError(w, err)
 		return
 	}
@@ -239,12 +243,9 @@ var numberCodes = map[string]string{
 }
 
 func mapErrorResponse(err error) ErrorResponse {
-	var tooLarge *http.MaxBytesError
 	var wrongType *json.UnmarshalTypeError
 	var failed validator.ValidationErrors
 	switch {
-	case errors.As(err, &tooLarge):
-		return ErrorResponse{Type: "payload_too_large", Title: "The request body is too large.", Status: http.StatusRequestEntityTooLarge}
 	case errors.As(err, &wrongType):
 		return mapInvalidParamResponse(wrongType.Field, jsonType(wrongType.Type))
 	case errors.Is(err, errMalformedBody):
@@ -333,3 +334,12 @@ type ErrorDetail struct {
 	Param string `json:"param,omitempty"`
 }
 ```
+
+## Pages
+
+When the service has a web interface, its pages are routes of this same `Handler`:
+`getMonth` in `get_month.go` renders a template instead of writing JSON. Templates
+(`web/*.html`) are parsed once in `New`; static files are served from `web/static/`.
+Shared plumbing (`logged`, the session and same-origin checks, `render`) lives in
+`handler.go` beside `writeJSON`, and errors are answered in the form the route
+speaks: JSON for an API route, HTML for a page.

@@ -105,10 +105,10 @@ cmd/<entrypoint>/config.go              its private config
 internal/domain/{domain,enums,errors}.go  models; string enums; error values
 internal/application/application.go     Application, New, ports
 internal/application/<method>.go        one public method per file
-internal/infrastructure/<kind>/<tech>/  every adapter, inbound and outbound:
-    inbound:  api/rest, api/grpc, queue/rabbitmq
+internal/infrastructure/<kind>/<tech>/  adapters to things outside the process, inbound and outbound:
+    inbound:  api/rest (every HTTP route, pages included), api/grpc, queue/rabbitmq
     outbound: repository/postgres, cache/redis, publisher/rabbitmq, psp/adyen, auth/cognito
-pkg/<name>/                             library-like code the service needs, one package per purpose
+pkg/<name>/                             in-process library code: clocks, hashing, tokens, retries; one package per purpose
 migration/                              database migrations, at the root
 api/  rabbitmq/  redis/  …               other infra config, one root folder each
 ```
@@ -118,6 +118,21 @@ The full tree, the request flow and a "what goes where" table are in
 
 ## Rules
 
+- **`internal/infrastructure/` holds adapters to things outside the process, and only
+  those.** Inbound, what calls the service (`api/rest`, `api/grpc`, `queue/rabbitmq`);
+  outbound, what the service reaches over I/O (a database, a cache, a broker, another
+  service or provider). Code that runs inside the process (the clock, password hashing,
+  token or ID generation) is library code in `pkg/`, which the application calls
+  directly.
+- **Ports are the outbound adapters the application uses**, declared in
+  `application.go`, one port per adapter. A service with only a database has one
+  `Repository` port holding every method the use cases need from it, and
+  `application.New(repo)` takes it once.
+- **The application imports `pkg/` where it needs it** and holds nothing but its ports:
+  `Application{repo}`, built with `application.New(repo)`. Values that are random or
+  time-based (IDs, tokens, timestamps, salted hashes) are made where they are stored:
+  the repository generates them, the way a database generates an ID, so use cases stay
+  deterministic. See "Library code" in `references/application.md`.
 - **Adapters live at `internal/infrastructure/<kind>/<tech>/`.** The **kind** is the
   role the adapter plays, named for what it does for us (`repository`, `cache`,
   `publisher`, `psp`, `auth`, `api`, `queue`). The **tech** is the concrete
@@ -134,16 +149,25 @@ The full tree, the request flow and a "what goes where" table are in
   nothing from `internal/`, so any layer may import it; most often it is the
   application that does.
 - **Domain structs carry no tags.** Serialisation belongs to the adapter that needs it.
-- **The domain holds business concepts only:** models and their methods, enums,
-  errors.
+- **The domain holds the app's core business entities only**, the things the whole
+  service is about (a `Movement`, a `User`, an `Order`), with their methods, enums
+  and errors. Read models, view shapes, filters, query results and technical records
+  such as sessions live where they are used: in the adapter that builds them, or as
+  plain values (counts, maps, IDs) crossing a port. An adapter's DAOs and DTOs convert
+  to a domain entity when they carry one, and to plain values otherwise.
+- **Request bodies are read with Go's defaults.** Handlers decode `r.Body` directly.
 - **Enums are strings, never `iota`**, in `domain/enums.go`, each with a `Valid()`
   method that is the only list of its values. Values that matter to one adapter
   only stay in that adapter as plain strings.
 - **Logic that depends only on an entity's own data is a method on it** in the
   domain: transitions, derived values, eligibility.
 - **`application.go` holds only** the `Application` struct, `New` and the ports it consumes. Use cases are methods on `*Application`.
-- **One public method per file**, in snake_case: `CreateUser` lives in
-  `create_user.go` with its private helpers.
+- **One method per file, in the application and in every adapter**, in snake_case:
+  `CreateUser` lives in `create_user.go` with its private helpers. In an adapter this
+  is every route handler, RPC and message handler, and every method that implements a
+  port (`Find` in `repository/postgres/find.go`, `Charge` in `psp/adyen/charge.go`). The
+  adapter's main file (`postgres.go`, `handler.go`) keeps the struct, `New` and the
+  helpers its methods share (`domainError`, `writeError`).
 - **Never share a private helper between method files.** Duplicate it under a name
   specific to each method. Example: `CreateUser` and `UpdateUser` both use a shared
   `normalizeEmail` that trims and lowercases. Signup then has to strip `+alias` parts
@@ -164,23 +188,19 @@ The full tree, the request flow and a "what goes where" table are in
   place the program may stop is `main`, at startup: when config is invalid or a
   connection cannot be made, `run` returns the error and `main` logs it and exits
   (`os.Exit(1)`, or `log.Fatal`).
-- **Every adapter owns its structs.** `dto.go` has the adapter's tagged structs
-  with a `toDomain()` method; `mappers.go` has `map<Target>(domain…) Target`
-  functions for the other direction. **Target** is the adapter struct being built:
-  the DTO or struct that adapter sends or stores.
-
-  | Adapter | Target struct | Mapper |
-  |---|---|---|
-  | REST | `UserResponse` | `mapUserResponse(user domain.User) UserResponse` |
-  | gRPC | `*pb.User` (generated message) | `mapUserMessage(user domain.User) *pb.User` |
-  | repository | `userRow` | `mapUserRow(user domain.User) userRow` |
-  | cache | `userEntry` | `mapUserEntry(user domain.User) userEntry` |
-  | publisher | `userCreatedMessage` | `mapUserCreatedMessage(user domain.User) userCreatedMessage` |
-
-  The mapper is named after what it returns, not what it takes, so the call site
-  says what you get back: `mapUserResponse(user)` reads as "a UserResponse from
-  this user". A mapper may take several domain values:
-  `mapOrderResponse(order, customer) OrderResponse`.
+- **Every adapter owns its structs.** An adapter that stores data (a repository or a
+  cache) calls them DAOs; every other adapter calls them DTOs. A method's own structs
+  live beside it: `find_user.go` has `find_user_dao.go`, `create_user.go` (a route) has
+  `create_user_dto.go`. Structs several methods share stay in the adapter's `dao.go` or
+  `dto.go`. Each struct has a `toDomain()` method when it carries a domain entity;
+  `mappers.go` has the shared `map<Target>(domain…) Target` functions for the other
+  direction, and a mapper only one method uses goes in that method's `_dao.go` or
+  `_dto.go`. **Target** is the adapter struct being built: the DTO the adapter sends or
+  the DAO it stores.
+- **One HTTP adapter, `api/rest`, serves every HTTP route**: JSON endpoints and
+  server-rendered pages (htmx or plain HTML) alike, under one `Handler`. Templates and
+  static files live in `api/rest/web/`, embedded with `//go:embed web`. The tech names
+  the protocol, and htmx is HTTP.
 - **Secrets never reach output.** Leave them out of response DTOs and messages
   entirely; clear them from what a repository returns after a write.
 - **Logging PII or PCI data is absolutely forbidden.** No names, emails, phone
@@ -258,7 +278,7 @@ name, a rule, a status, which store.
    interface in `application.go`, in domain types, `ctx` first. Add a new interface
    only for a new kind of dependency.
 3. **Outbound adapter** (`repository.md`, `cache.md`, `providers.md` or `queue.md`).
-   Implement the port: structs in `dto.go`, `mappers.go`, the method, and error
+   Implement the port: the method in `<method>.go`, its structs in `<method>_dao.go` (repository, cache) or `<method>_dto.go`, `mappers.go`, and error
    translation into domain errors. Add each new named constraint to
    `constraintErrors`. If a decorator wraps the port, implement the method there
    too.
@@ -289,6 +309,9 @@ the work done with an item failing.
       `domain` and `pkg/`.
 - [ ] Every timeout and concurrency limit was asked for, with the value asked for.
 - [ ] `application.go` holds only `Application`, `New` and the ports.
+- [ ] `internal/infrastructure/` holds only adapters to things outside the process; clocks,
+      hashing, token and ID generation live in `pkg/`, and the application's ports are
+      outbound adapters only.
 - [ ] Each method file holds exactly one public method on `*Application`, and its
       snake_case name matches the method.
 - [ ] No private helper is called from a method file other than its own.
@@ -298,8 +321,11 @@ the work done with an item failing.
 - [ ] No comments, except compiler directives and logic that deliberately breaks the
       usual way for a specific reason.
 - [ ] Constructors are `New`, never `NewSomething`.
-- [ ] `dto.go` holds structs and their `toDomain()` only; conversions the other way
-      are `map<Target>` functions in `mappers.go`.
+- [ ] A method's own structs are in `<method>_dao.go` (repository, cache) or
+      `<method>_dto.go` (every other adapter); shared ones in `dao.go` or `dto.go`; they
+      hold structs, their `toDomain()` and that method's mappers only.
+- [ ] Every HTTP route, pages included, is in `api/rest`, with templates and static
+      files in `api/rest/web/`.
 - [ ] No secret fields in response DTOs or published messages.
 - [ ] `ctx context.Context` first in every port and use case method.
 - [ ] Every error leaving an outbound adapter is a domain error; new named

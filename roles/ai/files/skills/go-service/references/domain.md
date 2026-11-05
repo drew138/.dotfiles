@@ -1,7 +1,10 @@
 # Domain
 
-`internal/domain` is the service's business language. Every other layer translates
-into it and out of it.
+`internal/domain` holds the app's core business entities: the things the whole service
+is about, such as a `Movement`, a `User` or an `Order`. Adapters translate into them
+and out of them when the data is one of those entities. Everything else (a page's
+view model, a filter, a total, a session record, an import's counts) lives in the
+adapter that uses it, or crosses a port as a plain value.
 
 | File | Holds |
 |---|---|
@@ -9,7 +12,7 @@ into it and out of it.
 | `enums.go` | domain enums, string-based, each with `Valid()` |
 | `errors.go` | the error values every layer returns |
 
-These three files are the whole domain: business concepts, and only those.
+These three files are the whole domain: the core entities, and only those.
 
 ## domain.go: models
 
@@ -17,8 +20,7 @@ These three files are the whole domain: business concepts, and only those.
   adapter that needs it, and two adapters rarely want the same shape (the response
   hides `Password`, the row keeps it).
 - No imports outside the standard library.
-- IDs are plain types (`int64`, `string`). How they are generated is an adapter
-  concern, or a port (`IDGenerator`) when the application needs the ID before saving.
+- IDs are plain types (`int64`, `string`). The store generates them.
 
 ## Behaviour on models
 

@@ -11,8 +11,10 @@ service uses, following that shape and the rules.
 
 | File | Holds |
 |---|---|
-| `<tech>.go` | `Repository`, `New`, one method per port method, `domainError`, `constraintErrors` |
-| `dto.go` | row structs with the store's tags and `toDomain()` |
+| `<tech>.go` | `Repository`, `New`, `domainError`, `constraintErrors` and the helpers the methods share |
+| `<method>.go` | one port method per file, in snake_case: `FindUser` lives in `find_user.go` |
+| `<method>_dao.go` | that method's own row structs and the mappers only it uses |
+| `dao.go` | row structs (DAOs) several methods share, with the store's tags and `toDomain()` |
 | `mappers.go` | `map<Entity>Row(domain.Entity) <entity>Row` |
 
 The package is named for the tech (`postgres`, `mysql`, `mongo`), so the

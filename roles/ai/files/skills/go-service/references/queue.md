@@ -39,7 +39,11 @@ type Publisher struct {
 func New(ch *amqp.Channel, exchange string) *Publisher {
 	return &Publisher{ch: ch, exchange: exchange}
 }
+```
 
+`publisher/rabbitmq/user_created.go`, one file per event:
+
+```go
 func (p *Publisher) UserCreated(ctx context.Context, user domain.User) error {
 	body, err := json.Marshal(mapUserCreatedMessage(user))
 	if err != nil {
@@ -98,8 +102,10 @@ the change. A separate relay reads unsent rows, publishes them, and marks them s
 
 | File | Holds |
 |---|---|
-| `rabbitmq.go` | `Application` interface, `Consumer`, `New`, `Run`, `handle`, one method per message type, validator setup |
-| `dto.go` | message structs with `json` and `validate` tags and `toDomain()` |
+| `rabbitmq.go` | `Application` interface, `Consumer`, `New`, `Run`, `handle`, validator setup |
+| `<message>.go` | one message handler per file, in snake_case: `handleUserCreated` lives in `user_created.go` |
+| `<message>_dto.go` | that handler's message struct with `json` and `validate` tags and `toDomain()` |
+| `dto.go` | message structs several handlers share |
 
 Incoming messages are validated exactly like REST requests: tags on the message DTO,
 the same validator setup (`validation.md`).

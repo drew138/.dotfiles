@@ -37,8 +37,10 @@ field names, status codes and error bodies never leave the adapter.
 
 | File | Holds |
 |---|---|
-| `<tech>.go` | the struct, `New`, one method per port method, error translation |
-| `dto.go` | the provider's request and response bodies, with its `json` tags; responses have `toDomain()` |
+| `<tech>.go` | the struct, `New`, error translation and the helpers the methods share |
+| `<method>.go` | one port method per file, in snake_case: `Charge` lives in `charge.go` |
+| `<method>_dto.go` | that method's request and response bodies, with the provider's `json` tags; responses have `toDomain()` |
+| `dto.go` | bodies several methods share |
 | `mappers.go` | `map<Target>` functions building the provider's requests from domain values |
 
 ## Shape
@@ -55,7 +57,11 @@ type PSP struct {
 func New(httpClient *http.Client, baseURL, apiKey string) *PSP {
 	return &PSP{http: httpClient, baseURL: baseURL, apiKey: apiKey}
 }
+```
 
+`psp/adyen/charge.go`:
+
+```go
 func (p *PSP) Charge(ctx context.Context, payment domain.Payment) (domain.Payment, error) {
 	body, err := json.Marshal(mapChargeRequest(payment))
 	if err != nil {

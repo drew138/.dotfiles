@@ -8,7 +8,7 @@ implemented.
 
 Holds three things and nothing else:
 
-1. the `Application` struct, whose fields are ports
+1. the `Application` struct, whose fields are its ports
 2. `New`, taking every port as a parameter
 3. the ports: the interfaces the use cases consume
 
@@ -34,15 +34,36 @@ func New(repo Repository, mailer Mailer) *Application {
 
 **Ports**
 
-- One interface per kind of dependency, named for what it does: `Repository`,
-  `Mailer`, `Publisher`, `PSP`, `Auth`, `Clock`. For an outbound adapter the port is
-  named after its kind (see "Kinds and techs" in `architecture.md`).
-- Methods speak domain types. No `*sql.Tx`, `*http.Response` or proto message ever
-  appears in a port. If one would have to, the port is drawn at the wrong place.
+- A port is an outbound adapter: something the service reaches over I/O. One
+  interface per kind, named for what it does: `Repository`, `Mailer`, `Publisher`,
+  `PSP`, `Auth`. The port is named after its kind (see "Kinds and techs" in
+  `architecture.md`).
+- Methods speak domain entities and plain values (`int`, `time.Time`,
+  `map[string]int64`). No `*sql.Tx`, `*http.Response` or proto message ever appears
+  in a port. If one would have to, the port is drawn at the wrong place.
 - `ctx context.Context` first, always.
-- When `Repository` grows past one entity, split it by entity: `Users`, `Orders`.
+- **One port per adapter.** The `Repository` port carries every method the use cases
+  need from the database, whatever entity it touches (users, orders, sessions), and
+  `New` receives the one implementation once.
 - Declare only the methods a use case calls. An adapter may do more; the port does
   not need to know.
+
+## Library code
+
+Work that happens inside the process (comparing a password, formatting, parsing) is
+library code in `pkg/`, and the use case imports and calls it where it needs it.
+
+Values that are random or time-based (IDs, session tokens, timestamps, salted password
+hashes) are made where they are stored. The repository generates them, the way a
+database generates an ID, and returns what the use case needs:
+
+```go
+CreateSession(ctx context.Context, userID int64, lifetime time.Duration) (token string, expiresAt time.Time, err error)
+CreateUser(ctx context.Context, username, password string) (domain.User, error)
+```
+
+The use case then passes and receives only values it knows, so its tests pin every
+argument.
 
 ## Method files
 

@@ -75,16 +75,14 @@ func newValidator() *validator.Validate {
 
 ### validateRequest
 
-One private method on the handler, in `handler.go`, used by every route. It reads,
-decodes and validates:
+One private method on the handler, in `handler.go`, used by every route. It decodes
+`r.Body` directly, with Go's defaults, and validates:
 
 ```go
-func (h *Handler) validateRequest(w http.ResponseWriter, r *http.Request, dst any) error {
-	r.Body = http.MaxBytesReader(w, r.Body, maxBodyBytes)
+func (h *Handler) validateRequest(r *http.Request, dst any) error {
 	if err := json.NewDecoder(r.Body).Decode(dst); err != nil {
-		var tooLarge *http.MaxBytesError
 		var wrongType *json.UnmarshalTypeError
-		if errors.As(err, &tooLarge) || errors.As(err, &wrongType) {
+		if errors.As(err, &wrongType) {
 			return err
 		}
 		return fmt.Errorf("%w: %w", errMalformedBody, err)

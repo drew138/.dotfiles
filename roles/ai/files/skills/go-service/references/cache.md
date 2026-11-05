@@ -15,8 +15,10 @@ app := application.New(redis.New(rdb, repo, cfg.cacheTTL))
 
 | File | Holds |
 |---|---|
-| `redis.go` | `Cache`, `New(client, repo, ttl)`, every port method, `read`, `write`, key builders |
-| `dto.go` | entry structs with `json` tags and `toDomain()` |
+| `redis.go` | `Cache`, `New(client, repo, ttl)`, `read`, `write`, key builders |
+| `<method>.go` | one port method per file, in snake_case: `FindUser` lives in `find_user.go` |
+| `<method>_dao.go` | that method's own entry structs |
+| `dao.go` | entry structs (DAOs) several methods share, with `json` tags and `toDomain()` |
 | `mappers.go` | `map<Entity>Entry` |
 
 The decorator takes the port type (`application.Repository`), not the concrete

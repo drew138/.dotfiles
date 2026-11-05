@@ -121,9 +121,8 @@ its own inbound adapter: `HTTP_ADDR` in `cmd/rest`, `GRPC_ADDR` in `cmd/grpc`.
 
 ```go
 type config struct {
-	httpAddr     string
-	databaseURL  string
-	maxBodyBytes int64
+	httpAddr    string
+	databaseURL string
 }
 
 func loadConfig() (config, error) {
@@ -131,14 +130,9 @@ func loadConfig() (config, error) {
 	if err != nil {
 		return config{}, err
 	}
-	maxBodyBytes, err := positiveInt("MAX_BODY_BYTES", 10<<20)
-	if err != nil {
-		return config{}, err
-	}
 	return config{
-		httpAddr:     envOr("HTTP_ADDR", ":8080"),
-		databaseURL:  databaseURL,
-		maxBodyBytes: maxBodyBytes,
+		httpAddr:    envOr("HTTP_ADDR", ":8080"),
+		databaseURL: databaseURL,
 	}, nil
 }
 
@@ -157,30 +151,22 @@ func required(key string) (string, error) {
 	return v, nil
 }
 
-func positiveInt(key string, fallback int64) (int64, error) {
-	v := os.Getenv(key)
-	if v == "" {
-		return fallback, nil
-	}
-	n, err := strconv.ParseInt(v, 10, 64)
-	if err != nil || n <= 0 {
-		return 0, fmt.Errorf("%s must be a positive integer", key)
-	}
-	return n, nil
-}
 ```
 
 - **Stop at the first problem.** Each helper returns an error, and `loadConfig`
   returns the first one, so the entry point never starts with a missing or invalid
   value; the same as a connection that cannot be made at startup.
-- **Defaults where they make sense, required otherwise.** A listen address or a
-  limit can have a default (`envOr`, `positiveInt` with a fallback); a database
-  URL, a provider key or anything without a sensible default is `required`.
+- **Defaults where they make sense, required otherwise.** A listen address can have a
+  default (`envOr`); a database URL, a provider key or anything without a sensible
+  default is `required`.
+- **Only what changes between deployments is configuration.** Everything else is a
+  constant in the code, or Go's own default: request bodies, for one, are read with
+  Go's defaults.
 - **Small helpers, in the entry point's `config.go`.** Each returns its value and
   an error, and only the helpers the config uses exist.
 - **Errors name the variable, never its value.** A malformed `DATABASE_URL` still
   carries a password.
-- **Adapters receive plain values** (`cfg.maxBodyBytes`), never the `config` struct.
+- **Adapters receive plain values** (`cfg.databaseURL`), never the `config` struct.
 
 Common variables:
 
