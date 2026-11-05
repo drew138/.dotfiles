@@ -164,6 +164,9 @@ as a success.
 
 ## DTOs
 
+- **Every DTO field carries a `json` tag**, in snake_case, including the view structs a
+  route renders into a template and the form requests (which carry `form` tags too). The
+  tag is the field's name on the wire; a DTO without one is not finished.
 - **Request**: what the client may send. `json` and `validate` tags and a
   `toDomain()` method. Fields the client must not set (`ID`, `CreatedAt`) are not
   in it. Domain enums are plain `string` fields validated with `enum=<name>` and

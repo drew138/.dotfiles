@@ -25,7 +25,7 @@ The kind names the port and the struct, as with `repository` → `Repository`:
 
 | | Example |
 |---|---|
-| port in `application.go` | `type PSP interface { Charge(ctx context.Context, payment domain.Payment) (domain.Payment, error) }` |
+| port in `application.go` | `type PSP interface { ChargePayment(ctx context.Context, payment domain.Payment) (domain.Payment, error) }` |
 | struct | `adyen.PSP`, `stripe.PSP` |
 | constructor | `adyen.New(httpClient, cfg.adyenURL, cfg.adyenAPIKey)` |
 | auth example | port `Auth`, struct `cognito.Auth` |
@@ -38,7 +38,7 @@ field names, status codes and error bodies never leave the adapter.
 | File | Holds |
 |---|---|
 | `<tech>.go` | the struct, `New`, error translation and the helpers the methods share |
-| `<method>.go` | one port method per file, in snake_case: `Charge` lives in `charge.go` |
+| `<method>.go` | one port method per file, in snake_case: `ChargePayment` lives in `charge_payment.go` |
 | `<method>_dto.go` | that method's request and response bodies, with the provider's `json` tags; responses have `toDomain()` |
 | `dto.go` | bodies several methods share |
 | `mappers.go` | `map<Target>` functions building the provider's requests from domain values |
@@ -59,10 +59,10 @@ func New(httpClient *http.Client, baseURL, apiKey string) *PSP {
 }
 ```
 
-`psp/adyen/charge.go`:
+`psp/adyen/charge_payment.go`:
 
 ```go
-func (p *PSP) Charge(ctx context.Context, payment domain.Payment) (domain.Payment, error) {
+func (p *PSP) ChargePayment(ctx context.Context, payment domain.Payment) (domain.Payment, error) {
 	body, err := json.Marshal(mapChargeRequest(payment))
 	if err != nil {
 		return domain.Payment{}, fmt.Errorf("encoding charge %d: %w: %w", payment.ID, domain.ErrInternal, err)

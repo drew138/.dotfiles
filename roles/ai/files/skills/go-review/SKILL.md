@@ -116,7 +116,7 @@ adapter imports that package and implements it.
 package billing
 
 type Repository interface {
-	Find(ctx context.Context, id string) (Invoice, error)
+	GetInvoice(ctx context.Context, id string) (Invoice, error)
 }
 
 func New(r Repository) *Service { ... }
@@ -127,7 +127,7 @@ package postgres
 
 type InvoiceRepo struct{ db *sql.DB }
 
-func (r *InvoiceRepo) Find(ctx context.Context, id string) (billing.Invoice, error) { ... }
+func (r *InvoiceRepo) GetInvoice(ctx context.Context, id string) (billing.Invoice, error) { ... }
 ```
 
 Declaring the interface beside its implementation inverts the dependency: the
@@ -212,6 +212,8 @@ implying it is reversible.
 
 Simpler is better. Advisory unless it causes an actual collision.
 
+- Use cases, adapter methods and route handlers named `<verb><Entity>`: `CreateUser`,
+  `ListUsers`, `UpdateUser`; `New`/`new` only for constructors
 - No stutter: `user.Service`, not `user.UserService`
 - A package with one primary type exposes `New`, so `service.New()` rather than
   `service.NewService()`

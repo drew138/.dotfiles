@@ -159,7 +159,7 @@ func TestService_CreateUser(t *testing.T) {
 			name:  "persists the user",
 			input: CreateUserInput{Email: "a@b.c"},
 			setupMocks: func(repo *MockRepo) {
-				repo.On("Save", anyCtx, User{Email: "a@b.c"}).Return(User{ID: 1, Email: "a@b.c", CreatedAt: fixedTime}, nil)
+				repo.On("CreateUser", anyCtx, User{Email: "a@b.c"}).Return(User{ID: 1, Email: "a@b.c", CreatedAt: fixedTime}, nil)
 			},
 			want: User{ID: 1, Email: "a@b.c", CreatedAt: fixedTime},
 		},
@@ -167,7 +167,7 @@ func TestService_CreateUser(t *testing.T) {
 			name:  "returns ErrDuplicate when the email is taken",
 			input: CreateUserInput{Email: "taken@b.c"},
 			setupMocks: func(repo *MockRepo) {
-				repo.On("Save", anyCtx, User{Email: "taken@b.c"}).Return(User{}, ErrDuplicate)
+				repo.On("CreateUser", anyCtx, User{Email: "taken@b.c"}).Return(User{}, ErrDuplicate)
 			},
 			wantErr: ErrDuplicate,
 		},
@@ -258,7 +258,7 @@ var anyCtx any = mock.Anything
 ```
 
 ```go
-repo.On("Save", anyCtx, expectedUser).Return(savedUser, nil)
+repo.On("CreateUser", anyCtx, expectedUser).Return(savedUser, nil)
 ```
 
 A context is derived by the callee, so the value a mock receives never equals the
@@ -298,7 +298,7 @@ func newMockRepo(t *testing.T) *MockRepo {
 	return m
 }
 
-func (m *MockRepo) Save(ctx context.Context, u User) (User, error) {
+func (m *MockRepo) CreateUser(ctx context.Context, u User) (User, error) {
 	args := m.Called(ctx, u)
 	return args.Get(0).(User), args.Error(1)
 }

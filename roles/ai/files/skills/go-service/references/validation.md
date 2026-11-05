@@ -104,7 +104,7 @@ it: `PlaceOrder` → `validatePlaceOrder`. **The method loads; the function deci
 
 ```go
 func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domain.Order, error) {
-	customer, err := a.customers.Find(ctx, order.CustomerID)
+	customer, err := a.repo.GetCustomer(ctx, order.CustomerID)
 	if err != nil {
 		return domain.Order{}, fmt.Errorf("finding customer %d: %w", order.CustomerID, err)
 	}

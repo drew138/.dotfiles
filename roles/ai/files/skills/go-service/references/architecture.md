@@ -51,7 +51,7 @@ sequenceDiagram
     H->>H: validateRequest(CreateUserRequest)
     H->>S: CreateUser(ctx, req.toDomain())
     S->>S: validateCreateUser (stateful rules)
-    S->>R: Save(ctx, domain.User) via Repository port
+    S->>R: CreateUser(ctx, domain.User) via Repository port
     R->>R: mapUserRow(user)
     R->>DB: INSERT … RETURNING id
     DB-->>R: row / driver error

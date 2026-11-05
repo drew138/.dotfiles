@@ -31,9 +31,9 @@ compiling. Each one is one of three kinds:
 
 | Kind | Behaviour |
 |---|---|
-| read (`Find`) | read the key; on a miss, call the repository, then write the key |
+| read (`GetUser`) | read the key; on a miss, call the repository, then write the key |
 | write that changes a cached entity (`Update`, `Delete`) | call the repository first, then delete the key |
-| anything else (`Save` of a new entity, queries not cached) | pass straight through |
+| anything else (`CreateUser`, queries not cached) | pass straight through |
 
 Delete on write instead of updating the cached value. A delete cannot leave a stale
 value behind if two writes race; an update can.

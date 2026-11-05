@@ -14,8 +14,8 @@ Holds three things and nothing else:
 
 ```go
 type Repository interface {
-	Save(ctx context.Context, user domain.User) (domain.User, error)
-	Find(ctx context.Context, id int64) (domain.User, error)
+	CreateUser(ctx context.Context, user domain.User) (domain.User, error)
+	GetUser(ctx context.Context, id int64) (domain.User, error)
 }
 
 type Mailer interface {
@@ -158,7 +158,7 @@ starts from well-formed domain values.
 
 ```go
 func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domain.Order, error) {
-	customer, err := a.customers.Find(ctx, order.CustomerID)
+	customer, err := a.repo.GetCustomer(ctx, order.CustomerID)
 	if errors.Is(err, domain.ErrNotFound) {
 		return domain.Order{}, domain.ErrCustomerNotFound
 	}
@@ -172,7 +172,7 @@ func (a *Application) PlaceOrder(ctx context.Context, order domain.Order) (domai
 
 	order.Status = domain.OrderStatusPending
 
-	saved, err := a.orders.Save(ctx, order)
+	saved, err := a.repo.CreateOrder(ctx, order)
 	if err != nil {
 		return domain.Order{}, fmt.Errorf("saving order: %w", err)
 	}
@@ -195,10 +195,10 @@ func validatePlaceOrder(order domain.Order, customer domain.Customer) error {
 
 The blocks of the method, in order:
 
-1. **Load** what the decision needs, through ports (`a.customers.Find`).
+1. **Load** what the decision needs, through ports (`a.repo.GetCustomer`).
 2. **Check the stateful business rules**, all at once (`validatePlaceOrder`).
 3. **Decide**, using domain methods (setting the status).
-4. **Persist**: one port call per atomic change (`a.orders.Save`).
+4. **Persist**: one port call per atomic change (`a.repo.CreateOrder`).
 5. **Side effects** after the state is safe (`a.notifyPlaceOrder`).
 
 **Why this order**
@@ -242,7 +242,7 @@ domain errors, so the application never imports a driver.
 ## Atomic changes across ports
 
 Prefer one port method that does the whole atomic change:
-`orders.SaveWithReservation(ctx, order)`. The repository opens and commits the
+`repo.CreateOrderWithReservation(ctx, order)`. The repository opens and commits the
 transaction, and the application stays transaction-free.
 
 When the change genuinely spans two ports, add a `Transactor` port:
@@ -255,10 +255,10 @@ type Transactor interface {
 
 ```go
 err := a.tx.InTx(ctx, func(ctx context.Context) error {
-	if err := a.stock.Reserve(ctx, order.Items); err != nil {
+	if err := a.repo.ReserveStock(ctx, order.Items); err != nil {
 		return fmt.Errorf("reserving stock: %w", err)
 	}
-	_, err := a.orders.Save(ctx, order)
+	_, err := a.repo.CreateOrder(ctx, order)
 	return err
 })
 ```
@@ -275,7 +275,7 @@ Independent loads may run concurrently with `golang.org/x/sync/errgroup`:
 
 ```go
 g, gctx := errgroup.WithContext(ctx)
-g.Go(func() (err error) { customer, err = a.customers.Find(gctx, id); return err })
+g.Go(func() (err error) { customer, err = a.repo.GetCustomer(gctx, id); return err })
 g.Go(func() (err error) { prices, err = a.pricing.Prices(gctx, skus); return err })
 if err := g.Wait(); err != nil {
 	return domain.Order{}, fmt.Errorf("loading order inputs: %w", err)

@@ -165,7 +165,7 @@ The full tree, the request flow and a "what goes where" table are in
 - **One method per file, in the application and in every adapter**, in snake_case:
   `CreateUser` lives in `create_user.go` with its private helpers. In an adapter this
   is every route handler, RPC and message handler, and every method that implements a
-  port (`Find` in `repository/postgres/find.go`, `Charge` in `psp/adyen/charge.go`). The
+  port (`GetUser` in `repository/postgres/get_user.go`, `ChargePayment` in `psp/adyen/charge_payment.go`). The
   adapter's main file (`postgres.go`, `handler.go`) keeps the struct, `New` and the
   helpers its methods share (`domainError`, `writeError`).
 - **Never share a private helper between method files.** Duplicate it under a name
@@ -180,6 +180,14 @@ The full tree, the request flow and a "what goes where" table are in
   repository method writes its SQL directly through `database/sql` or the driver
   (`pgx`). With AI writing the code, SQL costs nothing extra, and every query stays
   visible, reviewable and tunable in the repository that runs it.
+- **Methods are named `<verb><Entity>`**: use cases, adapter methods and route handlers
+  alike. `CreateUser`, `GetUser`, `ListUsers`, `UpdateUser`, `DeleteUser`,
+  `ListCategoryTotals`, `RegisterUser`; a route handler is the same in lower camel case
+  (`createUser`, `getUserPage`). The file carries the same name in snake_case
+  (`list_category_totals.go`).
+- **`New` and `new` are for constructors only.** A method or route that makes something
+  starts with `Create` (`CreateSession`, `getCreateUserForm`), and a library function that
+  produces a value is named for what it does (`token.Create`).
 - **Every package exposes `New`**: `postgres.New(db)`, `redis.New(client, repo)`,
   `application.New(repo)`. Never `NewPostgresRepository`.
 - **`init` is forbidden, always.** It runs at import time, in an order nobody chose,
@@ -320,7 +328,9 @@ the work done with an item failing.
 - [ ] No `panic` anywhere; startup failures return to `main`, which logs and exits.
 - [ ] No comments, except compiler directives and logic that deliberately breaks the
       usual way for a specific reason.
-- [ ] Constructors are `New`, never `NewSomething`.
+- [ ] Constructors are `New`, never `NewSomething`; nothing else starts with `New`/`new`.
+- [ ] Use cases, adapter methods and route handlers are named `<verb><Entity>`.
+- [ ] Every field of every DTO in the REST layer has a `json` tag.
 - [ ] A method's own structs are in `<method>_dao.go` (repository, cache) or
       `<method>_dto.go` (every other adapter); shared ones in `dao.go` or `dto.go`; they
       hold structs, their `toDomain()` and that method's mappers only.
