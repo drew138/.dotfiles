@@ -1,7 +1,5 @@
 ---
 casks_applications:
-  - name: tailscale-app
-    app: Tailscale
   - name: slack
     app: Slack
   - name: discord
