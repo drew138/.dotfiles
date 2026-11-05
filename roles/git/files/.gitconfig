@@ -35,6 +35,4 @@
 [includeIf "gitdir:~/work/**/"]
     path = ~/.work.gitconfig
 [url "git@github.com:"]
-	insteadOf = https://github.com/
-[url "https://github.com/michaelbrusegard/tabline.wez"]
-	insteadOf = https://github.com/michaelbrusegard/tabline.wez
+	pushInsteadOf = https://github.com/
