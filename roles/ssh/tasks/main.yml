@@ -62,6 +62,18 @@
     owner: "{{ ansible_facts['env']['USER'] }}"
     mode: "0644"
 
+- name: Save the homelab public key
+  ansible.builtin.copy:
+    content: "{{ ssh_agent_lines | select('search', ssh_homelab_key_name ~ '$') | first }}\n"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.ssh/homelab.pub"
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    mode: "0644"
+  vars:
+    ssh_agent_lines: >-
+      {{ ssh_agent_keys_unlocked.stdout_lines if ssh_agent_keys_unlocked.stdout_lines is defined
+         else ssh_agent_keys.stdout_lines }}
+  when: not (ssh_in_ci | bool)
+
 - name: Route ssh through the Bitwarden agent
   ansible.builtin.copy:
     dest: "{{ ansible_facts['env']['HOME'] }}/.ssh/config"
@@ -73,6 +85,9 @@
 
       Host github.com
           IdentityFile ~/.ssh/github
+
+      Host homelab
+          IdentityFile ~/.ssh/homelab
 
       Host *
           IdentityAgent {{ ssh_agent_socket }}
