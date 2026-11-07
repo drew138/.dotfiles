@@ -23,7 +23,16 @@
 
 - name: Create .work.gitconfig file
   ansible.builtin.copy:
-    content: ""
+    content: |
+      # Loaded by ~/.gitconfig for repos under ~/work and Go's module cache.
+      # Company setup, for example:
+      #
+      # [user]
+      #     name = <work-name>
+      #     email = <work-email>
+      #     signingkey = <work-signing-key>
+      # [url "git@github.com:<company-org>/"]
+      #     insteadOf = https://github.com/<company-org>/
     dest: "{{ ansible_facts['env']['HOME'] }}/.work.gitconfig"
     backup: true
     force: false

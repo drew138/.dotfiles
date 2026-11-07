@@ -32,7 +32,9 @@
 	gpgsign = true
 [gpg]
     format = ssh
-[includeIf "gitdir:~/work/**/"]
+[includeIf "gitdir:~/work/"]
     path = ~/.work.gitconfig
-[url "git@github.com:"]
-	pushInsteadOf = https://github.com/
+[includeIf "gitdir:~/go/pkg/mod/"]
+    path = ~/.work.gitconfig
+[url "git@github.com:drew138/"]
+    insteadOf = https://github.com/drew138/
