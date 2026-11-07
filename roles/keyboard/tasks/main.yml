@@ -31,6 +31,20 @@
     name: laishulu/homebrew
     state: present
 
+- name: Read trusted homebrew entries
+  ansible.builtin.command: brew trust --json v1
+  register: keyboard_trusted
+  changed_when: false
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
+
+- name: Trust the macism formula
+  ansible.builtin.command: brew trust --formula laishulu/homebrew/macism
+  when: "'laishulu/homebrew/macism' not in keyboard_trusted.stdout"
+  changed_when: true
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_facts['env']['PATH'] }}"
+
 - name: Install macism
   community.general.homebrew:
     name: laishulu/homebrew/macism
