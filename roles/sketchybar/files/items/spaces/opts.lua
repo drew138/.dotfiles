@@ -17,6 +17,7 @@ M.aerospace_workspaces_names = {
 	"s",
 	"d",
 	"z",
+	"x",
 }
 
 M.workspace_apps = {
@@ -30,6 +31,7 @@ M.workspace_apps = {
 	["a"] = "Bitwarden",
 	["s"] = "OBS",
 	["d"] = "Discord",
+	["z"] = "Stremio",
 }
 
 M.workspace_icons = {
@@ -43,7 +45,8 @@ M.workspace_icons = {
 	["a"] = app_icons["Bitwarden"],
 	["s"] = app_icons["OBS"],
 	["d"] = app_icons["Discord"],
-	["z"] = app_icons["Desktop"],
+	["z"] = app_icons["Stremio"],
+	["x"] = app_icons["Desktop"],
 }
 
 M.items = {

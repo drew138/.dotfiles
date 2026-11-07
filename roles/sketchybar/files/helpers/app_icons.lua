@@ -262,6 +262,7 @@ return {
 	["Spark Desktop"] = ":spark:",
 	["Spotify"] = ":spotify:",
 	["Spotlight"] = ":spotlight:",
+	["Stremio"] = ":stremio:",
 	["Sublime Text"] = ":sublime_text:",
 	["superProductivity"] = ":superproductivity:",
 	["Tailscale"] = ":tailscale:",

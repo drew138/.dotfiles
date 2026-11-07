@@ -40,10 +40,14 @@ dock_items_persist:
     path: "/Applications/Discord.app/"
     pos: 10
 
+  - name: "Stremio"
+    path: "/Applications/Stremio.app/"
+    pos: 11
+
   - name: "Tailscale"
     path: "/Applications/Tailscale.app/"
-    pos: 11
+    pos: 12
 
   - name: "System Settings"
     path: "/System/Applications/System Settings.app/"
-    pos: 12
+    pos: 13

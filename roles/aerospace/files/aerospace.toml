@@ -30,6 +30,7 @@ persistent-workspaces                                           = [
   "s",
   "d",
   "z",
+  "x",
 ]
 
 [[on-window-detected]]
@@ -78,21 +79,25 @@ persistent-workspaces                                           = [
   run       = "move-node-to-workspace d"
 
 [[on-window-detected]]
+  if.app-id = "com.westbridge.stremio5-mac"
+  run       = "move-node-to-workspace z"
+
+[[on-window-detected]]
   if.app-id = "com.obsproject.obs-studio"
   run       = "move-node-to-workspace s"
 
 [[on-window-detected]]
   if.app-id = "io.tailscale.ipn.macsys"
-  run       = "move-node-to-workspace z"
+  run       = "move-node-to-workspace x"
 
 [[on-window-detected]]
   if.app-id = "com.apple.systempreferences"
-  run       = "move-node-to-workspace z"
+  run       = "move-node-to-workspace x"
 
 [[on-window-detected]]
   if.app-id               = "com.apple.finder"
   check-further-callbacks = true
-  run                     = "move-node-to-workspace z"
+  run                     = "move-node-to-workspace x"
 
 [[on-window-detected]]
   if.app-id = "com.apple.finder"
@@ -151,6 +156,7 @@ persistent-workspaces                                           = [
   alt-s       = "workspace s"
   alt-d       = "workspace d"
   alt-z       = "workspace z"
+  alt-x       = "workspace x"
   alt-6       = "workspace-back-and-forth"
   alt-shift-1 = "move-node-to-workspace 1"
   alt-shift-2 = "move-node-to-workspace 2"
@@ -163,6 +169,7 @@ persistent-workspaces                                           = [
   alt-shift-s = "move-node-to-workspace s"
   alt-shift-d = "move-node-to-workspace d"
   alt-shift-z = "move-node-to-workspace z"
+  alt-shift-x = "move-node-to-workspace x"
   alt-i       = "mode service"
 
 [mode.service.binding]
@@ -189,11 +196,12 @@ persistent-workspaces                                           = [
   ]
   alt-d     = ["exec-and-forget open -a /Applications/Discord.app", "mode main"]
   alt-s     = ["exec-and-forget open -a /Applications/OBS.app", "mode main"]
-  alt-z     = [
+  alt-z     = ["exec-and-forget open -a /Applications/Stremio.app", "mode main"]
+  alt-x     = [
     "exec-and-forget open -a '/System/Applications/System Settings.app'",
     "mode main"
   ]
-  alt-x     = [
+  alt-c     = [
     "exec-and-forget open -a /Applications/Tailscale.app",
     "mode main"
   ]

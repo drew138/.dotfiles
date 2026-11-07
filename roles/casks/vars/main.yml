@@ -4,6 +4,8 @@ casks_applications:
     app: Slack
   - name: discord
     app: Discord
+  - name: stremio
+    app: Stremio
   - name: postman
     app: Postman
   - name: obs
