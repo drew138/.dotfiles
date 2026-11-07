@@ -24,6 +24,7 @@ fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 brew install git curl ansible molecule
+brew install --cask logitech-g-hub tailscale-app sf-symbols font-sf-mono font-sf-pro
 ```
 
 ### SSH keys
