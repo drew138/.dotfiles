@@ -50,7 +50,7 @@ local M = {
 		"goimports-reviser",
 		"golines",
 		"beautysh",
-		"buf",
+		-- "buf" also formats; listed once above, a duplicate hangs MasonToolsInstallSync
 		"clang-format",
 		"sqlfmt",
 		"hclfmt",
