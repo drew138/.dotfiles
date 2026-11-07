@@ -7,9 +7,15 @@
     value: "{{ item.value }}"
     check_type: false
   loop:
-    - { key: InitialKeyRepeat, type: int, value: 15 }
-    - { key: KeyRepeat, type: int, value: 2 }
-    - { key: ApplePressAndHoldEnabled, type: bool, value: false }
+    - key: InitialKeyRepeat
+      type: int
+      value: 15
+    - key: KeyRepeat
+      type: int
+      value: 2
+    - key: ApplePressAndHoldEnabled
+      type: bool
+      value: false
   loop_control:
     label: "{{ item.key }}"
 

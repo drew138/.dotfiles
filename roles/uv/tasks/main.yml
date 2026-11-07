@@ -19,8 +19,10 @@
 - name: Generate uv and uvx zsh completions
   ansible.builtin.shell: "{{ item.command }} > {{ ansible_facts['env']['HOME'] }}/.zfunc/{{ item.file }}"
   loop:
-    - { command: "/opt/homebrew/bin/uv generate-shell-completion zsh", file: "_uv" }
-    - { command: "/opt/homebrew/bin/uvx --generate-shell-completion zsh", file: "_uvx" }
+    - command: "/opt/homebrew/bin/uv generate-shell-completion zsh"
+      file: "_uv"
+    - command: "/opt/homebrew/bin/uvx --generate-shell-completion zsh"
+      file: "_uvx"
   loop_control:
     label: "{{ item.file }}"
   changed_when: false
