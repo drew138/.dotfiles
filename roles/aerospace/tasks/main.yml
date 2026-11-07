@@ -39,6 +39,20 @@
     force: true
     follow: false
 
+- name: Change window behaviour
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: "{{ item.key }}"
+    type: bool
+    value: "{{ item.value }}"
+  loop:
+    - key: NSWindowShouldDragOnGesture
+      value: true
+    - key: NSAutomaticWindowAnimationsEnabled
+      value: false
+  loop_control:
+    label: "{{ item.key }}"
+
 - name: Check if AeroSpace is running
   ansible.builtin.command: pgrep -x AeroSpace
   register: aerospace_running

@@ -7,10 +7,27 @@
     value: "{{ item.value }}"
     check_type: false
   loop:
-    - { key: autohide, type: bool, value: true }
-    - { key: show-recents, type: bool, value: false }
-    - { key: tilesize, type: int, value: 36 }
-    - { key: orientation, type: string, value: left }
+    - key: autohide
+      type: bool
+      value: true
+    - key: show-recents
+      type: bool
+      value: false
+    - key: tilesize
+      type: int
+      value: 36
+    - key: orientation
+      type: string
+      value: left
+    - key: launchanim
+      type: bool
+      value: false
+    - key: autohide-delay
+      type: float
+      value: 0
+    - key: autohide-time-modifier
+      type: float
+      value: 0
   loop_control:
     label: "{{ item.key }}"
 
