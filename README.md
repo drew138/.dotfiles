@@ -51,8 +51,8 @@ Their public keys are in `roles/ssh/vars/main.yml`.
 bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/install.sh)
 ```
 
-The script asks for the system password, then runs every role. The password is written to a file
-only readable by the current user and removed when the run ends.
+Ansible asks for the system password (`BECOME password:`), then runs every role. The script does
+not write the password to a file.
 
 To install a subset of the roles, pass them through to ansible:
 
