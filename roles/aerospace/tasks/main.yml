@@ -38,3 +38,14 @@
     state: link
     force: true
     follow: false
+
+- name: Check if AeroSpace is running
+  ansible.builtin.command: pgrep -x AeroSpace
+  register: aerospace_running
+  changed_when: false
+  failed_when: false
+
+- name: Start AeroSpace
+  ansible.builtin.command: open -a AeroSpace
+  when: aerospace_running.rc != 0
+  changed_when: true
