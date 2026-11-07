@@ -13,6 +13,13 @@
   loop_control:
     label: "{{ item.key }}"
 
+- name: Show the input menu in the menu bar
+  community.general.osx_defaults:
+    domain: com.apple.TextInputMenu
+    key: visible
+    type: bool
+    value: true
+
 - name: Ensure laishulu Homebrew tap is available
   community.general.homebrew_tap:
     name: laishulu/homebrew
