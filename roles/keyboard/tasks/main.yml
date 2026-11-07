@@ -58,7 +58,7 @@
 
 - name: Check input source script sources
   ansible.builtin.stat:
-    path: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/keyboard/files/{{ item }}.swift"
+    path: "{{ role_path }}/files/{{ item }}.swift"
   loop: "{{ keyboard_swift_scripts }}"
   register: keyboard_swift_sources
 
