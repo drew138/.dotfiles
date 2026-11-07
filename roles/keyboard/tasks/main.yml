@@ -12,3 +12,83 @@
     - { key: ApplePressAndHoldEnabled, type: bool, value: false }
   loop_control:
     label: "{{ item.key }}"
+
+- name: Ensure laishulu Homebrew tap is available
+  community.general.homebrew_tap:
+    name: laishulu/homebrew
+    state: present
+
+- name: Install macism
+  community.general.homebrew:
+    name: laishulu/homebrew/macism
+    state: present
+
+- name: Create ~/.local/bin directory
+  ansible.builtin.file:
+    path: "{{ keyboard_bin }}"
+    state: directory
+    mode: "0755"
+
+- name: Check input source script sources
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/roles/keyboard/files/{{ item }}.swift"
+  loop: "{{ keyboard_swift_scripts }}"
+  register: keyboard_swift_sources
+
+- name: Check input source script binaries
+  ansible.builtin.stat:
+    path: "{{ keyboard_bin }}/{{ item }}"
+  loop: "{{ keyboard_swift_scripts }}"
+  register: keyboard_swift_binaries
+
+- name: Build input source scripts
+  ansible.builtin.command:
+    argv:
+      - swiftc
+      - -O
+      - -o
+      - "{{ keyboard_bin }}/{{ item.0.item }}"
+      - "{{ item.0.stat.path }}"
+  loop: "{{ keyboard_swift_sources.results | zip(keyboard_swift_binaries.results) | list }}"
+  loop_control:
+    label: "{{ item.0.item }}"
+  when: not item.1.stat.exists or item.1.stat.mtime < item.0.stat.mtime
+  changed_when: true
+
+- name: Add the keyboard input sources
+  ansible.builtin.command:
+    argv: "{{ [keyboard_bin ~ '/input_source_add'] + keyboard_input_sources }}"
+  register: keyboard_added
+  changed_when: keyboard_added.stdout | length > 0
+
+- name: List the enabled keyboard input sources
+  ansible.builtin.command: "{{ keyboard_bin }}/input_source_list"
+  register: keyboard_enabled
+  changed_when: false
+
+- name: Remove the other keyboard input sources
+  ansible.builtin.command:
+    argv: "{{ [keyboard_bin ~ '/input_source_remove'] + keyboard_unwanted }}"
+  vars:
+    keyboard_unwanted: "{{ keyboard_enabled.stdout_lines | difference(keyboard_input_sources) }}"
+  when: keyboard_unwanted | length > 0
+  changed_when: true
+
+- name: Read the active keyboard input source
+  ansible.builtin.command: /opt/homebrew/bin/macism
+  register: keyboard_active
+  changed_when: false
+
+- name: Select the first keyboard input source
+  when: keyboard_active.stdout != keyboard_input_sources[0]
+  block:
+    - name: Switch keyboard input source
+      ansible.builtin.command:
+        argv: [/opt/homebrew/bin/macism, "{{ keyboard_input_sources[0] }}"]
+      changed_when: true
+
+    - name: Read the keyboard input source after switching
+      ansible.builtin.command: /opt/homebrew/bin/macism
+      register: keyboard_switched
+      changed_when: false
+      failed_when: keyboard_switched.stdout != keyboard_input_sources[0]

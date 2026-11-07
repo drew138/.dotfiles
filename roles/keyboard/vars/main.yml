@@ -1,0 +1,9 @@
+---
+keyboard_bin: "{{ ansible_facts['env']['HOME'] }}/.local/bin"
+keyboard_swift_scripts:
+  - input_source_add
+  - input_source_list
+  - input_source_remove
+keyboard_input_sources:
+  - com.apple.keylayout.US
+  - com.apple.keylayout.LatinAmerican
