@@ -33,7 +33,7 @@ local M = {
 		"markdownlint",
 		"hadolint",
 		"jsonlint",
-		-- "selene", -- TODO: add it once mason devs fix wrong architechture installation
+		"selene",
 		"shellcheck",
 		"sqlfluff",
 		"buf",

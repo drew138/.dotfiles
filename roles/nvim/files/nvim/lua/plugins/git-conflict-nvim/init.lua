@@ -1,6 +1,5 @@
 local M = {
-	"akinsho/git-conflict.nvim",
-	version = "*",
+	"drew138/git-conflict.nvim",
 	lazy = false,
 	opts = function()
 		return require("plugins.git-conflict-nvim.opts")

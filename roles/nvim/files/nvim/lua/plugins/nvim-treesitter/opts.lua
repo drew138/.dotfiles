@@ -33,6 +33,7 @@ local M = {
 		"scss",
 		"solidity",
 		"sql",
+		"swift",
 		"terraform",
 		"toml",
 		"tsx",

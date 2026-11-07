@@ -42,7 +42,7 @@ local M = {
 			end,
 		},
 		tombi = {
-			command = "/Users/andres.salazar/.local/share/nvim/mason/bin/tombi",
+			command = "tombi",
 			args = { "format", "--stdin-filename", "$FILENAME", "-" },
 			stdin = true,
 		},

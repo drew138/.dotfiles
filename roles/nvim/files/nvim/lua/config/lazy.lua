@@ -25,6 +25,9 @@ function M.load_lazy()
 		ui = {
 			border = "rounded",
 		},
+		rocks = {
+			enabled = false,
+		},
 	}
 
 	lazy.setup("plugins", opts)

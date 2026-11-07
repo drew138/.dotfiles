@@ -15,6 +15,7 @@ M.servers = {
 	"pyright",
 	"ruff",
 	"rust_analyzer",
+	"sourcekit",
 	"ts_ls",
 	"gh_actions_ls",
 	"yamlls",
