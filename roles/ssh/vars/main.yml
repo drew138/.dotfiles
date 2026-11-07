@@ -4,3 +4,5 @@ ssh_agent_socket: "{{ ansible_facts['env']['HOME'] }}/.bitwarden-ssh-agent.sock"
 ssh_in_ci: "{{ lookup('ansible.builtin.env', 'DOTFILES_CI') == 'true' }}"
 # the Bitwarden item whose key signs in to github; the role reads its public half from the agent
 ssh_github_key_name: "Github auth keys"
+# set by the ci workflow so the github api call does not hit the shared runners' rate limit
+ssh_github_token: "{{ lookup('ansible.builtin.env', 'GHUB_ACCESS_TOKEN') }}"

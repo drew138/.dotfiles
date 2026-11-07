@@ -89,6 +89,9 @@
   ansible.builtin.uri:
     url: https://api.github.com/meta
     return_content: true
+    url_username: "{{ 'token' if ssh_github_token else omit }}"
+    url_password: "{{ ssh_github_token if ssh_github_token else omit }}"
+    force_basic_auth: "{{ ssh_github_token | length > 0 }}"
   register: ssh_github_meta
   retries: 3
   delay: 5
