@@ -4,7 +4,7 @@
     path: "{{ item.path }}"
   loop:
     - path: "{{ ansible_facts['env']['HOME'] }}/.config"
-      mode: "0700"
+      mode: "0755"
     - path: "{{ ansible_facts['env']['HOME'] }}/.config/starship.toml"
       mode: "0644"
   register: starship_verify_stats
@@ -14,7 +14,7 @@
     that:
       - starship_verify_stats.results[0].stat.exists
       - starship_verify_stats.results[0].stat.isdir
-      - starship_verify_stats.results[0].stat.mode == "0700"
+      - starship_verify_stats.results[0].stat.mode == "0755"
     fail_msg: "~/.config directory is missing or has incorrect permissions"
 
 - name: Assert starship.toml symlink is valid
