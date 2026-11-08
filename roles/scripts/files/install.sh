@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+# ansible-pull reads ansible-playbook's output through a pipe, which Python buffers
+# until the run ends unless output is unbuffered.
+export PYTHONUNBUFFERED=1
+
 repository_url="https://github.com/Drew138/.dotfiles.git"
 
 if [ ! -x /opt/homebrew/bin/brew ]; then
