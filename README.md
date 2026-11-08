@@ -33,14 +33,6 @@ continues as soon as the key is there, and stops after 15 minutes if it never is
 CI sets `DOTFILES_CI=true` and writes its own github key to `~/.ssh/github`, so these steps are
 skipped there.
 
-| Bitwarden item | Used for |
-|---|---|
-| `Github auth keys` | GitHub over SSH; the `ssh` role finds its public key in the agent by this name, and its private key is also the `SSH_GITHUB_KEY` CI secret |
-| `Homelab keys` | logging in to the Pi; set up by the homelab repo's `scripts/setup-ssh.sh` |
-| `Git signing keys` | signing commits |
-
-Their public keys are in `roles/ssh/vars/main.yml`.
-
 reminder: system reboot might be required for some programs to work as expected.
 
 ## macOS settings
