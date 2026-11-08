@@ -111,7 +111,9 @@
   block:
     - name: Switch keyboard input source
       ansible.builtin.command:
-        argv: [/opt/homebrew/bin/macism, "{{ keyboard_input_sources[0] }}"]
+        argv:
+          - /opt/homebrew/bin/macism
+          - "{{ keyboard_input_sources[0] }}"
       changed_when: true
 
     - name: Read the keyboard input source after switching

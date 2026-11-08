@@ -15,8 +15,10 @@ rules:
   comments-indentation: false
 
   braces:
-    min-spaces-inside: 0
-    max-spaces-inside: 1
+    forbid: true
+
+  brackets:
+    forbid: non-empty
 
   octal-values:
     forbid-implicit-octal: true
