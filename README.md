@@ -14,19 +14,6 @@
 
 Apple silicon only. Homebrew is expected at `/opt/homebrew`, and the roles assume it.
 
-Install homebrew and setup ansible.
-
-```bash
-if [ ! -f /opt/homebrew/bin/brew ]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-brew install git curl ansible molecule
-brew install --cask logitech-g-hub tailscale-app sf-symbols font-sf-mono font-sf-pro
-```
-
 ### SSH keys
 
 SSH keys live in Bitwarden, whose SSH agent signs for them; no private key is written to disk.
@@ -52,15 +39,8 @@ Their public keys are in `roles/ssh/vars/main.yml`.
 bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/install.sh)
 ```
 
-Ansible asks for the system password (`BECOME password:`), then runs every role. The script does
-not write the password to a file.
-
-To install a subset of the roles, pass them through to ansible:
-
-```bash
-bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/install.sh) \
-    --extra-vars '{"selected_roles": ["zsh", "nvim", "sketchybar"]}'
-```
+The script installs Homebrew, ansible and the casks that prompt for a password, then ansible asks
+for the system password (`BECOME password:`) and runs every role. Expect a few password prompts.
 
 reminder: system reboot might be required for some programs to work as expected.
 
@@ -77,9 +57,5 @@ changes the machine's behaviour.
 #### Homebrew Casks
 
 Some packages like `logitech-g-hub`, `tailscale-app` and Apple's `sf-symbols`, `font-sf-mono` and `font-sf-pro` impede automatic installation
-without password prompting. For that reason, they are not included in the role.
-They can be installed manually using the following command:
-
-```bash
-brew install --cask logitech-g-hub tailscale-app sf-symbols font-sf-mono font-sf-pro
-```
+without password prompting. For that reason, they are not included in the role; `install.sh`
+installs them before running ansible.

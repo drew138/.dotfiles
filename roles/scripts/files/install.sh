@@ -4,9 +4,14 @@ set -euo pipefail
 
 repository_url="https://github.com/Drew138/.dotfiles.git"
 
-if ! command -v ansible-pull >/dev/null 2>&1; then
-    printf 'ansible is not installed\n' >&2
-    exit 1
+if [ ! -x /opt/homebrew/bin/brew ]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-ansible-pull --url "${repository_url}" local.yml --ask-become-pass "$@"
+brew install git curl ansible molecule
+# These casks ask for a password while installing, which the casks role cannot answer,
+# so they are installed here where you can type it.
+brew install --cask logitech-g-hub tailscale-app sf-symbols font-sf-mono font-sf-pro
+
+ansible-pull --url "${repository_url}" local.yml --ask-become-pass
