@@ -142,10 +142,21 @@ jobs:
       - name: checkout mail template
         uses: actions/checkout@v6
         with:
-          sparse-checkout: .github/mail
+          repository: drew138/email-templates
+          path: email-templates
 
       - name: build mail
-        run: python3 .github/mail/ci_failure.py > mail.html
+        run: |
+          failed=$(gh api "repos/${REPO}/actions/runs/${RUN_ID}/jobs?per_page=100" \
+            --jq '[.jobs[] | select(.conclusion == "failure") | .name] | join(", ")')
+          jq -n --arg repo "${REPO}" --arg branch "${BRANCH}" --arg sha "${SHA:0:8}" \
+            --arg trigger "${EVENT}" --arg failed "${failed}" \
+            --arg url "${GITHUB_SERVER_URL}/${REPO}/actions/runs/${RUN_ID}" \
+            '{name: "dotfiles CI failed", status: "🔴 Failed", hostnameOrURL: $url,
+              msg: "failed: \($failed)", source: "GitHub Actions, \($repo)",
+              details: [{label: "branch", value: $branch}, {label: "commit", value: $sha},
+                        {label: "trigger", value: $trigger}]}' > context.json
+          npx -y liquidjs@10.30.1 -t @email-templates/alert.html -c @context.json -o mail.html
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
