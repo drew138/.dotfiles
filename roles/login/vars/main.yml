@@ -1,0 +1,2 @@
+---
+login_pam_reattach: /opt/homebrew/lib/pam/pam_reattach.so

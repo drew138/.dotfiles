@@ -18,3 +18,23 @@
       (expected={{ item.item.expected }}, got={{ item.stdout | trim | default('unset') }})
     success_msg: "Login setting {{ item.item.name }} is correct"
   loop: "{{ login_verify_settings.results }}"
+
+- name: Read the sudo Touch ID config
+  ansible.builtin.slurp:
+    src: /etc/pam.d/sudo_local
+  register: login_verify_sudo_local
+
+- name: Assert sudo can use Touch ID
+  ansible.builtin.assert:
+    that:
+      - "'pam_tid.so' in (login_verify_sudo_local.content | b64decode)"
+      - "login_pam_reattach in (login_verify_sudo_local.content | b64decode)"
+    fail_msg: /etc/pam.d/sudo_local does not enable Touch ID for sudo
+
+- name: Check sudo still loads its PAM config
+  ansible.builtin.command: sudo -n true
+  register: login_verify_sudo
+  changed_when: false
+  failed_when: >-
+    login_verify_sudo.rc != 0
+    and 'a password is required' not in login_verify_sudo.stderr

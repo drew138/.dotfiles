@@ -6,3 +6,25 @@
     type: bool
     value: false
     check_type: false
+
+- name: Install pam-reattach so Touch ID works inside terminal sessions
+  community.general.homebrew:
+    name: pam-reattach
+    state: present
+
+- name: Check the pam-reattach module exists
+  ansible.builtin.stat:
+    path: "{{ login_pam_reattach }}"
+  register: login_pam_reattach_module
+  failed_when: not login_pam_reattach_module.stat.exists
+
+- name: Let sudo use Touch ID
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/pam.d/sudo_local
+    owner: root
+    group: wheel
+    mode: "0444"
+    content: |
+      auth       optional       {{ login_pam_reattach }} ignore_ssh
+      auth       sufficient     pam_tid.so
