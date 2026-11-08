@@ -12,7 +12,15 @@
 
 ## Installation
 
-Apple silicon only. Homebrew is expected at `/opt/homebrew`, and the roles assume it.
+Apple silicon only. Run the installer:
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/install.sh)
+```
+
+It installs Homebrew, then ansible and the packages it needs, then runs ansible with every role.
+Expect a few password prompts: Homebrew and some casks ask while installing, and ansible asks once
+for the system password (`BECOME password:`).
 
 ### SSH keys
 
@@ -32,15 +40,6 @@ skipped there.
 | `Git signing keys` | signing commits |
 
 Their public keys are in `roles/ssh/vars/main.yml`.
-
-### Install
-
-```bash
-bash <(curl -s https://raw.githubusercontent.com/drew138/.dotfiles/main/roles/scripts/files/install.sh)
-```
-
-The script installs Homebrew, ansible and the casks that prompt for a password, then ansible asks
-for the system password (`BECOME password:`) and runs every role. Expect a few password prompts.
 
 reminder: system reboot might be required for some programs to work as expected.
 
