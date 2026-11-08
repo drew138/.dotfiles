@@ -30,9 +30,6 @@ SSH. When the agent does not hold the github key yet, the role opens Bitwarden a
 unlock it, and turn on Settings → Enable SSH agent the first time. It checks every 5 seconds,
 continues as soon as the key is there, and stops after 15 minutes if it never is.
 
-CI sets `DOTFILES_CI=true` and writes its own github key to `~/.ssh/github`, so these steps are
-skipped there.
-
 reminder: system reboot might be required for some programs to work as expected.
 
 ## macOS settings
