@@ -154,8 +154,7 @@ jobs:
             --arg url "${GITHUB_SERVER_URL}/${REPO}/actions/runs/${RUN_ID}" \
             '{name: "dotfiles CI failed", status: "🔴 Failed", hostnameOrURL: $url,
               msg: "failed: \($failed)", source: "GitHub Actions, \($repo)",
-              details: [{label: "branch", value: $branch}, {label: "commit", value: $sha},
-                        {label: "trigger", value: $trigger}]}' > context.json
+              details: ["branch: \($branch)", "commit: \($sha)", "trigger: \($trigger)"]}' > context.json
           npx -y liquidjs@10.30.1 -t @email-templates/alert.html -c @context.json -o mail.html
         env:
           GH_TOKEN: ${{ github.token }}
