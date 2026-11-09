@@ -115,3 +115,12 @@
     value: false
     check_type: false
   notify: Restart Finder
+
+- name: Turn off Finder animations
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: DisableAllAnimations
+    type: bool
+    value: true
+    check_type: false
+  notify: Restart Finder

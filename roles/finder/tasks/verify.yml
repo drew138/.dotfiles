@@ -53,6 +53,10 @@
       cmd: defaults read com.apple.finder CreateDesktop
       expected: "0"
 
+    - name: DisableAllAnimations
+      cmd: defaults read com.apple.finder DisableAllAnimations
+      expected: "1"
+
 - name: Assert Finder settings
   ansible.builtin.assert:
     that:
