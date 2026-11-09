@@ -1,5 +1,5 @@
 return function(config, wezterm)
-	config.font = wezterm.font("JetBrains Mono")
+	config.font = wezterm.font_with_fallback({ "SF Mono", "JetBrainsMono Nerd Font" })
 	config.font_size = 14.0
 	config.color_scheme = "nightfox"
 	config.font_size = 15.0
