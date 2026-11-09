@@ -27,7 +27,7 @@
       value: 0
     - key: autohide-time-modifier
       type: float
-      value: 0
+      value: 0.5
     - key: no-bouncing
       type: bool
       value: true
