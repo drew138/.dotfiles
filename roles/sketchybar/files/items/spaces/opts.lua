@@ -29,7 +29,7 @@ M.workspace_apps = {
 	["w"] = "WhatsApp",
 	["e"] = "Marta",
 	["a"] = "Bitwarden",
-	["s"] = "OBS",
+	["s"] = "OBS Studio",
 	["d"] = "Discord",
 	["z"] = "Stremio",
 }
