@@ -14,9 +14,9 @@
 
 - name: Check the pam-reattach module exists
   ansible.builtin.stat:
-    path: "{{ login_pam_reattach }}"
-  register: login_pam_reattach_module
-  failed_when: not login_pam_reattach_module.stat.exists
+    path: "{{ auth_pam_reattach }}"
+  register: auth_pam_reattach_module
+  failed_when: not auth_pam_reattach_module.stat.exists
 
 - name: Let sudo use Touch ID
   become: true
@@ -26,5 +26,5 @@
     group: wheel
     mode: "0444"
     content: |
-      auth       optional       {{ login_pam_reattach }} ignore_ssh
+      auth       optional       {{ auth_pam_reattach }} ignore_ssh
       auth       sufficient     pam_tid.so
