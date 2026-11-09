@@ -29,11 +29,11 @@ Walk this after every macOS upgrade. Grouped by where you look, so it is one pas
 - [ ] Dock icons are **small** (roughly a third of the default size).
 - [ ] There is **no "recent applications" section** — no separator with apps you didn't pin.
 - [ ] The pinned apps appear **in this order**: WezTerm, Google Chrome, Slack, Postman, Notion,
-      WhatsApp, Marta, Bitwarden, OBS, Discord, Tailscale, System Settings.
+      WhatsApp, Marta, Bitwarden, OBS, Discord, Stremio, Tailscale, System Settings.
 
 ## Finder
 
-Open a new Finder window with `Cmd+N`.
+Open a new Finder window.
 
 - [ ] It opens on your **home folder**, not Recents or iCloud.
 - [ ] It opens in **List view**, not icons or columns.
