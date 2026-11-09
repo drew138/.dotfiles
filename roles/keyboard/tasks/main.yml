@@ -16,6 +16,9 @@
     - key: ApplePressAndHoldEnabled
       type: bool
       value: false
+    - key: NSAutomaticSpellingCorrectionEnabled
+      type: bool
+      value: false
   loop_control:
     label: "{{ item.key }}"
 
