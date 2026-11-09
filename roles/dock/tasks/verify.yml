@@ -43,6 +43,17 @@
       - dock_verify_orientation.stdout == "left"
     fail_msg: "Dock orientation is not set to left"
 
+- name: Verify dock icons do not bounce
+  ansible.builtin.command: defaults read com.apple.dock no-bouncing
+  register: dock_verify_no_bouncing
+  changed_when: false
+
+- name: Assert dock icons do not bounce
+  ansible.builtin.assert:
+    that:
+      - dock_verify_no_bouncing.stdout | bool
+    fail_msg: "Dock icon bouncing is not disabled"
+
 - name: Locate dockutil binary
   ansible.builtin.command: which dockutil
   register: dock_verify_dockutil_which

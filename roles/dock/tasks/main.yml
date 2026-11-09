@@ -28,6 +28,9 @@
     - key: autohide-time-modifier
       type: float
       value: 0
+    - key: no-bouncing
+      type: bool
+      value: true
   loop_control:
     label: "{{ item.key }}"
 
