@@ -1,0 +1,26 @@
+---
+- name: Install Obsidian
+  community.general.homebrew_cask:
+    name:
+      - obsidian
+    state: present
+
+- name: Create the LiveSync plugin directory
+  ansible.builtin.file:
+    path: "{{ obsidian_plugin_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Download LiveSync
+  ansible.builtin.get_url:
+    url: "https://github.com/vrtmrz/obsidian-livesync/releases/download/{{ obsidian_livesync_version }}/{{ item }}"
+    dest: "{{ obsidian_plugin_dir }}/{{ item }}"
+    mode: "0644"
+  loop: "{{ obsidian_livesync_files }}"
+
+- name: Enable LiveSync on a new vault
+  ansible.builtin.copy:
+    content: '["obsidian-livesync"]'
+    dest: "{{ obsidian_vault }}/.obsidian/community-plugins.json"
+    force: false
+    mode: "0644"

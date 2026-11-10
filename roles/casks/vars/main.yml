@@ -12,8 +12,6 @@ casks_applications:
     app: OBS
   - name: bitwarden
     app: Bitwarden
-  - name: obsidian
-    app: Obsidian
   - name: whatsapp
     app: WhatsApp
   - name: google-chrome

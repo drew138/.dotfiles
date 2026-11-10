@@ -1,0 +1,24 @@
+---
+- name: Check Obsidian application stats
+  ansible.builtin.stat:
+    path: /Applications/Obsidian.app
+  register: obsidian_verify_app_stat
+
+- name: Assert Obsidian application is installed
+  ansible.builtin.assert:
+    that:
+      - obsidian_verify_app_stat.stat.exists
+      - obsidian_verify_app_stat.stat.isdir
+    fail_msg: "Obsidian.app was not found in /Applications"
+
+- name: Check LiveSync plugin files
+  ansible.builtin.stat:
+    path: "{{ obsidian_plugin_dir }}/{{ item }}"
+  loop: "{{ obsidian_livesync_files }}"
+  register: obsidian_verify_plugin_stat
+
+- name: Assert LiveSync plugin files exist
+  ansible.builtin.assert:
+    that:
+      - obsidian_verify_plugin_stat.results | map(attribute='stat.exists') | min
+    fail_msg: "LiveSync plugin files are missing from {{ obsidian_plugin_dir }}"

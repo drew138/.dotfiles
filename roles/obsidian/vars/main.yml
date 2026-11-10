@@ -1,0 +1,8 @@
+---
+obsidian_vault: "{{ ansible_facts['env']['HOME'] }}/notes/notes"
+obsidian_plugin_dir: "{{ obsidian_vault }}/.obsidian/plugins/obsidian-livesync"
+obsidian_livesync_version: "1.0.47"
+obsidian_livesync_files:
+  - main.js
+  - manifest.json
+  - styles.css

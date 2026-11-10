@@ -14,3 +14,4 @@ dependencies:
   - role: repositories
   - role: sketchybar
   - role: jankyborders
+  - role: obsidian
