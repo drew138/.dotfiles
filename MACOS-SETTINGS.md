@@ -28,7 +28,7 @@ Walk this after every macOS upgrade. Grouped by where you look, so it is one pas
 - [ ] The Dock is **hidden** until you push the pointer to the left edge.
 - [ ] Dock icons are **small** (roughly a third of the default size).
 - [ ] There is **no "recent applications" section** — no separator with apps you didn't pin.
-- [ ] The pinned apps appear **in this order**: WezTerm, Google Chrome, Slack, Postman, Notion,
+- [ ] The pinned apps appear **in this order**: WezTerm, Google Chrome, Slack, Postman, Obsidian,
       WhatsApp, Marta, Bitwarden, OBS, Discord, Stremio, Tailscale, System Settings.
 
 ## Finder

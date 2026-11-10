@@ -16,8 +16,8 @@ dock_items_persist:
     path: "/Applications/Postman.app/"
     pos: 4
 
-  - name: "Notion"
-    path: "/Applications/Notion.app/"
+  - name: "Obsidian"
+    path: "/Applications/Obsidian.app/"
     pos: 5
 
   - name: "WhatsApp"
