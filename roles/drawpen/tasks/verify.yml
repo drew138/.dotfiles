@@ -1,0 +1,24 @@
+---
+- name: Check DrawPen application stats
+  ansible.builtin.stat:
+    path: /Applications/DrawPen.app
+  register: drawpen_verify_app_stat
+
+- name: Assert DrawPen application is installed
+  ansible.builtin.assert:
+    that:
+      - drawpen_verify_app_stat.stat.exists
+      - drawpen_verify_app_stat.stat.isdir
+    fail_msg: "DrawPen.app was not found in /Applications"
+
+- name: Read the DrawPen settings
+  ansible.builtin.slurp:
+    src: "{{ drawpen_config }}"
+  register: drawpen_verify_config
+
+- name: Assert the DrawPen settings are applied
+  ansible.builtin.assert:
+    that:
+      - (drawpen_verify_config.content | b64decode | from_json | combine(drawpen_settings, recursive=True))
+        == (drawpen_verify_config.content | b64decode | from_json)
+    fail_msg: "DrawPen settings in {{ drawpen_config }} do not match drawpen_settings"

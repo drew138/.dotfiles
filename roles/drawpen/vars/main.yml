@@ -1,0 +1,17 @@
+---
+drawpen_config: "{{ ansible_facts['env']['HOME'] }}/Library/Application Support/DrawPen/config.json"
+drawpen_settings:
+  launch_on_login: true
+  starts_hidden: true
+  clear_drawings_on_hide: true
+  show_drawing_border: false
+  pen_smoothing: true
+  tool_bar_orientation: vertical
+  whiteboard_color: black
+  tool_bar_color_palette:
+    color_1: "#719cd6"
+    color_2: "#c94f6d"
+    color_3: "#81b29a"
+    color_4: "#dbc074"
+    color_5: "#dfdfe0"
+    color_6: "#131a24"

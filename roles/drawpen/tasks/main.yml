@@ -1,0 +1,70 @@
+---
+- name: Install DrawPen
+  community.general.homebrew_cask:
+    name:
+      - drawpen
+    state: present
+
+- name: Create the DrawPen settings directory
+  ansible.builtin.file:
+    path: "{{ drawpen_config | dirname }}"
+    state: directory
+    mode: "0755"
+
+- name: Check for existing DrawPen settings
+  ansible.builtin.stat:
+    path: "{{ drawpen_config }}"
+  register: drawpen_config_stat
+
+- name: Read the existing DrawPen settings
+  ansible.builtin.slurp:
+    src: "{{ drawpen_config }}"
+  register: drawpen_config_current
+  when: drawpen_config_stat.stat.exists
+
+- name: Merge the DrawPen settings over the current ones
+  ansible.builtin.set_fact:
+    drawpen_config_old: "{{ drawpen_config_current.content | b64decode | from_json if drawpen_config_stat.stat.exists else {} }}"
+    drawpen_config_new: >-
+      {{ (drawpen_config_current.content | b64decode | from_json if drawpen_config_stat.stat.exists else {})
+         | combine(drawpen_settings, recursive=True) }}
+
+- name: Check whether DrawPen is running
+  ansible.builtin.command: pgrep -x DrawPen
+  register: drawpen_was_running
+  changed_when: false
+  failed_when: false
+
+# DrawPen writes its whole settings file when it quits, which would undo the change.
+- name: Quit DrawPen before changing its settings
+  ansible.builtin.command: osascript -e 'tell application "DrawPen" to quit'
+  changed_when: true
+  when:
+    - drawpen_was_running.rc == 0
+    - drawpen_config_old != drawpen_config_new
+
+- name: Wait for DrawPen to quit
+  ansible.builtin.command: pgrep -x DrawPen
+  register: drawpen_running
+  until: drawpen_running.rc != 0
+  retries: 15
+  delay: 1
+  changed_when: false
+  failed_when: false
+  when:
+    - drawpen_was_running.rc == 0
+    - drawpen_config_old != drawpen_config_new
+
+- name: Write the DrawPen settings
+  ansible.builtin.copy:
+    content: "{{ drawpen_config_new | to_nice_json(indent=2) }}\n"
+    dest: "{{ drawpen_config }}"
+    mode: "0644"
+  when: drawpen_config_old != drawpen_config_new
+
+- name: Reopen DrawPen
+  ansible.builtin.command: open -g -a DrawPen
+  changed_when: true
+  when:
+    - drawpen_was_running.rc == 0
+    - drawpen_config_old != drawpen_config_new
