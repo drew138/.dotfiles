@@ -34,6 +34,13 @@
   loop_control:
     label: "{{ item.key }}"
 
+- name: Use dark app icons
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: AppleIconAppearanceTheme
+    type: string
+    value: RegularDark
+
 - name: Install dockutil
   community.general.homebrew:
     name:
